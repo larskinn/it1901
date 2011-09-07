@@ -16,8 +16,8 @@ Anbefalt lesestoff
 
 [The Git Parable][5] forklarer filosofien og idéene bak Git på en enkel måte ved å lage et nytt hypotetisk versjonskontrollsystem. NB: ikke stopp midt i, siden VCSet som lages går gjennom flere forbedringer.
 
-[1]:(https://github.com/signup/free)
-[2]:(http://help.github.com/set-up-git-redirect)
-[3]:(https://github.com/inbox/new/larskinn)
-[4]:(http://wiki.eclipse.org/EGit/Git_For_Eclipse_Users)
-[5]:(http://tom.preston-werner.com/2009/05/19/the-git-parable.html)
+[1]: https://github.com/signup/free
+[2]: http://help.github.com/set-up-git-redirect
+[3]: https://github.com/inbox/new/larskinn
+[4]: http://wiki.eclipse.org/EGit/Git_For_Eclipse_Users
+[5]: http://tom.preston-werner.com/2009/05/19/the-git-parable.html
