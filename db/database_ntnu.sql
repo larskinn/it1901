@@ -1,4 +1,4 @@
-USE `gr4pizza`;
+USE `davidmy_gr4pizza` ;
 
 -- -----------------------------------------------------
 -- Table `customer`
