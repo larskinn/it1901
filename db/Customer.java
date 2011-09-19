@@ -3,37 +3,36 @@
  *
  * @author  David M.
  */
+ 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+ 
+@DatabaseTable(tableName = "customer")
 public class Customer
 {
-    private int dataID;
-    private String vName;
-    private int vPhone;
+    @DatabaseField(canBeNull = false, generatedId = true)
+    private int idcustomer;
+    
+    @DatabaseField(useGetSet = true)
+    private String name;
+    
+    @DatabaseField(useGetSet = true)
+    private String phone;
+    
+    public Customer()
+    {
+    }
     
     /**
      * Constructs a customer object without a dataID
      *
-     * @param name Name of the customer
-     * @param phone Phone number
+     * @param vName Name of the customer
+     * @param vPhone Phone number
      */
-    public Customer(String name, int phone)
+    public Customer(String vName, String vPhone)
     {
-        dataID = 0;
-        vName = name;
-        vPhone = phone;
-    }
-    
-    /**
-     * Constructs a customer object with a dataID
-     *
-     * @param id Unique ID used in database
-     * @param name Name of the customer
-     * @param phone Phone number
-     */
-    public Customer(int id, String name, int phone)
-    {
-        dataID = id;
-        vName = name;
-        vPhone = phone;
+        name = vName;
+        phone = vPhone;
     }
     
     /**
@@ -41,9 +40,9 @@ public class Customer
      *
      * @return the unique ID used in database
      */
-    public int getDataID()
+    public int getIdcustomer()
     {
-        return dataID;
+        return idcustomer;
     }
     
     /**
@@ -53,7 +52,7 @@ public class Customer
      */
     public String getName()
     {
-        return vName;
+        return name;
     }
     
     /**
@@ -61,38 +60,28 @@ public class Customer
      *
      * @return the phone number
      */
-    public int getPhone()
+    public String getPhone()
     {
-        return vPhone;
-    }
-    
-    /**
-     * Changes the unique ID used in database
-     *
-     * @param id the unique ID used in database
-     */
-    public void setDataID(int id)
-    {
-        dataID = id;
+        return phone;
     }
     
     /**
      * Changes the name of the customer
      *
-     * @param name the name of the customer
+     * @param vName the name of the customer
      */
-    public void setName(String name)
+    public void setName(String vName)
     {
-        vName = name;
+        name = vName;
     }
     
     /**
      * Changes the phone number
      *
-     * @param phone the phone number
+     * @param vPhone the phone number
      */
-    public void setPhone(int phone)
+    public void setPhone(String vPhone)
     {
-        vPhone = phone;
+        phone = vPhone;
     }
 }

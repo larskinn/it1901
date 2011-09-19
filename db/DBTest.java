@@ -1,34 +1,73 @@
 import java.sql.*;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.misc.TransactionManager;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.SelectArg;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 
 public class DBTest
 {
+    private static Dao<Customer, Integer> customerDao;
+    private static Dao<Address, Integer> addressDao;
+
+
     public static void main(String args[])
     {
-        DataAPI dataapi = new DataAPI();
+        String url = "jdbc:sqlite:./data.db";
         
-            //String username = "gr4pizza";
-            //String password = "pizza";
-            //String url = "jdbc:mysql://10.0.0.42/gr4pizza";
+        JdbcConnectionSource conn;
+    
+        try
+        {
+            Class.forName("org.sqlite.JDBC");  
+            conn = new JdbcConnectionSource(url);
             
+            Customer david = null;
+            Address addr = null;
             
-            String username = "davidmy_gr4pizza";
-            String password = "pizza";
-            String url = "jdbc:mysql://mysql.stud.ntnu.no/davidmy_gr4pizza";
+            setupDatabase(conn);
             
-        dataapi.open(username, password, url);
+            david = customerDao.query
+            //david = new Customer("David M.", "543");
+            //customerDao.create(david);
+            
+            //addr = new Address(david, "Vei-veien 1a", 7001);
+            //addressDao.create(addr);
+            
+            System.out.println("From "+url+":");
+            if (addr != null)
+            {
+                System.out.println("Addr: "+addr.getAddressline());
+                System.out.println("PC: "+addr.getPostalcode());
+            }
+            if (david != null)
+            {
+                System.out.println("Name: "+david.getName());
+                System.out.println("Phone: "+david.getPhone());
+            }
+        }
+        catch (Exception e)
+        {
+            System.err.println("Err: "+e.getMessage());
+        }
+    }
+    
+    private static void setupDatabase(JdbcConnectionSource conn) throws SQLException
+    {
+        customerDao = DaoManager.createDao(conn, Customer.class);
+        addressDao = DaoManager.createDao(conn, Address.class);
         
-        Customer david;
-        Address addr;
-        
-        addr = dataapi.getAddress(1);
-        david = addr.getCustomer();
-        
-        System.out.println("From "+url+":");
-        System.out.println("Addr: "+addr.getAddressLine());
-        System.out.println("PC: "+addr.getPostalCode());
-        System.out.println("Name: "+david.getName());
-        System.out.println("Phone: "+david.getPhone());
-        
-        dataapi.close();
+        //  TableUtils.createTable(conn, Customer.class);
+        //  TableUtils.createTable(conn, Address.class);
     }
 }

@@ -3,41 +3,44 @@
  *
  * @author  David M.
  */
+ 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+ @DatabaseTable(tableName = "address")
  public class Address
 {
-    private int dataID;
-    private Customer vCustomer;
-    private String vAddressLine;
-    private int vPostalCode;
+    @DatabaseField(canBeNull = false, generatedId = true)
+    private int idaddress;
+    
+    @DatabaseField(canBeNull = false, foreign = true)
+    private Customer idcustomer;
+    
+    @DatabaseField(useGetSet = true)
+    private String addressline;
+    
+    @DatabaseField(useGetSet = true)
+    private int postalcode;
     
     /**
-     * Constructs a address object without a dataID and a customer
-     *
-     * @param addrline Address line
-     * @param postalcode Postal code
+     * Constructs an address object
      */
-    public Address(String addrline, int postalcode)
+    public Address()
     {
-        dataID = 0;
-        vCustomer = null;
-        vAddressLine = addrline;
-        vPostalCode = postalcode;
     }
     
     /**
      * Constructs a address object with a dataID and a customer
      *
-     * @param id unique ID used in database
-     * @param customer reference to customer object associated with this address
-     * @param addrline Address line
-     * @param postalcode Postal code
+     * @param vCustomer reference to customer object associated with this address
+     * @param vAddressLine Address line
+     * @param vPostalCode Postal code
      */
-    public Address(int id, Customer customer, String addrline, int postalcode)
+    public Address(Customer vCustomer, String vAddressLine, int vPostalCode)
     {
-        dataID = id;
-        vCustomer = customer;
-        vAddressLine = addrline;
-        vPostalCode = postalcode;
+        idcustomer = vCustomer;
+        addressline = vAddressLine;
+        postalcode = vPostalCode;
     }
     
     /**
@@ -45,9 +48,9 @@
      *
      * @return the unique ID used in database
      */
-    public int getDataID()
+    public Customer getIdcustomer()
     {
-        return dataID;
+        return idcustomer;
     }
     
     /**
@@ -55,9 +58,9 @@
      *
      * @return the address line
      */
-    public String getAddressLine()
+    public String getAddressline()
     {
-        return vAddressLine;
+        return addressline;
     }
     
     /**
@@ -65,58 +68,38 @@
      *
      * @return the postal code
      */
-    public int getPostalCode()
+    public int getPostalcode()
     {
-        return vPostalCode;
-    }
-    
-    /**
-     * Returns a reference to the customer associated with this address
-     *
-     * @return a reference to the customer associated with this address
-     */
-    public Customer getCustomer()
-    {
-        return vCustomer;
-    }
-    
-    /**
-     * Changes the unique ID used in database
-     *
-     * @param id the unique ID used in database
-     */
-    public void setDataID(int id)
-    {
-        dataID = id;
+        return postalcode;
     }
     
     /**
      * Changes the address line
      *
-     * @param addrline the address line
+     * @param vAddressLine the address line
      */
-    public void setAddressLine(String addrline)
+    public void setAddressline(String vAddressLine)
     {
-        vAddressLine = addrline;
+        addressline = vAddressLine;
     }
     
     /**
      * Changes the postal code
      *
-     * @param postalcode the postal code
+     * @param vPostalCode the postal code
      */
-    public void setPostalCode(int postalcode)
+    public void setPostalcode(int vPostalCode)
     {
-        vPostalCode = postalcode;
+        postalcode = vPostalCode;
     }
     
     /**
      * Changes the customer associated with this address
      *
-     * @param customer a reference to the customer associated with this address
+     * @param vCustomer a reference to the customer associated with this address
      */
-    public void setCustomer(Customer customer)
+    public void setIdcustomer(Customer vCustomer)
     {
-        vCustomer = customer;
+        idcustomer = vCustomer;
     }
 }
