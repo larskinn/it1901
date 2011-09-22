@@ -2,6 +2,7 @@ package ntnu.it1901.gruppe4.ordergui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.Box;
@@ -28,10 +29,7 @@ public class OrderWindow {
 		westSide.setLayout(new BoxLayout(westSide, BoxLayout.Y_AXIS));		
 		westSide.add(searchBox);	
 		
-		//Create some vertical space between search box and menu
-		westSide.add(Box.createRigidArea(new Dimension(0, 25)));
-		
-		//HACK: Prevent the searchBox from becoming the dominating component of the panel
+		//HACK: Prevent the searchBox from becoming huge. Probable fix known, to be implemented later
 		orderMenu.setPreferredSize(new Dimension(999, 999));
 		westSide.add(orderMenu);
 		
@@ -40,8 +38,9 @@ public class OrderWindow {
 		frame.add(westSide, BorderLayout.WEST);
 		frame.add(orderList, BorderLayout.EAST);
 		frame.add(buttonPanel, BorderLayout.SOUTH);
-		
-		frame.addComponentListener(new ComponentAdapter() {
+	
+		//Listener bound to westSide instead of frame to resize the panels as the user is dragging
+		westSide.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				//Dynamically resize the western and eastern panels
