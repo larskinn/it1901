@@ -12,5 +12,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/order_system/lib/ormlite-jdbc-4.25-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/sqlitejdbc-v056.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
