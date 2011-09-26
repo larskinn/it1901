@@ -8,7 +8,7 @@ public class OrderListEntry extends JPanel {
 	private LinkedList<OrderListEntry> entries; 
 	
 	public OrderListEntry() {
-		entries = new LinkedList<OrderListEntry>();
+		
 		
 	}
 }

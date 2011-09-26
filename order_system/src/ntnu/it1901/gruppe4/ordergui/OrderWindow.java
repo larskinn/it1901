@@ -1,72 +1,88 @@
 package ntnu.it1901.gruppe4.ordergui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class OrderWindow {
+public class OrderWindow implements ActionListener {
 	private JFrame frame;
-	private SearchBox searchBox;
-	private OrderMenu orderMenu;
-	private OrderList orderList;
 	private ButtonPanel buttonPanel;
-	
+	private MenuPanel menuPanel;
+	private CustomerPanel customerPanel;
+	private AddressPanel addressPanel;
+	private JPanel currentPanel;
+
+	public enum View {
+		MENU, CUSTOMER, ADDRESS;
+	}
+
+	public static void main(String[] args) {
+		new OrderWindow();
+	}
+
 	public OrderWindow() {
 		frame = new JFrame();
-		searchBox = new SearchBox();
-		orderMenu = new OrderMenu();
-		orderList = new OrderList();
-		buttonPanel = new ButtonPanel();
-		
-		//Helper container used to group two elements on the left side of the frame
-		final JPanel westSide = new JPanel();
-		westSide.setLayout(new BoxLayout(westSide, BoxLayout.Y_AXIS));		
-		westSide.add(searchBox);	
-		
-		//HACK: Prevent the searchBox from becoming huge. Probable fix known, to be implemented later
-		orderMenu.setPreferredSize(new Dimension(999, 999));
-		westSide.add(orderMenu);
+		menuPanel = new MenuPanel(frame);
+		customerPanel = new CustomerPanel();
+		addressPanel = new AddressPanel();
+		buttonPanel = new ButtonPanel(this);
 		
 		frame.setSize(800, 600);
 		frame.setLayout(new BorderLayout());
-		frame.add(westSide, BorderLayout.WEST);
-		frame.add(orderList, BorderLayout.EAST);
 		frame.add(buttonPanel, BorderLayout.SOUTH);
-	
-		//Listener bound to westSide instead of frame to resize the panels as the user is dragging
-		westSide.addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				//Dynamically resize the western and eastern panels
-				westSide.setPreferredSize(new Dimension(
-						(int)(frame.getWidth() * 0.6666), frame.getHeight()));
-				orderList.setPreferredSize(new Dimension(
-						(int)(frame.getWidth() * 0.3333), frame.getHeight()));
-				westSide.revalidate();
-				orderList.revalidate();
-			}
-		});
+		changeView(View.MENU);
 		
 		frame.setTitle("Bestillingsvindu");
-		//Center the frame
-		frame.setLocationRelativeTo(null); 
+		frame.setLocationRelativeTo(null); //Center the frame
+		
 		//Change to dispose or close when called from another frame (ie. the splash screen)
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
 	
-	/**@return The {@link JFrame} backing this {@link OrderWindow}.*/
-	public JFrame getFrame() {
-		return frame;
+	public void changeView(View view) {
+		//If the frame already has a panel providing its view, remove it
+		if (currentPanel != null) {
+			frame.remove(currentPanel);
+		}
+		
+		switch (view) {
+			case MENU:
+				frame.add(menuPanel, BorderLayout.CENTER);
+				currentPanel = menuPanel;
+				break;
+			case CUSTOMER:
+				frame.add(customerPanel, BorderLayout.CENTER);
+				currentPanel = customerPanel;
+				break;
+			case ADDRESS:
+				frame.add(addressPanel, BorderLayout.CENTER);
+				currentPanel = addressPanel;
+				break;
+		}
+		currentPanel.revalidate(); //Check if the panel has all its components loaded
+		frame.repaint(); //Paint the panel and all its components
 	}
-	
-	public static void main(String[] args) {
-		new OrderWindow();
+
+	//Fired whenever a button in ButtonPanel is pressed
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JButton src = (JButton)e.getSource();
+
+		if (src == buttonPanel.menu) {
+			changeView(View.MENU);
+		}
+		else if (src == buttonPanel.customer) {
+			changeView(View.CUSTOMER);
+		}
+		else if (src == buttonPanel.address) {
+			changeView(View.ADDRESS);
+		}
+		else if (src == buttonPanel.done) {
+			buttonPanel.done.setText("NOT YET IMPLEMENTED");
+		}
 	}
 }

@@ -1,7 +1,6 @@
 package ntnu.it1901.gruppe4.ordergui;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.util.LinkedList;
 
 import javax.swing.JPanel;
