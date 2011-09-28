@@ -49,7 +49,7 @@ public class DBTest
             
             System.out.print("Search for customer: ");
 
-            List<Customer> result = data.findCustomer(br.readLine());
+            List<Customer> result = data.findCustomers(br.readLine());
             
             System.out.println("Data entries:");
 

@@ -224,12 +224,12 @@ public class DataAPI
     
 
     /**
-     * Searches for customer by substring
+     * Searches for customers by substring
      *
      * @param search The search string
      * @return a reference to a new Customer object containing the data
      */
-    public List<Customer> findCustomer(String search)
+    public List<Customer> findCustomers(String search)
     {
     	try
     	{
