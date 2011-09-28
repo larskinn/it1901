@@ -29,10 +29,10 @@ public class DBTest
             Customer customer = null;
             Address addr = null;
             
-            data = new DataAPI("./data.db");
+            data = new DataAPI("./test_data.db");	//PS: use different files for actual data. This is for testing DataAPI
             
             data.open();
-            
+            data.clearDatabase();
             data.createExampleData();
 
             customer = data.getCustomer(1);

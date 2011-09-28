@@ -86,6 +86,26 @@ public class DataAPI
             System.err.println("[Error] Tried to setup database without a connection");
     	}
     }
+    
+    /**
+     * Delete all the data
+     */
+    public void clearDatabase() throws SQLException
+    {
+    	if (conn != null)
+    	{
+            System.out.println("[Debug] Initializing tables...");
+	    	TableUtils.clearTable(conn, Customer.class);
+	    	TableUtils.clearTable(conn, Address.class);
+	    	TableUtils.clearTable(conn, Dish.class);
+	    	TableUtils.clearTable(conn, Order.class);
+	    	TableUtils.clearTable(conn, OrderItem.class);
+    	}
+    	else
+	    {
+            System.err.println("[Error] Tried to clear database without a connection");
+	    }
+    }
 
     /**
      * Inserts example data into database
@@ -98,14 +118,29 @@ public class DataAPI
 	    	
 	    	Address a1 = new Address(c, "Internettveien 64", 1024);
 	    	Address a2 = new Address(c, "Addresseveien 32", 2048);
+
+	    	Dish d1 = new Dish("Pizza Capriciosa", 50, "Skinke & Champignon");
+	    	Dish d2 = new Dish("Pizza Pepperoni", 52, "Pepperoni; nom nom");
+	    	
+	    	Order o = new Order(a1);
+
+	    	OrderItem oi1 = new OrderItem(o, d1);
+	    	OrderItem oi2 = new OrderItem(o, d2);
+	    	OrderItem oi3 = new OrderItem(o, d2);
 	    	
 	    	List<Customer> cl = customerDao.queryForMatching(c);
 	    	
 	    	if (cl == null || cl.size() == 0)
 	    	{
-		    	customerDao.create(c);
-		    	addressDao.create(a1);
-		    	addressDao.create(a2);
+		    	addCustomer(c);
+		    	addAddress(a1);
+		    	addAddress(a2);
+		    	addDish(d1);
+		    	addDish(d2);
+		    	addOrder(o);
+		    	addOrderItem(oi1);
+		    	addOrderItem(oi2);
+		    	addOrderItem(oi3);
 	            System.out.println("[Debug] Inserted example data");
 	    	}
 	    	else
