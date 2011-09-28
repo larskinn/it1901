@@ -5,6 +5,11 @@ import java.util.Date;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+/**
+ * Data class for orders
+ * 
+ * @author David M.
+ */
 @DatabaseTable(tableName = "order")
 public class Order {
 	@DatabaseField(canBeNull = false, generatedId = true)

@@ -5,6 +5,11 @@ import javax.management.Descriptor;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+/**
+ * Data class for dishes
+ * 
+ * @author David M.
+ */
 @DatabaseTable(tableName = "dish")
 public class Dish {
 

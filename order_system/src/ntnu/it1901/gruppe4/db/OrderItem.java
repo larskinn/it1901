@@ -3,6 +3,11 @@ package ntnu.it1901.gruppe4.db;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+/**
+ * Data class for order items
+ * 
+ * @author David M.
+ */
 @DatabaseTable(tableName = "orderitem")
 public class OrderItem {
 
