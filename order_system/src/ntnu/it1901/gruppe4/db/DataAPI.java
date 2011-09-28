@@ -90,16 +90,23 @@ public class DataAPI
     /**
      * Delete all the data
      */
-    public void clearDatabase() throws SQLException
+    public void clearDatabase()
     {
     	if (conn != null)
     	{
-            System.out.println("[Debug] Initializing tables...");
-	    	TableUtils.clearTable(conn, Customer.class);
-	    	TableUtils.clearTable(conn, Address.class);
-	    	TableUtils.clearTable(conn, Dish.class);
-	    	TableUtils.clearTable(conn, Order.class);
-	    	TableUtils.clearTable(conn, OrderItem.class);
+    		try
+    		{
+	            System.out.println("[Debug] Initializing tables...");
+		    	TableUtils.clearTable(conn, Customer.class);
+		    	TableUtils.clearTable(conn, Address.class);
+		    	TableUtils.clearTable(conn, Dish.class);
+		    	TableUtils.clearTable(conn, Order.class);
+		    	TableUtils.clearTable(conn, OrderItem.class);
+    		}
+    		catch (SQLException e)
+    		{
+                System.err.println("[Error] While clearing database: "+e.getMessage());
+    		}
     	}
     	else
 	    {
