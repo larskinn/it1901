@@ -270,6 +270,23 @@ public class DataAPI
             return null;
         }
     }
+    
+    /**
+     * Finds addresses containing the search string
+     * @param s the search string
+     * @return a reference to a new List<Address> object with the matching addresses
+     */
+    
+    public List<Address> findAddresses(String s) {
+    	try {
+			return addressDao.query(
+					addressDao.queryBuilder().where().like("addressline", "%" + s + "%").prepare()
+				   );
+		} catch (SQLException e) {
+			System.err.println("Error when searching for addresses: " + e.getMessage());
+			return null;
+		}
+    }
 
     /**
      * Stores a new dish to the database
