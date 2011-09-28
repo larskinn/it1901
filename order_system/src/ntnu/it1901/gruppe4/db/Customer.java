@@ -13,7 +13,7 @@ public class Customer
     @DatabaseField(canBeNull = false, generatedId = true)
     private int idcustomer;
     
-    @DatabaseField(useGetSet = true)
+    @DatabaseField(useGetSet = true, canBeNull = false)
     private String name;
     
     @DatabaseField(useGetSet = true)
@@ -44,8 +44,8 @@ public class Customer
     {
         return idcustomer;
     }
-    
-    /**
+
+	/**
      * Returns the unique ID used in database
      *
      * @return the unique ID used in database

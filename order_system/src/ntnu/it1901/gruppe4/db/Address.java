@@ -103,4 +103,9 @@ import com.j256.ormlite.table.DatabaseTable;
     {
         idcustomer = vCustomer;
     }
+    
+    public int getIdaddress()
+    {
+    	return idaddress;
+    }
 }

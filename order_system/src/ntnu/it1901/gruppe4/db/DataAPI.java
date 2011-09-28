@@ -18,6 +18,9 @@ public class DataAPI
 {
 	private Dao<Customer, Integer> customerDao;
 	private Dao<Address, Integer> addressDao;
+	private Dao<Dish, Integer> dishDao;
+	private Dao<Order, Integer> orderDao;
+	private Dao<OrderItem, Integer> orderItemDao;
 
     private JdbcConnectionSource conn = null;
     
@@ -68,13 +71,51 @@ public class DataAPI
             
 	        customerDao = DaoManager.createDao(conn, Customer.class);
 	        addressDao = DaoManager.createDao(conn, Address.class);
+	        dishDao = DaoManager.createDao(conn, Dish.class);
+	        orderDao = DaoManager.createDao(conn, Order.class);
+	        orderItemDao = DaoManager.createDao(conn, OrderItem.class);
 
 	        TableUtils.createTableIfNotExists(conn, Customer.class);
 	        TableUtils.createTableIfNotExists(conn, Address.class);
+	        TableUtils.createTableIfNotExists(conn, Dish.class);
+	        TableUtils.createTableIfNotExists(conn, Order.class);
+	        TableUtils.createTableIfNotExists(conn, OrderItem.class);
     	}
     	else
     	{
             System.err.println("[Error] Tried to setup database without a connection");
+    	}
+    }
+
+    /**
+     * Inserts example data into database
+     */
+    public void createExampleData()
+    {
+    	try
+    	{
+	    	Customer c = new Customer("Eksempel Eksempelsen", "512 256 128");
+	    	
+	    	Address a1 = new Address(c, "Internettveien 64", 1024);
+	    	Address a2 = new Address(c, "Addresseveien 32", 2048);
+	    	
+	    	List<Customer> cl = customerDao.queryForMatching(c);
+	    	
+	    	if (cl == null || cl.size() == 0)
+	    	{
+		    	customerDao.create(c);
+		    	addressDao.create(a1);
+		    	addressDao.create(a2);
+	            System.out.println("[Debug] Inserted example data");
+	    	}
+	    	else
+	    	{
+	            System.out.println("[Debug] Example data already present");
+	    	}
+    	}
+    	catch (SQLException e)
+    	{
+            System.err.println("Error inserting example data: "+e.getMessage());
     	}
     }
     
@@ -119,7 +160,7 @@ public class DataAPI
     /**
      * Fetches customer data and stores it in a Customer object
      *
-     * @param id unique ID used to identify a customer in the database (customerid)
+     * @param id unique ID used to identify a customer in the database (idcustomer)
      * @return a reference to a new Customer object containing the data
      */
     public Customer getCustomer(int id)
@@ -158,7 +199,7 @@ public class DataAPI
     /**
      * Fetches address data and stores it in a Address object
      *
-     * @param id a unique ID used to identify an address in the database (addressid)
+     * @param id a unique ID used to identify an address in the database (idaddress)
      * @return a reference to a new Address object containing the data
      */
     public Address getAddress(int id)
@@ -196,34 +237,116 @@ public class DataAPI
     }
 
     /**
-     * Inserts example data into database
+     * Stores a new dish to the database
+     *
+     * @param dish a reference to the Dish object containing the data to be stored
      */
-    public void createExampleData()
+    public void addDish(Dish dish)
     {
     	try
-    	{
-	    	Customer c = new Customer("Eksempel Eksempelsen", "512 256 128");
-	    	
-	    	Address a1 = new Address(c, "Internettveien 64", 1024);
-	    	Address a2 = new Address(c, "Addresseveien 32", 2048);
-	    	
-	    	List<Customer> cl = customerDao.queryForMatching(c);
-	    	
-	    	if (cl.size() == 0)
-	    	{
-		    	customerDao.create(c);
-		    	addressDao.create(a1);
-		    	addressDao.create(a2);
-	            System.out.println("[Debug] Inserted example data");
-	    	}
-	    	else
-	    	{
-	            System.out.println("[Debug] Example data already present");
-	    	}
-    	}
-    	catch (SQLException e)
-    	{
-            System.err.println("Error inserting example data: "+e.getMessage());
-    	}
+        {
+            dishDao.create(dish);
+        }
+        catch (SQLException e)
+        {
+            System.err.println("Error storing dish: "+e.getMessage());
+        }
+    }
+
+    /**
+     * Fetches dish data and stores it in a Dish object
+     *
+     * @param id a unique ID used to identify an dish in the database (iddish)
+     * @return a reference to a new Dish object containing the data
+     */
+    public Dish getDish(int id)
+    {
+    	try
+        {
+            if (id == 0) return null;
+            return dishDao.queryForId(id);
+        }
+        catch (SQLException e)
+        {
+            System.err.println("Error fetching dish: "+e.getMessage());
+            return null;
+        }
+    }
+    
+
+
+    /**
+     * Stores a new order to the database
+     *
+     * @param order a reference to the Order object containing the data to be stored
+     */
+    public void addOrder(Order order)
+    {
+    	try
+        {
+            orderDao.create(order);
+        }
+        catch (SQLException e)
+        {
+            System.err.println("Error storing order: "+e.getMessage());
+        }
+    }
+
+    /**
+     * Fetches order data and stores it in a Order object
+     *
+     * @param id a unique ID used to identify an dish in the database (idorder)
+     * @return a reference to a new Order object containing the data
+     */
+    public Order getOrder(int id)
+    {
+    	try
+        {
+            if (id == 0) return null;
+            return orderDao.queryForId(id);
+        }
+        catch (SQLException e)
+        {
+            System.err.println("Error fetching order: "+e.getMessage());
+            return null;
+        }
+    }
+    
+    
+    /**
+     * Stores a new orderitem to the database
+     *
+     * @param orderitem a reference to the OrderItem object containing the data to be stored
+     */
+    public void addOrderItem(OrderItem orderitem)
+    {
+    	try
+        {
+            orderItemDao.create(orderitem);
+        }
+        catch (SQLException e)
+        {
+            System.err.println("Error storing orderitem: "+e.getMessage());
+        }
+    }
+
+    /**
+     * Fetches order item data and stores it in a OrderItem object
+     *
+     * @param id a unique ID used to identify an dish in the database (idorderitem)
+     * @return a reference to a new OrderItem object containing the data
+     */
+    public OrderItem getOrderItem(int id)
+    {
+    	try
+        {
+            if (id == 0) return null;
+            return orderItemDao.queryForId(id);
+        }
+        catch (SQLException e)
+        {
+            System.err.println("Error fetching order item: "+e.getMessage());
+            return null;
+        }
     }
 }
