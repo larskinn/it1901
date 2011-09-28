@@ -7,6 +7,9 @@ import java.lang.Exception;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.table.TableUtils;
 
 /**
@@ -84,14 +87,19 @@ public class DataAPI {
 	/**
 	 * Delete all the data
 	 */
-	public void clearDatabase() throws SQLException {
+	public void clearDatabase() {
 		if (conn != null) {
-			System.out.println("[Debug] Initializing tables...");
-			TableUtils.clearTable(conn, Customer.class);
-			TableUtils.clearTable(conn, Address.class);
-			TableUtils.clearTable(conn, Dish.class);
-			TableUtils.clearTable(conn, Order.class);
-			TableUtils.clearTable(conn, OrderItem.class);
+			try {
+				System.out.println("[Debug] Initializing tables...");
+				TableUtils.clearTable(conn, Customer.class);
+				TableUtils.clearTable(conn, Address.class);
+				TableUtils.clearTable(conn, Dish.class);
+				TableUtils.clearTable(conn, Order.class);
+				TableUtils.clearTable(conn, OrderItem.class);
+			} catch (SQLException e) {
+				System.err.println("[Error] While clearing database: "
+						+ e.getMessage());
+			}
 		} else {
 			System.err
 					.println("[Error] Tried to clear database without a connection");
@@ -187,6 +195,41 @@ public class DataAPI {
 			return customerDao.queryForId(id);
 		} catch (SQLException e) {
 			System.err.println("Error fetching customer: " + e.getMessage());
+			return null;
+		}
+	}
+
+	/**
+	 * Searches for customers by substring
+	 * 
+	 * @param search
+	 *            The search string
+	 * @return a reference to a new Customer object containing the data
+	 */
+	public List<Customer> findCustomers(String search) {
+		try {
+			String[] strings = search.split(" ");
+
+			QueryBuilder<Customer, Integer> qb = customerDao.queryBuilder();
+			Where<Customer, Integer> where = qb.where();
+
+			// Test for each word in the string sequence.
+			//
+			// "david m" will search for any name containing "david" and "m"
+			//
+			// LIKE is not case sensitive
+
+			int i = 0;
+			for (; i < strings.length - 1; i++) {
+				where.like("name", "%" + strings[i] + "%");
+				where.and();
+			}
+			where.like("name", "%" + strings[i] + "%");
+
+			return customerDao.query(where.prepare());
+		} catch (SQLException e) {
+			System.err.println("Error searching for customer: "
+					+ e.getMessage());
 			return null;
 		}
 	}
