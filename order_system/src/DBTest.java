@@ -20,57 +20,56 @@ import com.j256.ormlite.table.TableUtils;
 
 public class DBTest
 {
-    private static Dao<Customer, Integer> customerDao;
-    private static Dao<Address, Integer> addressDao;
-
+    static DataAPI data;
 
     public static void main(String args[])
     {
-        String url = "jdbc:sqlite:./data.db";
-        
-        JdbcConnectionSource conn;
-    
-        try
+        //try
         {
-            Class.forName("org.sqlite.JDBC");  
-            conn = new JdbcConnectionSource(url);
-            
-            Customer david = null;
+            Customer customer = null;
             Address addr = null;
             
-            setupDatabase(conn);
+            data = new DataAPI("./data.db");
             
-            david = customerDao.query
-            //david = new Customer("David M.", "543");
-            //customerDao.create(david);
+            data.open();
             
-            //addr = new Address(david, "Vei-veien 1a", 7001);
-            //addressDao.create(addr);
+            data.createExampleData();
+
+            customer = data.getCustomer(1);
             
-            System.out.println("From "+url+":");
-            if (addr != null)
+            List<Address> addrList = data.getAddresses(customer);
+            
+            System.out.println("Data entries:");
+            
+            if (customer != null)
             {
-                System.out.println("Addr: "+addr.getAddressline());
-                System.out.println("PC: "+addr.getPostalcode());
+                System.out.println("Name: "+customer.getName());
+                System.out.println("Phone: "+customer.getPhone());
             }
-            if (david != null)
+            else System.out.println("customer == null");
+            
+            if (addrList != null)
             {
-                System.out.println("Name: "+david.getName());
-                System.out.println("Phone: "+david.getPhone());
+            	System.out.println("Addresses: "+addrList.size());
+	            for (int i = 0; i < addrList.size(); i++)
+	            {
+	            	addr = addrList.get(i);
+	            	System.out.println("#"+(i+1));
+		            if (addr != null)
+		            {
+		                System.out.println("Address: "+addr.getAddressline());
+		                System.out.println("Postalcode: "+addr.getPostalcode());
+		            }
+		            else System.out.println("addr == null");
+	            }
             }
+            else System.out.println("addrList == null");
+            
+            data.close();
         }
-        catch (Exception e)
-        {
-            System.err.println("Err: "+e.getMessage());
-        }
-    }
-    
-    private static void setupDatabase(JdbcConnectionSource conn) throws SQLException
-    {
-        customerDao = DaoManager.createDao(conn, Customer.class);
-        addressDao = DaoManager.createDao(conn, Address.class);
-        
-        //  TableUtils.createTable(conn, Customer.class);
-        //  TableUtils.createTable(conn, Address.class);
+        //catch (Exception e)
+        //{
+        //    System.err.println("Err: "+e.getMessage());
+        //}
     }
 }

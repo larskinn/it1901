@@ -1,5 +1,14 @@
 package ntnu.it1901.gruppe4.db;
+
 import java.sql.*;
+import java.util.List;
+import java.lang.Exception;
+
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.table.TableUtils;
+
 /**
  * API to communicate with pizza server
  *
@@ -7,33 +16,66 @@ import java.sql.*;
  */
 public class DataAPI
 {
-    private Connection conn = null;
+	private Dao<Customer, Integer> customerDao;
+	private Dao<Address, Integer> addressDao;
+
+    private JdbcConnectionSource conn = null;
+    
+    private String url = "";
+
+    /**
+     * Creates a new DataAPI object
+     *
+     * @param file The file that contains the sqlite database
+     */
+    public DataAPI(String file)
+    {
+    	url = "jdbc:sqlite:"+file;
+    }
     
     /**
      * Opens a connection to a database
      */
-    public void open(String username, String password, String url)
+    public void open()
     {
-        conn = null;
- 
-        try
+    	//String url = "jdbc:sqlite:./data.db";
+
+        System.out.println("[Debug] Opening database "+url+"...");
+        
+    	try
         {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection(url, username, password);
+            //Class.forName("org.sqlite.JDBC");  
+            conn = new JdbcConnectionSource(url);
+            
+            if (conn == null) throw new Exception("Failed to connect to database.");
+            
+            setupDatabase();
         }
-        catch (Exception e)
+    	catch (Exception e)
         {
-            if (conn != null)
-            {
-                try{
-                    conn.close();
-                }
-                catch (SQLException e2){}
-                finally{
-                    conn = null;
-                }
-            }
+            System.err.println("[Error] Failed to open database connection: "+e.getMessage());
         }
+    }
+
+    /**
+     * Sets up the database
+     */
+    private void setupDatabase() throws SQLException
+    {
+    	if (conn != null)
+    	{
+            System.out.println("[Debug] Initializing tables...");
+            
+	        customerDao = DaoManager.createDao(conn, Customer.class);
+	        addressDao = DaoManager.createDao(conn, Address.class);
+
+	        TableUtils.createTableIfNotExists(conn, Customer.class);
+	        TableUtils.createTableIfNotExists(conn, Address.class);
+    	}
+    	else
+    	{
+            System.err.println("[Error] Tried to setup database without a connection");
+    	}
     }
     
     /**
@@ -41,6 +83,8 @@ public class DataAPI
      */
     public void close()
     {
+        System.out.println("[Debug] Closing database");
+        
         if (conn != null)
         {
             try{
@@ -51,17 +95,6 @@ public class DataAPI
                 conn = null;
             }
         }
-    }
-    
-    /**
-     * Returns a Statement that can be used to query the database
-     *
-     * @return a Statement-object from the Connector/J library
-     */
-    public Statement createStatement() throws SQLException
-    {
-        if (conn == null) return null;
-        else return conn.createStatement();
     }
     
     //  Customer
@@ -75,17 +108,7 @@ public class DataAPI
     {
         try
         {
-            String sql = "INSERT INTO customer (name, phone) VALUES (?, ?)";
-            PreparedStatement s = conn.prepareStatement(sql);
-            s.setString(1, c.getName());
-            s.setInt(2, c.getPhone());
-            if (s.executeUpdate() == 1)
-            {
-                Statement getID = conn.createStatement();
-                ResultSet rs = getID.executeQuery("SELECT LAST_INSERT_ID()");
-                rs.first();
-                c.setDataID(rs.getInt(1));
-            }
+            customerDao.create(c);
         }
         catch (SQLException e)
         {
@@ -104,16 +127,7 @@ public class DataAPI
         try
         {
             if (id == 0) return null;
-            String sql = "SELECT name, phone FROM customer WHERE idcustomer=?";
-            PreparedStatement s = conn.prepareStatement(sql);
-            s.setInt(1, id);
-            ResultSet rs = s.executeQuery();
-            
-            rs.first();
-            String name = rs.getString(1);
-            int phone = rs.getInt(2);
-            
-            return new Customer(id, name, phone);
+            return customerDao.queryForId(id);
         }
         catch (SQLException e)
         {
@@ -133,18 +147,7 @@ public class DataAPI
     {
         try
         {
-            String sql = "INSERT INTO address (idcustomer, addressline, postalcode) VALUES (?, ?, ?)";
-            PreparedStatement s = conn.prepareStatement(sql);
-            s.setInt(1, a.getCustomer().getDataID());
-            s.setString(2, a.getAddressLine());
-            s.setInt(3, a.getPostalCode());
-            if (s.executeUpdate() == 1)
-            {
-                Statement getID = conn.createStatement();
-                ResultSet rs = getID.executeQuery("SELECT LAST_INSERT_ID()");
-                rs.first();
-                a.setDataID(rs.getInt(1));
-            }
+            addressDao.create(a);
         }
         catch (SQLException e)
         {
@@ -155,7 +158,7 @@ public class DataAPI
     /**
      * Fetches address data and stores it in a Address object
      *
-     * @param a unique ID used to identify an address in the database (addressid)
+     * @param id a unique ID used to identify an address in the database (addressid)
      * @return a reference to a new Address object containing the data
      */
     public Address getAddress(int id)
@@ -163,23 +166,64 @@ public class DataAPI
         try
         {
             if (id == 0) return null;
-            String sql = "SELECT idcustomer, addressline, postalcode FROM address WHERE idaddress=?";
-            PreparedStatement s = conn.prepareStatement(sql);
-            s.setInt(1, id);
-            ResultSet rs = s.executeQuery();
-            
-            rs.first();
-            int customerID = rs.getInt(1);
-            Customer customer = getCustomer(customerID);
-            String addrline = rs.getString(2);
-            int postalcode = rs.getInt(3);
-            
-            return new Address(id, customer, addrline, postalcode);
+            return addressDao.queryForId(id);
         }
         catch (SQLException e)
         {
             System.err.println("Error fetching address: "+e.getMessage());
             return null;
         }
+    }
+
+    /**
+     * Fetches list of address data associated with a customer and stores it in a List<Address> object
+     *
+     * @param customer the customer whose addresses should be fetched
+     * @return a reference to a new List<Address> object containing the data
+     */
+    public List<Address> getAddresses(Customer customer)
+    {
+        try
+        {
+            if (customer == null) return null;
+            return addressDao.queryForEq("idcustomer_id", customer.getIdcustomer());
+        }
+        catch (SQLException e)
+        {
+            System.err.println("Error fetching addresses: "+e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Inserts example data into database
+     */
+    public void createExampleData()
+    {
+    	try
+    	{
+	    	Customer c = new Customer("Eksempel Eksempelsen", "512 256 128");
+	    	
+	    	Address a1 = new Address(c, "Internettveien 64", 1024);
+	    	Address a2 = new Address(c, "Addresseveien 32", 2048);
+	    	
+	    	List<Customer> cl = customerDao.queryForMatching(c);
+	    	
+	    	if (cl.size() == 0)
+	    	{
+		    	customerDao.create(c);
+		    	addressDao.create(a1);
+		    	addressDao.create(a2);
+	            System.out.println("[Debug] Inserted example data");
+	    	}
+	    	else
+	    	{
+	            System.out.println("[Debug] Example data already present");
+	    	}
+    	}
+    	catch (SQLException e)
+    	{
+            System.err.println("Error inserting example data: "+e.getMessage());
+    	}
     }
 }
