@@ -49,7 +49,6 @@ public class DBTest {
 					System.in));
 
 			System.out.print("Search for customer: ");
-
 			List<Customer> result = data.findCustomers(br.readLine());
 
 			System.out.println("Data entries:");
@@ -82,6 +81,26 @@ public class DBTest {
 						System.out.println("	addrList == null");
 				}
 			}
+			
+			System.out.print("Search for address: ");
+			List<Address> addrSearchList = data.findAddresses(br.readLine());
+			
+			System.out.println("Data entries:");
+			
+			if (addrSearchList != null) {
+				System.out.println("Addresses: " + addrSearchList.size());
+				for (int i = 0; i < addrSearchList.size(); i++) {
+					addr = addrSearchList.get(i);
+					System.out.println("#" + (i + 1));
+					if (addr != null) {
+						System.out.println("Address: " + addr.getAddressline());
+						System.out.println("Postalcode: "
+								+ addr.getPostalcode());
+					} else
+						System.out.println("addr == null");
+				}
+			} else
+				System.out.println("addrSearchList == null");
 
 			data.close();
 		}
