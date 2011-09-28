@@ -342,6 +342,23 @@ public class DataAPI {
 			return null;
 		}
 	}
+	
+	/**
+	 * Finds dishes containing the search string
+	 * @param s
+	 * 			the search string
+	 * @return a reference to a new List<Dish> object with the matching dishes
+	 */
+	public List<Dish> findDishes(String s) {
+		try {
+			return dishDao.query(dishDao.queryBuilder().where()
+					.like("name", "%" + s + "%").prepare());
+		} catch (SQLException e) {
+			System.err.println("Error when searching for dish: "
+					+ e.getMessage());
+			return null;
+		}
+	}
 
 	/**
 	 * Stores a new order to the database
