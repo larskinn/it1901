@@ -6,41 +6,39 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "orderitem")
 public class OrderItem {
 
-    @DatabaseField(canBeNull = false, generatedId = true)
+	@DatabaseField(canBeNull = false, generatedId = true)
 	int idorderitem;
-    
-    @DatabaseField(useGetSet = true, foreign = true, canBeNull = false)
+
+	@DatabaseField(useGetSet = true, foreign = true, canBeNull = false)
 	Order idorder;
-	
-	//	PS: We don't always need a dish item, in case we include arbitrary things like a discount
-    @DatabaseField(useGetSet = true, foreign = true)
-    Dish iddish;
-	
-    @DatabaseField(useGetSet = true, canBeNull = false)
+
+	// PS: We don't always need a dish item, in case we include arbitrary things
+	// like a discount
+	@DatabaseField(useGetSet = true, foreign = true)
+	Dish iddish;
+
+	@DatabaseField(useGetSet = true, canBeNull = false)
 	String name;
 
-    @DatabaseField(useGetSet = true)
+	@DatabaseField(useGetSet = true)
 	float amount;
-    
-    private OrderItem()
-    {
-    }
-    
-    public OrderItem(Order order, Dish dish)
-    {
-    	setIdorder(order);
-    	setIddish(dish);
-    	setAmount(dish.getPrice());
-    	setName(dish.getName());
-    }
 
-    public OrderItem(Order order, String name, float amount)
-    {
-    	setIdorder(order);
-    	setIddish(null);
-    	setAmount(amount);
-    	setName(name);
-    }
+	private OrderItem() {
+	}
+
+	public OrderItem(Order order, Dish dish) {
+		setIdorder(order);
+		setIddish(dish);
+		setAmount(dish.getPrice());
+		setName(dish.getName());
+	}
+
+	public OrderItem(Order order, String name, float amount) {
+		setIdorder(order);
+		setIddish(null);
+		setAmount(amount);
+		setName(name);
+	}
 
 	public int getIdorderitem() {
 		return idorderitem;
