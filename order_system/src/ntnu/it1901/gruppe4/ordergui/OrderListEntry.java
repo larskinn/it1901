@@ -6,6 +6,5 @@ public class OrderListEntry extends JPanel {
 	
 	public OrderListEntry() {
 		
-		
 	}
 }

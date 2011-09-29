@@ -12,23 +12,41 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import ntnu.it1901.gruppe4.db.DataAPI;
+
 public class MenuPanel extends JPanel {
 	private JFrame frame;
 	SearchBox menuSearch;
 	OrderMenu orderMenu;
 	OrderList orderList;
+	private JPanel westSide;
+	
+	private class ResizeListener extends ComponentAdapter {
+		public void componentResized(ComponentEvent e) {
+			MenuPanel menuPanel = MenuPanel.this;
+			
+			//Dynamically resize the western and eastern panels
+			westSide.setPreferredSize(new Dimension(
+					(int)(menuPanel.frame.getWidth() * 0.6666),
+							menuPanel.frame.getHeight()));
+			
+			orderList.setPreferredSize(new Dimension(
+					(int)(menuPanel.frame.getWidth() * 0.3333),
+							menuPanel.frame.getHeight()));	
+			
+			menuPanel.revalidate();
+		}
+	}
 	
 	public MenuPanel(JFrame frame) {
 		this.frame = frame;
 		menuSearch = new SearchBox();
 		orderMenu = new OrderMenu();
 		orderList = new OrderList();
+		westSide = new JPanel(); //Helper container used to group two elements on the left side of the frame
 		
 		setLayout(new BorderLayout());
 		
-		//Helper container used to group two elements on the left side of the frame
-		//The 'final' prefix is required for the JPanel to be included in the ComponentAdapter below
-		final JPanel westSide = new JPanel();
 		westSide.setLayout(new BoxLayout(westSide, BoxLayout.Y_AXIS));
 		westSide.add(menuSearch);
 		
@@ -42,23 +60,15 @@ public class MenuPanel extends JPanel {
 		add(westSide, BorderLayout.WEST);
 		add(orderList, BorderLayout.EAST);
 		
-		westSide.addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				MenuPanel menuPanel = MenuPanel.this;
-				
-				//Dynamically resize the western and eastern panels
-				westSide.setPreferredSize(new Dimension(
-						(int)(menuPanel.frame.getWidth() * 0.6666),
-								menuPanel.frame.getHeight()));
-				
-				orderList.setPreferredSize(new Dimension(
-						(int)(menuPanel.frame.getWidth() * 0.3333),
-								menuPanel.frame.getHeight()));	
-				
-				menuPanel.revalidate();
-			}
-		});
+		//Add a listener to every componenet
+		//Pretty hacky fix imo. Will probably come back and tweak this later
+		ResizeListener resizeListener = new ResizeListener();
+		westSide.addComponentListener(resizeListener);
+		orderList.addComponentListener(resizeListener);
+		this.addComponentListener(resizeListener);
+		
+		//Add all the dishes to the menu
+		orderMenu.addDishes(DataAPI.findDishes(""));
 		
 		menuSearch.addKeyListener(new KeyAdapter() {
 			/*keyReleased() used for searching as getText() does not return the
@@ -71,12 +81,12 @@ public class MenuPanel extends JPanel {
 				
 				//If the search box is empty, interrupt and restore the list of results
 				if (boxContent.equals("")) {
-					//TODO: Return the customer list to its default view
+					orderMenu.addDishes(DataAPI.findDishes(""));
 					return;
 				}
 				
 				//Do the search
-				System.out.println("Searching dishes for: " + source.getText());
+				orderMenu.addDishes(DataAPI.findDishes(boxContent));
 			}
 		});
 	}
