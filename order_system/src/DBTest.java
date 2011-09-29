@@ -23,40 +23,35 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 public class DBTest {
-	static DataAPI data;
-
 	public static void main(String args[]) throws IOException {
 		// try
 		{
 			Customer customer = null;
 			Address addr = null;
 
-			data = new DataAPI("./test_data.db"); // PS: use different files for
-													// actual data. This is for
-													// testing DataAPI
-
-			data.open();
-			data.clearDatabase();
-			data.createExampleData();
+			DataAPI.open("./test_data.db"); // PS: use different files for
+											// actual data. This is for
+			DataAPI.clearDatabase();
+			DataAPI.createExampleData();
 
 			Customer david = new Customer("David Myklebust", "511112");
 			Address davids_addresse = new Address(david, "Her-veien 1", 5122);
 
-			data.addCustomer(david);
-			data.addAddress(davids_addresse);
+			DataAPI.addCustomer(david);
+			DataAPI.addAddress(davids_addresse);
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					System.in));
 
 			System.out.print("Search for customer: ");
-			List<Customer> result = data.findCustomers(br.readLine());
+			List<Customer> result = DataAPI.findCustomers(br.readLine());
 
-			System.out.println("Data entries:");
+			System.out.println("Data entries: "+result.size());
 
 			if (result != null) {
 				for (int cid = 0; cid < result.size(); cid++) {
 					customer = result.get(cid);
-					List<Address> addrList = data.getAddresses(customer);
+					List<Address> addrList = DataAPI.getAddresses(customer);
 
 					if (customer != null) {
 						System.out.println("Name: " + customer.getName());
@@ -81,12 +76,12 @@ public class DBTest {
 						System.out.println("	addrList == null");
 				}
 			}
-			
+
 			System.out.print("Search for address: ");
-			List<Address> addrSearchList = data.findAddresses(br.readLine());
-			
+			List<Address> addrSearchList = DataAPI.findAddresses(br.readLine());
+
 			System.out.println("Data entries:");
-			
+
 			if (addrSearchList != null) {
 				System.out.println("Addresses: " + addrSearchList.size());
 				for (int i = 0; i < addrSearchList.size(); i++) {
@@ -102,7 +97,7 @@ public class DBTest {
 			} else
 				System.out.println("addrSearchList == null");
 
-			data.close();
+			DataAPI.close();
 		}
 		// catch (Exception e)
 		// {
