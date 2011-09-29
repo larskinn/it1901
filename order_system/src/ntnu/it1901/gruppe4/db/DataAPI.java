@@ -118,6 +118,14 @@ public class DataAPI {
 					true);
 			Dish d2 = new Dish("Pizza Pepperoni", 52, "Pepperoni; nom nom",
 					true);
+			Dish d3 = new Dish("Hårete pizza", 35, "Billigere, men med spesiell topping", true);
+			Dish d4 = new Dish("Krempizza", 60, "Bløtkake på pizzabunn", true);
+			Dish d5 = new Dish("Kokkens spesial", 70, "Med kokkens spesialsaus", true);
+			Dish d6 = new Dish("Coca Cola 1.5L", 40, "Din favorittbrus, en-og-en-halv-liter", true);
+			Dish d7 = new Dish("Rømmedressing", 25, "Plastskei ikke inkludert", true);
+			Dish d8 = new Dish("Plastskei", 2, "Trengs til saus/dressing", true);
+			Dish d9 = new Dish("Serviett", 10, "Luksusserviett av stoff. Sydd av barn i Bangladesh", true);
+			
 
 			Order o = new Order(a1);
 
@@ -133,6 +141,13 @@ public class DataAPI {
 				addAddress(a2);
 				addDish(d1);
 				addDish(d2);
+				addDish(d3);
+				addDish(d4);
+				addDish(d5);
+				addDish(d6);
+				addDish(d7);
+				addDish(d8);
+				addDish(d9);
 				addOrder(o);
 				addOrderItem(oi1);
 				addOrderItem(oi2);
