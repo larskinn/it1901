@@ -303,7 +303,7 @@ public class DataAPI {
 		try {
 			if (customer == null)
 				return null;
-			return addressDao.queryForEq("idcustomer_id",
+			return addressDao.queryForEq("idCustomer_id",
 					customer.getIdCustomer());
 		} catch (SQLException e) {
 			System.err.println("Error fetching addresses: " + e.getMessage());
@@ -323,7 +323,7 @@ public class DataAPI {
 	public static List<Address> findAddresses(String s) {
 		try {
 			return addressDao.query(addressDao.queryBuilder().where()
-					.like("addressline", "%" + s + "%").prepare());
+					.like("addressLine", "%" + s + "%").prepare());
 		} catch (SQLException e) {
 			System.err.println("Error when searching for addresses: "
 					+ e.getMessage());
