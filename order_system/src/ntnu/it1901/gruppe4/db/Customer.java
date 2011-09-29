@@ -11,7 +11,7 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "customer")
 public class Customer {
 	@DatabaseField(canBeNull = false, generatedId = true)
-	private int idcustomer;
+	private int idCustomer;
 
 	@DatabaseField(useGetSet = true, canBeNull = false)
 	private String name;
@@ -25,14 +25,14 @@ public class Customer {
 	/**
 	 * Constructs a customer object without a dataID
 	 * 
-	 * @param vName
+	 * @param name
 	 *            Name of the customer
-	 * @param vPhone
+	 * @param phone
 	 *            Phone number
 	 */
-	public Customer(String vName, String vPhone) {
-		name = vName;
-		phone = vPhone;
+	public Customer(String name, String phone) {
+		this.name = name;
+		this.phone = phone;
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class Customer {
 	 * @return the unique ID used in database
 	 */
 	public int getIdcustomer() {
-		return idcustomer;
+		return idCustomer;
 	}
 
 	/**
@@ -65,20 +65,20 @@ public class Customer {
 	/**
 	 * Changes the name of the customer
 	 * 
-	 * @param vName
+	 * @param name
 	 *            the name of the customer
 	 */
-	public void setName(String vName) {
-		name = vName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
 	 * Changes the phone number
 	 * 
-	 * @param vPhone
+	 * @param phone
 	 *            the phone number
 	 */
-	public void setPhone(String vPhone) {
-		phone = vPhone;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 }
