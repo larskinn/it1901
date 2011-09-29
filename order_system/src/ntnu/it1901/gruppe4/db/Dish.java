@@ -24,12 +24,12 @@ public class Dish {
 
 	@DatabaseField(useGetSet = true)
 	private String description;
-	
+
 	@DatabaseField(useGetSet = true)
 	private boolean active;
 
 	// TODO: javadoc
-	
+
 	/**
 	 * Constructs a dish
 	 * 
@@ -48,8 +48,7 @@ public class Dish {
 			this.price = price;
 			this.description = description;
 			this.active = active;
-		}
-		else {
+		} else {
 			throw new IllegalArgumentException("String name can't be null");
 		}
 	}
@@ -57,22 +56,48 @@ public class Dish {
 	private Dish() {
 	}
 
+	/**
+	 * Returns the database id
+	 * 
+	 * @return the database id
+	 */
 	public int getIdDish() {
 		return idDish;
 	}
 
+	/**
+	 * Returns the name of the dish
+	 * 
+	 * @return the name of the dish
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Returns the price of the dish
+	 * 
+	 * @return the price of the dish
+	 */
 	public float getPrice() {
 		return price;
 	}
 
+	/**
+	 * Returns the description of the dish
+	 * 
+	 * @return the description of the dish
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 * Changes the name
+	 * 
+	 * @param name
+	 *            the new name
+	 */
 	public void setName(String name) {
 		if (name != null) {
 			this.name = name;
@@ -83,18 +108,41 @@ public class Dish {
 		// TODO: validate value (name can't be null)
 	}
 
+	/**
+	 * Changes the price
+	 * 
+	 * @param price
+	 *            the new price
+	 */
 	public void setPrice(float price) {
 		this.price = price;
 	}
 
+	/**
+	 * Changes the description
+	 * 
+	 * @param description
+	 *            the new description
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
+	/**
+	 * Changes the active status
+	 * 
+	 * @param active
+	 *            the new active status
+	 */
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
+
+	/**
+	 * Returns the active status of the dish
+	 * 
+	 * @return the active status of the dish
+	 */
 	public boolean getActive() {
 		return active;
 	}
