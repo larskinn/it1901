@@ -116,8 +116,8 @@ public class DataAPI {
 			Address a1 = new Address(c, "Internettveien 64", 1024);
 			Address a2 = new Address(c, "Addresseveien 32", 2048);
 
-			Dish d1 = new Dish("Pizza Capriciosa", 50, "Skinke & Champignon");
-			Dish d2 = new Dish("Pizza Pepperoni", 52, "Pepperoni; nom nom");
+			Dish d1 = new Dish("Pizza Capriciosa", 50, "Skinke & Champignon", true);
+			Dish d2 = new Dish("Pizza Pepperoni", 52, "Pepperoni; nom nom", true);
 
 			Order o = new Order(a1);
 

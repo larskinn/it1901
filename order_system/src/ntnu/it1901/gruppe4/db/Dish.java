@@ -24,9 +24,12 @@ public class Dish {
 
 	@DatabaseField(useGetSet = true)
 	private String description;
+	
+	@DatabaseField(useGetSet = true)
+	private boolean active;
 
 	// TODO: javadoc
-
+	
 	/**
 	 * Constructs a dish
 	 * 
@@ -36,12 +39,15 @@ public class Dish {
 	 *            Price of the dish
 	 * @param vDescription
 	 *            Short description of dish
+	 * @param vActive
+	 *            Whether the dish is active (can be ordered)
 	 */
-	public Dish(String vName, float vPrice, String vDescription) {
+	public Dish(String vName, float vPrice, String vDescription, boolean vActive) {
 		name = vName;
 		price = vPrice;
 		description = vDescription;
-
+		active = vActive;
+		
 		// TODO: validate values (name can't be null)
 	}
 
