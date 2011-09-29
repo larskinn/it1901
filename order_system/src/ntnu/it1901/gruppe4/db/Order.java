@@ -13,19 +13,19 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "order")
 public class Order {
 	@DatabaseField(canBeNull = false, generatedId = true)
-	int idorder;
+	int idOrder;
 
 	@DatabaseField(useGetSet = true)
-	Date ordertime;
+	Date orderTime;
 
 	@DatabaseField(useGetSet = true)
-	Date deliverytime;
+	Date deliveryTime;
 
 	@DatabaseField(useGetSet = true)
 	int state;
 
 	@DatabaseField(useGetSet = true, foreign = true, canBeNull = false)
-	Address idaddress;
+	Address idAddress;
 
 	// PS: We determine customer trough address
 	// @DatabaseField(useGetSet = true, foreign = true, canBeNull = false)
@@ -35,37 +35,37 @@ public class Order {
 	}
 
 	public Order(Address address) {
-		setIdaddress(address);
-		setDeliverytime(new Date()); // Supposedly this is the current time
+		setIdAddress(address);
+		setDeliveryTime(new Date()); // Supposedly this is the current time
 		setState(0);
 	}
 
-	public Address getIdaddress() {
-		return idaddress;
+	public Address getIdAddress() {
+		return idAddress;
 	}
 
-	public void setIdaddress(Address idaddress) {
-		this.idaddress = idaddress;
+	public void setIdAddress(Address idAddress) {
+		this.idAddress = idAddress;
 	}
 
-	public int getIdorder() {
-		return idorder;
+	public int getIdOrder() {
+		return idOrder;
 	}
 
-	public Date getOrdertime() {
-		return ordertime;
+	public Date getOrderTime() {
+		return orderTime;
 	}
 
-	public void setOrdertime(Date ordertime) {
-		this.ordertime = ordertime;
+	public void setOrderTime(Date orderTime) {
+		this.orderTime = orderTime;
 	}
 
-	public Date getDeliverytime() {
-		return deliverytime;
+	public Date getDeliveryTime() {
+		return deliveryTime;
 	}
 
-	public void setDeliverytime(Date deliverytime) {
-		this.deliverytime = deliverytime;
+	public void setDeliveryTime(Date deliveryTime) {
+		this.deliveryTime = deliveryTime;
 	}
 
 	public int getState() {

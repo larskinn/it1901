@@ -40,7 +40,7 @@ public class Customer {
 	 * 
 	 * @return the unique ID used in database
 	 */
-	public int getIdcustomer() {
+	public int getIdCustomer() {
 		return idCustomer;
 	}
 

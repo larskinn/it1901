@@ -14,7 +14,7 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Dish {
 
 	@DatabaseField(canBeNull = false, generatedId = true)
-	private int iddish;
+	private int idDish;
 
 	@DatabaseField(useGetSet = true, canBeNull = false)
 	private String name;
@@ -43,19 +43,22 @@ public class Dish {
 	 *            Whether the dish is active (can be ordered)
 	 */
 	public Dish(String name, float price, String description, boolean active) {
-		this.name = name;
-		this.price = price;
-		this.description = description;
-		this.active = active;
-		
-		// TODO: validate values (name can't be null)
+		if (name != null) {
+			this.name = name;
+			this.price = price;
+			this.description = description;
+			this.active = active;
+		}
+		else {
+			throw new IllegalArgumentException("String name can't be null");
+		}
 	}
 
 	private Dish() {
 	}
 
-	public int getIddish() {
-		return iddish;
+	public int getIdDish() {
+		return idDish;
 	}
 
 	public String getName() {
@@ -71,6 +74,11 @@ public class Dish {
 	}
 
 	public void setName(String name) {
+		if (name != null) {
+			this.name = name;
+		} else {
+			throw new IllegalArgumentException("String name can't be null");
+		}
 		this.name = name;
 		// TODO: validate value (name can't be null)
 	}
