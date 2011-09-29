@@ -66,9 +66,9 @@ public class DBTest {
 							System.out.println("	#" + (i + 1));
 							if (addr != null) {
 								System.out.println("	Address: "
-										+ addr.getAddressline());
+										+ addr.getAddressLine());
 								System.out.println("	Postalcode: "
-										+ addr.getPostalcode());
+										+ addr.getPostalCode());
 							} else
 								System.out.println("	addr == null");
 						}
@@ -88,9 +88,9 @@ public class DBTest {
 					addr = addrSearchList.get(i);
 					System.out.println("#" + (i + 1));
 					if (addr != null) {
-						System.out.println("Address: " + addr.getAddressline());
+						System.out.println("Address: " + addr.getAddressLine());
 						System.out.println("Postalcode: "
-								+ addr.getPostalcode());
+								+ addr.getPostalCode());
 					} else
 						System.out.println("addr == null");
 				}
