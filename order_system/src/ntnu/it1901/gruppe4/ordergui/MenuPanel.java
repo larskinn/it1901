@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -39,7 +42,7 @@ public class MenuPanel extends JPanel {
 		add(westSide, BorderLayout.WEST);
 		add(orderList, BorderLayout.EAST);
 		
-		addComponentListener(new ComponentAdapter() {
+		westSide.addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
 				MenuPanel menuPanel = MenuPanel.this;
@@ -54,6 +57,26 @@ public class MenuPanel extends JPanel {
 								menuPanel.frame.getHeight()));	
 				
 				menuPanel.revalidate();
+			}
+		});
+		
+		menuSearch.addKeyListener(new KeyAdapter() {
+			/*keyReleased() used for searching as getText() does not return the
+			 *updated content of the search box when keyTyped() is called 
+			 */
+			@Override
+			public void keyReleased(KeyEvent e) {
+				SearchBox source = (SearchBox)e.getSource();
+				String boxContent = source.getText();
+				
+				//If the search box is empty, interrupt and restore the list of results
+				if (boxContent.equals("")) {
+					//TODO: Return the customer list to its default view
+					return;
+				}
+				
+				//Do the search
+				System.out.println("Searching dishes for: " + source.getText());
 			}
 		});
 	}

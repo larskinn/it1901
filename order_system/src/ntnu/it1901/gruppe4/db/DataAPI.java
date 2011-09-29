@@ -18,30 +18,27 @@ import com.j256.ormlite.table.TableUtils;
  * @author David M.
  */
 public class DataAPI {
-	private Dao<Customer, Integer> customerDao;
-	private Dao<Address, Integer> addressDao;
-	private Dao<Dish, Integer> dishDao;
-	private Dao<Order, Integer> orderDao;
-	private Dao<OrderItem, Integer> orderItemDao;
+	private static Dao<Customer, Integer> customerDao;
+	private static Dao<Address, Integer> addressDao;
+	private static Dao<Dish, Integer> dishDao;
+	private static Dao<Order, Integer> orderDao;
+	private static Dao<OrderItem, Integer> orderItemDao;
 
-	private JdbcConnectionSource conn = null;
+	private static JdbcConnectionSource conn = null;
 
-	private String url = "";
-
-	/**
-	 * Creates a new DataAPI object
-	 * 
-	 * @param file
-	 *            The file that contains the sqlite database
-	 */
-	public DataAPI(String file) {
-		url = "jdbc:sqlite:" + file;
-	}
+	private static String url = "";
 
 	/**
 	 * Opens a connection to a database
+	 * @param file The filename of the database
 	 */
-	public void open() {
+	public static void open(String file) {
+		if (conn != null)
+		{
+			System.out.println("[Debug] Connection already open. Closing...");
+			close();
+		}
+		url = "jdbc:sqlite:" + file;
 		// String url = "jdbc:sqlite:./data.db";
 
 		System.out.println("[Debug] Opening database " + url + "...");
@@ -63,7 +60,7 @@ public class DataAPI {
 	/**
 	 * Sets up the database
 	 */
-	private void setupDatabase() throws SQLException {
+	private static void setupDatabase() throws SQLException {
 		if (conn != null) {
 			System.out.println("[Debug] Initializing tables...");
 
@@ -87,7 +84,7 @@ public class DataAPI {
 	/**
 	 * Delete all the data
 	 */
-	public void clearDatabase() {
+	public static void clearDatabase() {
 		if (conn != null) {
 			try {
 				System.out.println("[Debug] Initializing tables...");
@@ -109,7 +106,7 @@ public class DataAPI {
 	/**
 	 * Inserts example data into database
 	 */
-	public void createExampleData() {
+	public static void createExampleData() {
 		try {
 			Customer c = new Customer("Eksempel Eksempelsen", "512 256 128");
 
@@ -150,7 +147,7 @@ public class DataAPI {
 	/**
 	 * Closes the connection to the database
 	 */
-	public void close() {
+	public static void close() {
 		System.out.println("[Debug] Closing database");
 
 		if (conn != null) {
@@ -172,7 +169,7 @@ public class DataAPI {
 	 *            a reference to the Customer object containing the data to be
 	 *            stored
 	 */
-	public void addCustomer(Customer c) {
+	public static void addCustomer(Customer c) {
 		try {
 			customerDao.create(c);
 		} catch (SQLException e) {
@@ -188,7 +185,7 @@ public class DataAPI {
 	 *            (idcustomer)
 	 * @return a reference to a new Customer object containing the data
 	 */
-	public Customer getCustomer(int id) {
+	public static Customer getCustomer(int id) {
 		try {
 			if (id == 0)
 				return null;
@@ -206,7 +203,7 @@ public class DataAPI {
 	 *            The search string
 	 * @return a reference to a new Customer object containing the data
 	 */
-	public List<Customer> findCustomers(String search) {
+	public static List<Customer> findCustomers(String search) {
 		try {
 			String[] strings = search.split(" ");
 
@@ -243,7 +240,7 @@ public class DataAPI {
 	 *            a reference to the Address object containing the data to be
 	 *            stored
 	 */
-	public void addAddress(Address a) {
+	public static void addAddress(Address a) {
 		try {
 			addressDao.create(a);
 		} catch (SQLException e) {
@@ -259,7 +256,7 @@ public class DataAPI {
 	 *            (idaddress)
 	 * @return a reference to a new Address object containing the data
 	 */
-	public Address getAddress(int id) {
+	public static Address getAddress(int id) {
 		try {
 			if (id == 0)
 				return null;
@@ -278,7 +275,7 @@ public class DataAPI {
 	 *            the customer whose addresses should be fetched
 	 * @return a reference to a new List<Address> object containing the data
 	 */
-	public List<Address> getAddresses(Customer customer) {
+	public static List<Address> getAddresses(Customer customer) {
 		try {
 			if (customer == null)
 				return null;
@@ -299,7 +296,7 @@ public class DataAPI {
 	 *         addresses
 	 */
 
-	public List<Address> findAddresses(String s) {
+	public static List<Address> findAddresses(String s) {
 		try {
 			return addressDao.query(addressDao.queryBuilder().where()
 					.like("addressline", "%" + s + "%").prepare());
@@ -317,7 +314,7 @@ public class DataAPI {
 	 *            a reference to the Dish object containing the data to be
 	 *            stored
 	 */
-	public void addDish(Dish dish) {
+	public static void addDish(Dish dish) {
 		try {
 			dishDao.create(dish);
 		} catch (SQLException e) {
@@ -332,7 +329,7 @@ public class DataAPI {
 	 *            a unique ID used to identify an dish in the database (iddish)
 	 * @return a reference to a new Dish object containing the data
 	 */
-	public Dish getDish(int id) {
+	public static Dish getDish(int id) {
 		try {
 			if (id == 0)
 				return null;
@@ -349,7 +346,7 @@ public class DataAPI {
 	 * 			the search string
 	 * @return a reference to a new List<Dish> object with the matching dishes
 	 */
-	public List<Dish> findDishes(String s) {
+	public static List<Dish> findDishes(String s) {
 		try {
 			return dishDao.query(dishDao.queryBuilder().where()
 					.like("name", "%" + s + "%").prepare());
@@ -367,7 +364,7 @@ public class DataAPI {
 	 *            a reference to the Order object containing the data to be
 	 *            stored
 	 */
-	public void addOrder(Order order) {
+	public static void addOrder(Order order) {
 		try {
 			orderDao.create(order);
 		} catch (SQLException e) {
@@ -382,7 +379,7 @@ public class DataAPI {
 	 *            a unique ID used to identify an dish in the database (idorder)
 	 * @return a reference to a new Order object containing the data
 	 */
-	public Order getOrder(int id) {
+	public static Order getOrder(int id) {
 		try {
 			if (id == 0)
 				return null;
@@ -400,7 +397,7 @@ public class DataAPI {
 	 *            a reference to the OrderItem object containing the data to be
 	 *            stored
 	 */
-	public void addOrderItem(OrderItem orderitem) {
+	public static void addOrderItem(OrderItem orderitem) {
 		try {
 			orderItemDao.create(orderitem);
 		} catch (SQLException e) {
@@ -416,7 +413,7 @@ public class DataAPI {
 	 *            (idorderitem)
 	 * @return a reference to a new OrderItem object containing the data
 	 */
-	public OrderItem getOrderItem(int id) {
+	public static OrderItem getOrderItem(int id) {
 		try {
 			if (id == 0)
 				return null;
