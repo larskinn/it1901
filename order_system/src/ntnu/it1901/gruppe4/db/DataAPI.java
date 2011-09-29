@@ -293,7 +293,7 @@ public class DataAPI {
 			if (customer == null)
 				return null;
 			return addressDao.queryForEq("idcustomer_id",
-					customer.getIdcustomer());
+					customer.getIdCustomer());
 		} catch (SQLException e) {
 			System.err.println("Error fetching addresses: " + e.getMessage());
 			return null;

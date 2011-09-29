@@ -32,36 +32,36 @@ public class OrderItem {
 	}
 
 	public OrderItem(Order order, Dish dish) {
-		setIdorder(order);
-		setIddish(dish);
+		setIdOrder(order);
+		setIdDish(dish);
 		setAmount(dish.getPrice());
 		setName(dish.getName());
 	}
 
 	public OrderItem(Order order, String name, float amount) {
-		setIdorder(order);
-		setIddish(null);
+		setIdOrder(order);
+		setIdDish(null);
 		setAmount(amount);
 		setName(name);
 	}
 
-	public int getIdorderitem() {
+	public int getIdOrderItem() {
 		return idOrderItem;
 	}
 
-	public Order getIdorder() {
+	public Order getIdOrder() {
 		return idOrder;
 	}
 
-	public void setIdorder(Order idOrder) {
+	public void setIdOrder(Order idOrder) {
 		this.idOrder = idOrder;
 	}
 
-	public Dish getIddish() {
+	public Dish getIdDish() {
 		return idDish;
 	}
 
-	public void setIddish(Dish idDish) {
+	public void setIdDish(Dish idDish) {
 		this.idDish = idDish;
 	}
 

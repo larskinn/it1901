@@ -12,7 +12,7 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "address")
 public class Address {
 	@DatabaseField(canBeNull = false, generatedId = true)
-	private int idaddress;
+	private int idAddress;
 
 	@DatabaseField(canBeNull = false, foreign = true)
 	private Customer idCustomer;
@@ -50,7 +50,7 @@ public class Address {
 	 * 
 	 * @return the unique ID used in database
 	 */
-	public Customer getIdcustomer() {
+	public Customer getIdCustomer() {
 		return idCustomer;
 	}
 
@@ -59,7 +59,7 @@ public class Address {
 	 * 
 	 * @return the address line
 	 */
-	public String getAddressline() {
+	public String getAddressLine() {
 		return addressLine;
 	}
 
@@ -68,7 +68,7 @@ public class Address {
 	 * 
 	 * @return the postal code
 	 */
-	public int getPostalcode() {
+	public int getPostalCode() {
 		return postalCode;
 	}
 
@@ -78,7 +78,7 @@ public class Address {
 	 * @param addressLine
 	 *            the address line
 	 */
-	public void setAddressline(String addressLine) {
+	public void setAddressLine(String addressLine) {
 		this.addressLine = addressLine;
 	}
 
@@ -88,7 +88,7 @@ public class Address {
 	 * @param postalCode
 	 *            the postal code
 	 */
-	public void setPostalcode(int postalCode) {
+	public void setPostalCode(int postalCode) {
 		this.postalCode = postalCode;
 	}
 
@@ -98,11 +98,11 @@ public class Address {
 	 * @param customer
 	 *            a reference to the customer associated with this address
 	 */
-	public void setIdcustomer(Customer customer) {
+	public void setIdCustomer(Customer customer) {
 		this.idCustomer = customer;
 	}
 
-	public int getIdaddress() {
-		return idaddress;
+	public int getIdAddress() {
+		return idAddress;
 	}
 }
