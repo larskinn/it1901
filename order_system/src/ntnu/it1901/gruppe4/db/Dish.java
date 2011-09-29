@@ -82,4 +82,12 @@ public class Dish {
 	public void setDescription(String vDescription) {
 		description = vDescription;
 	}
+	
+	public void setActive(boolean vActive) {
+		active = vActive;
+	}
+	
+	public boolean getActive() {
+		return active;
+	}
 }
