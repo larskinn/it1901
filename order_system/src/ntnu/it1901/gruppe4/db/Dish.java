@@ -33,20 +33,20 @@ public class Dish {
 	/**
 	 * Constructs a dish
 	 * 
-	 * @param vName
+	 * @param name
 	 *            Name of the dish
-	 * @param vPrice
+	 * @param price
 	 *            Price of the dish
-	 * @param vDescription
+	 * @param description
 	 *            Short description of dish
-	 * @param vActive
+	 * @param active
 	 *            Whether the dish is active (can be ordered)
 	 */
-	public Dish(String vName, float vPrice, String vDescription, boolean vActive) {
-		name = vName;
-		price = vPrice;
-		description = vDescription;
-		active = vActive;
+	public Dish(String name, float price, String description, boolean active) {
+		this.name = name;
+		this.price = price;
+		this.description = description;
+		this.active = active;
 		
 		// TODO: validate values (name can't be null)
 	}
@@ -70,21 +70,21 @@ public class Dish {
 		return description;
 	}
 
-	public void setName(String vName) {
-		name = vName;
+	public void setName(String name) {
+		this.name = name;
 		// TODO: validate value (name can't be null)
 	}
 
-	public void setPrice(float vPrice) {
-		price = vPrice;
+	public void setPrice(float price) {
+		this.price = price;
 	}
 
-	public void setDescription(String vDescription) {
-		description = vDescription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
-	public void setActive(boolean vActive) {
-		active = vActive;
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 	
 	public boolean getActive() {

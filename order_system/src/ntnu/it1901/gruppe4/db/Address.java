@@ -15,13 +15,13 @@ public class Address {
 	private int idaddress;
 
 	@DatabaseField(canBeNull = false, foreign = true)
-	private Customer idcustomer;
+	private Customer idCustomer;
 
 	@DatabaseField(useGetSet = true)
-	private String addressline;
+	private String addressLine;
 
 	@DatabaseField(useGetSet = true)
-	private int postalcode;
+	private int postalCode;
 
 	/**
 	 * Constructs an address object
@@ -32,17 +32,17 @@ public class Address {
 	/**
 	 * Constructs a address object with a dataID and a customer
 	 * 
-	 * @param vCustomer
+	 * @param customer
 	 *            reference to customer object associated with this address
-	 * @param vAddressLine
+	 * @param addressLine
 	 *            Address line
-	 * @param vPostalCode
+	 * @param postalCode
 	 *            Postal code
 	 */
-	public Address(Customer vCustomer, String vAddressLine, int vPostalCode) {
-		idcustomer = vCustomer;
-		addressline = vAddressLine;
-		postalcode = vPostalCode;
+	public Address(Customer customer, String addressLine, int postalCode) {
+		this.idCustomer = customer;
+		this.addressLine = addressLine;
+		this.postalCode = postalCode;
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class Address {
 	 * @return the unique ID used in database
 	 */
 	public Customer getIdcustomer() {
-		return idcustomer;
+		return idCustomer;
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class Address {
 	 * @return the address line
 	 */
 	public String getAddressline() {
-		return addressline;
+		return addressLine;
 	}
 
 	/**
@@ -69,37 +69,37 @@ public class Address {
 	 * @return the postal code
 	 */
 	public int getPostalcode() {
-		return postalcode;
+		return postalCode;
 	}
 
 	/**
 	 * Changes the address line
 	 * 
-	 * @param vAddressLine
+	 * @param addressLine
 	 *            the address line
 	 */
-	public void setAddressline(String vAddressLine) {
-		addressline = vAddressLine;
+	public void setAddressline(String addressLine) {
+		this.addressLine = addressLine;
 	}
 
 	/**
 	 * Changes the postal code
 	 * 
-	 * @param vPostalCode
+	 * @param postalCode
 	 *            the postal code
 	 */
-	public void setPostalcode(int vPostalCode) {
-		postalcode = vPostalCode;
+	public void setPostalcode(int postalCode) {
+		this.postalCode = postalCode;
 	}
 
 	/**
 	 * Changes the customer associated with this address
 	 * 
-	 * @param vCustomer
+	 * @param customer
 	 *            a reference to the customer associated with this address
 	 */
-	public void setIdcustomer(Customer vCustomer) {
-		idcustomer = vCustomer;
+	public void setIdcustomer(Customer customer) {
+		this.idCustomer = customer;
 	}
 
 	public int getIdaddress() {

@@ -12,15 +12,15 @@ import com.j256.ormlite.table.DatabaseTable;
 public class OrderItem {
 
 	@DatabaseField(canBeNull = false, generatedId = true)
-	int idorderitem;
+	int idOrderItem;
 
 	@DatabaseField(useGetSet = true, foreign = true, canBeNull = false)
-	Order idorder;
+	Order idOrder;
 
 	// PS: We don't always need a dish item, in case we include arbitrary things
 	// like a discount
 	@DatabaseField(useGetSet = true, foreign = true)
-	Dish iddish;
+	Dish idDish;
 
 	@DatabaseField(useGetSet = true, canBeNull = false)
 	String name;
@@ -46,23 +46,23 @@ public class OrderItem {
 	}
 
 	public int getIdorderitem() {
-		return idorderitem;
+		return idOrderItem;
 	}
 
 	public Order getIdorder() {
-		return idorder;
+		return idOrder;
 	}
 
-	public void setIdorder(Order idorder) {
-		this.idorder = idorder;
+	public void setIdorder(Order idOrder) {
+		this.idOrder = idOrder;
 	}
 
 	public Dish getIddish() {
-		return iddish;
+		return idDish;
 	}
 
-	public void setIddish(Dish iddish) {
-		this.iddish = iddish;
+	public void setIddish(Dish idDish) {
+		this.idDish = idDish;
 	}
 
 	public String getName() {
