@@ -227,9 +227,13 @@ public class DataAPI {
 
 			int i = 0;
 			for (; i < strings.length - 1; i++) {
+				where.eq("phone", strings[i]);
+				where.or();
 				where.like("name", "%" + strings[i] + "%");
 				where.and();
 			}
+			where.eq("phone", strings[i]);
+			where.or();
 			where.like("name", "%" + strings[i] + "%");
 
 			return customerDao.query(where.prepare());
