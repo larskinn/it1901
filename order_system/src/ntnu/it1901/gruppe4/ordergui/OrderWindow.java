@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import ntnu.it1901.gruppe4.db.DataAPI;
+
 public class OrderWindow implements ActionListener {
 	private JFrame frame;
 	private ButtonPanel buttonPanel;
@@ -20,7 +22,12 @@ public class OrderWindow implements ActionListener {
 	}
 
 	public static void main(String[] args) {
+		DataAPI.open("./data.db");
+		DataAPI.clearDatabase();
+		DataAPI.createExampleData();
+		
 		new OrderWindow();
+		DataAPI.close();
 	}
 
 	public OrderWindow() {
