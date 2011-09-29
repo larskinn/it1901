@@ -30,11 +30,12 @@ public class DataAPI {
 
 	/**
 	 * Opens a connection to a database
-	 * @param file The filename of the database
+	 * 
+	 * @param file
+	 *            The filename of the database
 	 */
 	public static void open(String file) {
-		if (conn != null)
-		{
+		if (conn != null) {
 			System.out.println("[Debug] Connection already open. Closing...");
 			close();
 		}
@@ -113,8 +114,10 @@ public class DataAPI {
 			Address a1 = new Address(c, "Internettveien 64", 1024);
 			Address a2 = new Address(c, "Addresseveien 32", 2048);
 
-			Dish d1 = new Dish("Pizza Capriciosa", 50, "Skinke & Champignon", true);
-			Dish d2 = new Dish("Pizza Pepperoni", 52, "Pepperoni; nom nom", true);
+			Dish d1 = new Dish("Pizza Capriciosa", 50, "Skinke & Champignon",
+					true);
+			Dish d2 = new Dish("Pizza Pepperoni", 52, "Pepperoni; nom nom",
+					true);
 
 			Order o = new Order(a1);
 
@@ -205,6 +208,12 @@ public class DataAPI {
 	 */
 	public static List<Customer> findCustomers(String search) {
 		try {
+			search = search.trim().replace("  ", " ").replace("  ", " ");
+
+			if (search == "") {
+				return null;
+			}
+
 			String[] strings = search.split(" ");
 
 			QueryBuilder<Customer, Integer> qb = customerDao.queryBuilder();
@@ -339,11 +348,12 @@ public class DataAPI {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Finds dishes containing the search string
+	 * 
 	 * @param s
-	 * 			the search string
+	 *            the search string
 	 * @return a reference to a new List<Dish> object with the matching dishes
 	 */
 	public static List<Dish> findDishes(String s) {
