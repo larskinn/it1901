@@ -109,10 +109,17 @@ public class DataAPI {
 	 */
 	public static void createExampleData() {
 		try {
-			Customer c = new Customer("Eksempel Eksempelsen", "512 256 128");
+			Customer c = new Customer("Eksempel Eksempelsen", "512256128");
+			Customer c1 = new Customer("Finn", "2002");
+			Customer c2 = new Customer("Jake", "1001");
+			Customer c3 = new Customer("Princess Bubblegum", "3003");
 
 			Address a1 = new Address(c, "Internettveien 64", 1024);
 			Address a2 = new Address(c, "Addresseveien 32", 2048);
+			
+			Address a3 = new Address(c1, "Land of Ooo", 5000);
+			Address a4 = new Address(c2, "Land of Ooo", 5000);
+			Address a5 = new Address(c3, "Candy Kingdom", 7000);
 
 			Dish d1 = new Dish("Pizza Capriciosa", 50, "Skinke & Champignon",
 					true);
@@ -137,8 +144,14 @@ public class DataAPI {
 
 			if (cl == null || cl.size() == 0) {
 				addCustomer(c);
+				addCustomer(c1);
+				addCustomer(c2);
+				addCustomer(c3);
 				addAddress(a1);
 				addAddress(a2);
+				addAddress(a3);
+				addAddress(a4);
+				addAddress(a5);
 				addDish(d1);
 				addDish(d2);
 				addDish(d3);
