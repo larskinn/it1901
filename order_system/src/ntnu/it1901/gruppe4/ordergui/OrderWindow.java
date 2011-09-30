@@ -1,8 +1,12 @@
 package ntnu.it1901.gruppe4.ordergui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,6 +20,23 @@ public class OrderWindow implements ActionListener {
 	private CustomerPanel customerPanel;
 	private AddressPanel addressPanel;
 	private JPanel currentPanel;
+	private OrderSummary orderSummary;
+	private ResizeListener resizeListener;
+	
+	private class ResizeListener extends ComponentAdapter {
+		public void componentResized(ComponentEvent e) {
+			//Dynamically resize the western and eastern panels
+			currentPanel.setPreferredSize(new Dimension(
+					(int)(frame.getWidth() * 0.6666),
+							frame.getHeight()));
+			
+			orderSummary.setPreferredSize(new Dimension(
+					(int)(frame.getWidth() * 0.3333),
+							frame.getHeight()));	
+			
+			currentPanel.revalidate();
+		}
+	}
 
 	public enum View {
 		MENU, CUSTOMER, ADDRESS;
@@ -32,13 +53,21 @@ public class OrderWindow implements ActionListener {
 
 	public OrderWindow() {
 		frame = new JFrame();
-		menuPanel = new MenuPanel(frame);
+		menuPanel = new MenuPanel();
 		customerPanel = new CustomerPanel();
 		addressPanel = new AddressPanel();
 		buttonPanel = new ButtonPanel(this);
+		orderSummary = new OrderSummary();
+		resizeListener = new ResizeListener();
+		
+		orderSummary.addComponentListener(resizeListener);
+		menuPanel.addComponentListener(resizeListener);
+		customerPanel.addComponentListener(resizeListener);
+		addressPanel.addComponentListener(resizeListener);
 		
 		frame.setSize(800, 600);
 		frame.setLayout(new BorderLayout());
+		frame.add(orderSummary, BorderLayout.EAST);
 		frame.add(buttonPanel, BorderLayout.SOUTH);
 		changeView(View.MENU);
 		
@@ -71,7 +100,7 @@ public class OrderWindow implements ActionListener {
 				break;
 		}
 		currentPanel.revalidate(); //Check if the panel has all its components loaded
-		frame.repaint(); //Paint the panel and all its components
+		frame.repaint(); //Repaint the frame and all its components
 	}
 
 	//Fired whenever a button in ButtonPanel is pressed

@@ -46,7 +46,7 @@ public class DBTest {
 			System.out.print("Search for customer: ");
 			List<Customer> result = DataAPI.findCustomers(br.readLine());
 
-			System.out.println("Data entries: "+result.size());
+			System.out.println("Data entries: " + result.size());
 
 			if (result != null) {
 				for (int cid = 0; cid < result.size(); cid++) {
