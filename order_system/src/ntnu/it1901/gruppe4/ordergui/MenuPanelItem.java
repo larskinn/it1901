@@ -11,12 +11,12 @@ import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.db.Dish;
 
-public class OrderMenuItem extends JPanel {
+public class MenuPanelItem extends JPanel {
 	private Dish item;
 	private JLabel text;
 	private DecimalFormat twoDecimals;
 	
-	public OrderMenuItem(Dish dish) {
+	public MenuPanelItem(Dish dish) {
 		setLayout(new GridLayout(4, 4)); //Wrong layout. Change this later
 		this.item = dish;
 		text = new JLabel(item.getName());
@@ -30,10 +30,12 @@ public class OrderMenuItem extends JPanel {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				System.out.println("No har du trykka på " + item.getName() + ", som har prisen " + twoDecimals.format(item.getPrice()) + " kr");
+				System.out.println("Du har valgt " + item.getName() + ", som har prisen " + twoDecimals.format(item.getPrice()) + " kr");
 			}
 		});
 	}
 	
-	
+	public Dish getdish() {
+		return item;
+	}
 }

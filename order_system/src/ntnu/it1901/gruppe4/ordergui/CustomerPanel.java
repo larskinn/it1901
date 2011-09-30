@@ -1,17 +1,50 @@
 package ntnu.it1901.gruppe4.ordergui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Collection;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import ntnu.it1901.gruppe4.db.Customer;
+import ntnu.it1901.gruppe4.db.DataAPI;
+
 public class CustomerPanel extends JPanel {
 	SearchBox nameInput;
 	SearchBox numberInput;
+	CustomerList customerList;
 	private SearchBoxListener listener;
 	private String prevSearch = "";
+	
+	public class CustomerList extends JPanel {
+		/**
+		 * Creates a new CustomerList. Only the CustomerPanel is allowed to do this.
+		 */
+		private CustomerList() {
+			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			setBackground(Color.DARK_GRAY);
+		}
+		
+		/**
+		 * Converts all customers in the given collection to {@link CustomerPanelItem},
+		 * adds them to the {@link CustomerList} and repaints the panel.
+		 *  
+		 * @param customers The customers to be added to the {@link CustomerList}.
+		 */
+		public void addCustomers(Collection<Customer> customers) {
+			removeAll();
+			
+			for (Customer customer : customers) {
+				add(new CustomerPanelItem(customer));
+			}
+			revalidate();
+			repaint();
+		}
+	}
 	
 	private class SearchBoxListener extends KeyAdapter {
 		/*keyReleased() used for searching as getText() does not return the
@@ -24,7 +57,7 @@ public class CustomerPanel extends JPanel {
 			
 			//If the search box is empty, interrupt and restore the list of results
 			if (boxContent.equals("")) {
-				//TODO: Return the customer list to its default view
+				customerList.addCustomers(DataAPI.findCustomers(""));
 				return;
 			}
 			
@@ -48,14 +81,8 @@ public class CustomerPanel extends JPanel {
 				nameInput = tmp;
 			}
 			
-			//Search for name or number using the DataAPI
-			if (source == nameInput) {
-				System.out.println("Searching names for: " + source.getText());
-			}
-			else if (source == numberInput) {
-				System.out.println("Searching numbers for: " + source.getText());
-			}
-			
+			//Search for name / number using the DataAPI
+			customerList.addCustomers(DataAPI.findCustomers(boxContent));	
 			prevSearch = boxContent;
 		}
 	}
@@ -64,16 +91,20 @@ public class CustomerPanel extends JPanel {
 		nameInput = new SearchBox();
 		numberInput = new SearchBox();
 		listener = new SearchBoxListener();
+		customerList = new CustomerList();
 
+		//Add all the customers to the list
+		customerList.addCustomers(DataAPI.findCustomers(""));
+		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-		JPanel filler = new JPanel(); // To be removed
-		filler.setPreferredSize(new Dimension(999, 999));
-
+		
 		add(nameInput);
 		add(Box.createRigidArea(new Dimension(0, 25)));
 		add(numberInput);
-		add(filler);
+		add(Box.createRigidArea(new Dimension(0, 25)));
+		add(customerList);
+		
+		customerList.setPreferredSize(new Dimension(999, 999));
 
 		nameInput.addKeyListener(listener);
 		numberInput.addKeyListener(listener);
