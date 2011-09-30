@@ -225,10 +225,6 @@ public class DataAPI {
 		try {
 			search = search.trim().replace("  ", " ").replace("  ", " ");
 
-			if (search == "") {
-				return null;
-			}
-
 			String[] strings = search.split(" ");
 
 			QueryBuilder<Customer, Integer> qb = customerDao.queryBuilder();
