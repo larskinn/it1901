@@ -18,8 +18,7 @@ public class CustomerPanel extends JPanel {
 	SearchBox numberInput;
 	CustomerList customerList;
 	private SearchBoxListener listener;
-	private String prevSearch = "";
-	
+
 	public class CustomerList extends JPanel {
 		/**
 		 * Creates a new CustomerList. Only the CustomerPanel is allowed to do this.
@@ -61,14 +60,6 @@ public class CustomerPanel extends JPanel {
 				return;
 			}
 			
-			/* Do not search for the same string more than once
-			 * 
-			 * Note: This operation might cost more than its worth. Discuss removing
-			 */
-			if (boxContent.equals(prevSearch)) {
-				return;
-			}
-			
 			/* If the first character in the name box is a number,
 			 * or the first character in the number box is a letter,
 			 * reverse the functions of the search boxes
@@ -82,8 +73,7 @@ public class CustomerPanel extends JPanel {
 			}
 			
 			//Search for name / number using the DataAPI
-			customerList.addCustomers(DataAPI.findCustomers(boxContent));	
-			prevSearch = boxContent;
+			customerList.addCustomers(DataAPI.findCustomers(boxContent));
 		}
 	}
 
