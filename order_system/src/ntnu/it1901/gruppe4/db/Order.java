@@ -23,6 +23,12 @@ public class Order {
 
 	@DatabaseField(useGetSet = true)
 	int state;
+	//	States:
+	//	0: Not saved
+	//	10: Saved
+	//	20: Ready for delivery
+	//	30: In transit
+	//	40: Delivered & paid for
 
 	@DatabaseField(useGetSet = true)
 	float totalAmount;
