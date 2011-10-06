@@ -105,4 +105,11 @@ public class Address {
 	public int getIdAddress() {
 		return idAddress;
 	}
+	
+	public boolean isValid()
+	{
+		if (idCustomer == null) return false;
+		if (!idCustomer.isValid()) return false;
+		return true;
+	}
 }
