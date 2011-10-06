@@ -24,6 +24,9 @@ public class Order {
 	@DatabaseField(useGetSet = true)
 	int state;
 
+	@DatabaseField(useGetSet = true)
+	float totalAmount;
+
 	@DatabaseField(useGetSet = true, foreign = true, canBeNull = false)
 	Address idAddress;
 
@@ -74,5 +77,13 @@ public class Order {
 
 	public void setState(int state) {
 		this.state = state;
+	}
+
+	public float getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(float totalAmount) {
+		this.totalAmount = totalAmount;
 	}
 }
