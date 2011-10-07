@@ -66,7 +66,7 @@ public class OrderMaker {
 	 */
 	public void save() {
 		if (isValid()) {
-			if (hasBeenSaved) {
+			if (!hasBeenSaved) {
 				DataAPI.addOrder(order);
 				hasBeenSaved = true;
 			} else {
