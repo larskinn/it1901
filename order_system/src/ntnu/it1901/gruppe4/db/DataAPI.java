@@ -415,6 +415,42 @@ public class DataAPI {
 	}
 
 	/**
+	 * Saves changes to an existing order in the database
+	 * 
+	 * @param order
+	 *            a reference to the Order object containing the data to be
+	 *            updated
+	 */
+	public static void updateOrder(Order order) {
+		try {
+			orderDao.update(order);
+		} catch (SQLException e) {
+			System.err.println("Error updating order: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * Removes an existing order in the database
+	 * 
+	 * @param order
+	 *            a reference to the Order object containing the data to be
+	 *            removed
+	 */
+	public static void remOrder(Order order) {
+		try {
+			// First remove all the orderItems
+			List<OrderItem> orderItems = getOrderItems(order);
+			for (OrderItem item : orderItems) {
+				remOrderItem(item);
+			}
+			// Then remove the order
+			orderDao.delete(order);
+		} catch (SQLException e) {
+			System.err.println("Error removing order: " + e.getMessage());
+		}
+	}
+
+	/**
 	 * Fetches order data and stores it in a Order object
 	 * 
 	 * @param id
@@ -429,6 +465,21 @@ public class DataAPI {
 		} catch (SQLException e) {
 			System.err.println("Error fetching order: " + e.getMessage());
 			return null;
+		}
+	}
+
+	/**
+	 * Saves changes to an existing orderItem in the database
+	 * 
+	 * @param orderitem
+	 *            a reference to the OrderItem object containing the data to be
+	 *            updated
+	 */
+	public static void updateOrderItem(OrderItem orderitem) {
+		try {
+			orderItemDao.update(orderitem);
+		} catch (SQLException e) {
+			System.err.println("Error storing orderitem: " + e.getMessage());
 		}
 	}
 
@@ -485,7 +536,7 @@ public class DataAPI {
 	 * Fetches a list of order items associated with an order
 	 * 
 	 * @param order
-	 *            the order item the order items should be associated with
+	 *            the order the order items should be associated with
 	 * @return a reference to a List<OrderItem> containing the order items
 	 */
 	public static List<OrderItem> getOrderItems(Order order) {
