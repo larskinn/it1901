@@ -23,6 +23,7 @@ public class OrderMaker {
 	private List<OrderItem> updateQue; // items to be updated next time we save
 
 	private boolean hasBeenSaved;
+	private boolean hasBeenModified;
 
 	/**
 	 * Creates a new OrderMaker and a new unsaved Order
@@ -35,6 +36,7 @@ public class OrderMaker {
 		updateQue = new ArrayList<OrderItem>();
 		order.setState(0);
 		hasBeenSaved = false;
+		hasBeenModified = true;
 		calculatePrice();
 	}
 
@@ -51,6 +53,7 @@ public class OrderMaker {
 		remQue = new ArrayList<OrderItem>();
 		updateQue = new ArrayList<OrderItem>();
 		hasBeenSaved = true;
+		hasBeenModified = false;
 		if (canBeChanged()) {
 			calculatePrice();
 		}
@@ -81,6 +84,7 @@ public class OrderMaker {
 			addQue.clear();
 			remQue.clear();
 			updateQue.clear();
+			hasBeenModified = false;
 		}
 	}
 
@@ -130,6 +134,7 @@ public class OrderMaker {
 			orderItems.add(newOrderItem);
 			addQue.add(newOrderItem);
 			calculatePrice();
+			hasBeenModified = true;
 			return newOrderItem;
 		} else {
 			throw new RuntimeException("Order cannot be changed at this time.");
@@ -178,6 +183,7 @@ public class OrderMaker {
 			remQue.add(orderItems.get(index));
 			orderItems.remove(index);
 			calculatePrice();
+			hasBeenModified = true;
 		} else {
 			throw new RuntimeException("Order cannot be changed at this time.");
 		}
@@ -194,6 +200,7 @@ public class OrderMaker {
 			orderItems.remove(item);
 			remQue.add(item);
 			calculatePrice();
+			hasBeenModified = true;
 		} else {
 			throw new RuntimeException("Order cannot be changed at this time.");
 		}
@@ -211,6 +218,7 @@ public class OrderMaker {
 			if (orderItems.contains(item)) {
 				updateQue.add(item);
 				calculatePrice();
+				hasBeenModified = true;
 			}
 		} else {
 			throw new RuntimeException("Order cannot be changed at this time.");
@@ -235,5 +243,14 @@ public class OrderMaker {
 	 */
 	public Order getOrder() {
 		return order;
+	}
+
+	/**
+	 * Determines if the order has been modified.
+	 * 
+	 * @return TRUE if it has been modified, FALSE if not.
+	 */
+	public boolean isModified() {
+		return hasBeenModified;
 	}
 }
