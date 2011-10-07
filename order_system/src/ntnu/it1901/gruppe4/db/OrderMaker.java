@@ -66,6 +66,7 @@ public class OrderMaker {
 	 */
 	public void save() {
 		if (isValid()) {
+			order.setState(10); // Placed, ready for chef review
 			if (!hasBeenSaved) {
 				DataAPI.addOrder(order);
 				hasBeenSaved = true;
@@ -85,6 +86,8 @@ public class OrderMaker {
 			remQue.clear();
 			updateQue.clear();
 			hasBeenModified = false;
+		} else {
+			throw new RuntimeException("Order is invalid.");
 		}
 	}
 

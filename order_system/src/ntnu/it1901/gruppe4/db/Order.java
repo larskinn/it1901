@@ -23,22 +23,22 @@ public class Order {
 
 	@DatabaseField(useGetSet = true)
 	int state;
-	//	States:
-	//	0: Not saved
-	//	10: Saved
-	//	20: Ready for delivery
-	//	30: In transit
-	//	40: Delivered & paid for
+	// States:
+	// 0: Not saved
+	// 10: Saved
+	// 20: Ready for delivery
+	// 30: In transit
+	// 40: Delivered & paid for
 
 	@DatabaseField(useGetSet = true)
 	float totalAmount;
 
+	// PS: The idAddress object might not actually contain the data. The
+	// idAddress object will be an Address object without any id, except for the
+	// idAddress field. This is it's only use, and it's used by DataAPI.
+
 	@DatabaseField(useGetSet = true, foreign = true, canBeNull = false)
 	Address idAddress;
-
-	// PS: We determine customer trough address
-	// @DatabaseField(useGetSet = true, foreign = true, canBeNull = false)
-	// int idcustomer;
 
 	public Order() {
 	}

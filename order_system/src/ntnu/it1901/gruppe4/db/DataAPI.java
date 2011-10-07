@@ -109,44 +109,43 @@ public class DataAPI {
 	 */
 	public static void createExampleData() {
 		try {
-			Customer c = new Customer("Eksempel Eksempelsen", "512256128");
-			Customer c1 = new Customer("Finn", "2002");
-			Customer c2 = new Customer("Jake", "1001");
-			Customer c3 = new Customer("Princess Bubblegum", "3003");
-
-			Address a1 = new Address(c, "Internettveien 64", 1024);
-			Address a2 = new Address(c, "Addresseveien 32", 2048);
-
-			Address a3 = new Address(c1, "Land of Ooo", 5000);
-			Address a4 = new Address(c2, "Land of Ooo", 5000);
-			Address a5 = new Address(c3, "Candy Kingdom", 7000);
-
-			Dish d1 = new Dish("Pizza Capriciosa", 50, "Skinke & Champignon",
-					true);
-			Dish d2 = new Dish("Pizza Pepperoni", 52, "Pepperoni; nom nom",
-					true);
-			Dish d3 = new Dish("Hårete pizza", 35,
-					"Billigere, men med spesiell topping", true);
-			Dish d4 = new Dish("Krempizza", 60, "Bløtkake på pizzabunn", true);
-			Dish d5 = new Dish("Kokkens spesial", 70,
-					"Med kokkens spesialsaus", true);
-			Dish d6 = new Dish("Coca Cola 1.5L", 40,
-					"Din favorittbrus, en-og-en-halv-liter", true);
-			Dish d7 = new Dish("Rømmedressing", 25, "Plastskei ikke inkludert",
-					true);
-			Dish d8 = new Dish("Plastskei", 2, "Trengs til saus/dressing", true);
-			Dish d9 = new Dish("Serviett", 10,
-					"Luksusserviett av stoff. Sydd av barn i Bangladesh", true);
-
-			Order o = new Order(a1);
-
-			OrderItem oi1 = new OrderItem(o, d1);
-			OrderItem oi2 = new OrderItem(o, d2);
-			OrderItem oi3 = new OrderItem(o, d2);
+			Customer c = new Customer("Eksemplus Eksempelsen", "512256128");
 
 			List<Customer> cl = customerDao.queryForMatching(c);
 
 			if (cl == null || cl.size() == 0) {
+
+				Customer c1 = new Customer("Finn", "2002");
+				Customer c2 = new Customer("Jake", "1001");
+				Customer c3 = new Customer("Princess Bubblegum", "3003");
+
+				Address a1 = new Address(c, "Internettveien 64", 1024);
+				Address a2 = new Address(c, "Addresseveien 32", 2048);
+
+				Address a3 = new Address(c1, "Land of Ooo", 5000);
+				Address a4 = new Address(c2, "Land of Ooo", 5000);
+				Address a5 = new Address(c3, "Candy Kingdom", 7000);
+
+				Dish d1 = new Dish("Pizza Capriciosa", 50,
+						"Skinke & Champignon", true);
+				Dish d2 = new Dish("Pizza Pepperoni", 52, "Pepperoni; nom nom",
+						true);
+				Dish d3 = new Dish("Hårete pizza", 35,
+						"Billigere, men med spesiell topping", true);
+				Dish d4 = new Dish("Krempizza", 60, "Bløtkake på pizzabunn",
+						true);
+				Dish d5 = new Dish("Kokkens spesial", 70,
+						"Med kokkens spesialsaus", true);
+				Dish d6 = new Dish("Coca Cola 1.5L", 40,
+						"Din favorittbrus, en-og-en-halv-liter", true);
+				Dish d7 = new Dish("Rømmedressing", 25,
+						"Plastskei ikke inkludert", true);
+				Dish d8 = new Dish("Plastskei", 2, "Trengs til saus/dressing",
+						true);
+				Dish d9 = new Dish("Serviett", 10,
+						"Luksusserviett av stoff. Sydd av barn i Bangladesh",
+						true);
+
 				addCustomer(c);
 				addCustomer(c1);
 				addCustomer(c2);
@@ -165,10 +164,15 @@ public class DataAPI {
 				addDish(d7);
 				addDish(d8);
 				addDish(d9);
-				addOrder(o);
-				addOrderItem(oi1);
-				addOrderItem(oi2);
-				addOrderItem(oi3);
+
+				OrderMaker om = new OrderMaker();
+				Order o = om.getOrder();
+				o.setIdAddress(a1);
+				om.addItem(d3);
+				om.addItem(d4);
+				om.addItem(d5);
+				om.save();
+
 				System.out.println("[Debug] Inserted example data");
 			} else {
 				System.out.println("[Debug] Example data already present");
@@ -227,6 +231,25 @@ public class DataAPI {
 			return customerDao.queryForId(id);
 		} catch (SQLException e) {
 			System.err.println("Error fetching customer: " + e.getMessage());
+			return null;
+		}
+	}
+
+	/**
+	 * Fetches customer data and stores it in a Customer object
+	 * 
+	 * @param address
+	 *            an Address object containing a reference to a Customer object
+	 *            containing the unique ID of the customer.
+	 * @return a reference to a new Customer object containing the data
+	 */
+	public static Customer getCustomer(Address address) {
+		try {
+			if (address == null)
+				return null;
+			return customerDao.queryForId(address.getIdCustomer().getIdCustomer());
+		} catch (SQLException e) {
+			System.err.println("Error fetching customer by address: " + e.getMessage());
 			return null;
 		}
 	}
@@ -304,6 +327,25 @@ public class DataAPI {
 			return addressDao.queryForId(id);
 		} catch (SQLException e) {
 			System.err.println("Error fetching address: " + e.getMessage());
+			return null;
+		}
+	}
+
+	/**
+	 * Fetches address associated with an order
+	 * 
+	 * @param order
+	 *            an Order object containing an Address object containing the id
+	 * @return a reference to a new Address object containing the data
+	 */
+	public static Address getAddress(Order order) {
+		try {
+			if (order == null)
+				return null;
+			return addressDao.queryForId(order.getIdAddress().getIdAddress());
+		} catch (SQLException e) {
+			System.err.println("Error fetching address by order: "
+					+ e.getMessage());
 			return null;
 		}
 	}
@@ -469,6 +511,19 @@ public class DataAPI {
 	}
 
 	/**
+	 * Fetches a list of orders
+	 * 
+	 */
+	public static List<Order> getOrders() {
+		try {
+			return orderDao.queryForAll();
+		} catch (SQLException e) {
+			System.err.println("Error fetching order: " + e.getMessage());
+			return null;
+		}
+	}
+
+	/**
 	 * Saves changes to an existing orderItem in the database
 	 * 
 	 * @param orderitem
@@ -541,7 +596,7 @@ public class DataAPI {
 	 */
 	public static List<OrderItem> getOrderItems(Order order) {
 		try {
-			return orderItemDao.queryForEq("idOrder", order.getIdOrder());
+			return orderItemDao.queryForEq("idOrder_id", order.getIdOrder());
 		} catch (SQLException e) {
 			System.err.println("Error fetching order items: " + e.getMessage());
 			return null;
