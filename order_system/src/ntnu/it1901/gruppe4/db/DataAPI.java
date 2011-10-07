@@ -116,7 +116,7 @@ public class DataAPI {
 
 			Address a1 = new Address(c, "Internettveien 64", 1024);
 			Address a2 = new Address(c, "Addresseveien 32", 2048);
-			
+
 			Address a3 = new Address(c1, "Land of Ooo", 5000);
 			Address a4 = new Address(c2, "Land of Ooo", 5000);
 			Address a5 = new Address(c3, "Candy Kingdom", 7000);
@@ -125,14 +125,18 @@ public class DataAPI {
 					true);
 			Dish d2 = new Dish("Pizza Pepperoni", 52, "Pepperoni; nom nom",
 					true);
-			Dish d3 = new Dish("Hårete pizza", 35, "Billigere, men med spesiell topping", true);
+			Dish d3 = new Dish("Hårete pizza", 35,
+					"Billigere, men med spesiell topping", true);
 			Dish d4 = new Dish("Krempizza", 60, "Bløtkake på pizzabunn", true);
-			Dish d5 = new Dish("Kokkens spesial", 70, "Med kokkens spesialsaus", true);
-			Dish d6 = new Dish("Coca Cola 1.5L", 40, "Din favorittbrus, en-og-en-halv-liter", true);
-			Dish d7 = new Dish("Rømmedressing", 25, "Plastskei ikke inkludert", true);
+			Dish d5 = new Dish("Kokkens spesial", 70,
+					"Med kokkens spesialsaus", true);
+			Dish d6 = new Dish("Coca Cola 1.5L", 40,
+					"Din favorittbrus, en-og-en-halv-liter", true);
+			Dish d7 = new Dish("Rømmedressing", 25, "Plastskei ikke inkludert",
+					true);
 			Dish d8 = new Dish("Plastskei", 2, "Trengs til saus/dressing", true);
-			Dish d9 = new Dish("Serviett", 10, "Luksusserviett av stoff. Sydd av barn i Bangladesh", true);
-			
+			Dish d9 = new Dish("Serviett", 10,
+					"Luksusserviett av stoff. Sydd av barn i Bangladesh", true);
 
 			Order o = new Order(a1);
 
@@ -444,6 +448,21 @@ public class DataAPI {
 	}
 
 	/**
+	 * Stores an orderitem from the database
+	 * 
+	 * @param orderitem
+	 *            a reference to the OrderItem object containing the data to be
+	 *            removed
+	 */
+	public static void remOrderItem(OrderItem orderitem) {
+		try {
+			orderItemDao.delete(orderitem);
+		} catch (SQLException e) {
+			System.err.println("Error removing orderitem: " + e.getMessage());
+		}
+	}
+
+	/**
 	 * Fetches order item data and stores it in a OrderItem object
 	 * 
 	 * @param id
@@ -458,6 +477,22 @@ public class DataAPI {
 			return orderItemDao.queryForId(id);
 		} catch (SQLException e) {
 			System.err.println("Error fetching order item: " + e.getMessage());
+			return null;
+		}
+	}
+
+	/**
+	 * Fetches a list of order items associated with an order
+	 * 
+	 * @param order
+	 *            the order item the order items should be associated with
+	 * @return a reference to a List<OrderItem> containing the order items
+	 */
+	public static List<OrderItem> getOrderItems(Order order) {
+		try {
+			return orderItemDao.queryForEq("idOrder", order.getIdOrder());
+		} catch (SQLException e) {
+			System.err.println("Error fetching order items: " + e.getMessage());
 			return null;
 		}
 	}
