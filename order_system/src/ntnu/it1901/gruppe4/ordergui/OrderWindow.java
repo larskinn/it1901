@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,7 +17,7 @@ public class OrderWindow implements ActionListener {
 	private ButtonPanel buttonPanel;
 	private MenuPanel menuPanel;
 	private CustomerPanel customerPanel;
-	private AddressPanel addressPanel;
+	private OrderHistoryPanel orderHistoryPanel;
 	private JPanel currentPanel;
 	private OrderSummary orderSummary;
 	private ResizeListener resizeListener;
@@ -39,7 +38,7 @@ public class OrderWindow implements ActionListener {
 	}
 
 	public enum View {
-		MENU, CUSTOMER, ADDRESS;
+		MENU, CUSTOMER, HISTORY;
 	}
 
 	public static void main(String[] args) {
@@ -55,7 +54,7 @@ public class OrderWindow implements ActionListener {
 		frame = new JFrame();
 		menuPanel = new MenuPanel();
 		customerPanel = new CustomerPanel();
-		addressPanel = new AddressPanel();
+		orderHistoryPanel = new OrderHistoryPanel();
 		buttonPanel = new ButtonPanel(this);
 		orderSummary = new OrderSummary();
 		resizeListener = new ResizeListener();
@@ -63,7 +62,7 @@ public class OrderWindow implements ActionListener {
 		orderSummary.addComponentListener(resizeListener);
 		menuPanel.addComponentListener(resizeListener);
 		customerPanel.addComponentListener(resizeListener);
-		addressPanel.addComponentListener(resizeListener);
+		orderHistoryPanel.addComponentListener(resizeListener);
 		
 		frame.setSize(800, 600);
 		frame.setLayout(new BorderLayout());
@@ -94,9 +93,9 @@ public class OrderWindow implements ActionListener {
 				frame.add(customerPanel, BorderLayout.CENTER);
 				currentPanel = customerPanel;
 				break;
-			case ADDRESS:
-				frame.add(addressPanel, BorderLayout.CENTER);
-				currentPanel = addressPanel;
+			case HISTORY:
+				frame.add(orderHistoryPanel, BorderLayout.CENTER);
+				currentPanel = orderHistoryPanel;
 				break;
 		}
 		currentPanel.revalidate(); //Check if the panel has all its components loaded
@@ -114,11 +113,8 @@ public class OrderWindow implements ActionListener {
 		else if (src == buttonPanel.customer) {
 			changeView(View.CUSTOMER);
 		}
-		else if (src == buttonPanel.address) {
-			changeView(View.ADDRESS);
-		}
-		else if (src == buttonPanel.done) {
-			buttonPanel.done.setText("NOT YET IMPLEMENTED");
+		else if (src == buttonPanel.history) {
+			changeView(View.HISTORY);
 		}
 	}
 }

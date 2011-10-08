@@ -1,6 +1,5 @@
 package ntnu.it1901.gruppe4.ordergui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -25,7 +24,6 @@ public class CustomerPanel extends JPanel {
 		 */
 		private CustomerList() {
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-			setBackground(Color.DARK_GRAY);
 		}
 		
 		/**

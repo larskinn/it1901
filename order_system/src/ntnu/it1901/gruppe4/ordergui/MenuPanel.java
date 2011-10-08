@@ -1,17 +1,15 @@
 package ntnu.it1901.gruppe4.ordergui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.db.DataAPI;
@@ -22,12 +20,12 @@ public class MenuPanel extends JPanel {
 	OrderMenu orderMenu;
 	
 	public class OrderMenu extends JPanel {
+		private List<MenuPanelItem> allDishes = new ArrayList<MenuPanelItem>();
 		/**
 		 * Creates a new OrderMenu. Only the MenuPanel is allowed to do this.
 		 */
 		private OrderMenu() {
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-			setBackground(Color.DARK_GRAY);
 		}
 		
 		/**
@@ -38,10 +36,24 @@ public class MenuPanel extends JPanel {
 		 */
 		public void addDishes(Collection<Dish> dishes) {
 			removeAll();
+			allDishes.clear();
+			int dishesAdded = 0;
 			
 			for (Dish dish : dishes) {
-				add(new MenuPanelItem(dish));
+				allDishes.add(new MenuPanelItem(dish));
+				if (dishesAdded < 6) {
+					add(allDishes.get(dishesAdded));
+					dishesAdded++;
+				}
 			}
+			
+
+			while (dishesAdded < 6) {
+				add(new MenuPanelItem(null));
+				dishesAdded++;
+			}
+			
+			
 			revalidate();
 			repaint();
 		}
