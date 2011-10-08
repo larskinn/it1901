@@ -28,7 +28,7 @@ public class OrderMaker {
 	/**
 	 * Creates a new OrderMaker and a new unsaved Order
 	 */
-	OrderMaker() {
+	public OrderMaker() {
 		order = new Order();
 		orderItems = new ArrayList<OrderItem>();
 		addQue = new ArrayList<OrderItem>();
@@ -46,7 +46,7 @@ public class OrderMaker {
 	 * @param order
 	 *            The order to be modified using this OrderMaker object
 	 */
-	OrderMaker(Order order) {
+	public OrderMaker(Order order) {
 		this.order = order;
 		orderItems = DataAPI.getOrderItems(order);
 		addQue = new ArrayList<OrderItem>();
