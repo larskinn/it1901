@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.db.DataAPI;
-import ntnu.it1901.gruppe4.db.OrderMaker;
 
 public class OrderWindow implements ActionListener {
 	private JFrame frame;
@@ -23,7 +22,6 @@ public class OrderWindow implements ActionListener {
 	private JPanel currentPanel;
 	private OrderSummary orderSummary;
 	private ResizeListener resizeListener;
-	private OrderMaker orderMaker;
 	
 	private class ResizeListener extends ComponentAdapter {
 		public void componentResized(ComponentEvent e) {
@@ -61,7 +59,6 @@ public class OrderWindow implements ActionListener {
 		orderHistoryPanel = new OrderHistoryPanel();
 		buttonPanel = new ButtonPanel(this);
 		resizeListener = new ResizeListener();
-		orderMaker = new OrderMaker();
 		
 		orderSummary.addComponentListener(resizeListener);
 		menuPanel.addComponentListener(resizeListener);

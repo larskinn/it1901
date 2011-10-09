@@ -70,12 +70,12 @@ public class MenuPanel extends JPanel {
 		//Add some space between the searchBox and the orderMenu
 		add(Box.createRigidArea(new Dimension(0, 25)));
 		
+		add(orderMenu);
+		add(Box.createVerticalStrut(999)); //Force menuSearch to its minimum size
+		
 		//Add all the dishes to the menu
 		orderMenu.addDishes(DataAPI.findDishes(""));
-		
-		//HACK: Prevent the menuSearch from becoming huge. Probable fix known, to be implemented later
-		orderMenu.setPreferredSize(new Dimension(999, 999));
-		add(orderMenu);
+
 
 		menuSearch.addKeyListener(new KeyAdapter() {
 			/*keyReleased() used for searching as getText() does not return the

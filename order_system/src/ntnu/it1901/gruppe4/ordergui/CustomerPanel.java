@@ -100,12 +100,11 @@ public class CustomerPanel extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		add(nameInput);
-		add(Box.createRigidArea(new Dimension(0, 25)));
-		add(numberInput);
+//		add(Box.createRigidArea(new Dimension(0, 25)));
+//		add(numberInput);
 		add(Box.createRigidArea(new Dimension(0, 25)));
 		add(customerList);
-		
-		customerList.setPreferredSize(new Dimension(999, 999));
+		add(Box.createVerticalStrut(999)); //Force nameInput to its minimum size
 
 		nameInput.addKeyListener(listener);
 		numberInput.addKeyListener(listener);
