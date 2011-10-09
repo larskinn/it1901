@@ -229,6 +229,33 @@ public class OrderMaker {
 	}
 
 	/**
+	 * Sets the address to deliver to. The object will be re-instantiated and
+	 * assigned.
+	 * 
+	 * @param address
+	 *            A reference to the Address-object.
+	 */
+	public void setAddress(Address address) {
+		if (canBeChanged()) {
+			order.setIdAddress(DataAPI.getAddress(address.getIdAddress()));
+			hasBeenModified = true;
+		}
+	}
+
+	/**
+	 * Returns the address assigned to this order, or null if none is assigned.
+	 * 
+	 * @return an Address-object or null
+	 */
+	public Address getAddress() {
+		if (order.getIdAddress() == null) {
+			return null;
+		} else {
+			return order.getIdAddress();
+		}
+	}
+
+	/**
 	 * Returns an unmodifiable list of all the order items. If you wish to
 	 * modify the list, use addItem, remItem and updateItem.
 	 * 
