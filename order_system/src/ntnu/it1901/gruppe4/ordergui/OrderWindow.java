@@ -6,11 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.db.DataAPI;
+import ntnu.it1901.gruppe4.db.OrderMaker;
 
 public class OrderWindow implements ActionListener {
 	private JFrame frame;
@@ -21,6 +23,7 @@ public class OrderWindow implements ActionListener {
 	private JPanel currentPanel;
 	private OrderSummary orderSummary;
 	private ResizeListener resizeListener;
+	private OrderMaker orderMaker;
 	
 	private class ResizeListener extends ComponentAdapter {
 		public void componentResized(ComponentEvent e) {
@@ -52,12 +55,13 @@ public class OrderWindow implements ActionListener {
 
 	public OrderWindow() {
 		frame = new JFrame();
-		menuPanel = new MenuPanel();
-		customerPanel = new CustomerPanel();
+		orderSummary = new OrderSummary();
+		menuPanel = new MenuPanel(orderSummary);
+		customerPanel = new CustomerPanel(orderSummary);
 		orderHistoryPanel = new OrderHistoryPanel();
 		buttonPanel = new ButtonPanel(this);
-		orderSummary = new OrderSummary();
 		resizeListener = new ResizeListener();
+		orderMaker = new OrderMaker();
 		
 		orderSummary.addComponentListener(resizeListener);
 		menuPanel.addComponentListener(resizeListener);
@@ -100,6 +104,10 @@ public class OrderWindow implements ActionListener {
 		}
 		currentPanel.revalidate(); //Check if the panel has all its components loaded
 		frame.repaint(); //Repaint the frame and all its components
+	}
+	
+	public OrderSummary getOrderSummary() {
+		return orderSummary;
 	}
 
 	//Fired whenever a button in ButtonPanel is pressed

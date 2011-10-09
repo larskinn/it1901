@@ -3,6 +3,8 @@ package ntnu.it1901.gruppe4.ordergui;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Collection;
 
 import javax.swing.Box;
@@ -17,6 +19,7 @@ public class CustomerPanel extends JPanel {
 	SearchBox numberInput;
 	CustomerList customerList;
 	private SearchBoxListener listener;
+	private OrderSummary currentOrder;
 
 	public class CustomerList extends JPanel {
 		/**
@@ -35,8 +38,17 @@ public class CustomerPanel extends JPanel {
 		public void addCustomers(Collection<Customer> customers) {
 			removeAll();
 			
-			for (Customer customer : customers) {
-				add(new CustomerPanelItem(customer));
+			for (final Customer customer : customers) {
+				CustomerPanelItem item = new CustomerPanelItem(customer);
+				
+				//Fired whenever a customer panel item is clicked
+				item.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mousePressed(MouseEvent e) {
+						CustomerPanel.this.currentOrder.setCustomer(customer);
+					}
+				});
+				add(item);
 			}
 			revalidate();
 			repaint();
@@ -75,7 +87,8 @@ public class CustomerPanel extends JPanel {
 		}
 	}
 
-	public CustomerPanel() {
+	public CustomerPanel(OrderSummary orderSummary) {
+		currentOrder = orderSummary;
 		nameInput = new SearchBox();
 		numberInput = new SearchBox();
 		listener = new SearchBoxListener();

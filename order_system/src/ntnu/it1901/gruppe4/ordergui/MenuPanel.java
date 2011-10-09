@@ -4,9 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Collection;
-import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,9 +18,13 @@ import ntnu.it1901.gruppe4.db.Dish;
 public class MenuPanel extends JPanel {
 	SearchBox menuSearch;
 	OrderMenu orderMenu;
+
+	private OrderSummary currentOrder;
 	
-	public class OrderMenu extends JPanel {
-		private List<MenuPanelItem> allDishes = new ArrayList<MenuPanelItem>();
+	/**
+	 * This inner class of {@link MenuPanel} is a container for all {@link MenuPanelItem}.
+	 */
+	private class OrderMenu extends JPanel {		
 		/**
 		 * Creates a new OrderMenu. Only the MenuPanel is allowed to do this.
 		 */
@@ -36,30 +40,26 @@ public class MenuPanel extends JPanel {
 		 */
 		public void addDishes(Collection<Dish> dishes) {
 			removeAll();
-			allDishes.clear();
-			int dishesAdded = 0;
 			
-			for (Dish dish : dishes) {
-				allDishes.add(new MenuPanelItem(dish));
-				if (dishesAdded < 6) {
-					add(allDishes.get(dishesAdded));
-					dishesAdded++;
-				}
+			for (final Dish dish : dishes) {
+				MenuPanelItem item = new MenuPanelItem(dish);
+				
+				//Fired whenever an item panel is clicked
+				item.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						MenuPanel.this.currentOrder.addItem(dish);
+					}
+				});
+				
+				add(item); //Add the item panel to the frame
 			}
-			
-
-			while (dishesAdded < 6) {
-				add(new MenuPanelItem(null));
-				dishesAdded++;
-			}
-			
-			
 			revalidate();
 			repaint();
 		}
 	}
 	
-	public MenuPanel() {
+	public MenuPanel(OrderSummary orderSummary) {
+		currentOrder = orderSummary;
 		menuSearch = new SearchBox();
 		orderMenu = new OrderMenu();
 		setLayout(new BorderLayout());
