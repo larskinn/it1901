@@ -121,7 +121,7 @@ public class DataAPI {
 
 				Address a1 = new Address(c, "Internettveien 64", 1024);
 				Address a2 = new Address(c, "Addresseveien 32", 2048);
-
+				
 				Address a3 = new Address(c1, "Land of Ooo", 5000);
 				Address a4 = new Address(c2, "Land of Ooo", 5000);
 				Address a5 = new Address(c3, "Candy Kingdom", 7000);
@@ -215,13 +215,27 @@ public class DataAPI {
 			System.err.println("Error storing customer: " + e.getMessage());
 		}
 	}
+	
+	/**
+	 * Saves changes to an existing customer in the database
+	 * 
+	 * @param c
+	 *            a reference to the updated Customer object
+	 */
+	public static void updateCustomer(Customer c) {
+		try {
+			customerDao.update(c);
+		} catch (SQLException e) {
+			System.err.println("Error updating customer: " + e.getMessage());
+		}
+	}
 
 	/**
 	 * Fetches customer data and stores it in a Customer object
 	 * 
 	 * @param id
 	 *            unique ID used to identify a customer in the database
-	 *            (idcustomer)
+	 *            (idCustomer)
 	 * @return a reference to a new Customer object containing the data
 	 */
 	public static Customer getCustomer(int id) {
@@ -311,13 +325,27 @@ public class DataAPI {
 			System.err.println("Error storing address: " + e.getMessage());
 		}
 	}
+	
+	/**
+	 * Saves changes to an existing address in the database
+	 * 
+	 * @param a
+	 *            a reference to the updated Address object
+	 */
+	public static void updateAddress(Address a) {
+		try {
+			addressDao.update(a);
+		} catch (SQLException e) {
+			System.err.println("Error updating address: " + e.getMessage());
+		}
+	}
 
 	/**
 	 * Fetches address data and stores it in a Address object
 	 * 
 	 * @param id
 	 *            a unique ID used to identify an address in the database
-	 *            (idaddress)
+	 *            (idAddress)
 	 * @return a reference to a new Address object containing the data
 	 */
 	public static Address getAddress(int id) {
@@ -404,12 +432,26 @@ public class DataAPI {
 			System.err.println("Error storing dish: " + e.getMessage());
 		}
 	}
-
+	
+	/**
+	 * Saves changes to an existing dish in the database
+	 * 
+	 * @param dish
+	 *            a reference to the updated Dish object
+	 */
+	public static void updateDish(Dish dish) {
+		try {
+			dishDao.update(dish);
+		} catch (SQLException e) {
+			System.err.println("Error updating dish: " + e.getMessage());
+		}
+	}
+	
 	/**
 	 * Fetches dish data and stores it in a Dish object
 	 * 
 	 * @param id
-	 *            a unique ID used to identify an dish in the database (iddish)
+	 *            a unique ID used to identify an dish in the database (idDish)
 	 * @return a reference to a new Dish object containing the data
 	 */
 	public static Dish getDish(int id) {
@@ -460,8 +502,7 @@ public class DataAPI {
 	 * Saves changes to an existing order in the database
 	 * 
 	 * @param order
-	 *            a reference to the Order object containing the data to be
-	 *            updated
+	 *            a reference to the updated Order object
 	 */
 	public static void updateOrder(Order order) {
 		try {
@@ -496,7 +537,7 @@ public class DataAPI {
 	 * Fetches order data and stores it in a Order object
 	 * 
 	 * @param id
-	 *            a unique ID used to identify an dish in the database (idorder)
+	 *            a unique ID used to identify an dish in the database (idOrder)
 	 * @return a reference to a new Order object containing the data
 	 */
 	public static Order getOrder(int id) {
@@ -524,45 +565,44 @@ public class DataAPI {
 	}
 
 	/**
-	 * Saves changes to an existing orderItem in the database
+	 * Saves changes to an existing OrderItem in the database
 	 * 
-	 * @param orderitem
-	 *            a reference to the OrderItem object containing the data to be
-	 *            updated
+	 * @param orderItem
+	 *            a reference to the updated OrderItem object
 	 */
-	public static void updateOrderItem(OrderItem orderitem) {
+	public static void updateOrderItem(OrderItem orderItem) {
 		try {
-			orderItemDao.update(orderitem);
+			orderItemDao.update(orderItem);
 		} catch (SQLException e) {
-			System.err.println("Error storing orderitem: " + e.getMessage());
+			System.err.println("Error updating orderitem: " + e.getMessage());
 		}
 	}
 
 	/**
-	 * Stores a new orderitem to the database
+	 * Stores a new OrderItem to the database
 	 * 
-	 * @param orderitem
+	 * @param orderItem
 	 *            a reference to the OrderItem object containing the data to be
 	 *            stored
 	 */
-	public static void addOrderItem(OrderItem orderitem) {
+	public static void addOrderItem(OrderItem orderItem) {
 		try {
-			orderItemDao.create(orderitem);
+			orderItemDao.create(orderItem);
 		} catch (SQLException e) {
 			System.err.println("Error storing orderitem: " + e.getMessage());
 		}
 	}
 
 	/**
-	 * Stores an orderitem from the database
+	 * Stores an OrderItem from the database
 	 * 
-	 * @param orderitem
+	 * @param orderItem
 	 *            a reference to the OrderItem object containing the data to be
 	 *            removed
 	 */
-	public static void remOrderItem(OrderItem orderitem) {
+	public static void remOrderItem(OrderItem orderItem) {
 		try {
-			orderItemDao.delete(orderitem);
+			orderItemDao.delete(orderItem);
 		} catch (SQLException e) {
 			System.err.println("Error removing orderitem: " + e.getMessage());
 		}
@@ -573,7 +613,7 @@ public class DataAPI {
 	 * 
 	 * @param id
 	 *            a unique ID used to identify an dish in the database
-	 *            (idorderitem)
+	 *            (idOrderItem)
 	 * @return a reference to a new OrderItem object containing the data
 	 */
 	public static OrderItem getOrderItem(int id) {
