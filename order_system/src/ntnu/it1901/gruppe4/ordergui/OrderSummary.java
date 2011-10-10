@@ -73,8 +73,8 @@ public class OrderSummary extends JPanel {
 				saveOrder();
 			}
 		});
-		//Note: saveButton size is currently 67, 26 - and it cannot be resized for some reason
-
+		//Todo: saveButton size is currently 67, 26 - and it cannot be resized for some reason
+		
 		setCustomer(null);
 		update();
 	}
@@ -125,14 +125,13 @@ public class OrderSummary extends JPanel {
 
 		if (customer == null) {
 			text = new JLabel("<html>Denne orderen er ikke knyttet til noen kunde." +
-										"<br><br><br><br><br><br><br><br></html>");		
+										"<br><br><br><br><br></html>");		
 		}
 		else {
 			//The system does not currently support more than one address per customer.
 			Address address = DataAPI.getAddresses(customer).get(0);
 			
-			text = new JLabel("<html> <table> <tr> <td>" +
-					"Denne orderen er knyttet til:<br><br> </td> </tr>" +
+			text = new JLabel("<html> <table>" +
 					"<tr> <td> Navn:</td> <td>" + customer.getName() + "</td> </tr>" +
 					"<tr> <td> Telefon:</td> <td>" + customer.getPhone() + "</td> </tr>" +
 					"<tr> <td> Adresse:</td> <td>" + address.getAddressLine() + "</td> </tr>" +
@@ -197,8 +196,7 @@ public class OrderSummary extends JPanel {
 		this.customer = customer;
 		
 		if (customer == null) {
-			//FIXME: Uncomment the below line
-			//currentOrder.setAddress(null);
+			currentOrder.setAddress(null);
 		}
 		else {
 			currentOrder.setAddress(DataAPI.getAddresses(customer).get(0));
