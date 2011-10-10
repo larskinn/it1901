@@ -3,7 +3,6 @@ package ntnu.it1901.gruppe4.ordergui;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,16 +16,19 @@ public class MenuPanelItem extends JPanel {
 	public MenuPanelItem(Dish dish) {
 		this.item = dish;
 		name = new JLabel(item.getName());
-		price = new JLabel(Float.toString(item.getPrice()) + " kr");
+		price = new JLabel(Layout.decimalFormat.format(item.getPrice()) + " kr");
+		
+		setBorder(Layout.menuItemPadding);
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		
-		setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),
-				BorderFactory.createLoweredBevelBorder()));
+		name.setFont(Layout.itemFont);
+		price.setFont(Layout.itemFont);
 		
 		gbc.weightx = 1;
 		gbc.weighty = 1;
 		gbc.anchor = GridBagConstraints.WEST;
+		gbc.gridy = 0;
 		add(name, gbc);
 		
 		gbc.anchor = GridBagConstraints.EAST;

@@ -1,6 +1,5 @@
 package ntnu.it1901.gruppe4.ordergui;
 
-import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -10,13 +9,15 @@ import java.util.Collection;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import ntnu.it1901.gruppe4.db.Customer;
 import ntnu.it1901.gruppe4.db.DataAPI;
 
 public class CustomerPanel extends JPanel {
-	SearchBox nameInput;
-	SearchBox numberInput;
+	JTextField nameInput;
+	JTextField numberInput;
 	CustomerList customerList;
 	private SearchBoxListener listener;
 	private OrderSummary currentOrder;
@@ -36,6 +37,7 @@ public class CustomerPanel extends JPanel {
 		 * @param customers The customers to be added to the {@link CustomerList}.
 		 */
 		public void addCustomers(Collection<Customer> customers) {
+			int counter = 0;
 			removeAll();
 			
 			for (final Customer customer : customers) {
@@ -48,8 +50,18 @@ public class CustomerPanel extends JPanel {
 						CustomerPanel.this.currentOrder.setCustomer(customer);
 					}
 				});
+				
+				if (counter++ % 2 == 0) {
+					item.setBackground(Layout.bgColor1);
+				}
+				else {
+					item.setBackground(Layout.bgColor2);
+				}
 				add(item);
 			}
+			//TODO: This is a hack to prevent nameSearch from growing beyond its minimum size.
+			//However, this adds a large gap to the bottom of the list, so this needs to be worked out differently.
+			add(Box.createVerticalStrut(999));
 			revalidate();
 			repaint();
 		}
@@ -61,7 +73,7 @@ public class CustomerPanel extends JPanel {
 		 */
 		@Override
 		public void keyReleased(KeyEvent e) {
-			SearchBox source = (SearchBox)e.getSource();
+			JTextField source = (JTextField)e.getSource();
 			String boxContent = source.getText();
 			
 			//If the search box is empty, interrupt and restore the list of results
@@ -77,7 +89,7 @@ public class CustomerPanel extends JPanel {
 			if ((source == nameInput && Character.isDigit(boxContent.charAt(0)))
 					|| (source == numberInput && 
 					(Character.isLetter(boxContent.charAt(0)) || boxContent.charAt(0) == ' '))) {
-				SearchBox tmp = numberInput;
+				JTextField tmp = numberInput;
 				numberInput = nameInput;
 				nameInput = tmp;
 			}
@@ -89,22 +101,27 @@ public class CustomerPanel extends JPanel {
 
 	public CustomerPanel(OrderSummary orderSummary) {
 		currentOrder = orderSummary;
-		nameInput = new SearchBox();
-		numberInput = new SearchBox();
+		nameInput = new JTextField();
+		numberInput = new JTextField();
 		listener = new SearchBoxListener();
 		customerList = new CustomerList();
 
+		setBorder(Layout.panelPadding);
+		nameInput.setFont(Layout.searchBoxFont);
+		numberInput.setFont(Layout.searchBoxFont);
+		
 		//Add all the customers to the list
 		customerList.addCustomers(DataAPI.findCustomers(""));
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		add(nameInput);
-//		add(Box.createRigidArea(new Dimension(0, 25)));
+		add(Box.createVerticalStrut(Layout.spaceAfterSearchBox));
 //		add(numberInput);
-		add(Box.createRigidArea(new Dimension(0, 25)));
-		add(customerList);
-		add(Box.createVerticalStrut(999)); //Force nameInput to its minimum size
+		
+		JScrollPane sp = new JScrollPane(customerList);
+		sp.setBorder(null);
+		add(sp);
 
 		nameInput.addKeyListener(listener);
 		numberInput.addKeyListener(listener);

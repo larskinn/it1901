@@ -1,8 +1,6 @@
 package ntnu.it1901.gruppe4.ordergui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -12,6 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import ntnu.it1901.gruppe4.db.Address;
 import ntnu.it1901.gruppe4.db.Customer;
@@ -36,26 +35,29 @@ public class OrderSummary extends JPanel {
 	
 	//Internal panels used for component grouping
 	private JPanel centerPanel;
-	private JPanel eastPanel;
 	private JPanel southPanel;
 	
 	/**
 	 * Creates a new {@link OrderSummary}. Only classes in the same package are allowed to do this.
 	 */
 	OrderSummary() {
+		setBorder(Layout.panelPadding);
+		
 		totalPrice = new JLabel("<html><br>Totalpris: 0.00 kr<br><br></html>");
 		saveButton = new JButton("Lagre");
 		currentOrder = new OrderMaker();
 		centerPanel = new JPanel();
-		eastPanel = new JPanel();
 		southPanel = new JPanel();
 		
+		totalPrice.setFont(Layout.summaryTextFont);
+		saveButton.setFont(Layout.summaryTextFont);
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 		southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS));
 	
 		setLayout(new BorderLayout());
-		add(centerPanel, BorderLayout.CENTER);
-		//add(eastPanel, BorderLayout.EAST); Used for the not implemented scroll bar
+		JScrollPane sp = new JScrollPane(centerPanel);
+		sp.setBorder(null);
+		add(sp, BorderLayout.CENTER);
 		add(southPanel, BorderLayout.SOUTH);
 		
 		//Fired when the south panel (ie. the customer information) is clicked
@@ -85,6 +87,7 @@ public class OrderSummary extends JPanel {
 	 * as all methods modifying the <code>OrderSummary</code> are required to call this method automatically before returning.
 	 */
 	public void update() {
+		int counter = 0;
 		centerPanel.removeAll();
 		List<OrderItem> currentItems = currentOrder.getItemList();
 		
@@ -99,15 +102,23 @@ public class OrderSummary extends JPanel {
 				}
 			});
 			
+			if (counter++ % 2 == 0) {
+				item.setBackground(Layout.summaryBgColor1);
+			}
+			else {
+				item.setBackground(Layout.summaryBgColor2);
+			}
 			centerPanel.add(item);
 		}
-
 		//Force every order summary item to their minimum size
+		//Todo: This is not a good solution, as it adds a gap to the list.
 		centerPanel.add(Box.createVerticalStrut(999));
 		
 		//Update the total price
-		totalPrice = new JLabel("<html><br>Totalpris: " + currentOrder.getOrder().getTotalAmount() + 
+		totalPrice = new JLabel("<html><br>Totalpris: " + 
+									Layout.decimalFormat.format(currentOrder.getOrder().getTotalAmount()) + 
 									" kr<br><br></html>");
+		totalPrice.setFont(Layout.summaryTextFont);
 		updateSouthPanel();
 
 		centerPanel.revalidate();
@@ -118,20 +129,21 @@ public class OrderSummary extends JPanel {
 	 * Updates the southern panel containing all customer information.
 	 */
 	private void updateSouthPanel() {
-		JLabel text;
+		JLabel text = new JLabel();
+		text.setFont(Layout.summaryTextFont);
 		
 		southPanel.removeAll();
 		southPanel.add(totalPrice);
 
 		if (customer == null) {
-			text = new JLabel("<html>Denne orderen er ikke knyttet til noen kunde." +
-										"<br><br><br><br><br></html>");		
+			text.setText("<html>Denne orderen er ikke knyttet til noen kunde." +
+							"<br><br><br><br></html>");
 		}
 		else {
 			//The system does not currently support more than one address per customer.
 			Address address = DataAPI.getAddresses(customer).get(0);
 			
-			text = new JLabel("<html> <table>" +
+			text.setText("<html> <table>" +
 					"<tr> <td> Navn:</td> <td>" + customer.getName() + "</td> </tr>" +
 					"<tr> <td> Telefon:</td> <td>" + customer.getPhone() + "</td> </tr>" +
 					"<tr> <td> Adresse:</td> <td>" + address.getAddressLine() + "</td> </tr>" +
@@ -162,8 +174,8 @@ public class OrderSummary extends JPanel {
 		}
 		
 		JLabel error = new JLabel("Orderen er ikke ferdig utfylt.");
-		error.setForeground(Color.RED);
-		error.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
+		error.setForeground(Layout.errorColor);
+		error.setFont(Layout.errorFont);
 		
 		southPanel.remove(saveButton);
 		southPanel.add(error);

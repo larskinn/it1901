@@ -1,7 +1,5 @@
 package ntnu.it1901.gruppe4.ordergui;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -11,12 +9,14 @@ import java.util.Collection;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Dish;
 
 public class MenuPanel extends JPanel {
-	SearchBox menuSearch;
+	JTextField menuSearch;
 	OrderMenu orderMenu;
 
 	private OrderSummary currentOrder;
@@ -39,6 +39,7 @@ public class MenuPanel extends JPanel {
 		 * @param dishes The dishes to be added to the {@link OrderMenu}.
 		 */
 		public void addDishes(Collection<Dish> dishes) {
+			int counter = 0;
 			removeAll();
 			
 			for (final Dish dish : dishes) {
@@ -51,8 +52,18 @@ public class MenuPanel extends JPanel {
 					}
 				});
 				
+				if (counter++ % 2 == 0) {
+					item.setBackground(Layout.bgColor1);
+				}
+				else {
+					item.setBackground(Layout.bgColor2);
+				}
 				add(item); //Add the item panel to the frame
 			}
+			
+			//TODO: This is a hack to prevent menuSearch from growing beyond its minimum size.
+			//However, this adds a large gap to the bottom of the list, so this needs to be worked out differently.
+			add(Box.createVerticalStrut(999));
 			revalidate();
 			repaint();
 		}
@@ -60,22 +71,22 @@ public class MenuPanel extends JPanel {
 	
 	public MenuPanel(OrderSummary orderSummary) {
 		currentOrder = orderSummary;
-		menuSearch = new SearchBox();
+		menuSearch = new JTextField();
 		orderMenu = new OrderMenu();
-		setLayout(new BorderLayout());
 		
+		setBorder(Layout.panelPadding);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		add(menuSearch);
-
-		//Add some space between the searchBox and the orderMenu
-		add(Box.createRigidArea(new Dimension(0, 25)));
+		menuSearch.setFont(Layout.searchBoxFont);
 		
-		add(orderMenu);
-		add(Box.createVerticalStrut(999)); //Force menuSearch to its minimum size
+		add(menuSearch);
+		add(Box.createVerticalStrut(Layout.spaceAfterSearchBox));
+		
+		JScrollPane sp = new JScrollPane(orderMenu);
+		sp.setBorder(null);
+		add(sp);
 		
 		//Add all the dishes to the menu
 		orderMenu.addDishes(DataAPI.findDishes(""));
-
 
 		menuSearch.addKeyListener(new KeyAdapter() {
 			/*keyReleased() used for searching as getText() does not return the
@@ -83,7 +94,7 @@ public class MenuPanel extends JPanel {
 			 */
 			@Override
 			public void keyReleased(KeyEvent e) {
-				SearchBox source = (SearchBox)e.getSource();
+				JTextField source = (JTextField)e.getSource();
 				String boxContent = source.getText();
 				char charEntered = e.getKeyChar();
 				
