@@ -237,7 +237,11 @@ public class OrderMaker {
 	 */
 	public void setAddress(Address address) {
 		if (canBeChanged()) {
-			order.setIdAddress(DataAPI.getAddress(address.getIdAddress()));
+			if (address == null) {
+				order.setIdAddress(null);
+			} else {
+				order.setIdAddress(DataAPI.getAddress(address.getIdAddress()));
+			}
 			hasBeenModified = true;
 		}
 	}
