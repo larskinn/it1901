@@ -2,10 +2,13 @@ package ntnu.it1901.gruppe4.ordergui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -74,6 +77,28 @@ public class OrderWindow implements ActionListener {
 		frame.setTitle("Bestillingsvindu");
 		frame.setLocationRelativeTo(null); //Center the frame
 		
+		//Adds a global key listener
+		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+			@Override
+			public boolean dispatchKeyEvent(KeyEvent e) {
+				switch (e.getKeyCode()) {
+					case KeyEvent.VK_F1:
+						changeView(View.MENU);
+						break;
+					case KeyEvent.VK_F2:
+						changeView(View.CUSTOMER);
+						break;
+					case KeyEvent.VK_F3:
+						changeView(View.HISTORY);
+						break;
+					case KeyEvent.VK_ESCAPE:
+						System.exit(0);
+						break;
+				}
+				return false;
+			}
+		});
+		
 		//Change to dispose or close when called from another frame (ie. the splash screen)
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
@@ -99,6 +124,7 @@ public class OrderWindow implements ActionListener {
 				currentPanel = orderHistoryPanel;
 				break;
 		}
+		currentPanel.grabFocus(); //This method should be overrided to pass on focus to the search box
 		currentPanel.revalidate(); //Check if the panel has all its components loaded
 		frame.repaint(); //Repaint the frame and all its components
 	}

@@ -104,4 +104,9 @@ public class MenuPanel extends JPanel {
 			}
 		});
 	}
+	
+	@Override
+	public void grabFocus() {
+		menuSearch.grabFocus();
+	}
 }

@@ -121,4 +121,9 @@ public class CustomerPanel extends JPanel {
 		nameInput.addKeyListener(listener);
 		numberInput.addKeyListener(listener);
 	}
+	
+	@Override
+	public void grabFocus() {
+		nameInput.grabFocus();
+	}
 }
