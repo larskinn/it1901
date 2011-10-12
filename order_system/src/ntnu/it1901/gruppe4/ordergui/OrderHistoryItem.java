@@ -18,10 +18,10 @@ public class OrderHistoryItem extends JPanel {
 		setBorder(Layout.historyItemPadding);
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
-		text = new JLabel("<html><table><tr><td>Bestilt:" +
+		text = new JLabel("<html><table><tr><td>Dato:" +
 							"</td><td>" + order.getOrderTime() +
 							"</td></tr><tr><td>Kunde:" +
-							"</td><td>" + order.getIdAddress().getIdCustomer().getName() +
+							"</td><td>" + order.getIdAddress().getIdCustomer() +
 							"</td></tr></table></html>");
 		text.setFont(Layout.itemFont);
 		

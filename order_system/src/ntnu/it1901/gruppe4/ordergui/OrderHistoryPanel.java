@@ -11,13 +11,14 @@ import javax.swing.event.AncestorListener;
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
 
-public class OrderHistoryPanel extends JPanel implements AncestorListener {
+public class OrderHistoryPanel extends JPanel implements AncestorListener, OrderListener {
 	private OrderSummary currentOrder;
 	
 	public OrderHistoryPanel(OrderSummary orderSummary) {
 		currentOrder = orderSummary;
 		
 		addAncestorListener(this);
+		setBorder(Layout.panelPadding);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	}
 	
@@ -59,4 +60,9 @@ public class OrderHistoryPanel extends JPanel implements AncestorListener {
 
 	@Override
 	public void ancestorMoved(AncestorEvent event) {}
+
+	@Override
+	public void OrderSaved() {
+		refresh();
+	}
 }

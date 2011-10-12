@@ -63,6 +63,7 @@ public class OrderWindow implements ActionListener {
 		buttonPanel = new ButtonPanel(this);
 		resizeListener = new ResizeListener();
 		
+		orderSummary.addOrderListener(orderHistoryPanel);
 		orderSummary.addComponentListener(resizeListener);
 		menuPanel.addComponentListener(resizeListener);
 		customerPanel.addComponentListener(resizeListener);

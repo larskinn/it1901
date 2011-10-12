@@ -3,6 +3,8 @@ package ntnu.it1901.gruppe4.ordergui;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -33,6 +35,7 @@ public class OrderSummary extends JPanel {
 	private JButton saveButton;
 	private JLabel errorMessage;
 	private Customer customer;
+	private Collection<OrderListener> orderListeners;
 	
 	//Internal panels used for component grouping
 	private JPanel centerPanel;
@@ -42,22 +45,22 @@ public class OrderSummary extends JPanel {
 	 * Creates a new {@link OrderSummary}. Only classes in the same package are allowed to do this.
 	 */
 	OrderSummary() {
-		setBorder(Layout.panelPadding);
-		
+		this.orderListeners = new ArrayList<OrderListener>();
 		totalPrice = new JLabel("<html><br>Totalpris: 0.00 kr<br><br></html>");
 		saveButton = new JButton("Lagre");
 		errorMessage = new JLabel("Ordren er ikke ferdig utfylt");
 		currentOrder = new OrderMaker();
 		centerPanel = new JPanel();
 		southPanel = new JPanel();
-		
+
 		totalPrice.setFont(Layout.summaryTextFont);
 		saveButton.setFont(Layout.summaryTextFont);
 		errorMessage.setForeground(Layout.errorColor);
 		errorMessage.setFont(Layout.errorFont);
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 		southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS));
-
+		
+		setBorder(Layout.panelPadding);
 		setLayout(new BorderLayout());
 		JScrollPane sp = new JScrollPane(centerPanel);
 		sp.setBorder(null);
@@ -172,6 +175,11 @@ public class OrderSummary extends JPanel {
 			currentOrder = new OrderMaker();
 			update();
 			setCustomer(null);
+			
+			//Make order listeners aware that a new order has been saved
+			for (OrderListener listener : orderListeners) {
+				listener.OrderSaved();
+			}
 			return true;
 		}
 		southPanel.remove(errorMessage);
@@ -254,5 +262,9 @@ public class OrderSummary extends JPanel {
 	public void setCurrentOrder(Order order) {
 		currentOrder = new OrderMaker(order);
 		update();
+	}
+
+	public void addOrderListener(OrderListener listener) {
+		orderListeners.add(listener);
 	}
 }
