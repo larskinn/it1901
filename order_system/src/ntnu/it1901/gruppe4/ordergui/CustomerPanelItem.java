@@ -1,5 +1,7 @@
 package ntnu.it1901.gruppe4.ordergui;
 
+import java.awt.Dimension;
+
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,7 +24,11 @@ public class CustomerPanelItem extends JPanel {
 							"</td><td>" + customer.getPhone() +
 							"</td></tr></table></html>");
 		text.setFont(Layout.itemFont);
+		
 		add(text);
+		
+		//To prevent this component's height from growing
+		setMaximumSize(new Dimension(Short.MAX_VALUE, getPreferredSize().height));
 	}
 	
 	public Customer getCustomer() {

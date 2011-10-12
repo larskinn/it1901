@@ -76,6 +76,7 @@ public class OrderSummary extends JPanel {
 			}
 		});
 		//Todo: saveButton size is currently 67, 26 - and it cannot be resized for some reason
+		//Update: The button can now be resized with Layout.summaryTextFont
 		
 		setCustomer(null);
 		update();
@@ -110,9 +111,6 @@ public class OrderSummary extends JPanel {
 			}
 			centerPanel.add(item);
 		}
-		//Force every order summary item to their minimum size
-		//Todo: This is not a good solution, as it adds a gap to the list.
-		centerPanel.add(Box.createVerticalStrut(999));
 		
 		//Update the total price
 		totalPrice = new JLabel("<html><br>Totalpris: " + 

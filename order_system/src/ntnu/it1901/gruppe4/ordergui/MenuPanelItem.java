@@ -1,5 +1,6 @@
 package ntnu.it1901.gruppe4.ordergui;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -36,6 +37,9 @@ public class MenuPanelItem extends JPanel {
 		
 		gbc.gridy = 1;
 		add(Box.createVerticalStrut(28), gbc);
+		
+		//To prevent this component's height from growing
+		setMaximumSize(new Dimension(Short.MAX_VALUE, getPreferredSize().height));
 	}
 	
 	public Dish getdish() {

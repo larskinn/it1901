@@ -1,5 +1,6 @@
 package ntnu.it1901.gruppe4.ordergui;
 
+import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -10,21 +11,20 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Dish;
 
 public class MenuPanel extends JPanel {
-	JTextField menuSearch;
+	SearchBox menuSearch;
 	OrderMenu orderMenu;
 
 	private OrderSummary currentOrder;
+	private JScrollPane scrollPane;
 	
 	/**
 	 * This inner class of {@link MenuPanel} is a container for all {@link MenuPanelItem}.
 	 */
-	private class OrderMenu extends JPanel {		
+	private class OrderMenu extends JPanel {
 		/**
 		 * Creates a new OrderMenu. Only the MenuPanel is allowed to do this.
 		 */
@@ -60,10 +60,6 @@ public class MenuPanel extends JPanel {
 				}
 				add(item); //Add the item panel to the frame
 			}
-			
-			//TODO: This is a hack to prevent menuSearch from growing beyond its minimum size.
-			//However, this adds a large gap to the bottom of the list, so this needs to be worked out differently.
-			add(Box.createVerticalStrut(999));
 			revalidate();
 			repaint();
 		}
@@ -71,19 +67,18 @@ public class MenuPanel extends JPanel {
 	
 	public MenuPanel(OrderSummary orderSummary) {
 		currentOrder = orderSummary;
-		menuSearch = new JTextField();
+		menuSearch = new SearchBox();
 		orderMenu = new OrderMenu();
 		
 		setBorder(Layout.panelPadding);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		menuSearch.setFont(Layout.searchBoxFont);
-		
+
 		add(menuSearch);
 		add(Box.createVerticalStrut(Layout.spaceAfterSearchBox));
 		
-		JScrollPane sp = new JScrollPane(orderMenu);
-		sp.setBorder(null);
-		add(sp);
+		scrollPane = new JScrollPane(orderMenu);
+		scrollPane.setBorder(null);
+		add(scrollPane);
 		
 		//Add all the dishes to the menu
 		orderMenu.addDishes(DataAPI.findDishes(""));
@@ -94,11 +89,11 @@ public class MenuPanel extends JPanel {
 			 */
 			@Override
 			public void keyReleased(KeyEvent e) {
-				JTextField source = (JTextField)e.getSource();
+				SearchBox source = (SearchBox)e.getSource();
 				String boxContent = source.getText();
 				char charEntered = e.getKeyChar();
 				
-				//If the search box is empty, interrupt and restore the list of results
+				//If the search box is empty, restore the list of results
 				if (boxContent.equals("")) {
 					orderMenu.addDishes(DataAPI.findDishes(""));
 					return;

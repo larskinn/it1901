@@ -10,14 +10,12 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-
 import ntnu.it1901.gruppe4.db.Customer;
 import ntnu.it1901.gruppe4.db.DataAPI;
 
 public class CustomerPanel extends JPanel {
-	JTextField nameInput;
-	JTextField numberInput;
+	SearchBox nameInput;
+	SearchBox numberInput;
 	CustomerList customerList;
 	private SearchBoxListener listener;
 	private OrderSummary currentOrder;
@@ -59,9 +57,6 @@ public class CustomerPanel extends JPanel {
 				}
 				add(item);
 			}
-			//TODO: This is a hack to prevent nameSearch from growing beyond its minimum size.
-			//However, this adds a large gap to the bottom of the list, so this needs to be worked out differently.
-			add(Box.createVerticalStrut(999));
 			revalidate();
 			repaint();
 		}
@@ -73,7 +68,7 @@ public class CustomerPanel extends JPanel {
 		 */
 		@Override
 		public void keyReleased(KeyEvent e) {
-			JTextField source = (JTextField)e.getSource();
+			SearchBox source = (SearchBox)e.getSource();
 			String boxContent = source.getText();
 			
 			//If the search box is empty, interrupt and restore the list of results
@@ -89,7 +84,7 @@ public class CustomerPanel extends JPanel {
 			if ((source == nameInput && Character.isDigit(boxContent.charAt(0)))
 					|| (source == numberInput && 
 					(Character.isLetter(boxContent.charAt(0)) || boxContent.charAt(0) == ' '))) {
-				JTextField tmp = numberInput;
+				SearchBox tmp = numberInput;
 				numberInput = nameInput;
 				nameInput = tmp;
 			}
@@ -101,8 +96,8 @@ public class CustomerPanel extends JPanel {
 
 	public CustomerPanel(OrderSummary orderSummary) {
 		currentOrder = orderSummary;
-		nameInput = new JTextField();
-		numberInput = new JTextField();
+		nameInput = new SearchBox();
+		numberInput = new SearchBox();
 		listener = new SearchBoxListener();
 		customerList = new CustomerList();
 

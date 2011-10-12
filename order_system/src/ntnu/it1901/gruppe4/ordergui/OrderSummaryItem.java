@@ -1,5 +1,6 @@
 package ntnu.it1901.gruppe4.ordergui;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -30,6 +31,9 @@ public class OrderSummaryItem extends JPanel {
 		
 		gbc.anchor = GridBagConstraints.EAST;
 		add(price, gbc);
+		
+		//To prevent this component's height from growing
+		setMaximumSize(new Dimension(Short.MAX_VALUE, getPreferredSize().height));
 	}
 	
 }

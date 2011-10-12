@@ -89,6 +89,11 @@ public class Layout {
 	public static final Border customerItemPadding = BorderFactory.createEmptyBorder(0, 5, 28, 5);
 	
 	/**
+	 * The internal padding used inside every {@link OrderHistoryItem}.
+	 */
+	public static Border orderItemPadding = BorderFactory.createEmptyBorder(0, 5, 28, 5);;
+	
+	/**
 	 * The relative size of all buttons in the {@link ButtonPanel}.<br><br>
 	 * Remember that this size is merely an estimate, and the the actual size is relative to the size of the {@link OrderWindow}.
 	 */
