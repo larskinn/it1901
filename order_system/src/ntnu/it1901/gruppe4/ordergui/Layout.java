@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
@@ -103,4 +104,9 @@ public class Layout {
 	 * Remember that this size is merely a hint, and the the actual size is relative to the size of the {@link OrderWindow}.
 	 */
 	public static final Dimension buttonSize = new Dimension(100, 50);
+	
+	/**
+	 * The {@link java.text.DateFormat DateFormat} used to format the dates shown.
+	 */
+	public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM-yyyy H:mm");
 }
