@@ -261,6 +261,7 @@ public class OrderSummary extends JPanel {
 	 */
 	public void setCurrentOrder(Order order) {
 		currentOrder = new OrderMaker(order);
+		setCustomer(DataAPI.getCustomer(DataAPI.getAddress(order)));
 		update();
 	}
 

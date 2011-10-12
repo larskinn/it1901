@@ -6,6 +6,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
 
 public class OrderHistoryItem extends JPanel {
@@ -19,9 +20,9 @@ public class OrderHistoryItem extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		
 		text = new JLabel("<html><table><tr><td>Dato:" +
-							"</td><td>" + order.getOrderTime() +
+							"</td><td>" + Layout.dateFormat.format(order.getOrderTime()) +
 							"</td></tr><tr><td>Kunde:" +
-							"</td><td>" + order.getIdAddress().getIdCustomer() +
+							"</td><td>" + DataAPI.getCustomer(DataAPI.getAddress(order)).getName() +
 							"</td></tr></table></html>");
 		text.setFont(Layout.itemFont);
 		
