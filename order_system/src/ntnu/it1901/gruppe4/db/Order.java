@@ -42,7 +42,6 @@ public class Order {
 	Address idAddress;
 
 	public Order() {
-		setOrderTime(new Date());
 		setState(0);
 	}
 
