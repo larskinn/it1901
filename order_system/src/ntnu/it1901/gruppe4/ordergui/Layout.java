@@ -20,6 +20,11 @@ import javax.swing.border.Border;
  */
 public class Layout {
 	/**
+	 * The initial size of {@link OrderWindow}.
+	 */
+	public static final Dimension initialSize = new Dimension(800, 600);
+	
+	/**
 	 * The {@link DecimalFormat} used to format every floating point number shown.
 	 */
 	public static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
@@ -31,15 +36,15 @@ public class Layout {
 	/**
 	 * The {@link Font} of all text on a {@link OrderSummaryItem}.
 	 */
-	public static final Font summaryItemFont = new Font(Font.SANS_SERIF, Font.PLAIN, 14);
+	public static final Font summaryItemFont = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
 	/**
 	 * The {@link Font} of the summary text, as well as the text on the save button.
 	 */
-	public static final Font summaryTextFont = new Font(Font.SANS_SERIF, Font.PLAIN, 14);
+	public static final Font summaryTextFont = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
 	/**
 	 * The {@link Font} of all error messages shown.
 	 */
-	public static final Font errorFont = itemFont;
+	public static final Font errorFont = summaryTextFont;
 	/**
 	 * The {@link Font} that will be used when entering text into a search box.
 	 */
@@ -78,24 +83,24 @@ public class Layout {
 	/**
 	 * The internal padding used inside every {@link OrderSummaryItem}.
 	 */
-	public static final Border summaryItemPadding = BorderFactory.createEmptyBorder(0, 2, 5, 2);
+	public static final Border summaryItemPadding = BorderFactory.createEmptyBorder(5, 2, 5, 2);
 	/**
 	 * The internal padding used inside every {@link MenuPanelItem}.
 	 */
-	public static final Border menuItemPadding = BorderFactory.createEmptyBorder(0, 5, 28, 5);
+	public static final Border menuItemPadding = BorderFactory.createEmptyBorder(0, 5, 40, 5);
 	/**
 	 * The internal padding used inside every {@link CustomerPanelItem}.
 	 */
-	public static final Border customerItemPadding = BorderFactory.createEmptyBorder(0, 5, 28, 5);
+	public static final Border customerItemPadding = BorderFactory.createEmptyBorder(10, 5, 10, 5);
 	
 	/**
 	 * The internal padding used inside every {@link OrderHistoryItem}.
 	 */
-	public static Border orderItemPadding = BorderFactory.createEmptyBorder(0, 5, 28, 5);;
+	public static final Border historyItemPadding = BorderFactory.createEmptyBorder(10, 5, 10, 5);
 	
 	/**
 	 * The relative size of all buttons in the {@link ButtonPanel}.<br><br>
-	 * Remember that this size is merely an estimate, and the the actual size is relative to the size of the {@link OrderWindow}.
+	 * Remember that this size is merely a hint, and the the actual size is relative to the size of the {@link OrderWindow}.
 	 */
 	public static final Dimension buttonSize = new Dimension(100, 50);
 }

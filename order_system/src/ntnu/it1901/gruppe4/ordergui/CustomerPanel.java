@@ -10,6 +10,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+
 import ntnu.it1901.gruppe4.db.Customer;
 import ntnu.it1901.gruppe4.db.DataAPI;
 
@@ -17,6 +18,7 @@ public class CustomerPanel extends JPanel {
 	SearchBox nameInput;
 	SearchBox numberInput;
 	CustomerList customerList;
+	
 	private SearchBoxListener listener;
 	private OrderSummary currentOrder;
 

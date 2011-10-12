@@ -5,7 +5,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,6 +15,7 @@ import ntnu.it1901.gruppe4.db.Address;
 import ntnu.it1901.gruppe4.db.Customer;
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Dish;
+import ntnu.it1901.gruppe4.db.Order;
 import ntnu.it1901.gruppe4.db.OrderItem;
 import ntnu.it1901.gruppe4.db.OrderMaker;
 
@@ -31,6 +31,7 @@ public class OrderSummary extends JPanel {
 	private OrderMaker currentOrder;
 	private JLabel totalPrice;
 	private JButton saveButton;
+	private JLabel errorMessage;
 	private Customer customer;
 	
 	//Internal panels used for component grouping
@@ -45,15 +46,18 @@ public class OrderSummary extends JPanel {
 		
 		totalPrice = new JLabel("<html><br>Totalpris: 0.00 kr<br><br></html>");
 		saveButton = new JButton("Lagre");
+		errorMessage = new JLabel("Ordren er ikke ferdig utfylt");
 		currentOrder = new OrderMaker();
 		centerPanel = new JPanel();
 		southPanel = new JPanel();
 		
 		totalPrice.setFont(Layout.summaryTextFont);
 		saveButton.setFont(Layout.summaryTextFont);
+		errorMessage.setForeground(Layout.errorColor);
+		errorMessage.setFont(Layout.errorFont);
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 		southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS));
-	
+
 		setLayout(new BorderLayout());
 		JScrollPane sp = new JScrollPane(centerPanel);
 		sp.setBorder(null);
@@ -75,7 +79,7 @@ public class OrderSummary extends JPanel {
 				saveOrder();
 			}
 		});
-		//Todo: saveButton size is currently 67, 26 - and it cannot be resized for some reason
+		//saveButton size is currently 67, 26 - and it cannot be resized for some reason
 		//Update: The button can now be resized with Layout.summaryTextFont
 		
 		setCustomer(null);
@@ -170,13 +174,9 @@ public class OrderSummary extends JPanel {
 			setCustomer(null);
 			return true;
 		}
-		
-		JLabel error = new JLabel("Orderen er ikke ferdig utfylt.");
-		error.setForeground(Layout.errorColor);
-		error.setFont(Layout.errorFont);
-		
+		southPanel.remove(errorMessage);
 		southPanel.remove(saveButton);
-		southPanel.add(error);
+		southPanel.add(errorMessage);
 		southPanel.add(saveButton);
 		
 		southPanel.revalidate();
@@ -241,5 +241,18 @@ public class OrderSummary extends JPanel {
 	 */
 	public List<OrderItem> getItemList() {
 		return currentOrder.getItemList();
+	}
+	
+	/**
+	 * Changes the currently displayed {@link Order} to an already existing one,
+	 * which when saved will replace the old one. <br><br>
+	 * 
+	 * Warning: The currently displayed <code>Order</code> will be lost unless saved.
+	 * 
+	 * @param order The already existing <code>Order</code> to view in the <code>OrderSummary</code>.
+	 */
+	public void setCurrentOrder(Order order) {
+		currentOrder = new OrderMaker(order);
+		update();
 	}
 }

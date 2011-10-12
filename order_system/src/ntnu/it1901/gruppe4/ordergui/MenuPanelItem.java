@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -34,10 +33,7 @@ public class MenuPanelItem extends JPanel {
 		
 		gbc.anchor = GridBagConstraints.EAST;
 		add(price, gbc);
-		
-		gbc.gridy = 1;
-		add(Box.createVerticalStrut(28), gbc);
-		
+
 		//To prevent this component's height from growing
 		setMaximumSize(new Dimension(Short.MAX_VALUE, getPreferredSize().height));
 	}

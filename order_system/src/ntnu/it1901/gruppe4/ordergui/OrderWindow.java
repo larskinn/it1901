@@ -59,7 +59,7 @@ public class OrderWindow implements ActionListener {
 		orderSummary = new OrderSummary();
 		menuPanel = new MenuPanel(orderSummary);
 		customerPanel = new CustomerPanel(orderSummary);
-		orderHistoryPanel = new OrderHistoryPanel();
+		orderHistoryPanel = new OrderHistoryPanel(orderSummary);
 		buttonPanel = new ButtonPanel(this);
 		resizeListener = new ResizeListener();
 		
@@ -68,7 +68,7 @@ public class OrderWindow implements ActionListener {
 		customerPanel.addComponentListener(resizeListener);
 		orderHistoryPanel.addComponentListener(resizeListener);
 		
-		frame.setSize(800, 600);
+		frame.setSize(Layout.initialSize);
 		frame.setLayout(new BorderLayout());
 		frame.add(orderSummary, BorderLayout.EAST);
 		frame.add(buttonPanel, BorderLayout.SOUTH);
