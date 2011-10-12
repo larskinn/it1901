@@ -68,13 +68,13 @@ public class OrderMaker {
 	public void save() {
 		if (isValid()) {
 			order.setState(10); // Placed, ready for chef review
-			DataAPI.saveOrder(order);
 			if (!hasBeenSaved) {
 				hasBeenSaved = true;
 				
 				Calendar cal = Calendar.getInstance();
 				order.setOrderTime(cal.getTime());
 			}
+			DataAPI.saveOrder(order);
 			for (OrderItem item : addQue) {
 				DataAPI.saveOrderItem(item);
 			}
