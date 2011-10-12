@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import ntnu.it1901.gruppe4.db.DataAPI;
 
 /**
  * Data class for orders
@@ -91,5 +92,13 @@ public class Order {
 
 	public void setTotalAmount(float totalAmount) {
 		this.totalAmount = totalAmount;
+	}
+	
+	/**
+	 * Persists the Order to the database by updating an existing Order,
+	 * or -- if one doesn't exist -- adding a new Order. 
+	 */
+	public void save() {
+		DataAPI.saveOrder(this);
 	}
 }

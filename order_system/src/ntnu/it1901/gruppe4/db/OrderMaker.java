@@ -67,20 +67,18 @@ public class OrderMaker {
 	public void save() {
 		if (isValid()) {
 			order.setState(10); // Placed, ready for chef review
+			DataAPI.saveOrder(order);
 			if (!hasBeenSaved) {
-				DataAPI.addOrder(order);
 				hasBeenSaved = true;
-			} else {
-				DataAPI.updateOrder(order);
 			}
 			for (OrderItem item : addQue) {
-				DataAPI.addOrderItem(item);
+				DataAPI.saveOrderItem(item);
 			}
 			for (OrderItem item : remQue) {
 				DataAPI.remOrderItem(item);
 			}
 			for (OrderItem item : updateQue) {
-				DataAPI.updateOrderItem(item);
+				DataAPI.saveOrderItem(item);
 			}
 			addQue.clear();
 			remQue.clear();

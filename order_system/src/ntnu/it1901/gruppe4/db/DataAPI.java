@@ -146,24 +146,24 @@ public class DataAPI {
 						"Luksusserviett av stoff. Sydd av barn i Bangladesh",
 						true);
 
-				addCustomer(c);
-				addCustomer(c1);
-				addCustomer(c2);
-				addCustomer(c3);
-				addAddress(a1);
-				addAddress(a2);
-				addAddress(a3);
-				addAddress(a4);
-				addAddress(a5);
-				addDish(d1);
-				addDish(d2);
-				addDish(d3);
-				addDish(d4);
-				addDish(d5);
-				addDish(d6);
-				addDish(d7);
-				addDish(d8);
-				addDish(d9);
+				saveCustomer(c);
+				saveCustomer(c1);
+				saveCustomer(c2);
+				saveCustomer(c3);
+				saveAddress(a1);
+				saveAddress(a2);
+				saveAddress(a3);
+				saveAddress(a4);
+				saveAddress(a5);
+				saveDish(d1);
+				saveDish(d2);
+				saveDish(d3);
+				saveDish(d4);
+				saveDish(d5);
+				saveDish(d6);
+				saveDish(d7);
+				saveDish(d8);
+				saveDish(d9);
 
 				OrderMaker om = new OrderMaker();
 				Order o = om.getOrder();
@@ -202,31 +202,18 @@ public class DataAPI {
 	// Customer
 
 	/**
-	 * Stores a new customer to the database
+	 * Stores a Customer to the database. If the ID matches an existing Customer,
+	 * the match is updated. If not, a new Customer is added to the database.
 	 * 
 	 * @param c
 	 *            a reference to the Customer object containing the data to be
 	 *            stored
 	 */
-	public static void addCustomer(Customer c) {
+	public static void saveCustomer(Customer c) {
 		try {
-			customerDao.create(c);
+			customerDao.createOrUpdate(c);
 		} catch (SQLException e) {
 			System.err.println("Error storing customer: " + e.getMessage());
-		}
-	}
-	
-	/**
-	 * Saves changes to an existing customer in the database
-	 * 
-	 * @param c
-	 *            a reference to the updated Customer object
-	 */
-	public static void updateCustomer(Customer c) {
-		try {
-			customerDao.update(c);
-		} catch (SQLException e) {
-			System.err.println("Error updating customer: " + e.getMessage());
 		}
 	}
 
@@ -312,31 +299,18 @@ public class DataAPI {
 	// Address
 
 	/**
-	 * Stores a new address to the database
+	 * Stores an Address to the database. If the ID matches an existing Address,
+	 * the match is updated. If not, a new Address is added to the database.
 	 * 
 	 * @param a
 	 *            a reference to the Address object containing the data to be
 	 *            stored
 	 */
-	public static void addAddress(Address a) {
+	public static void saveAddress(Address a) {
 		try {
-			addressDao.create(a);
+			addressDao.createOrUpdate(a);
 		} catch (SQLException e) {
 			System.err.println("Error storing address: " + e.getMessage());
-		}
-	}
-	
-	/**
-	 * Saves changes to an existing address in the database
-	 * 
-	 * @param a
-	 *            a reference to the updated Address object
-	 */
-	public static void updateAddress(Address a) {
-		try {
-			addressDao.update(a);
-		} catch (SQLException e) {
-			System.err.println("Error updating address: " + e.getMessage());
 		}
 	}
 
@@ -419,31 +393,18 @@ public class DataAPI {
 	}
 
 	/**
-	 * Stores a new dish to the database
+	 * Stores a Dish to the database. If the ID matches an existing Dish,
+	 * the match is updated. If not, a new Dish is added to the database.
 	 * 
 	 * @param dish
 	 *            a reference to the Dish object containing the data to be
 	 *            stored
 	 */
-	public static void addDish(Dish dish) {
+	public static void saveDish(Dish dish) {
 		try {
-			dishDao.create(dish);
+			dishDao.createOrUpdate(dish);
 		} catch (SQLException e) {
 			System.err.println("Error storing dish: " + e.getMessage());
-		}
-	}
-	
-	/**
-	 * Saves changes to an existing dish in the database
-	 * 
-	 * @param dish
-	 *            a reference to the updated Dish object
-	 */
-	public static void updateDish(Dish dish) {
-		try {
-			dishDao.update(dish);
-		} catch (SQLException e) {
-			System.err.println("Error updating dish: " + e.getMessage());
 		}
 	}
 	
@@ -484,31 +445,18 @@ public class DataAPI {
 	}
 
 	/**
-	 * Stores a new order to the database
+	 * Stores an Order to the database. If the ID matches an existing Order,
+	 * the match is updated. If not, a new Order is added to the database.
 	 * 
 	 * @param order
 	 *            a reference to the Order object containing the data to be
 	 *            stored
 	 */
-	public static void addOrder(Order order) {
+	public static void saveOrder(Order order) {
 		try {
-			orderDao.create(order);
+			orderDao.createOrUpdate(order);
 		} catch (SQLException e) {
 			System.err.println("Error storing order: " + e.getMessage());
-		}
-	}
-
-	/**
-	 * Saves changes to an existing order in the database
-	 * 
-	 * @param order
-	 *            a reference to the updated Order object
-	 */
-	public static void updateOrder(Order order) {
-		try {
-			orderDao.update(order);
-		} catch (SQLException e) {
-			System.err.println("Error updating order: " + e.getMessage());
 		}
 	}
 
@@ -565,29 +513,16 @@ public class DataAPI {
 	}
 
 	/**
-	 * Saves changes to an existing OrderItem in the database
-	 * 
-	 * @param orderItem
-	 *            a reference to the updated OrderItem object
-	 */
-	public static void updateOrderItem(OrderItem orderItem) {
-		try {
-			orderItemDao.update(orderItem);
-		} catch (SQLException e) {
-			System.err.println("Error updating orderitem: " + e.getMessage());
-		}
-	}
-
-	/**
-	 * Stores a new OrderItem to the database
+	 * Stores an OrderItem to the database. If the ID matches an existing OrderItem,
+	 * the match is updated. If not, a new OrderItem is added to the database.
 	 * 
 	 * @param orderItem
 	 *            a reference to the OrderItem object containing the data to be
 	 *            stored
 	 */
-	public static void addOrderItem(OrderItem orderItem) {
+	public static void saveOrderItem(OrderItem orderItem) {
 		try {
-			orderItemDao.create(orderItem);
+			orderItemDao.createOrUpdate(orderItem);
 		} catch (SQLException e) {
 			System.err.println("Error storing orderitem: " + e.getMessage());
 		}

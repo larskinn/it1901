@@ -2,6 +2,7 @@ package ntnu.it1901.gruppe4.db;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import ntnu.it1901.gruppe4.db.DataAPI;
 
 /**
  * Data class for order items
@@ -79,5 +80,13 @@ public class OrderItem {
 
 	public void setAmount(float amount) {
 		this.amount = amount;
+	}
+	
+	/**
+	 * Persists the OrderItem to the database by updating an existing OrderItem,
+	 * or -- if one doesn't exist -- adding a new OrderItem. 
+	 */
+	public void save() {
+		DataAPI.saveOrderItem(this);
 	}
 }
