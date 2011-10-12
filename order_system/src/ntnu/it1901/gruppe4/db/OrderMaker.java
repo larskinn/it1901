@@ -4,6 +4,7 @@
 package ntnu.it1901.gruppe4.db;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -70,6 +71,9 @@ public class OrderMaker {
 			DataAPI.saveOrder(order);
 			if (!hasBeenSaved) {
 				hasBeenSaved = true;
+				
+				Calendar cal = Calendar.getInstance();
+				order.setOrderTime(cal.getTime());
 			}
 			for (OrderItem item : addQue) {
 				DataAPI.saveOrderItem(item);
