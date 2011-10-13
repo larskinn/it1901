@@ -42,6 +42,7 @@ public class Order {
 	Address idAddress;
 
 	public Order() {
+		setState(0);
 	}
 
 	public Order(Address address) {
@@ -98,7 +99,7 @@ public class Order {
 	 * Persists the Order to the database by updating an existing Order,
 	 * or -- if one doesn't exist -- adding a new Order. 
 	 */
-	public void save() {
+	protected void save() {
 		DataAPI.saveOrder(this);
 	}
 }
