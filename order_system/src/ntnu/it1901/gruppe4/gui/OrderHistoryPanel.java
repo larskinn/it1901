@@ -1,4 +1,4 @@
-package ntnu.it1901.gruppe4.ordergui;
+package ntnu.it1901.gruppe4.gui;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,14 +10,18 @@ import javax.swing.event.AncestorListener;
 
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
+import ntnu.it1901.gruppe4.gui.ordergui.OrderSummary;
 
-public class OrderHistoryPanel extends JPanel implements AncestorListener, OrderListener {
-	private OrderSummary currentOrder;
+public class OrderHistoryPanel extends JPanel implements OrderListener {
+	private OrderList list;
 	
-	public OrderHistoryPanel(OrderSummary orderSummary) {
-		currentOrder = orderSummary;
+	public OrderHistoryPanel() {
+		this(null);
+	}
+	
+	public OrderHistoryPanel(OrderList list) {
+		this.list = list;
 		
-		addAncestorListener(this);
 		setBorder(Layout.panelPadding);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	}
@@ -31,11 +35,13 @@ public class OrderHistoryPanel extends JPanel implements AncestorListener, Order
 			OrderHistoryItem item = new OrderHistoryItem(order);
 			
 			//This listener is called when an order history item is clicked
-			item.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					currentOrder.setCurrentOrder(order);
-				}
-			});
+			if (list != null) {
+				item.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						list.setOrder(order);
+					}
+				});
+			}
 			
 			if (counter++ % 2 == 0) {
 				item.setBackground(Layout.bgColor1);
@@ -48,19 +54,7 @@ public class OrderHistoryPanel extends JPanel implements AncestorListener, Order
 		revalidate();
 		repaint();
 	}
-
-	//This method is called every time this panel is either added to another component or made visible
-	@Override
-	public void ancestorAdded(AncestorEvent event) {
-		refresh();
-	}
-
-	@Override
-	public void ancestorRemoved(AncestorEvent event) {}
-
-	@Override
-	public void ancestorMoved(AncestorEvent event) {}
-
+	
 	@Override
 	public void OrderSaved() {
 		refresh();

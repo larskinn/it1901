@@ -1,4 +1,4 @@
-package ntnu.it1901.gruppe4.ordergui;
+package ntnu.it1901.gruppe4.gui.ordergui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -15,11 +15,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.db.DataAPI;
+import ntnu.it1901.gruppe4.gui.Layout;
+import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 
 public class OrderWindow implements ActionListener {
 	private JFrame frame;
 	private ButtonPanel buttonPanel;
-	private MenuPanel menuPanel;
+	private MenuSearchPanel menuSearchPanel;
 	private CustomerPanel customerPanel;
 	private OrderHistoryPanel orderHistoryPanel;
 	private JPanel currentPanel;
@@ -57,15 +59,15 @@ public class OrderWindow implements ActionListener {
 	public OrderWindow() {
 		frame = new JFrame();
 		orderSummary = new OrderSummary();
-		menuPanel = new MenuPanel(orderSummary);
-		customerPanel = new CustomerPanel(orderSummary);
 		orderHistoryPanel = new OrderHistoryPanel(orderSummary);
+		menuSearchPanel = new MenuSearchPanel(orderSummary);
+		customerPanel = new CustomerPanel(orderSummary);
 		buttonPanel = new ButtonPanel(this);
 		resizeListener = new ResizeListener();
 		
 		orderSummary.addOrderListener(orderHistoryPanel);
 		orderSummary.addComponentListener(resizeListener);
-		menuPanel.addComponentListener(resizeListener);
+		menuSearchPanel.addComponentListener(resizeListener);
 		customerPanel.addComponentListener(resizeListener);
 		orderHistoryPanel.addComponentListener(resizeListener);
 		
@@ -113,8 +115,8 @@ public class OrderWindow implements ActionListener {
 		
 		switch (view) {
 			case MENU:
-				frame.add(menuPanel, BorderLayout.CENTER);
-				currentPanel = menuPanel;
+				frame.add(menuSearchPanel, BorderLayout.CENTER);
+				currentPanel = menuSearchPanel;
 				break;
 			case CUSTOMER:
 				frame.add(customerPanel, BorderLayout.CENTER);

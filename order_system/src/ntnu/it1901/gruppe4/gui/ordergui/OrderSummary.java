@@ -1,4 +1,4 @@
-package ntnu.it1901.gruppe4.ordergui;
+package ntnu.it1901.gruppe4.gui.ordergui;
 
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
@@ -20,16 +20,18 @@ import ntnu.it1901.gruppe4.db.Dish;
 import ntnu.it1901.gruppe4.db.Order;
 import ntnu.it1901.gruppe4.db.OrderItem;
 import ntnu.it1901.gruppe4.db.OrderMaker;
+import ntnu.it1901.gruppe4.gui.Layout;
+import ntnu.it1901.gruppe4.gui.OrderList;
+import ntnu.it1901.gruppe4.gui.OrderListItem;
+import ntnu.it1901.gruppe4.gui.OrderListener;
 
 /**
  * This class contains every detail about the {@link ntnu.it1901.gruppe4.db.Order Order}
- * currently being processed by the operator of the {@link OrderWindow}, as well as methods to edit this <code>Order</code>.<br><br>
- * 
- * All details are written onto the extended {@link JPanel}.
+ * currently being processed by the operator of the {@link OrderWindow}, as well as methods to edit this <code>Order</code>.
  * 
  * @author Leo
  */
-public class OrderSummary extends JPanel {
+public class OrderSummary extends JPanel implements OrderList {
 	private OrderMaker currentOrder;
 	private JLabel totalPrice;
 	private JButton saveButton;
@@ -100,7 +102,7 @@ public class OrderSummary extends JPanel {
 		List<OrderItem> currentItems = currentOrder.getItemList();
 		
 		for (final OrderItem i : currentItems) {
-			OrderSummaryItem item = new OrderSummaryItem(i);
+			OrderListItem item = new OrderListItem(i);
 			
 			//Fired every time an order summary item is clicked
 			item.addMouseListener(new MouseAdapter() {
@@ -259,7 +261,8 @@ public class OrderSummary extends JPanel {
 	 * 
 	 * @param order The already existing <code>Order</code> to view in the <code>OrderSummary</code>.
 	 */
-	public void setCurrentOrder(Order order) {
+	@Override
+	public void setOrder(Order order) {
 		currentOrder = new OrderMaker(order);
 		setCustomer(DataAPI.getCustomer(DataAPI.getAddress(order)));
 		update();

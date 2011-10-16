@@ -1,4 +1,4 @@
-package ntnu.it1901.gruppe4.ordergui;
+package ntnu.it1901.gruppe4.gui;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -9,10 +9,20 @@ import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.db.OrderItem;
 
-public class OrderSummaryItem extends JPanel {
+/**
+ * A panel that shows information about an {@link OrderItem}.
+ * 
+ * @author Leo
+ */
+public class OrderListItem extends JPanel {
 	private JLabel name, price;
 
-	public OrderSummaryItem(OrderItem item) {
+	/**
+	 * Creates a new {@link OrderListItem} containing the specified {@link OrderItem}.
+	 *  
+	 * @param item The <code>OrderItem</code> to be associated with the new <code>OrderListItem</code>.
+	 */
+	public OrderListItem(OrderItem item) {
 		name = new JLabel(item.getName());
 		price = new JLabel(Layout.decimalFormat.format(item.getAmount()) + " kr");
 		

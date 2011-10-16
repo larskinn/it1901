@@ -1,4 +1,4 @@
-package ntnu.it1901.gruppe4.ordergui;
+package ntnu.it1901.gruppe4.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
