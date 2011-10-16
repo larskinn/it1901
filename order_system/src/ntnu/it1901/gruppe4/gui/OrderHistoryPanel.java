@@ -5,12 +5,9 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
-import ntnu.it1901.gruppe4.gui.ordergui.OrderSummary;
 
 public class OrderHistoryPanel extends JPanel implements OrderListener {
 	private OrderList list;

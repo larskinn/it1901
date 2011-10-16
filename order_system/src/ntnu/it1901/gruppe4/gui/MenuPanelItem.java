@@ -8,23 +8,22 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.db.Dish;
-import ntnu.it1901.gruppe4.gui.Layout;
 
 /**
  * A panel that shows information about a {@link Dish}.
  * 
  * @author Leo
  */
-public class MenuItem extends JPanel {
+public class MenuPanelItem extends JPanel {
 	private Dish item;
 	private JLabel name, price;
 	
 	/**
-	 * Creates a new {@link MenuItem} containing the specified {@link Dish} within.
+	 * Creates a new {@link MenuPanelItem} containing the specified {@link Dish} within.
 	 *  
-	 * @param dish The <code>Dish</code> to be associated with the new <code>MenuItem</code>.
+	 * @param dish The <code>Dish</code> to be associated with the new <code>MenuPanelItem</code>.
 	 */
-	public MenuItem(Dish dish) {
+	public MenuPanelItem(Dish dish) {
 		this.item = dish;
 		name = new JLabel(item.getName());
 		price = new JLabel(Layout.decimalFormat.format(item.getPrice()) + " kr");
@@ -49,9 +48,9 @@ public class MenuItem extends JPanel {
 	}
 	
 	/**
-	 * Returns the {@link Dish} contained within this <code>MenuItem</code>.
+	 * Returns the {@link Dish} contained within this <code>MenuPanelItem</code>.
 	 * 
-	 * @return The <code>Dish</code> contained within this <code>MenuItem</code>.
+	 * @return The <code>Dish</code> contained within this <code>MenuPanelItem</code>.
 	 */
 	public Dish getdish() {
 		return item;

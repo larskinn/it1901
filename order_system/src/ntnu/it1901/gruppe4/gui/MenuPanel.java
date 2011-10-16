@@ -2,10 +2,6 @@ package ntnu.it1901.gruppe4.gui;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelListener;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.BoxLayout;
@@ -15,36 +11,36 @@ import ntnu.it1901.gruppe4.db.Dish;
 import ntnu.it1901.gruppe4.gui.ordergui.OrderSummary;
 
 /**
- * A container for {@link MenuItem}.<br><br>
+ * A container for {@link MenuPanelItem}.<br><br>
  * 
- * Use {@link #addDishes} to add {@link Dish Dishes} to the <code>Menu</code>.
+ * Use {@link #addDishes} to add {@link Dish Dishes} to the <code>MenuPanel</code>.
  * 
  * @author Leo
  */
-public class Menu extends JPanel {
+public class MenuPanel extends JPanel {
 	private OrderSummary orderSummary;
 	
 	/**
-	 * Constructs a new {@link Menu}
+	 * Constructs a new {@link MenuPanel}
 	 */
-	public Menu() {
+	public MenuPanel() {
 		this(null);
 	}
 	
 	/**
-	 * Constructs a new {@link Menu} that will add {@link MenuItem MenuItems}
+	 * Constructs a new {@link MenuPanel} that will add {@link MenuPanelItem MenuItems}
 	 * to the specified {@link OrderSummary} when clicked.
 	 * 
 	 * @param orderSummary The <code>OrderSummary</code> to which clicked <code>MenuItems</code> will be added.
 	 */
-	public Menu(OrderSummary orderSummary) {
+	public MenuPanel(OrderSummary orderSummary) {
 		this.orderSummary = orderSummary;
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	}
 	
 	/**
-	 * Converts all dishes in the given collection to {@link MenuItem} and
-	 * adds them to the {@link Menu}.
+	 * Converts all dishes in the given collection to {@link MenuPanelItem} and
+	 * adds them to the {@link MenuPanel}.
 	 *  
 	 * @param dishes The dishes to be added to the {@link OrderMenu}.
 	 */
@@ -53,7 +49,7 @@ public class Menu extends JPanel {
 		removeAll();
 		
 		for (final Dish dish : dishes) {
-			MenuItem item = new MenuItem(dish);
+			MenuPanelItem item = new MenuPanelItem(dish);
 			
 			//This listener is fired every time an item is clicked
 			if (orderSummary != null) {
