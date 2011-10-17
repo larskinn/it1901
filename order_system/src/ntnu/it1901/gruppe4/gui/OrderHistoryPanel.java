@@ -21,6 +21,7 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 		
 		setBorder(Layout.panelPadding);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		refresh();
 	}
 	
 	public void refresh() {
