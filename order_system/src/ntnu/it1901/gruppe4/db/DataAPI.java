@@ -613,7 +613,7 @@ public class DataAPI {
 	 * @param key - the name of the configuration value (a String)
 	 * @param value - the value (a String)
 	 */
-	public static void setConfig(String key, String value) {
+	static void setConfig(String key, String value) {
 		try {
 			configDao.createOrUpdate(new Config(key, value));
 		} catch (SQLException e) {
@@ -627,7 +627,7 @@ public class DataAPI {
 	 * @param key - the name of the configuration (a String)
 	 * @return the value, as a String
 	 */
-	public static String getConfig(String key) {
+	static String getConfig(String key) {
 		try {
 			return configDao.queryForId(key).getValue();
 		} catch (SQLException e) {
