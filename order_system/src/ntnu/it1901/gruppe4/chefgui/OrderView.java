@@ -29,8 +29,8 @@ public class OrderView extends JPanel implements OrderList {
 	/**
 	 * Creates a new {@link OrderSummary} with the specified {@link Order}.
 	 */
-	public OrderView(Order order) {
-		this.order = order;
+	public OrderView() {
+		order = null;
 		totalPrice = new JLabel();
 		centerPanel = new JPanel();
 
