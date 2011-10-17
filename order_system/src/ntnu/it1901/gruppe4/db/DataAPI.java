@@ -2,6 +2,7 @@ package ntnu.it1901.gruppe4.db;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Map;
 import java.lang.Exception;
 
 import com.j256.ormlite.dao.Dao;
@@ -16,6 +17,7 @@ import com.j256.ormlite.table.TableUtils;
  * API to communicate with pizza server
  * 
  * @author David M.
+ * @author Lars Kinn Ekroll
  */
 public class DataAPI {
 	private static Dao<Customer, Integer> customerDao;
@@ -23,6 +25,7 @@ public class DataAPI {
 	private static Dao<Dish, Integer> dishDao;
 	private static Dao<Order, Integer> orderDao;
 	private static Dao<OrderItem, Integer> orderItemDao;
+	private static Dao<Config, String> configDao;
 
 	private static JdbcConnectionSource conn = null;
 
@@ -52,6 +55,11 @@ public class DataAPI {
 				throw new Exception("Failed to connect to database.");
 
 			setupDatabase();
+			setupSettings();
+			/* setupSettings() should only be called here, but since the GUIs
+			 * clear the database on startup, it has to be called again later,
+			 * from outside this class.
+			 */
 		} catch (Exception e) {
 			System.err.println("[Error] Failed to open database connection: "
 					+ e.getMessage());
@@ -70,15 +78,33 @@ public class DataAPI {
 			dishDao = DaoManager.createDao(conn, Dish.class);
 			orderDao = DaoManager.createDao(conn, Order.class);
 			orderItemDao = DaoManager.createDao(conn, OrderItem.class);
+			configDao = DaoManager.createDao(conn, Config.class);
 
 			TableUtils.createTableIfNotExists(conn, Customer.class);
 			TableUtils.createTableIfNotExists(conn, Address.class);
 			TableUtils.createTableIfNotExists(conn, Dish.class);
 			TableUtils.createTableIfNotExists(conn, Order.class);
 			TableUtils.createTableIfNotExists(conn, OrderItem.class);
+			TableUtils.createTableIfNotExists(conn, Config.class);
 		} else {
 			System.err
 					.println("[Error] Tried to setup database without a connection");
+		}
+	}
+	
+	/**
+	 * Ensures that the program settings exist, by setting any missing settings
+	 * to defaults from {@link Settings#DEFAULT_SETTINGS}. Does not overwrite
+	 * existing settings!
+	 */
+	public static void setupSettings() {
+		// TODO: This should be private, eventually.
+		for (Map.Entry<String, String> entry : Settings.DEFAULT_SETTINGS.entrySet()) {
+			try {
+				configDao.createIfNotExists(new Config(entry.getKey(), entry.getValue()));
+			} catch (SQLException e) {
+				System.err.println("Error setting default config value: " + e.getMessage());
+			}
 		}
 	}
 
@@ -94,6 +120,7 @@ public class DataAPI {
 				TableUtils.clearTable(conn, Dish.class);
 				TableUtils.clearTable(conn, Order.class);
 				TableUtils.clearTable(conn, OrderItem.class);
+				TableUtils.clearTable(conn, Config.class);
 			} catch (SQLException e) {
 				System.err.println("[Error] While clearing database: "
 						+ e.getMessage());
@@ -574,6 +601,37 @@ public class DataAPI {
 			return orderItemDao.queryForEq("idOrder_id", order.getIdOrder());
 		} catch (SQLException e) {
 			System.err.println("Error fetching order items: " + e.getMessage());
+			return null;
+		}
+	}
+	
+	// Config
+	
+	/**
+	 * Stores a configuration value to the database
+	 * 
+	 * @param key - the name of the configuration value (a String)
+	 * @param value - the value (a String)
+	 */
+	public static void setConfig(String key, String value) {
+		try {
+			configDao.createOrUpdate(new Config(key, value));
+		} catch (SQLException e) {
+			System.err.println("Error storing config value: " + e.getMessage());
+		}
+	}
+	
+	/**
+	 * Fetches a configuration value from the database
+	 * 
+	 * @param key - the name of the configuration (a String)
+	 * @return the value, as a String
+	 */
+	public static String getConfig(String key) {
+		try {
+			return configDao.queryForId(key).getValue();
+		} catch (SQLException e) {
+			System.err.println("Error fetching config value: " + e.getMessage());
 			return null;
 		}
 	}
