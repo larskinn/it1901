@@ -11,28 +11,55 @@ import ntnu.it1901.gruppe4.db.Order;
 
 public class OrderHistoryPanel extends JPanel implements OrderListener {
 	private OrderList list;
+
+	public enum Mode {
+		ORDER, CHEF, DELIVERY;
+	};
 	
+	Mode mode;
+
 	public OrderHistoryPanel() {
 		this(null);
+		mode = Mode.ORDER;
 	}
-	
+
 	public OrderHistoryPanel(OrderList list) {
 		this.list = list;
-		
+
 		setBorder(Layout.panelPadding);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		mode = Mode.ORDER;
 		refresh();
 	}
-	
+
+	public OrderHistoryPanel(OrderList list, Mode mode) {
+		this.list = list;
+
+		setBorder(Layout.panelPadding);
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.mode = mode;
+		refresh();
+	}
+
 	public void refresh() {
 		System.out.println(DataAPI.getOrder(0));
 		int counter = 0;
 		removeAll();
-		
+
 		for (final Order order : DataAPI.getOrders()) {
-			OrderHistoryItem item = new OrderHistoryItem(order);
+			if (mode == Mode.ORDER){
+				if (!order.isVisibleToOperator()) continue;
+			}
+			if (mode == Mode.CHEF){
+				if (!order.isVisibleToChef()) continue;
+			}
+			if (mode == Mode.DELIVERY){
+				if (!order.isVisibleToDelivery()) continue;
+			}
 			
-			//This listener is called when an order history item is clicked
+			OrderHistoryItem item = new OrderHistoryItem(order);
+
+			// This listener is called when an order history item is clicked
 			if (list != null) {
 				item.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
@@ -40,11 +67,10 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 					}
 				});
 			}
-			
+
 			if (counter++ % 2 == 0) {
 				item.setBackground(Layout.bgColor1);
-			}
-			else {
+			} else {
 				item.setBackground(Layout.bgColor2);
 			}
 			add(item);
@@ -52,7 +78,7 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 		revalidate();
 		repaint();
 	}
-	
+
 	@Override
 	public void OrderSaved() {
 		refresh();
