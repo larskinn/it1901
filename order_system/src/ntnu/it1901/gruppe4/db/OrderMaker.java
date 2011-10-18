@@ -156,7 +156,7 @@ public class OrderMaker {
 	 */
 	public boolean canBeChanged() {
 		// PS: State numbers are described in comments in the Order class
-		return order.getState() < 40;
+		return order.getState() < Order.DELIVERED_AND_PAID;
 	}
 
 	/**
@@ -290,5 +290,17 @@ public class OrderMaker {
 	 */
 	public boolean isModified() {
 		return hasBeenModified;
+	}
+
+	/**
+	 * Determines if the order has been modified.
+	 * 
+	 * @return TRUE if it has been modified, FALSE if not.
+	 */
+	public void setState(int state) {
+		if (canBeChanged()) {
+			order.setState(state);
+			hasBeenModified = true;
+		}
 	}
 }

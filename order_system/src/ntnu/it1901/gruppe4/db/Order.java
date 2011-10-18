@@ -21,9 +21,9 @@ public class Order {
 	public final static int IN_TRANSIT = 4;
 	public final static int DELIVERED_AND_PAID = 5;
 
-	private static String state_names[] = { "Not saved", "Saved",
-			"In production", "Ready for delivery", "In transit",
-			"Delivered and paid" };
+	private static String state_names[] = { "Ikke lagret", "Lagret",
+			"I produksjon", "Klar til levering", "I bil",
+			"Levert og betalt" };
 
 	@DatabaseField(canBeNull = false, generatedId = true)
 	int idOrder;
