@@ -35,7 +35,7 @@ public class OrderMaker {
 		addQue = new ArrayList<OrderItem>();
 		remQue = new ArrayList<OrderItem>();
 		updateQue = new ArrayList<OrderItem>();
-		order.setState(0);
+		order.setState(Order.NOT_SAVED);
 		hasBeenSaved = false;
 		hasBeenModified = true;
 		calculatePrice();
@@ -67,10 +67,12 @@ public class OrderMaker {
 	 */
 	public void save() {
 		if (isValid()) {
-			order.setState(10); // Placed, ready for chef review
+			if (order.getState() == Order.NOT_SAVED) {
+				order.setState(Order.SAVED); // Placed, ready for chef review
+			}
 			if (!hasBeenSaved) {
 				hasBeenSaved = true;
-				
+
 				Calendar cal = Calendar.getInstance();
 				order.setOrderTime(cal.getTime());
 			}
