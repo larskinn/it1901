@@ -24,22 +24,16 @@ public class ChefWindow implements ActionListener {
 	private OrderHistoryPanel orderHistoryPanel;
 	private ResizeListener resizeListener;
 
-	private void handleResize()
-	{
-		// Dynamically resize the western and eastern panels
-		orderHistoryPanel.setPreferredSize(new Dimension(
-				(int) (frame.getWidth() * 0.6666), frame.getHeight()));
-
-		orderSummary.setPreferredSize(new Dimension(
-				(int) (frame.getWidth() * 0.3333), frame.getHeight()));
-
-		orderHistoryPanel.revalidate();
-		orderSummary.revalidate();
-	}
-	
 	private class ResizeListener extends ComponentAdapter {
 		public void componentResized(ComponentEvent e) {
-			handleResize();
+			// Dynamically resize the western and eastern panels
+			orderHistoryPanel.setPreferredSize(new Dimension(
+					(int) (frame.getWidth() * 0.6666), frame.getHeight()));
+
+			orderSummary.setPreferredSize(new Dimension(
+					(int) (frame.getWidth() * 0.3333), frame.getHeight()));
+
+			orderHistoryPanel.revalidate();
 		}
 	}
 	
@@ -48,7 +42,6 @@ public class ChefWindow implements ActionListener {
 		buttonPanel = new ButtonPanel(this);
 		orderSummary = new OrderSummary();
 		orderHistoryPanel = new OrderHistoryPanel(orderSummary);
-		orderSummary.setOrderHistoryPanel(orderHistoryPanel);
 		resizeListener = new ResizeListener();
 
 		orderHistoryPanel.addComponentListener(resizeListener);
@@ -74,8 +67,6 @@ public class ChefWindow implements ActionListener {
 				System.exit(0);
 			}
 		});
-		
-		handleResize();
 	}
 
 	public static void main(String[] args) {

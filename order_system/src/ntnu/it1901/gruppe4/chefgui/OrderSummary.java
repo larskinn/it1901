@@ -21,7 +21,6 @@ import ntnu.it1901.gruppe4.db.Order;
 import ntnu.it1901.gruppe4.db.OrderItem;
 import ntnu.it1901.gruppe4.db.OrderMaker;
 import ntnu.it1901.gruppe4.gui.Layout;
-import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 import ntnu.it1901.gruppe4.gui.OrderList;
 import ntnu.it1901.gruppe4.gui.OrderListItem;
 import ntnu.it1901.gruppe4.gui.OrderListener;
@@ -38,8 +37,7 @@ public class OrderSummary extends JPanel implements OrderList {
 	private JButton deliverButton;
 	private JLabel errorMessage;
 	private Customer customer;
-	
-	private OrderHistoryPanel orderHistoryPanel;
+	private Collection<OrderListener> orderListeners;
 	
 	//Internal panels used for component grouping
 	private JPanel centerPanel;
@@ -49,13 +47,13 @@ public class OrderSummary extends JPanel implements OrderList {
 	 * Creates a new {@link OrderSummary}. Only classes in the same package are allowed to do this.
 	 */
 	OrderSummary() {
+		this.orderListeners = new ArrayList<OrderListener>();
 		totalPrice = new JLabel("<html><br>Totalpris: 0.00 kr<br><br></html>");
-		deliverButton = new JButton("Klar til levering");
+		deliverButton = new JButton("Ready for delivery");
 		errorMessage = new JLabel("Ordren er ikke ferdig utfylt");
 		currentOrder = new OrderMaker();
 		centerPanel = new JPanel();
 		southPanel = new JPanel();
-		orderHistoryPanel = null;
 
 		totalPrice.setFont(Layout.summaryTextFont);
 		deliverButton.setFont(Layout.summaryTextFont);
@@ -118,7 +116,7 @@ public class OrderSummary extends JPanel implements OrderList {
 		//Update the total price
 		totalPrice = new JLabel("<html><br>Totalpris: " + 
 									Layout.decimalFormat.format(currentOrder.getOrder().getTotalAmount()) + 
-									" kr<br><br><b>Status: "+currentOrder.getOrder().getStateName()+"</b><br></html>");
+									" kr<br><br>Status: "+currentOrder.getOrder().getStateName()+"</html>");
 		totalPrice.setFont(Layout.summaryTextFont);
 		updateSouthPanel();
 
@@ -172,7 +170,10 @@ public class OrderSummary extends JPanel implements OrderList {
 			update();
 			setCustomer(null);
 			
-			orderHistoryPanel.refresh();
+			//Make order listeners aware that a new order has been saved
+			for (OrderListener listener : orderListeners) {
+				listener.OrderSaved();
+			}
 			return true;
 		}
 		southPanel.remove(errorMessage);
@@ -237,7 +238,7 @@ public class OrderSummary extends JPanel implements OrderList {
 		update();
 	}
 
-	public void setOrderHistoryPanel(OrderHistoryPanel orderHistoryPanel) {
-		this.orderHistoryPanel = orderHistoryPanel;
+	public void addOrderListener(OrderListener listener) {
+		orderListeners.add(listener);
 	}
 }
