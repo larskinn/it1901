@@ -14,15 +14,15 @@ import ntnu.it1901.gruppe4.db.OrderItem;
  * 
  * @author Leo
  */
-public class OrderListItem extends JPanel {
+public class OrderSummaryItem extends JPanel {
 	private JLabel name, price;
 
 	/**
-	 * Creates a new {@link OrderListItem} containing the specified {@link OrderItem}.
+	 * Creates a new {@link OrderSummaryItem} containing the specified {@link OrderItem}.
 	 *  
-	 * @param item The <code>OrderItem</code> to be associated with the new <code>OrderListItem</code>.
+	 * @param item The <code>OrderItem</code> to be associated with the new <code>OrderSummaryItem</code>.
 	 */
-	public OrderListItem(OrderItem item) {
+	public OrderSummaryItem(OrderItem item) {
 		name = new JLabel(item.getName());
 		price = new JLabel(Layout.decimalFormat.format(item.getAmount()) + " kr");
 		

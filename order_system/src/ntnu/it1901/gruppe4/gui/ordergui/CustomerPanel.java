@@ -21,7 +21,7 @@ public class CustomerPanel extends JPanel {
 	CustomerList customerList;
 	
 	private SearchBoxListener listener;
-	private OrderSummary currentOrder;
+	private OperatorOrderSummary currentOrder;
 
 	public class CustomerList extends JPanel {
 		/**
@@ -97,7 +97,7 @@ public class CustomerPanel extends JPanel {
 		}
 	}
 
-	public CustomerPanel(OrderSummary orderSummary) {
+	public CustomerPanel(OperatorOrderSummary orderSummary) {
 		currentOrder = orderSummary;
 		nameInput = new SearchBox();
 		numberInput = new SearchBox();

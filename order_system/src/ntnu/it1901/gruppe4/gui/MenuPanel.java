@@ -8,7 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.db.Dish;
-import ntnu.it1901.gruppe4.gui.ordergui.OrderSummary;
+import ntnu.it1901.gruppe4.gui.ordergui.OperatorOrderSummary;
 
 /**
  * A container for {@link MenuPanelItem}.<br><br>
@@ -18,7 +18,7 @@ import ntnu.it1901.gruppe4.gui.ordergui.OrderSummary;
  * @author Leo
  */
 public class MenuPanel extends JPanel {
-	private OrderSummary orderSummary;
+	private OperatorOrderSummary operatorOrderSummary;
 	
 	/**
 	 * Constructs a new {@link MenuPanel}
@@ -29,12 +29,12 @@ public class MenuPanel extends JPanel {
 	
 	/**
 	 * Constructs a new {@link MenuPanel} that will add {@link MenuPanelItem MenuItems}
-	 * to the specified {@link OrderSummary} when clicked.
+	 * to the specified {@link operatorOrderSummary} when clicked.
 	 * 
-	 * @param orderSummary The <code>OrderSummary</code> to which clicked <code>MenuItems</code> will be added.
+	 * @param operatorOrderSummary The <code>ChefOrderSummary</code> to which clicked <code>MenuItems</code> will be added.
 	 */
-	public MenuPanel(OrderSummary orderSummary) {
-		this.orderSummary = orderSummary;
+	public MenuPanel(OperatorOrderSummary orderSummary) {
+		this.operatorOrderSummary = orderSummary;
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	}
 	
@@ -52,11 +52,11 @@ public class MenuPanel extends JPanel {
 			MenuPanelItem item = new MenuPanelItem(dish);
 			
 			//This listener is fired every time an item is clicked
-			if (orderSummary != null) {
+			if (operatorOrderSummary != null) {
 				item.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						orderSummary.addItem(dish);
+						operatorOrderSummary.addItem(dish);
 					}
 				});
 			}

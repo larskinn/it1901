@@ -11,7 +11,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,6 +19,8 @@ import javax.swing.JPanel;
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
+import ntnu.it1901.gruppe4.gui.OrderHistoryPanel.Mode;
+import ntnu.it1901.gruppe4.gui.OrderSummary;
 
 public class OrderWindow implements ActionListener {
 	private JFrame frame;
@@ -28,7 +29,7 @@ public class OrderWindow implements ActionListener {
 	private CustomerPanel customerPanel;
 	private OrderHistoryPanel orderHistoryPanel;
 	private JPanel currentPanel;
-	private OrderSummary orderSummary;
+	private OperatorOrderSummary operatorOrderSummary;
 	private ResizeListener resizeListener;
 
 	private class ResizeListener extends ComponentAdapter {
@@ -37,7 +38,7 @@ public class OrderWindow implements ActionListener {
 			currentPanel.setPreferredSize(new Dimension(
 					(int) (frame.getWidth() * 0.6666), frame.getHeight()));
 
-			orderSummary.setPreferredSize(new Dimension(
+			operatorOrderSummary.setPreferredSize(new Dimension(
 					(int) (frame.getWidth() * 0.3333), frame.getHeight()));
 
 			currentPanel.revalidate();
@@ -50,8 +51,8 @@ public class OrderWindow implements ActionListener {
 
 	public static void main(String[] args) {
 		DataAPI.open("./data.db");
-		// DataAPI.clearDatabase();
-		// DataAPI.createExampleData();
+		DataAPI.clearDatabase();
+		DataAPI.createExampleData();
 
 		new OrderWindow();
 	}
@@ -63,22 +64,22 @@ public class OrderWindow implements ActionListener {
 
 	public OrderWindow() {
 		frame = new JFrame();
-		orderSummary = new OrderSummary();
-		orderHistoryPanel = new OrderHistoryPanel(orderSummary);
-		menuSearchPanel = new MenuSearchPanel(orderSummary);
-		customerPanel = new CustomerPanel(orderSummary);
+		operatorOrderSummary = new OperatorOrderSummary();
+		orderHistoryPanel = new OrderHistoryPanel(operatorOrderSummary, Mode.ORDER);
+		menuSearchPanel = new MenuSearchPanel(operatorOrderSummary);
+		customerPanel = new CustomerPanel(operatorOrderSummary);
 		buttonPanel = new ButtonPanel(this);
 		resizeListener = new ResizeListener();
 
-		orderSummary.addOrderListener(orderHistoryPanel);
-		orderSummary.addComponentListener(resizeListener);
+		operatorOrderSummary.addOrderListener(orderHistoryPanel);
+		operatorOrderSummary.addComponentListener(resizeListener);
 		menuSearchPanel.addComponentListener(resizeListener);
 		customerPanel.addComponentListener(resizeListener);
 		orderHistoryPanel.addComponentListener(resizeListener);
 
 		frame.setSize(Layout.initialSize);
 		frame.setLayout(new BorderLayout());
-		frame.add(orderSummary, BorderLayout.EAST);
+		frame.add(operatorOrderSummary, BorderLayout.EAST);
 		frame.add(buttonPanel, BorderLayout.SOUTH);
 		changeView(View.MENU);
 
@@ -107,12 +108,8 @@ public class OrderWindow implements ActionListener {
 						return false;
 					}
 				});
-
-		// Change to dispose or close when called from another frame (ie. the
-		// splash screen)
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setVisible(true);
-
+		
+		//Makes sure that the connection to the database is properly closed
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -120,6 +117,8 @@ public class OrderWindow implements ActionListener {
 				System.exit(0);
 			}
 		});
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setVisible(true);
 	}
 
 	public void changeView(View view) {
@@ -149,8 +148,8 @@ public class OrderWindow implements ActionListener {
 		frame.repaint(); // Repaint the frame and all its components
 	}
 
-	public OrderSummary getOrderSummary() {
-		return orderSummary;
+	public OrderSummary getCurrentOrderSummary() {
+		return operatorOrderSummary;
 	}
 
 	// Fired whenever a button in ButtonPanel is pressed

@@ -11,7 +11,7 @@ import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
 
 public class OrderHistoryPanel extends JPanel implements OrderListener {
-	private OrderList list;
+	private OrderSummary orderSummary;
 
 	public enum Mode {
 		ORDER, CHEF, DELIVERY;
@@ -24,8 +24,8 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 		mode = Mode.ORDER;
 	}
 
-	public OrderHistoryPanel(OrderList list) {
-		this.list = list;
+	public OrderHistoryPanel(OrderSummary orderSummary) {
+		this.orderSummary = orderSummary;
 
 		setBorder(Layout.panelPadding);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -33,8 +33,8 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 		refresh();
 	}
 
-	public OrderHistoryPanel(OrderList list, Mode mode) {
-		this.list = list;
+	public OrderHistoryPanel(OrderSummary orderSummary, Mode mode) {
+		this.orderSummary = orderSummary;
 
 		setBorder(Layout.panelPadding);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -61,10 +61,10 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 			OrderHistoryItem item = new OrderHistoryItem(order);
 
 			// This listener is called when an order history item is clicked
-			if (list != null) {
+			if (orderSummary != null) {
 				item.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
-						list.setOrder(order);
+						orderSummary.setOrder(order);
 					}
 				});
 			}

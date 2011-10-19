@@ -20,7 +20,7 @@ public class ChefWindow implements ActionListener {
 
 	private JFrame frame;
 	private ButtonPanel buttonPanel;
-	private OrderSummary orderSummary;
+	private ChefOrderSummary chefOrderSummary;
 	private OrderHistoryPanel orderHistoryPanel;
 	private ResizeListener resizeListener;
 
@@ -30,11 +30,11 @@ public class ChefWindow implements ActionListener {
 		orderHistoryPanel.setPreferredSize(new Dimension(
 				(int) (frame.getWidth() * 0.6666), frame.getHeight()));
 
-		orderSummary.setPreferredSize(new Dimension(
+		chefOrderSummary.setPreferredSize(new Dimension(
 				(int) (frame.getWidth() * 0.3333), frame.getHeight()));
 
 		orderHistoryPanel.revalidate();
-		orderSummary.revalidate();
+		chefOrderSummary.revalidate();
 	}
 	
 	private class ResizeListener extends ComponentAdapter {
@@ -46,13 +46,13 @@ public class ChefWindow implements ActionListener {
 	public ChefWindow() {
 
 		buttonPanel = new ButtonPanel(this);
-		orderSummary = new OrderSummary();
-		orderHistoryPanel = new OrderHistoryPanel(orderSummary);
-		orderSummary.setOrderHistoryPanel(orderHistoryPanel);
+		chefOrderSummary = new ChefOrderSummary();
+		orderHistoryPanel = new OrderHistoryPanel(chefOrderSummary);
+		chefOrderSummary.setOrderHistoryPanel(orderHistoryPanel);
 		resizeListener = new ResizeListener();
 
 		orderHistoryPanel.addComponentListener(resizeListener);
-		orderSummary.addComponentListener(resizeListener);
+		chefOrderSummary.addComponentListener(resizeListener);
 
 		frame = new JFrame("Kokkevindu");
 		frame.setSize(Layout.initialSize);
@@ -64,7 +64,7 @@ public class ChefWindow implements ActionListener {
 		frame.setSize(Layout.initialSize);
 		frame.setLayout(new BorderLayout());
 		frame.add(orderHistoryPanel, BorderLayout.WEST);
-		frame.add(orderSummary, BorderLayout.EAST);
+		frame.add(chefOrderSummary, BorderLayout.EAST);
 		frame.add(buttonPanel, BorderLayout.SOUTH);
 
 		frame.addWindowListener(new WindowAdapter() {

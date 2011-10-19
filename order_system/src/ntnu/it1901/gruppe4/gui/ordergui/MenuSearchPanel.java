@@ -17,7 +17,7 @@ public class MenuSearchPanel extends JPanel {
 	private MenuPanel orderMenu;
 	private JScrollPane scrollPane;
 	
-	public MenuSearchPanel(OrderSummary orderSummary) {
+	public MenuSearchPanel(OperatorOrderSummary orderSummary) {
 		menuSearch = new SearchBox();
 		orderMenu = new MenuPanel(orderSummary);
 		
