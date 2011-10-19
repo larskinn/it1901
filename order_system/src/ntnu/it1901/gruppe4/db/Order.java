@@ -13,6 +13,18 @@ import ntnu.it1901.gruppe4.db.DataAPI;
  */
 @DatabaseTable(tableName = "order")
 public class Order {
+	// ORMLite doesn't like enums. We'll just use const ints instead.
+	public final static int NOT_SAVED = 0;
+	public final static int SAVED = 1;
+	public final static int IN_PRODUCTION = 2;
+	public final static int READY_FOR_DELIVERY = 3;
+	public final static int IN_TRANSIT = 4;
+	public final static int DELIVERED_AND_PAID = 5;
+
+	private static String state_names[] = { "Ikke lagret", "Lagret",
+			"I produksjon", "Klar til levering", "I bil",
+			"Levert og betalt" };
+
 	@DatabaseField(canBeNull = false, generatedId = true)
 	int idOrder;
 
@@ -26,10 +38,11 @@ public class Order {
 	int state;
 	// States:
 	// 0: Not saved
-	// 10: Saved
-	// 20: Ready for delivery
-	// 30: In transit
-	// 40: Delivered & paid for
+	// 1: Saved
+	// 2: In production (not used)
+	// 3: Ready for delivery
+	// 4: In transit
+	// 5: Delivered & paid for
 
 	@DatabaseField(useGetSet = true)
 	float totalAmount;
@@ -42,13 +55,13 @@ public class Order {
 	Address idAddress;
 
 	public Order() {
-		setState(0);
+		setState(Order.NOT_SAVED);
 	}
 
 	public Order(Address address) {
 		setIdAddress(address);
 		setDeliveryTime(new Date()); // Supposedly this is the current time
-		setState(0);
+		setState(Order.NOT_SAVED);
 	}
 
 	public Address getIdAddress() {
@@ -83,6 +96,13 @@ public class Order {
 		return state;
 	}
 
+	public String getStateName() {
+		if (state < 0 || state > 5)
+			return "(" + state + ")";
+		else
+			return state_names[state];
+	}
+
 	public void setState(int state) {
 		this.state = state;
 	}
@@ -94,12 +114,45 @@ public class Order {
 	public void setTotalAmount(float totalAmount) {
 		this.totalAmount = totalAmount;
 	}
-	
+
 	/**
-	 * Persists the Order to the database by updating an existing Order,
-	 * or -- if one doesn't exist -- adding a new Order. 
+	 * Persists the Order to the database by updating an existing Order, or --
+	 * if one doesn't exist -- adding a new Order.
 	 */
 	protected void save() {
 		DataAPI.saveOrder(this);
+	}
+
+	/**
+	 * Returns TRUE if this order should be visible in OrderWindow.
+	 * @return TRUE or FALSE
+	 */
+	public boolean isVisibleToOperator()
+	{
+		return state == SAVED || state == NOT_SAVED;
+	}
+	/**
+	 * Returns TRUE if this order should be visible in ChefWindow.
+	 * @return TRUE or FALSE
+	 */
+	public boolean isVisibleToChef()
+	{
+		return state == SAVED || state == IN_PRODUCTION;
+	}
+	/**
+	 * Returns TRUE if this order should be visible in DeliveryWindow.
+	 * @return TRUE or FALSE
+	 */
+	public boolean isVisibleToDelivery()
+	{
+		return state == READY_FOR_DELIVERY || state == IN_TRANSIT;
+	}
+	/**
+	 * Returns TRUE if this order should be visible in order history.
+	 * @return TRUE or FALSE
+	 */
+	public boolean isVisibleInHistory()
+	{
+		return state == DELIVERED_AND_PAID || state == SAVED || state == IN_PRODUCTION || state == READY_FOR_DELIVERY || state == IN_TRANSIT;
 	}
 }

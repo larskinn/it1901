@@ -1,4 +1,4 @@
-package ntnu.it1901.gruppe4.ordergui;
+package ntnu.it1901.gruppe4.gui.ordergui;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -13,6 +13,7 @@ import javax.swing.JScrollPane;
 
 import ntnu.it1901.gruppe4.db.Customer;
 import ntnu.it1901.gruppe4.db.DataAPI;
+import ntnu.it1901.gruppe4.gui.Layout;
 
 public class CustomerPanel extends JPanel {
 	SearchBox nameInput;
@@ -20,7 +21,7 @@ public class CustomerPanel extends JPanel {
 	CustomerList customerList;
 	
 	private SearchBoxListener listener;
-	private OrderSummary currentOrder;
+	private OperatorOrderSummary currentOrder;
 
 	public class CustomerList extends JPanel {
 		/**
@@ -96,7 +97,7 @@ public class CustomerPanel extends JPanel {
 		}
 	}
 
-	public CustomerPanel(OrderSummary orderSummary) {
+	public CustomerPanel(OperatorOrderSummary orderSummary) {
 		currentOrder = orderSummary;
 		nameInput = new SearchBox();
 		numberInput = new SearchBox();

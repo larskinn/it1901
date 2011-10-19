@@ -1,4 +1,4 @@
-package ntnu.it1901.gruppe4.ordergui;
+package ntnu.it1901.gruppe4.gui;
 
 import java.awt.Dimension;
 
@@ -9,6 +9,11 @@ import javax.swing.JPanel;
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
 
+/**
+ * A panel that shows information about an {@link Order}.
+ * 
+ * @author Leo
+ */
 public class OrderHistoryItem extends JPanel {
 	private Order order;
 	private JLabel text;

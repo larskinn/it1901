@@ -1,4 +1,4 @@
-package ntnu.it1901.gruppe4.ordergui;
+package ntnu.it1901.gruppe4.gui.ordergui;
 
 import java.awt.Dimension;
 
@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.db.Customer;
+import ntnu.it1901.gruppe4.gui.Layout;
 
 public class CustomerPanelItem extends JPanel {
 	private Customer customer;

@@ -1,10 +1,12 @@
-package ntnu.it1901.gruppe4.ordergui;
+package ntnu.it1901.gruppe4.gui.ordergui;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import ntnu.it1901.gruppe4.gui.Layout;
 
 public class ButtonPanel extends JPanel {
 	final JButton menu, customer, history;

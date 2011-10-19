@@ -1,4 +1,4 @@
-package ntnu.it1901.gruppe4.ordergui;
+package ntnu.it1901.gruppe4.gui;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -9,10 +9,20 @@ import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.db.Dish;
 
+/**
+ * A panel that shows information about a {@link Dish}.
+ * 
+ * @author Leo
+ */
 public class MenuPanelItem extends JPanel {
 	private Dish item;
 	private JLabel name, price;
 	
+	/**
+	 * Creates a new {@link MenuPanelItem} containing the specified {@link Dish} within.
+	 *  
+	 * @param dish The <code>Dish</code> to be associated with the new <code>MenuPanelItem</code>.
+	 */
 	public MenuPanelItem(Dish dish) {
 		this.item = dish;
 		name = new JLabel(item.getName());
@@ -28,7 +38,6 @@ public class MenuPanelItem extends JPanel {
 		gbc.weightx = 1;
 		gbc.weighty = 1;
 		gbc.anchor = GridBagConstraints.WEST;
-		gbc.gridy = 0;
 		add(name, gbc);
 		
 		gbc.anchor = GridBagConstraints.EAST;
@@ -38,6 +47,11 @@ public class MenuPanelItem extends JPanel {
 		setMaximumSize(new Dimension(Short.MAX_VALUE, getPreferredSize().height));
 	}
 	
+	/**
+	 * Returns the {@link Dish} contained within this <code>MenuPanelItem</code>.
+	 * 
+	 * @return The <code>Dish</code> contained within this <code>MenuPanelItem</code>.
+	 */
 	public Dish getdish() {
 		return item;
 	}

@@ -2,70 +2,95 @@ package ntnu.it1901.gruppe4.chefgui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.TextArea;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-public class ChefWindow {
+import javax.swing.JFrame;
+
+import ntnu.it1901.gruppe4.db.DataAPI;
+import ntnu.it1901.gruppe4.gui.Layout;
+import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
+import ntnu.it1901.gruppe4.gui.OrderHistoryPanel.Mode;
+
+public class ChefWindow implements ActionListener {
+
 	private JFrame frame;
-	private OrderMenu orderMenu;
-	private OrderList orderList;
-	private Order order; 
+	private ButtonPanel buttonPanel;
+	private ChefOrderSummary chefOrderSummary;
+	private OrderHistoryPanel orderHistoryPanel;
+	private ResizeListener resizeListener;
+
+	private void handleResize()
+	{
+		// Dynamically resize the western and eastern panels
+		orderHistoryPanel.setPreferredSize(new Dimension(
+				(int) (frame.getWidth() * 0.6666), frame.getHeight()));
+
+		chefOrderSummary.setPreferredSize(new Dimension(
+				(int) (frame.getWidth() * 0.3333), frame.getHeight()));
+
+		orderHistoryPanel.revalidate();
+		chefOrderSummary.revalidate();
+	}
+	
+	private class ResizeListener extends ComponentAdapter {
+		public void componentResized(ComponentEvent e) {
+			handleResize();
+		}
+	}
 	
 	public ChefWindow() {
-		frame = new JFrame();
-		orderMenu = new OrderMenu();
-		orderList = new OrderList();
-		order = new Order();
 
-		
-		//Helper container used to group two elements on the left side of the frame
-		final JPanel westSide = new JPanel();
-		westSide.setLayout(new BoxLayout(westSide, BoxLayout.Y_AXIS));		
-		
-		
-		//HACK: Prevent the searchBox from becoming the dominating component of the panel
-		orderMenu.setPreferredSize(new Dimension(999, 999));
-		westSide.add(orderMenu);
-		
-		frame.setSize(800, 600);
+		buttonPanel = new ButtonPanel(this);
+		chefOrderSummary = new ChefOrderSummary();
+		orderHistoryPanel = new OrderHistoryPanel(Mode.CHEF, chefOrderSummary);
+		chefOrderSummary.setOrderHistoryPanel(orderHistoryPanel);
+		resizeListener = new ResizeListener();
+
+		orderHistoryPanel.addComponentListener(resizeListener);
+		chefOrderSummary.addComponentListener(resizeListener);
+
+		frame = new JFrame("Kokkevindu");
+		frame.setSize(Layout.initialSize);
 		frame.setLayout(new BorderLayout());
-		frame.add(order, BorderLayout.EAST);
-		frame.add(orderList, BorderLayout.WEST);
-		
-		
-		
-		
-		frame.addComponentListener(new ComponentAdapter() {
+
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setVisible(true);
+
+		frame.setSize(Layout.initialSize);
+		frame.setLayout(new BorderLayout());
+		frame.add(orderHistoryPanel, BorderLayout.WEST);
+		frame.add(chefOrderSummary, BorderLayout.EAST);
+		frame.add(buttonPanel, BorderLayout.SOUTH);
+
+		frame.addWindowListener(new WindowAdapter() {
 			@Override
-			public void componentResized(ComponentEvent e) {
-				//Dynamically resize the western and eastern panels
-				westSide.setPreferredSize(new Dimension(
-						(int)(frame.getWidth() * 0.3333), frame.getHeight()));
-				orderList.setPreferredSize(new Dimension(
-						(int)(frame.getWidth() * 0.6666), frame.getHeight()));
-				westSide.revalidate();
-				orderList.revalidate();
+			public void windowClosed(WindowEvent e) {
+				cleanup();
+				System.exit(0);
 			}
 		});
 		
-		frame.setTitle("Vindu - Kokk");
-		//Center the frame
-		frame.setLocationRelativeTo(null); 
-		//Change to dispose or close when called from another frame (ie. the splash screen)
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
+		handleResize();
 	}
-	
-	/**@return The {@link JFrame} backing this {@link ChefWindow}.*/
-	public JFrame getFrame() {
-		return frame;
-	}
-	
+
 	public static void main(String[] args) {
+		DataAPI.open("./data.db");
+
 		new ChefWindow();
+	}
+
+	private static void cleanup() {
+		DataAPI.close();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+
 	}
 }
