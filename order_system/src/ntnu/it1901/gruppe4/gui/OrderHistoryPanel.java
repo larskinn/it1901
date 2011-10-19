@@ -19,26 +19,29 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 	
 	Mode mode;
 
-	public OrderHistoryPanel() {
-		this(null);
+	/**
+	 * Creates a new {@link OrderHistoryPanel} in the specified {@link Mode}.
+	 * 
+	 * @param mode The <code>Mode</code> specifying which GUI-view the panel is to be created in.
+	 */
+	public OrderHistoryPanel(Mode mode) {
+		this(mode, null);
 		mode = Mode.ORDER;
 	}
 
-	public OrderHistoryPanel(OrderSummary orderSummary) {
-		this.orderSummary = orderSummary;
-
-		setBorder(Layout.panelPadding);
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		mode = Mode.ORDER;
-		refresh();
-	}
-
-	public OrderHistoryPanel(OrderSummary orderSummary, Mode mode) {
-		this.orderSummary = orderSummary;
-
-		setBorder(Layout.panelPadding);
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+	/**
+	 * Creates a new {@link OrderHistoryPanel} in the specified {@link Mode}<br>
+	 * that adds all items of an {@link Order} to the specified {@link OrderSummary} when clicked.
+	 * 
+	 * @param mode The <code>Mode</code> specifying which GUI-view the panel is to be created in.
+	 * @param orderSummary The <code>OrderSummary</code> on which clicked <code>Orders</code> are shown.
+	 */
+	public OrderHistoryPanel(Mode mode, OrderSummary orderSummary) {
 		this.mode = mode;
+		this.orderSummary = orderSummary;
+		
+		setBorder(Layout.panelPadding);
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		refresh();
 	}
 

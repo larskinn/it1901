@@ -65,7 +65,7 @@ public class OrderWindow implements ActionListener {
 	public OrderWindow() {
 		frame = new JFrame();
 		operatorOrderSummary = new OperatorOrderSummary();
-		orderHistoryPanel = new OrderHistoryPanel(operatorOrderSummary, Mode.ORDER);
+		orderHistoryPanel = new OrderHistoryPanel(Mode.ORDER, operatorOrderSummary);
 		menuSearchPanel = new MenuSearchPanel(operatorOrderSummary);
 		customerPanel = new CustomerPanel(operatorOrderSummary);
 		buttonPanel = new ButtonPanel(this);

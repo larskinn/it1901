@@ -8,13 +8,13 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
+import ntnu.it1901.gruppe4.gui.OrderHistoryPanel.Mode;
 
 public class ChefWindow implements ActionListener {
 
@@ -47,7 +47,7 @@ public class ChefWindow implements ActionListener {
 
 		buttonPanel = new ButtonPanel(this);
 		chefOrderSummary = new ChefOrderSummary();
-		orderHistoryPanel = new OrderHistoryPanel(chefOrderSummary);
+		orderHistoryPanel = new OrderHistoryPanel(Mode.CHEF, chefOrderSummary);
 		chefOrderSummary.setOrderHistoryPanel(orderHistoryPanel);
 		resizeListener = new ResizeListener();
 
