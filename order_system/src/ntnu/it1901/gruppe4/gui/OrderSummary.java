@@ -1,6 +1,7 @@
 package ntnu.it1901.gruppe4.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -82,9 +83,18 @@ public class OrderSummary extends JPanel {
 		updateOrderItems();
 
 		//Add the total price to the panel
-		totalPrice.setText("<html><br>Totalpris: <b>" + 
-									Layout.decimalFormat.format(currentOrder.getOrder().getTotalAmount()) + 
-									" kr </b><br><br></html>");
+		totalPrice.setText("<html><table>" +
+							"<tr><td> Brutto: </td><td align='right'<b>" +
+							Layout.decimalFormat.format(currentOrder.getOrder().getGrossAmount()) +
+							" kr </b></td></tr>" +
+							"<tr><td> Frakt: </td><td align='right'<b>" +
+							Layout.decimalFormat.format(currentOrder.getOrder().getDeliveryFee()) +
+							" kr </b></td></tr>" +
+							"<tr><td>Totalpris: </td><td align='right'><b>" + 
+							Layout.decimalFormat.format(currentOrder.getOrder().getTotalAmount()) + 
+							" kr </b></td></tr>" +
+							"<tr><td></td></tr>" +
+							"</table></html>");
 		totalPrice.setFont(Layout.summaryTextFont);
 		
 		//Add customer information to the panel
