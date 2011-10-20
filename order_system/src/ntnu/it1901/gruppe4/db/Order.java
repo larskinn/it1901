@@ -46,6 +46,9 @@ public class Order {
 	@DatabaseField(useGetSet = true)
 	float totalAmount;
 
+	@DatabaseField(useGetSet = true)
+	float deliveryFee;
+
 	// PS: The idAddress object might not actually contain the data. The
 	// idAddress object will be an Address object without any id, except for the
 	// idAddress field. This is it's only use, and it's used by DataAPI.
@@ -58,6 +61,7 @@ public class Order {
 	 */
 	public Order() {
 		setState(Order.NOT_SAVED);
+		shippingFee = 0.0f;
 	}
 
 	/**
@@ -70,6 +74,7 @@ public class Order {
 		setIdAddress(address);
 		setDeliveryTime(new Date()); // Supposedly this is the current time
 		setState(Order.NOT_SAVED);
+		shippingFee = 0.0f;
 	}
 
 	/**
@@ -191,6 +196,24 @@ public class Order {
 	 */
 	public void setTotalAmount(float totalAmount) {
 		this.totalAmount = totalAmount;
+	}
+	
+	/**
+	 * Returns the shipping fee
+	 * @return the shipping fee
+	 */
+	public float getDeliveryFee() {
+		return deliveryFee;
+	}
+	
+	/**
+	 * Sets the shipping fee
+	 * 
+	 * @param shippingFee the shipping fee
+	 */
+	public void setDeliveryFee(float deliveryFee)
+	{
+		this.deliveryFee = deliveryFee;
 	}
 
 	/**
