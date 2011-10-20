@@ -51,8 +51,6 @@ public class OrderWindow implements ActionListener {
 
 	public static void main(String[] args) {
 		DataAPI.open("./data.db");
-		DataAPI.clearDatabase();
-		DataAPI.createExampleData();
 
 		new OrderWindow();
 	}
