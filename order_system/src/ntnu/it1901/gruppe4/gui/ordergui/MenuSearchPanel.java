@@ -29,7 +29,7 @@ public class MenuSearchPanel extends JPanel {
 		
 		scrollPane = new JScrollPane(orderMenu);
 		scrollPane.setBorder(null);
-		add(orderMenu);
+		add(scrollPane);
 		
 		//Add all the dishes to the menu
 		orderMenu.addDishes(DataAPI.findDishes(""));
