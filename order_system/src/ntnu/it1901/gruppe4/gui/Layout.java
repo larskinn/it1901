@@ -78,6 +78,11 @@ public class Layout {
 	public static final int spaceAfterSearchBox = 10;
 	
 	/**
+	 * Specifies the density of the components in the {@link CustomerPanel} when addding a new customer.
+	 */
+	public static final double newCustomerDensity = 8;
+	
+	/**
 	 * The padding used between the edges of the {@link OrderWindow} and its closest {@link JPanel panels}.
 	 */
 	public static final Border panelPadding = BorderFactory.createEmptyBorder(10, 5, 10, 3);
