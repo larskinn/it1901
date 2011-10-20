@@ -61,7 +61,7 @@ public class Order {
 	 */
 	public Order() {
 		setState(Order.NOT_SAVED);
-		shippingFee = 0.0f;
+		deliveryFee = 0.0f;
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class Order {
 		setIdAddress(address);
 		setDeliveryTime(new Date()); // Supposedly this is the current time
 		setState(Order.NOT_SAVED);
-		shippingFee = 0.0f;
+		deliveryFee = 0.0f;
 	}
 
 	/**
@@ -199,17 +199,17 @@ public class Order {
 	}
 	
 	/**
-	 * Returns the shipping fee
-	 * @return the shipping fee
+	 * Returns the delivery fee
+	 * @return the delivery fee
 	 */
 	public float getDeliveryFee() {
 		return deliveryFee;
 	}
 	
 	/**
-	 * Sets the shipping fee
+	 * Sets the delivery fee
 	 * 
-	 * @param shippingFee the shipping fee
+	 * @param deliveryFee the delivery fee
 	 */
 	public void setDeliveryFee(float deliveryFee)
 	{
