@@ -23,7 +23,7 @@ public class Layout {
 	/**
 	 * The initial size of {@link OrderWindow}.
 	 */
-	public static final Dimension initialSize = new Dimension(800, 600);
+	public static final Dimension initialSize = new Dimension(1024, 768);
 	
 	/**
 	 * The {@link DecimalFormat} used to format every floating point number shown.
