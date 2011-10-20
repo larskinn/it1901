@@ -83,11 +83,11 @@ public class OrderSummary extends JPanel {
 		updateOrderItems();
 
 		//Add the total price to the panel
-		totalPrice.setText("<html><table>" +
-							"<tr><td> Brutto: </td><td align='right'<b>" +
+		totalPrice.setText("<html><table width=100%>" +
+							"<tr><td> Brutto: </td><td align='right'><b>" +
 							Layout.decimalFormat.format(currentOrder.getOrder().getGrossAmount()) +
 							" kr </b></td></tr>" +
-							"<tr><td> Frakt: </td><td align='right'<b>" +
+							"<tr><td> Frakt: </td><td align='right'><b>" +
 							Layout.decimalFormat.format(currentOrder.getOrder().getDeliveryFee()) +
 							" kr </b></td></tr>" +
 							"<tr><td>Totalpris: </td><td align='right'><b>" + 
