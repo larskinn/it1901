@@ -102,10 +102,21 @@ public class Address {
 		this.idCustomer = customer;
 	}
 
+	/**
+	 * Returns the database id of this address
+	 * 
+	 * @return the database id of this address
+	 */
 	public int getIdAddress() {
 		return idAddress;
 	}
 
+	/**
+	 * Returns TRUE if the address is valid. An address is valid if it is
+	 * connected to a customer, and that customer is valid.
+	 * 
+	 * @return TRUE if address is valid, FALSE if not
+	 */
 	public boolean isValid() {
 		if (idCustomer == null)
 			return false;

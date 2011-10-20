@@ -82,6 +82,11 @@ public class Customer {
 		this.phone = phone;
 	}
 
+	/**
+	 * Returns TRUE if this customer is valid
+	 * 
+	 * @return TRUE if this customer is valid
+	 */
 	public boolean isValid() {
 		return true;
 	}

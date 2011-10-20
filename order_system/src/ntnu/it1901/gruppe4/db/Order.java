@@ -40,43 +40,97 @@ public class Order {
 	@DatabaseField(useGetSet = true, foreign = true, canBeNull = false)
 	Address idAddress;
 
+	/**
+	 * Constructor that creates an empty Order object
+	 */
 	public Order() {
 	}
 
+	/**
+	 * Constructor that creates an empty Order, associated with an address
+	 * 
+	 * @param address
+	 *            The address to be associated with this order
+	 */
 	public Order(Address address) {
 		setIdAddress(address);
 		setDeliveryTime(new Date()); // Supposedly this is the current time
 		setState(0);
 	}
 
+	/**
+	 * Returns the address associated with this order. This order might be a
+	 * reference object, i.e. the object only contains the data id.
+	 * 
+	 * @return An address object
+	 */
 	public Address getIdAddress() {
 		return idAddress;
 	}
 
+	/**
+	 * Sets the address associated with this order.
+	 * 
+	 * @param idAddress
+	 *            The address object.
+	 */
 	public void setIdAddress(Address idAddress) {
 		this.idAddress = idAddress;
 	}
 
+	/**
+	 * Returns the data id of this object
+	 * 
+	 * @return the data id of this object
+	 */
 	public int getIdOrder() {
 		return idOrder;
 	}
 
+	/**
+	 * Returns the time of this order
+	 * 
+	 * @return
+	 */
 	public Date getOrderTime() {
 		return orderTime;
 	}
 
+	/**
+	 * Sets the orderTime
+	 * 
+	 * @param orderTime
+	 *            the orderTime
+	 */
 	public void setOrderTime(Date orderTime) {
 		this.orderTime = orderTime;
 	}
 
+	/**
+	 * Returns the time of delivery for this order. This is only valid if the
+	 * order has been delivered.
+	 * 
+	 * @return
+	 */
 	public Date getDeliveryTime() {
 		return deliveryTime;
 	}
 
+	/**
+	 * Sets the delivery time of this order. This is only valid after the order
+	 * has been delivered.
+	 * 
+	 * @param deliveryTime
+	 *            the delivery time.
+	 */
 	public void setDeliveryTime(Date deliveryTime) {
 		this.deliveryTime = deliveryTime;
 	}
 
+	/**
+	 * Returns the state of the order. It can be 
+	 * @return the state of the order.
+	 */
 	public int getState() {
 		return state;
 	}
