@@ -199,6 +199,7 @@ public class DataAPI {
 				om.addItem(d4);
 				om.addItem(d5);
 				om.save();
+				setupSettings();
 
 				System.out.println("[Debug] Inserted example data");
 			} else {
@@ -629,7 +630,11 @@ public class DataAPI {
 	 */
 	static String getConfig(String key) {
 		try {
-			return configDao.queryForId(key).getValue();
+			Config config = configDao.queryForId(key);
+			if (config == null) {
+				return null;
+			}
+			return config.getValue();
 		} catch (SQLException e) {
 			System.err.println("Error fetching config value: " + e.getMessage());
 			return null;

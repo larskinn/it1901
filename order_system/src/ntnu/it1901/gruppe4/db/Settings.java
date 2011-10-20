@@ -29,12 +29,19 @@ public class Settings {
 		m.put(DB_VERSION, "2"); // DB Version can only be set here!
 		DEFAULT_SETTINGS = Collections.unmodifiableMap(m);
 	}
-
+	
+	private static String getConfig(String key) {
+		String result = DataAPI.getConfig(key);
+		if (result == null) {
+			return DEFAULT_SETTINGS.get(key);
+		}
+		return result;
+	}
 	/**
 	 * @return the sum an order has to exceed to qualify for free delivery
 	 */
 	public static float getFreeDeliveryLimit() {
-		return Float.parseFloat(DataAPI.getConfig(FREE_DELIVERY_LIMIT));
+		return Float.parseFloat(getConfig(FREE_DELIVERY_LIMIT));
 	}
 
 	/**
@@ -49,7 +56,7 @@ public class Settings {
 	 * @return the price of delivery
 	 */
 	public static float getDeliveryFee() {
-		return Float.parseFloat(DataAPI.getConfig(DELIVERY_FEE));
+		return Float.parseFloat(getConfig(DELIVERY_FEE));
 	}
 	
 	/**
@@ -64,6 +71,6 @@ public class Settings {
 	 * @return the database version number
 	 */
 	public static int getDBVersion() {
-		return Integer.parseInt(DataAPI.getConfig(DB_VERSION));
+		return Integer.parseInt(getConfig(DB_VERSION));
 	}
 }
