@@ -29,6 +29,7 @@ public class OrderSummary extends JPanel {
 	protected OrderMaker currentOrder;
 	protected JLabel totalPrice;
 	private JLabel customerInfo;
+	private JLabel status;
 	protected Customer customer;
 	protected Collection<OrderListener> orderListeners;
 	
@@ -41,8 +42,9 @@ public class OrderSummary extends JPanel {
 	 */
 	public OrderSummary() {
 		this.orderListeners = new ArrayList<OrderListener>();
-		totalPrice = new JLabel("<html><br>Totalpris: 0.00 kr<br><br></html>");
+		totalPrice = new JLabel();
 		customerInfo = new JLabel();
+		status = new JLabel();
 		currentOrder = new OrderMaker();
 		centerPanel = new JPanel();
 		southPanel = new JPanel();
@@ -52,8 +54,10 @@ public class OrderSummary extends JPanel {
 		
 		totalPrice.setFont(Layout.summaryTextFont);
 		customerInfo.setFont(Layout.summaryTextFont);
+		status.setFont(Layout.summaryTextFont);
 		southPanel.add(totalPrice);
 		southPanel.add(customerInfo);
+		southPanel.add(status);
 		
 		setBorder(Layout.panelPadding);
 		setLayout(new BorderLayout());
@@ -78,9 +82,9 @@ public class OrderSummary extends JPanel {
 		updateOrderItems();
 
 		//Add the total price to the panel
-		totalPrice.setText("<html><br>Totalpris: " + 
+		totalPrice.setText("<html><br>Totalpris: <b>" + 
 									Layout.decimalFormat.format(currentOrder.getOrder().getTotalAmount()) + 
-									" kr<br><br></html>");
+									" kr </b><br><br></html>");
 		totalPrice.setFont(Layout.summaryTextFont);
 		
 		//Add customer information to the panel
@@ -93,12 +97,16 @@ public class OrderSummary extends JPanel {
 			Address address = DataAPI.getAddresses(customer).get(0);
 			
 			customerInfo.setText("<html> <table>" +
-					"<tr> <td> Navn:</td> <td>" + customer.getName() + "</td> </tr>" +
-					"<tr> <td> Telefon:</td> <td>" + customer.getPhone() + "</td> </tr>" +
-					"<tr> <td> Adresse:</td> <td>" + address.getAddressLine() + "</td> </tr>" +
-					"<tr> <td> Postnummer:</td> <td>" + address.getPostalCode() + "</td> </tr>" +
+					"<tr> <td> Navn:</td> <td> <b>" + customer.getName() + "</td> </tr>" +
+					"<tr> <td> Telefon:</td> <td> <b>" + customer.getPhone() + "</b> </td> </tr>" +
+					"<tr> <td> Adresse:</td> <td> <b>" + address.getAddressLine() + "</b> </td> </tr>" +
+					"<tr> <td> Postnummer:</td> <td> <b>" + address.getPostalCode() + "</b> </td> </tr>" +
 					"</table> </html>");
 		}
+		
+		//Add the current order status
+		status.setText("<html><br>Status: <b>" + currentOrder.getOrder().getStateName() + "</b><br><br></html>");
+		
 		centerPanel.revalidate();
 		centerPanel.repaint();
 	}
