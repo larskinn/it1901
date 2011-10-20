@@ -116,7 +116,7 @@ public class OrderMaker {
 		total += delivery;
 
 		order.setTotalAmount(total);
-		order.setDeliveryFee(total);
+		order.setDeliveryFee(delivery);
 	}
 
 	/**

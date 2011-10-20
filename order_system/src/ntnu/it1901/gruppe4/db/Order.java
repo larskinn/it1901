@@ -197,23 +197,33 @@ public class Order {
 	public void setTotalAmount(float totalAmount) {
 		this.totalAmount = totalAmount;
 	}
-	
+
 	/**
 	 * Returns the delivery fee
+	 * 
 	 * @return the delivery fee
 	 */
 	public float getDeliveryFee() {
 		return deliveryFee;
 	}
-	
+
 	/**
 	 * Sets the delivery fee
 	 * 
-	 * @param deliveryFee the delivery fee
+	 * @param deliveryFee
+	 *            the delivery fee
 	 */
-	public void setDeliveryFee(float deliveryFee)
-	{
+	public void setDeliveryFee(float deliveryFee) {
 		this.deliveryFee = deliveryFee;
+	}
+
+	/**
+	 * Returns gross fee (total amount before delivery fee)
+	 * 
+	 * @return the gross amount
+	 */
+	public float getGrossAmount() {
+		return totalAmount - deliveryFee;
 	}
 
 	/**
