@@ -83,30 +83,29 @@ public class OrderSummary extends JPanel {
 		updateOrderItems();
 
 		//Add the total price to the panel
-		totalPrice.setText("<html><table width=100%>" +
-							"<tr><td> Brutto: </td><td align='right'><b>" +
+		totalPrice.setText("<html> <table width='100%'>" +
+							"<tr> <td> Brutto: </td> <td> <b>" +
 							Layout.decimalFormat.format(currentOrder.getOrder().getGrossAmount()) +
-							" kr </b></td></tr>" +
-							"<tr><td> Frakt: </td><td align='right'><b>" +
+							" kr </b> </td> </tr>" +
+							"<tr> <td> Frakt: </td> <td> <b>" +
 							Layout.decimalFormat.format(currentOrder.getOrder().getDeliveryFee()) +
-							" kr </b></td></tr>" +
-							"<tr><td>Totalpris: </td><td align='right'><b>" + 
+							" kr </b> </td> </tr>" +
+							"<tr> <td> Totalpris: </td> <td> <b>" + 
 							Layout.decimalFormat.format(currentOrder.getOrder().getTotalAmount()) + 
-							" kr </b></td></tr>" +
-							"<tr><td></td></tr>" +
-							"</table></html>");
+							" kr </b> </td> </tr>" +
+							"</table> </html>");
 		totalPrice.setFont(Layout.summaryTextFont);
 		
 		//Add customer information to the panel
 		if (customer == null) {
-			customerInfo.setText("<html>Denne orderen er ikke knyttet til noen kunde." +
-							"<br><br><br><br></html>");
+			customerInfo.setText("<html> <br> Denne orderen er ikke knyttet til noen kunde." +
+							"<br> <br> <br> <br> <br> </html>");
 		}
 		else {
 			//The system does not currently support more than one address per customer.
 			Address address = DataAPI.getAddresses(customer).get(0);
 			
-			customerInfo.setText("<html> <table>" +
+			customerInfo.setText("<html> <br> <table>" +
 					"<tr> <td> Navn:</td> <td> <b>" + customer.getName() + "</td> </tr>" +
 					"<tr> <td> Telefon:</td> <td> <b>" + customer.getPhone() + "</b> </td> </tr>" +
 					"<tr> <td> Adresse:</td> <td> <b>" + address.getAddressLine() + "</b> </td> </tr>" +
@@ -115,7 +114,7 @@ public class OrderSummary extends JPanel {
 		}
 		
 		//Add the current order status
-		status.setText("<html><br>Status: <b>" + currentOrder.getOrder().getStateName() + "</b><br><br></html>");
+		status.setText("<html> <br> Status: <b>" + currentOrder.getOrder().getStateName() + "</b> <br> <br> </html>");
 		
 		centerPanel.revalidate();
 		centerPanel.repaint();
