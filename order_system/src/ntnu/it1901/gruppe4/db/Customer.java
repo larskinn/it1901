@@ -2,6 +2,7 @@ package ntnu.it1901.gruppe4.db;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import ntnu.it1901.gruppe4.db.DataAPI;
 
 /**
  * Data class for customers
@@ -89,5 +90,13 @@ public class Customer {
 	 */
 	public boolean isValid() {
 		return true;
+	}
+	
+	/**
+	 * Persists the Customer to the database by updating an existing Customer,
+	 * or -- if one doesn't exist -- adding a new Customer. 
+	 */
+	public void save() {
+		DataAPI.saveCustomer(this);
 	}
 }

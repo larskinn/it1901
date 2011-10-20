@@ -37,8 +37,8 @@ public class DBTest {
 			Customer david = new Customer("David Myklebust", "511112");
 			Address davids_addresse = new Address(david, "Her-veien 1", 5122);
 
-			DataAPI.addCustomer(david);
-			DataAPI.addAddress(davids_addresse);
+			david.save();
+			davids_addresse.save();
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					System.in));

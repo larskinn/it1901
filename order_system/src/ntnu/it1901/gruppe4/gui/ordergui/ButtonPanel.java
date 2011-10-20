@@ -1,11 +1,12 @@
-package ntnu.it1901.gruppe4.ordergui;
+package ntnu.it1901.gruppe4.gui.ordergui;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
+import ntnu.it1901.gruppe4.gui.Layout;
 
 public class ButtonPanel extends JPanel {
 	final JButton menu, customer, history;
@@ -19,12 +20,10 @@ public class ButtonPanel extends JPanel {
 			menu.addActionListener(listener);
 			customer.addActionListener(listener);
 			history.addActionListener(listener);
-		}
-		
-		Dimension buttonSize = new Dimension(100, 50);
-		menu.setPreferredSize(buttonSize);
-		customer.setPreferredSize(buttonSize);
-		history.setPreferredSize(buttonSize);
+		}	
+		menu.setPreferredSize(Layout.buttonSize);
+		customer.setPreferredSize(Layout.buttonSize);
+		history.setPreferredSize(Layout.buttonSize);
 		
 		setLayout(new GridLayout(1, 4));
 		add(menu);

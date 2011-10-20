@@ -1,6 +1,5 @@
-package ntnu.it1901.gruppe4.ordergui;
+package ntnu.it1901.gruppe4.gui.ordergui;
 
-import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -10,16 +9,19 @@ import java.util.Collection;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import ntnu.it1901.gruppe4.db.Customer;
 import ntnu.it1901.gruppe4.db.DataAPI;
+import ntnu.it1901.gruppe4.gui.Layout;
 
 public class CustomerPanel extends JPanel {
 	SearchBox nameInput;
 	SearchBox numberInput;
 	CustomerList customerList;
+	
 	private SearchBoxListener listener;
-	private OrderSummary currentOrder;
+	private OperatorOrderSummary currentOrder;
 
 	public class CustomerList extends JPanel {
 		/**
@@ -36,6 +38,7 @@ public class CustomerPanel extends JPanel {
 		 * @param customers The customers to be added to the {@link CustomerList}.
 		 */
 		public void addCustomers(Collection<Customer> customers) {
+			int counter = 0;
 			removeAll();
 			
 			for (final Customer customer : customers) {
@@ -48,6 +51,13 @@ public class CustomerPanel extends JPanel {
 						CustomerPanel.this.currentOrder.setCustomer(customer);
 					}
 				});
+				
+				if (counter++ % 2 == 0) {
+					item.setBackground(Layout.bgColor1);
+				}
+				else {
+					item.setBackground(Layout.bgColor2);
+				}
 				add(item);
 			}
 			revalidate();
@@ -87,26 +97,36 @@ public class CustomerPanel extends JPanel {
 		}
 	}
 
-	public CustomerPanel(OrderSummary orderSummary) {
+	public CustomerPanel(OperatorOrderSummary orderSummary) {
 		currentOrder = orderSummary;
 		nameInput = new SearchBox();
 		numberInput = new SearchBox();
 		listener = new SearchBoxListener();
 		customerList = new CustomerList();
 
+		setBorder(Layout.panelPadding);
+		nameInput.setFont(Layout.searchBoxFont);
+		numberInput.setFont(Layout.searchBoxFont);
+		
 		//Add all the customers to the list
 		customerList.addCustomers(DataAPI.findCustomers(""));
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		add(nameInput);
-//		add(Box.createRigidArea(new Dimension(0, 25)));
+		add(Box.createVerticalStrut(Layout.spaceAfterSearchBox));
 //		add(numberInput);
-		add(Box.createRigidArea(new Dimension(0, 25)));
-		add(customerList);
-		add(Box.createVerticalStrut(999)); //Force nameInput to its minimum size
+		
+		JScrollPane sp = new JScrollPane(customerList);
+		sp.setBorder(null);
+		add(sp);
 
 		nameInput.addKeyListener(listener);
 		numberInput.addKeyListener(listener);
+	}
+	
+	@Override
+	public void grabFocus() {
+		nameInput.grabFocus();
 	}
 }

@@ -2,6 +2,7 @@ package ntnu.it1901.gruppe4.db;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import ntnu.it1901.gruppe4.db.DataAPI;
 
 /**
  * Data class for addresses of customers
@@ -123,5 +124,13 @@ public class Address {
 		if (!idCustomer.isValid())
 			return false;
 		return true;
+	}
+	
+	/**
+	 * Persists the Address to the database by updating an existing Address,
+	 * or -- if one doesn't exist -- adding a new Address. 
+	 */
+	public void save() {
+		DataAPI.saveAddress(this);
 	}
 }

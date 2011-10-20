@@ -4,6 +4,7 @@ import javax.management.Descriptor;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import ntnu.it1901.gruppe4.db.DataAPI;
 
 /**
  * Data class for dishes
@@ -145,5 +146,13 @@ public class Dish {
 	 */
 	public boolean getActive() {
 		return active;
+	}
+	
+	/**
+	 * Persists the Dish to the database by updating an existing Dish,
+	 * or -- if one doesn't exist -- adding a new Dish. 
+	 */
+	public void save() {
+		DataAPI.saveDish(this);
 	}
 }

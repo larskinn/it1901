@@ -4,6 +4,7 @@
 package ntnu.it1901.gruppe4.db;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class OrderMaker {
 		addQue = new ArrayList<OrderItem>();
 		remQue = new ArrayList<OrderItem>();
 		updateQue = new ArrayList<OrderItem>();
-		order.setState(0);
+		order.setState(Order.NOT_SAVED);
 		hasBeenSaved = false;
 		hasBeenModified = true;
 		calculatePrice();
@@ -66,21 +67,24 @@ public class OrderMaker {
 	 */
 	public void save() {
 		if (isValid()) {
-			order.setState(10); // Placed, ready for chef review
-			if (!hasBeenSaved) {
-				DataAPI.addOrder(order);
-				hasBeenSaved = true;
-			} else {
-				DataAPI.updateOrder(order);
+			if (order.getState() == Order.NOT_SAVED) {
+				order.setState(Order.SAVED); // Placed, ready for chef review
 			}
+			if (!hasBeenSaved) {
+				hasBeenSaved = true;
+
+				Calendar cal = Calendar.getInstance();
+				order.setOrderTime(cal.getTime());
+			}
+			DataAPI.saveOrder(order);
 			for (OrderItem item : addQue) {
-				DataAPI.addOrderItem(item);
+				DataAPI.saveOrderItem(item);
 			}
 			for (OrderItem item : remQue) {
 				DataAPI.remOrderItem(item);
 			}
 			for (OrderItem item : updateQue) {
-				DataAPI.updateOrderItem(item);
+				DataAPI.saveOrderItem(item);
 			}
 			addQue.clear();
 			remQue.clear();
@@ -152,7 +156,7 @@ public class OrderMaker {
 	 */
 	public boolean canBeChanged() {
 		// PS: State numbers are described in comments in the Order class
-		return order.getState() < 40;
+		return order.getState() < Order.DELIVERED_AND_PAID;
 	}
 
 	/**
@@ -286,5 +290,17 @@ public class OrderMaker {
 	 */
 	public boolean isModified() {
 		return hasBeenModified;
+	}
+
+	/**
+	 * Determines if the order has been modified.
+	 * 
+	 * @return TRUE if it has been modified, FALSE if not.
+	 */
+	public void setState(int state) {
+		if (canBeChanged()) {
+			order.setState(state);
+			hasBeenModified = true;
+		}
 	}
 }

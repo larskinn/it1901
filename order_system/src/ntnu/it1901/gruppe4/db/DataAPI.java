@@ -2,6 +2,7 @@ package ntnu.it1901.gruppe4.db;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Map;
 import java.lang.Exception;
 
 import com.j256.ormlite.dao.Dao;
@@ -16,6 +17,7 @@ import com.j256.ormlite.table.TableUtils;
  * API to communicate with pizza server
  * 
  * @author David M.
+ * @author Lars Kinn Ekroll
  */
 public class DataAPI {
 	private static Dao<Customer, Integer> customerDao;
@@ -23,6 +25,7 @@ public class DataAPI {
 	private static Dao<Dish, Integer> dishDao;
 	private static Dao<Order, Integer> orderDao;
 	private static Dao<OrderItem, Integer> orderItemDao;
+	private static Dao<Config, String> configDao;
 
 	private static JdbcConnectionSource conn = null;
 
@@ -52,6 +55,11 @@ public class DataAPI {
 				throw new Exception("Failed to connect to database.");
 
 			setupDatabase();
+			setupSettings();
+			/* setupSettings() should only be called here, but since the GUIs
+			 * clear the database on startup, it has to be called again later,
+			 * from outside this class.
+			 */
 		} catch (Exception e) {
 			System.err.println("[Error] Failed to open database connection: "
 					+ e.getMessage());
@@ -70,15 +78,33 @@ public class DataAPI {
 			dishDao = DaoManager.createDao(conn, Dish.class);
 			orderDao = DaoManager.createDao(conn, Order.class);
 			orderItemDao = DaoManager.createDao(conn, OrderItem.class);
+			configDao = DaoManager.createDao(conn, Config.class);
 
 			TableUtils.createTableIfNotExists(conn, Customer.class);
 			TableUtils.createTableIfNotExists(conn, Address.class);
 			TableUtils.createTableIfNotExists(conn, Dish.class);
 			TableUtils.createTableIfNotExists(conn, Order.class);
 			TableUtils.createTableIfNotExists(conn, OrderItem.class);
+			TableUtils.createTableIfNotExists(conn, Config.class);
 		} else {
 			System.err
 					.println("[Error] Tried to setup database without a connection");
+		}
+	}
+	
+	/**
+	 * Ensures that the program settings exist, by setting any missing settings
+	 * to defaults from {@link Settings#DEFAULT_SETTINGS}. Does not overwrite
+	 * existing settings!
+	 */
+	public static void setupSettings() {
+		// TODO: This should be private, eventually.
+		for (Map.Entry<String, String> entry : Settings.DEFAULT_SETTINGS.entrySet()) {
+			try {
+				configDao.createIfNotExists(new Config(entry.getKey(), entry.getValue()));
+			} catch (SQLException e) {
+				System.err.println("Error setting default config value: " + e.getMessage());
+			}
 		}
 	}
 
@@ -94,6 +120,7 @@ public class DataAPI {
 				TableUtils.clearTable(conn, Dish.class);
 				TableUtils.clearTable(conn, Order.class);
 				TableUtils.clearTable(conn, OrderItem.class);
+				TableUtils.clearTable(conn, Config.class);
 			} catch (SQLException e) {
 				System.err.println("[Error] While clearing database: "
 						+ e.getMessage());
@@ -121,7 +148,7 @@ public class DataAPI {
 
 				Address a1 = new Address(c, "Internettveien 64", 1024);
 				Address a2 = new Address(c, "Addresseveien 32", 2048);
-
+				
 				Address a3 = new Address(c1, "Land of Ooo", 5000);
 				Address a4 = new Address(c2, "Land of Ooo", 5000);
 				Address a5 = new Address(c3, "Candy Kingdom", 7000);
@@ -146,24 +173,24 @@ public class DataAPI {
 						"Luksusserviett av stoff. Sydd av barn i Bangladesh",
 						true);
 
-				addCustomer(c);
-				addCustomer(c1);
-				addCustomer(c2);
-				addCustomer(c3);
-				addAddress(a1);
-				addAddress(a2);
-				addAddress(a3);
-				addAddress(a4);
-				addAddress(a5);
-				addDish(d1);
-				addDish(d2);
-				addDish(d3);
-				addDish(d4);
-				addDish(d5);
-				addDish(d6);
-				addDish(d7);
-				addDish(d8);
-				addDish(d9);
+				saveCustomer(c);
+				saveCustomer(c1);
+				saveCustomer(c2);
+				saveCustomer(c3);
+				saveAddress(a1);
+				saveAddress(a2);
+				saveAddress(a3);
+				saveAddress(a4);
+				saveAddress(a5);
+				saveDish(d1);
+				saveDish(d2);
+				saveDish(d3);
+				saveDish(d4);
+				saveDish(d5);
+				saveDish(d6);
+				saveDish(d7);
+				saveDish(d8);
+				saveDish(d9);
 
 				OrderMaker om = new OrderMaker();
 				Order o = om.getOrder();
@@ -202,15 +229,16 @@ public class DataAPI {
 	// Customer
 
 	/**
-	 * Stores a new customer to the database
+	 * Stores a Customer to the database. If the ID matches an existing Customer,
+	 * the match is updated. If not, a new Customer is added to the database.
 	 * 
 	 * @param c
 	 *            a reference to the Customer object containing the data to be
 	 *            stored
 	 */
-	public static void addCustomer(Customer c) {
+	public static void saveCustomer(Customer c) {
 		try {
-			customerDao.create(c);
+			customerDao.createOrUpdate(c);
 		} catch (SQLException e) {
 			System.err.println("Error storing customer: " + e.getMessage());
 		}
@@ -221,7 +249,7 @@ public class DataAPI {
 	 * 
 	 * @param id
 	 *            unique ID used to identify a customer in the database
-	 *            (idcustomer)
+	 *            (idCustomer)
 	 * @return a reference to a new Customer object containing the data
 	 */
 	public static Customer getCustomer(int id) {
@@ -298,15 +326,16 @@ public class DataAPI {
 	// Address
 
 	/**
-	 * Stores a new address to the database
+	 * Stores an Address to the database. If the ID matches an existing Address,
+	 * the match is updated. If not, a new Address is added to the database.
 	 * 
 	 * @param a
 	 *            a reference to the Address object containing the data to be
 	 *            stored
 	 */
-	public static void addAddress(Address a) {
+	public static void saveAddress(Address a) {
 		try {
-			addressDao.create(a);
+			addressDao.createOrUpdate(a);
 		} catch (SQLException e) {
 			System.err.println("Error storing address: " + e.getMessage());
 		}
@@ -317,7 +346,7 @@ public class DataAPI {
 	 * 
 	 * @param id
 	 *            a unique ID used to identify an address in the database
-	 *            (idaddress)
+	 *            (idAddress)
 	 * @return a reference to a new Address object containing the data
 	 */
 	public static Address getAddress(int id) {
@@ -391,25 +420,26 @@ public class DataAPI {
 	}
 
 	/**
-	 * Stores a new dish to the database
+	 * Stores a Dish to the database. If the ID matches an existing Dish,
+	 * the match is updated. If not, a new Dish is added to the database.
 	 * 
 	 * @param dish
 	 *            a reference to the Dish object containing the data to be
 	 *            stored
 	 */
-	public static void addDish(Dish dish) {
+	public static void saveDish(Dish dish) {
 		try {
-			dishDao.create(dish);
+			dishDao.createOrUpdate(dish);
 		} catch (SQLException e) {
 			System.err.println("Error storing dish: " + e.getMessage());
 		}
 	}
-
+	
 	/**
 	 * Fetches dish data and stores it in a Dish object
 	 * 
 	 * @param id
-	 *            a unique ID used to identify an dish in the database (iddish)
+	 *            a unique ID used to identify an dish in the database (idDish)
 	 * @return a reference to a new Dish object containing the data
 	 */
 	public static Dish getDish(int id) {
@@ -442,32 +472,18 @@ public class DataAPI {
 	}
 
 	/**
-	 * Stores a new order to the database
+	 * Stores an Order to the database. If the ID matches an existing Order,
+	 * the match is updated. If not, a new Order is added to the database.
 	 * 
 	 * @param order
 	 *            a reference to the Order object containing the data to be
 	 *            stored
 	 */
-	public static void addOrder(Order order) {
+	public static void saveOrder(Order order) {
 		try {
-			orderDao.create(order);
+			orderDao.createOrUpdate(order);
 		} catch (SQLException e) {
 			System.err.println("Error storing order: " + e.getMessage());
-		}
-	}
-
-	/**
-	 * Saves changes to an existing order in the database
-	 * 
-	 * @param order
-	 *            a reference to the Order object containing the data to be
-	 *            updated
-	 */
-	public static void updateOrder(Order order) {
-		try {
-			orderDao.update(order);
-		} catch (SQLException e) {
-			System.err.println("Error updating order: " + e.getMessage());
 		}
 	}
 
@@ -496,7 +512,7 @@ public class DataAPI {
 	 * Fetches order data and stores it in a Order object
 	 * 
 	 * @param id
-	 *            a unique ID used to identify an dish in the database (idorder)
+	 *            a unique ID used to identify an dish in the database (idOrder)
 	 * @return a reference to a new Order object containing the data
 	 */
 	public static Order getOrder(int id) {
@@ -524,45 +540,31 @@ public class DataAPI {
 	}
 
 	/**
-	 * Saves changes to an existing orderItem in the database
+	 * Stores an OrderItem to the database. If the ID matches an existing OrderItem,
+	 * the match is updated. If not, a new OrderItem is added to the database.
 	 * 
-	 * @param orderitem
-	 *            a reference to the OrderItem object containing the data to be
-	 *            updated
-	 */
-	public static void updateOrderItem(OrderItem orderitem) {
-		try {
-			orderItemDao.update(orderitem);
-		} catch (SQLException e) {
-			System.err.println("Error storing orderitem: " + e.getMessage());
-		}
-	}
-
-	/**
-	 * Stores a new orderitem to the database
-	 * 
-	 * @param orderitem
+	 * @param orderItem
 	 *            a reference to the OrderItem object containing the data to be
 	 *            stored
 	 */
-	public static void addOrderItem(OrderItem orderitem) {
+	public static void saveOrderItem(OrderItem orderItem) {
 		try {
-			orderItemDao.create(orderitem);
+			orderItemDao.createOrUpdate(orderItem);
 		} catch (SQLException e) {
 			System.err.println("Error storing orderitem: " + e.getMessage());
 		}
 	}
 
 	/**
-	 * Stores an orderitem from the database
+	 * Stores an OrderItem from the database
 	 * 
-	 * @param orderitem
+	 * @param orderItem
 	 *            a reference to the OrderItem object containing the data to be
 	 *            removed
 	 */
-	public static void remOrderItem(OrderItem orderitem) {
+	public static void remOrderItem(OrderItem orderItem) {
 		try {
-			orderItemDao.delete(orderitem);
+			orderItemDao.delete(orderItem);
 		} catch (SQLException e) {
 			System.err.println("Error removing orderitem: " + e.getMessage());
 		}
@@ -573,7 +575,7 @@ public class DataAPI {
 	 * 
 	 * @param id
 	 *            a unique ID used to identify an dish in the database
-	 *            (idorderitem)
+	 *            (idOrderItem)
 	 * @return a reference to a new OrderItem object containing the data
 	 */
 	public static OrderItem getOrderItem(int id) {
@@ -599,6 +601,37 @@ public class DataAPI {
 			return orderItemDao.queryForEq("idOrder_id", order.getIdOrder());
 		} catch (SQLException e) {
 			System.err.println("Error fetching order items: " + e.getMessage());
+			return null;
+		}
+	}
+	
+	// Config
+	
+	/**
+	 * Stores a configuration value to the database
+	 * 
+	 * @param key - the name of the configuration value (a String)
+	 * @param value - the value (a String)
+	 */
+	static void setConfig(String key, String value) {
+		try {
+			configDao.createOrUpdate(new Config(key, value));
+		} catch (SQLException e) {
+			System.err.println("Error storing config value: " + e.getMessage());
+		}
+	}
+	
+	/**
+	 * Fetches a configuration value from the database
+	 * 
+	 * @param key - the name of the configuration (a String)
+	 * @return the value, as a String
+	 */
+	static String getConfig(String key) {
+		try {
+			return configDao.queryForId(key).getValue();
+		} catch (SQLException e) {
+			System.err.println("Error fetching config value: " + e.getMessage());
 			return null;
 		}
 	}
