@@ -253,7 +253,7 @@ public class CustomerPanel extends JPanel {
 			customerList.addCustomers(DataAPI.findCustomers(""));
 			
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-			errorMessage.setText("");
+			errorMessage.setText(" ");
 			
 			//Box used to place the new customer button to the right of the name input box
 			//with three spaces between them
