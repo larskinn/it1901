@@ -46,7 +46,6 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 	}
 
 	public void refresh() {
-		System.out.println(DataAPI.getOrder(0));
 		int counter = 0;
 		removeAll();
 
