@@ -1,7 +1,8 @@
 Informatikk prosjektarbeid I, Gruppe 4
 ======================================
 
-Prosjektet har ingen kode så langt.
+Generell informasjon om git
+---------------------------
 
 Hvordan bli med
 ---------------
