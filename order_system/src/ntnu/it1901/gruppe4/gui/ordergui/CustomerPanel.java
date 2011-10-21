@@ -163,6 +163,8 @@ public class CustomerPanel extends JPanel {
 					Address newAddress = new Address(newCustomer, addressInput.getText(), postNo);
 					DataAPI.saveAddress(newAddress);
 					
+					currentOrder.setCustomer(newCustomer);
+					searchInput.setText("");
 					changeMode(false);
 				}
 			}
@@ -246,6 +248,10 @@ public class CustomerPanel extends JPanel {
 			gbc.gridx--;
 			add(errorMessage, gbc);
 			
+			nameInput.setText(searchInput.getText());
+			numberInput.setText("");
+			addressInput.setText("");
+			postNoInput.setText("");
 			nameInput.grabFocus();
 		}
 		else {
