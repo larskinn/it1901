@@ -74,7 +74,7 @@ public class OperatorOrderSummary extends OrderSummary {
 	 * Overrided and rewritten to add a {@link MouseAdapter} to each individual <code>OrderItem</code>.
 	 */
 	@Override
-	protected void updateOrderItems() {
+	protected void drawOrderItems() {
 		int counter = 0;
 		List<OrderItem> currentItems = currentOrder.getItemList();
 		

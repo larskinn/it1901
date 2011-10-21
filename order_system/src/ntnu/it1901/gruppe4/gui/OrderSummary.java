@@ -1,7 +1,8 @@
 package ntnu.it1901.gruppe4.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,9 +18,6 @@ import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
 import ntnu.it1901.gruppe4.db.OrderItem;
 import ntnu.it1901.gruppe4.db.OrderMaker;
-import ntnu.it1901.gruppe4.gui.Layout;
-import ntnu.it1901.gruppe4.gui.OrderSummaryItem;
-import ntnu.it1901.gruppe4.gui.OrderListener;
 
 /**
  * This class contains a basic set of fields and methods for viewing {@link ntnu.it1901.gruppe4.db.Order Orders}.
@@ -68,7 +66,15 @@ public class OrderSummary extends JPanel {
 		add(southPanel, BorderLayout.SOUTH);
 		
 		assignCustomer(null);
-		update();
+
+		//When the panel is resized, the size of the total price label must be repainted
+		//Todo: Check if this works on a Mac
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				drawTotalPrice();
+			}
+		});
 	}
 	
 	/**
@@ -80,21 +86,10 @@ public class OrderSummary extends JPanel {
 		centerPanel.removeAll();
 		
 		//Add order items to the panel
-		updateOrderItems();
+		drawOrderItems();
 
 		//Add the total price to the panel
-		totalPrice.setText("<html> <table width='100%'>" +
-							"<tr> <td> Brutto: </td> <td> <b>" +
-							Layout.decimalFormat.format(currentOrder.getOrder().getGrossAmount()) +
-							" kr </b> </td> </tr>" +
-							"<tr> <td> Frakt: </td> <td> <b>" +
-							Layout.decimalFormat.format(currentOrder.getOrder().getDeliveryFee()) +
-							" kr </b> </td> </tr>" +
-							"<tr> <td> Totalpris: </td> <td> <b>" + 
-							Layout.decimalFormat.format(currentOrder.getOrder().getTotalAmount()) + 
-							" kr </b> </td> </tr>" +
-							"</table> </html>");
-		totalPrice.setFont(Layout.summaryTextFont);
+		drawTotalPrice();
 		
 		//Add customer information to the panel
 		if (customer == null) {
@@ -124,7 +119,7 @@ public class OrderSummary extends JPanel {
 	 * Adds all {@link OrderItem OrderItems} to the center panel.
 	 * Override this method to add some listener to each individual <code>OrderItem</code>.
 	 */
-	protected void updateOrderItems() {
+	protected void drawOrderItems() {
 		int counter = 0;
 		List<OrderItem> currentItems = currentOrder.getItemList();
 		
@@ -141,6 +136,24 @@ public class OrderSummary extends JPanel {
 			}
 			centerPanel.add(item);
 		}
+	}
+	
+	/**
+	 * Draws the total price of the current {@link Order} to the {@link OrderSummary}.
+	 */
+	protected void drawTotalPrice() {
+		//Table width is set to the width of the order summary panel
+		totalPrice.setText("<html> <hr> <table width='" + getSize().width + "'" +
+							"<tr> <td> Brutto: </td> <td align='right'> <b>" +
+							Layout.decimalFormat.format(currentOrder.getOrder().getGrossAmount()) +
+							" kr </b> </td> </tr>" +
+							"<tr> <td> Frakt: </td> <td align='right'> <b>" +
+							Layout.decimalFormat.format(currentOrder.getOrder().getDeliveryFee()) +
+							" kr </b> </td> </tr>" +
+							"<tr> <td> Totalpris: </td> <td align='right'> <b>" + 
+							Layout.decimalFormat.format(currentOrder.getOrder().getTotalAmount()) + 
+							" kr </b> </td> </tr>" +
+							"</table> </html>");
 	}
 	
 	/**
