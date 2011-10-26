@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import ntnu.it1901.gruppe4.gui.ordergui.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
@@ -24,6 +25,11 @@ public class Layout {
 	 * The initial size of {@link OrderWindow}.
 	 */
 	public static final Dimension initialSize = new Dimension(1024, 768);
+	
+	/**
+	 * The initial size of {@link ConfigWindow}.
+	 */
+	public static final Dimension configWindowSize = new Dimension(492, 333);
 	
 	/**
 	 * The {@link DecimalFormat} used to format every floating point number shown.
