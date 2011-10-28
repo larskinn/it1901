@@ -93,18 +93,17 @@ public class OrderWindow implements ActionListener {
 		//Adds a menu bar that will open a new config window when pressed
 		JMenu menu = new JMenu("Valg");
 		
+		//Fired when the menu in the menu bar is clicked
 		menu.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ConfigWindow configWindow = new ConfigWindow(frame);
 				frame.setEnabled(false);
 				
-				//When settings are saved, update the order summary
+				//When the config window is closed, enable the parent frame
 				configWindow.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosing(WindowEvent e) {
-						//Hack: Update the prices in the order summary
-						operatorOrderSummary.addItem(new Dish("", 0, "", false));
 						frame.setEnabled(true);
 					}
 				});
