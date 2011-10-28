@@ -69,5 +69,7 @@ public class MenuPanel extends JPanel {
 			}
 			add(item);
 		}
+		revalidate();
+		repaint();
 	}
 }
