@@ -26,7 +26,7 @@ public class Settings {
 		// Put default configuration key/values here
 		m.put(DELIVERY_FEE, "20");
 		m.put(FREE_DELIVERY_LIMIT, "500");
-		m.put(DB_VERSION, "2"); // DB Version can only be set here!
+		m.put(DB_VERSION, "3"); // DB Version can only be set here!
 		DEFAULT_SETTINGS = Collections.unmodifiableMap(m);
 	}
 	
