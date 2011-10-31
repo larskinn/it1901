@@ -205,6 +205,10 @@ public class OrderSummary extends JPanel {
 		assignCustomer(DataAPI.getCustomer(DataAPI.getAddress(order)));
 		update();
 	}
+	
+	public Order getOrder() {
+		return currentOrder.getOrder();
+	}
 
 	/**
 	 * Adds a new {@link OrderListener} to this {@link ChefOrderSummary}.
