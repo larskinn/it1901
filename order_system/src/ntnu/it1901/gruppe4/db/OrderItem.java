@@ -166,7 +166,7 @@ public class OrderItem {
 	 * 
 	 * @return the price of this order item.
 	 */
-	public String getDecsription() {
+	public String getDescription() {
 		return description;
 	}
 

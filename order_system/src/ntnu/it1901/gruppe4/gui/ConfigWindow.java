@@ -41,15 +41,19 @@ public class ConfigWindow {
 		
 		final JLabel deliveryFeePrefix = new JLabel("Fraktpris: ");
 		final JLabel freeDeliveryLimitPrefix = new JLabel("Gratis frakt : ");
-		final JLabel taxPrefix = new JLabel("MVA (ikke imp.): ");
+		final JLabel taxPrefix = new JLabel("MVA: ");
+		final JLabel addressPrefix = new JLabel("Vår addresse: ");
 		
 		final SearchBox deliveryFee = new SearchBox();
 		final SearchBox freeDeliveryLimit = new SearchBox();
 		final SearchBox tax = new SearchBox();
+		final SearchBox address = new SearchBox();
 		
 		final JLabel deliveryFeeSuffix = new JLabel(" kr");
 		final JLabel freeDeliveryLimitSuffix = new JLabel(" kr");
 		final JLabel taxSuffix = new JLabel(" %");
+		// needs an empty addressSuffix to please the whims of Leo's layout system
+		final JLabel addressSuffix = new JLabel(" ");
 		
 		final JLabel errorMessage = new JLabel(" ");
 		
@@ -58,6 +62,7 @@ public class ConfigWindow {
 			public void actionPerformed(ActionEvent e) {
 				float delivery = 0;
 				float limit = 0;
+				float percentage = 0;
 				
 				try {
 					//Use dot as decimal seperator instead of comma
@@ -80,8 +85,19 @@ public class ConfigWindow {
 					return;
 				}
 				
+				try {
+					String parsableString = tax.getText().replaceAll(",", ".");
+					percentage = Float.parseFloat(parsableString);
+				}
+				catch (NumberFormatException nfe) {
+					errorMessage.setText("Spesifisert MVA-prosentsats er ugyldig");
+					return;
+				}
+				
 				Settings.setDeliveryFee(delivery);
 				Settings.setFreeDeliveryLimit(limit);
+				Settings.setTax(percentage);
+				Settings.setRestaurantAddress(address.getText());
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 			}
 		});
@@ -99,9 +115,12 @@ public class ConfigWindow {
 		deliveryFeePrefix.setFont(Layout.summaryTextFont);
 		freeDeliveryLimitPrefix.setFont(Layout.summaryTextFont);
 		taxPrefix.setFont(Layout.summaryTextFont);
+		addressPrefix.setFont(Layout.summaryTextFont);
 		
 		deliveryFee.setText(Layout.decimalFormat.format(Settings.getDeliveryFee()));
 		freeDeliveryLimit.setText(Layout.decimalFormat.format(Settings.getFreeDeliveryLimit()));
+		tax.setText(Layout.decimalFormat.format(Settings.getTax()));
+		address.setText(Settings.getRestaurantAddress());
 		
 		deliveryFeeSuffix.setFont(Layout.summaryTextFont);
 		freeDeliveryLimitSuffix.setFont(Layout.summaryTextFont);
@@ -124,6 +143,9 @@ public class ConfigWindow {
 		
 		gbc.gridy++;
 		frame.add(taxPrefix, gbc);
+		
+		gbc.gridy++;
+		frame.add(addressPrefix, gbc);
 
 		gbc.gridx++;
 		gbc.gridy = 0;
@@ -136,6 +158,9 @@ public class ConfigWindow {
 		gbc.gridy++;
 		frame.add(tax, gbc);
 		
+		gbc.gridy++;
+		frame.add(address, gbc);
+		
 		gbc.gridx++;
 		gbc.gridy = 0;
 		gbc.weightx = 0;
@@ -146,6 +171,9 @@ public class ConfigWindow {
 
 		gbc.gridy++;
 		frame.add(taxSuffix, gbc);
+		
+		gbc.gridy++;
+		frame.add(addressSuffix, gbc);
 		
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.fill = GridBagConstraints.NONE;
