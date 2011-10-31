@@ -15,6 +15,7 @@ public class Settings {
 	 */
 	private static final String DELIVERY_FEE = "DELIVERY_FEE";
 	private static final String FREE_DELIVERY_LIMIT = "FREE_DELIVERY_LIMIT";
+	private static final String RESTAURANT_ADDRESS = "RESTAURANT_ADDRESS";
 	private static final String DB_VERSION = "DB_VERSION";
 
 	/**
@@ -26,10 +27,15 @@ public class Settings {
 		// Put default configuration key/values here
 		m.put(DELIVERY_FEE, "20");
 		m.put(FREE_DELIVERY_LIMIT, "500");
+		m.put(RESTAURANT_ADDRESS, "Høgskoleringen 3, Trondheim");
 		m.put(DB_VERSION, "3"); // DB Version can only be set here!
 		DEFAULT_SETTINGS = Collections.unmodifiableMap(m);
 	}
 	
+	/*
+	 * Internal method to avoid NullPointerException when fetching undefined
+	 * settings. Only works when the setting is in DEFAULT_SETTINGS.
+	 */
 	private static String getConfig(String key) {
 		String result = DataAPI.getConfig(key);
 		if (result == null) {
@@ -65,6 +71,21 @@ public class Settings {
 	 */
 	public static void setDeliveryFee(float fee) {
 		DataAPI.setConfig(DELIVERY_FEE, Float.toString(fee));
+	}
+	
+	/**
+	 * @return the address of the restaurant
+	 */
+	public static String getRestaurantAddress() {
+		return getConfig(RESTAURANT_ADDRESS);
+	}
+	
+	/**
+	 * @param address
+	 *         the address of the restaurant
+	 */
+	public static void setRestaurantAddress(String address) {
+		DataAPI.setConfig(RESTAURANT_ADDRESS, address);
 	}
 
 	/**
