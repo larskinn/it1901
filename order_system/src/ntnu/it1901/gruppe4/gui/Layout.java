@@ -29,7 +29,7 @@ public class Layout {
 	/**
 	 * The initial size of {@link ConfigWindow}.
 	 */
-	public static final Dimension configWindowSize = new Dimension(492, 333);
+	public static final Dimension configWindowSize = new Dimension(492, 500);
 	
 	/**
 	 * The {@link DecimalFormat} used to format every floating point number shown.

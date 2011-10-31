@@ -29,6 +29,9 @@ public class OrderItem {
 	@DatabaseField(useGetSet = true)
 	float amount;
 
+	@DatabaseField(useGetSet = true)
+	String description;
+
 	private OrderItem() {
 	}
 
@@ -47,6 +50,7 @@ public class OrderItem {
 		setIdDish(dish);
 		setAmount(dish.getPrice());
 		setName(dish.getName());
+		setDescription(dish.getDescription());
 	}
 
 	/**
@@ -155,6 +159,25 @@ public class OrderItem {
 	 */
 	public void setAmount(float amount) {
 		this.amount = amount;
+	}
+
+	/**
+	 * Returns the description of the item.
+	 * 
+	 * @return the price of this order item.
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * Sets the description of the order item.
+	 * 
+	 * @param description
+	 *            the new description of the order item.
+	 */
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	/**
