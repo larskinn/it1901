@@ -9,9 +9,11 @@ import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
+import ntnu.it1901.gruppe4.deliverygui.MapWindow;
 
 public class OrderHistoryPanel extends JPanel implements OrderListener {
 	private OrderSummary orderSummary;
+	private MapWindow mapWindow;
 
 	public enum Mode {
 		ORDER, CHEF, DELIVERY;
@@ -37,8 +39,22 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 	 * @param orderSummary The <code>OrderSummary</code> on which clicked <code>Orders</code> are shown.
 	 */
 	public OrderHistoryPanel(Mode mode, OrderSummary orderSummary) {
+		this(mode, orderSummary, null);
+	}
+	
+	/**
+	 * Creates a new {@link OrderHistoryPanel} in the specified {@link Mode}<br>
+	 * that adds all items of an {@link Order} to the specified {@link OrderSummary} and
+	 * the specified {@link MapWindow} when clicked.
+	 * 
+	 * @param mode The <code>Mode</code> specifying which GUI-view the panel is to be created in.
+	 * @param orderSummary The <code>OrderSummary</code> on which clicked <code>Orders</code> are shown.
+	 * @param mapWindow The <code>MapWindow</code> in which clicked <code>Orders</code> are shown.
+	 */
+	public OrderHistoryPanel(Mode mode, OrderSummary orderSummary, MapWindow mapWindow) {
 		this.mode = mode;
 		this.orderSummary = orderSummary;
+		this.mapWindow = mapWindow;
 		
 		setBorder(Layout.panelPadding);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -48,7 +64,7 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 	public void refresh() {
 		int counter = 0;
 		removeAll();
-
+		
 		for (final Order order : DataAPI.getOrders()) {
 			if (mode == Mode.ORDER){
 				if (!order.isVisibleToOperator()) continue;
@@ -67,6 +83,11 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 				item.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
 						orderSummary.setOrder(order);
+						
+						if (mapWindow != null) {
+							//Update the map with the clicked order
+							mapWindow.setAddress(DataAPI.getAddress(order));
+						}
 					}
 				});
 			}
