@@ -45,7 +45,7 @@ import javax.swing.*;
 public class MapWindow extends JPanel {
 	
 	
-	String address = "Starevegen 9";
+	String address = "";
 	String modAddress = address.replace(' ','+');
 	String newAddress = "|&markers=color:red|"+modAddress+",Trondheim";
 	
@@ -60,7 +60,23 @@ public class MapWindow extends JPanel {
 	}
 	
 	public void setAddress(Address address){
-		this.address = address.getAddressLine();
+		System.out.println("hei");
+		removeAll();
+		String staticAddress = address.getAddressLine().replace(' ','+');
+		String markerAddress = "|&markers=color:red|"+staticAddress+",Trondheim";
+		
+		BufferedImage image = null;
+		try {
+			image = ImageIO.read(new URL("http://maps.google.com/maps/api/staticmap?"+staticAddress+",Trondheim&size=500x500&markers=color:green|Munkegata,Trondheim"+markerAddress+"&sensor=false"));
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JLabel label = new JLabel(new ImageIcon(image));
+		add(label);
 		revalidate();
 		repaint();
 	}
