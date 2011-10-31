@@ -41,7 +41,7 @@ public class ConfigWindow {
 		
 		final JLabel deliveryFeePrefix = new JLabel("Fraktpris: ");
 		final JLabel freeDeliveryLimitPrefix = new JLabel("Gratis frakt : ");
-		final JLabel taxPrefix = new JLabel("MVA (ikke imp.): ");
+		final JLabel taxPrefix = new JLabel("MVA: ");
 		
 		final SearchBox deliveryFee = new SearchBox();
 		final SearchBox freeDeliveryLimit = new SearchBox();
@@ -58,6 +58,7 @@ public class ConfigWindow {
 			public void actionPerformed(ActionEvent e) {
 				float delivery = 0;
 				float limit = 0;
+				float percentage = 0;
 				
 				try {
 					//Use dot as decimal seperator instead of comma
@@ -80,8 +81,18 @@ public class ConfigWindow {
 					return;
 				}
 				
+				try {
+					String parsableString = tax.getText().replaceAll(",", ".");
+					percentage = Float.parseFloat(parsableString);
+				}
+				catch (NumberFormatException nfe) {
+					errorMessage.setText("Spesifisert MVA-prosentsats er ugyldig");
+					return;
+				}
+				
 				Settings.setDeliveryFee(delivery);
 				Settings.setFreeDeliveryLimit(limit);
+				Settings.setTax(percentage);
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 			}
 		});
@@ -102,6 +113,7 @@ public class ConfigWindow {
 		
 		deliveryFee.setText(Layout.decimalFormat.format(Settings.getDeliveryFee()));
 		freeDeliveryLimit.setText(Layout.decimalFormat.format(Settings.getFreeDeliveryLimit()));
+		tax.setText(Layout.decimalFormat.format(Settings.getTax()));
 		
 		deliveryFeeSuffix.setFont(Layout.summaryTextFont);
 		freeDeliveryLimitSuffix.setFont(Layout.summaryTextFont);

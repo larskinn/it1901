@@ -15,6 +15,7 @@ public class Settings {
 	 */
 	private static final String DELIVERY_FEE = "DELIVERY_FEE";
 	private static final String FREE_DELIVERY_LIMIT = "FREE_DELIVERY_LIMIT";
+	private static final String TAX = "TAX";
 	private static final String RESTAURANT_ADDRESS = "RESTAURANT_ADDRESS";
 	private static final String DB_VERSION = "DB_VERSION";
 
@@ -27,6 +28,7 @@ public class Settings {
 		// Put default configuration key/values here
 		m.put(DELIVERY_FEE, "20");
 		m.put(FREE_DELIVERY_LIMIT, "500");
+		m.put(TAX, "25");
 		m.put(RESTAURANT_ADDRESS, "Høgskoleringen 3, Trondheim");
 		m.put(DB_VERSION, "3"); // DB Version can only be set here!
 		DEFAULT_SETTINGS = Collections.unmodifiableMap(m);
@@ -74,6 +76,21 @@ public class Settings {
 	}
 	
 	/**
+	 * @return a float representing the tax (merverdiavgift) as a percentage
+	 */
+	public static float getTax() {
+		return Float.parseFloat(getConfig(TAX));
+	}
+	
+	/**
+	 * @param percentage
+	 *         a float representing the tax (merverdiavgift) as a percentage
+	 */
+	public static void setTax(float percentage) {
+		DataAPI.setConfig(TAX, Float.toString(percentage));
+	}
+	
+	/**
 	 * @return the address of the restaurant
 	 */
 	public static String getRestaurantAddress() {
@@ -87,6 +104,7 @@ public class Settings {
 	public static void setRestaurantAddress(String address) {
 		DataAPI.setConfig(RESTAURANT_ADDRESS, address);
 	}
+	
 
 	/**
 	 * @return the database version number
