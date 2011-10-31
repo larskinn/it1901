@@ -41,6 +41,12 @@ public class DeliveryOrderSummary extends OrderSummary {
 				deliverOrder();
 			}
 		});
+		inTransitButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				transitOrder();
+			}
+		});
 		southPanel.add(inTransitButton);
 		southPanel.add(deliveredButton);
 	}
@@ -50,6 +56,15 @@ public class DeliveryOrderSummary extends OrderSummary {
 	 */
 	public void deliverOrder() {
 		currentOrder.setState(Order.DELIVERED_AND_PAID);
+		currentOrder.save();
+		currentOrder = new OrderMaker();
+		assignCustomer(null);
+		update();
+		orderHistoryPanel.refresh();
+	}
+	
+	public void transitOrder() {
+		currentOrder.setState(Order.IN_TRANSIT);
 		currentOrder.save();
 		currentOrder = new OrderMaker();
 		assignCustomer(null);

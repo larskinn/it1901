@@ -6,20 +6,31 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+
+import ntnu.it1901.gruppe4.db.Address;
+import ntnu.it1901.gruppe4.db.DataAPI;
+import ntnu.it1901.gruppe4.deliverygui.DeliveryView;
+import ntnu.it1901.gruppe4.deliverygui.DeliveryOrderSummary;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class MapWindow extends JFrame {
+/*public class MapWindow extends JFrame {
 	
 	static String address = JOptionPane.showInputDialog("Skriv inn en adresse");
-	static String staticAddress = address.replace(' ','+');
+	static String modAddress = address.replace(' ','+');
+	static String newAddress = "|&markers=color:red|"+modAddress+",Trondheim";
 	
 	
 	public static void main(String[] args) throws Exception{
+		
+		String staticAddress = address.replace(' ','+');
+		String newAddress = "|&markers=color:red|"+staticAddress+",Trondheim";
+		
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
-		BufferedImage image = ImageIO.read(new URL("http://maps.google.com/maps/api/staticmap?"+staticAddress+"&size=500x500&markers=color:green|"+staticAddress+"|Munkegata,Trondheim|&sensor=false"));
+		BufferedImage image = ImageIO.read(new URL("http://maps.google.com/maps/api/staticmap?"+staticAddress+",Trondheim&size=500x500&markers=color:green|Munkegata,Trondheim"+newAddress+"&sensor=false"));
 		JLabel label = new JLabel(new ImageIcon(image));
 		panel.add(label);
 		frame.add(panel);
@@ -29,4 +40,29 @@ public class MapWindow extends JFrame {
 		frame.setVisible(true);
 	}
 
+}*/
+
+public class MapWindow extends JPanel {
+	
+	
+	String address = "Starevegen 9";
+	String modAddress = address.replace(' ','+');
+	String newAddress = "|&markers=color:red|"+modAddress+",Trondheim";
+	
+	public MapWindow() throws MalformedURLException, IOException{
+		
+		String staticAddress = address.replace(' ','+');
+		String newAddress = "|&markers=color:red|"+staticAddress+",Trondheim";
+		
+		BufferedImage image = ImageIO.read(new URL("http://maps.google.com/maps/api/staticmap?"+staticAddress+",Trondheim&size=500x500&markers=color:green|Munkegata,Trondheim"+newAddress+"&sensor=false"));
+		JLabel label = new JLabel(new ImageIcon(image));
+		add(label);
+	}
+	
+	public void setAddress(Address address){
+		this.address = address.getAddressLine();
+		revalidate();
+		repaint();
+	}
+	
 }
