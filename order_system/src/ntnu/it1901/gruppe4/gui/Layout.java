@@ -49,13 +49,22 @@ public class Layout {
 	 */
 	public static final Font summaryTextFont = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
 	/**
+	 * The {@link Font} of label and button text in the {@link ConfigWindow}.
+	 */
+	public static final Font configTextFont = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
+	/**
 	 * The {@link Font} of all error messages shown.
 	 */
 	public static final Font errorFont = summaryTextFont;
 	/**
-	 * The {@link Font} that will be used when entering text into a search box.
+	 * The {@link Font} that will be used when entering text into a {@link SearchBox}.
 	 */
 	public static final Font searchBoxFont = new Font(Font.DIALOG_INPUT, Font.BOLD, 40);
+	
+	/**
+	 * The {@link Font} that will be used when entering text into a {@link ConfigWindow#ConfigBox}.
+	 */
+	public static final Font configBoxFont = new Font(Font.DIALOG_INPUT, Font.BOLD, 20);
 
 	/**
 	 * The foreground {@link Color} of every error message used.

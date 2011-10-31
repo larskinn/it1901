@@ -1,5 +1,6 @@
 package ntnu.it1901.gruppe4.gui;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -10,11 +11,20 @@ import java.awt.event.WindowListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import ntnu.it1901.gruppe4.db.Settings;
-import ntnu.it1901.gruppe4.gui.ordergui.SearchBox;
 
 public class ConfigWindow {
+	public class ConfigBox extends JTextField {
+		private ConfigBox() {
+			setFont(Layout.configBoxFont);
+			
+			//To prevent this component's height from growing
+			setMaximumSize(new Dimension(Short.MAX_VALUE, getPreferredSize().height));
+		}
+	}
+
 	private JFrame frame;
 	
 	public ConfigWindow() {
@@ -44,10 +54,10 @@ public class ConfigWindow {
 		final JLabel taxPrefix = new JLabel("MVA: ");
 		final JLabel addressPrefix = new JLabel("Vår addresse: ");
 		
-		final SearchBox deliveryFee = new SearchBox();
-		final SearchBox freeDeliveryLimit = new SearchBox();
-		final SearchBox tax = new SearchBox();
-		final SearchBox address = new SearchBox();
+		final ConfigBox deliveryFee = new ConfigBox();
+		final ConfigBox freeDeliveryLimit = new ConfigBox();
+		final ConfigBox tax = new ConfigBox();
+		final ConfigBox address = new ConfigBox();
 		
 		final JLabel deliveryFeeSuffix = new JLabel(" kr");
 		final JLabel freeDeliveryLimitSuffix = new JLabel(" kr");
@@ -109,22 +119,22 @@ public class ConfigWindow {
 			}
 		});
 		
-		save.setFont(Layout.summaryTextFont);
-		cancel.setFont(Layout.summaryTextFont);
+		save.setFont(Layout.configTextFont);
+		cancel.setFont(Layout.configTextFont);
 		
-		deliveryFeePrefix.setFont(Layout.summaryTextFont);
-		freeDeliveryLimitPrefix.setFont(Layout.summaryTextFont);
-		taxPrefix.setFont(Layout.summaryTextFont);
-		addressPrefix.setFont(Layout.summaryTextFont);
+		deliveryFeePrefix.setFont(Layout.configTextFont);
+		freeDeliveryLimitPrefix.setFont(Layout.configTextFont);
+		taxPrefix.setFont(Layout.configTextFont);
+		addressPrefix.setFont(Layout.configTextFont);
 		
 		deliveryFee.setText(Layout.decimalFormat.format(Settings.getDeliveryFee()));
 		freeDeliveryLimit.setText(Layout.decimalFormat.format(Settings.getFreeDeliveryLimit()));
 		tax.setText(Layout.decimalFormat.format(Settings.getTax()));
 		address.setText(Settings.getRestaurantAddress());
 		
-		deliveryFeeSuffix.setFont(Layout.summaryTextFont);
-		freeDeliveryLimitSuffix.setFont(Layout.summaryTextFont);
-		taxSuffix.setFont(Layout.summaryTextFont);
+		deliveryFeeSuffix.setFont(Layout.configTextFont);
+		freeDeliveryLimitSuffix.setFont(Layout.configTextFont);
+		taxSuffix.setFont(Layout.configTextFont);
 		
 		errorMessage.setFont(Layout.errorFont);
 		errorMessage.setForeground(Layout.errorColor);
