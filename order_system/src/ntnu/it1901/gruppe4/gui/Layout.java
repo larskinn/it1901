@@ -93,6 +93,11 @@ public class Layout {
 	public static final int spaceAfterSearchBox = 10;
 	
 	/**
+	 * Number of trailing pixels each input box in the {@link ConfigWindow}.
+	 */
+	public static final int spaceAfterConfigBox = 5;
+	
+	/**
 	 * Specifies the density of the components in the {@link CustomerPanel} when addding a new customer.
 	 */
 	public static final double newCustomerDensity = 8;
