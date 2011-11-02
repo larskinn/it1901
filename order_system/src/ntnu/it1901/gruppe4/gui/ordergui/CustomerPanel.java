@@ -93,8 +93,6 @@ public class CustomerPanel extends JPanel {
 		errorMessage = new JLabel();
 		
 		setBorder(Layout.panelPadding);
-		searchInput.setFont(Layout.searchBoxFont);
-		numberInput.setFont(Layout.searchBoxFont);
 		newCustomer.setAlignmentY(TOP_ALIGNMENT + 0.1f);
 		newCustomer.setFont(Layout.summaryTextFont);
 		createCustomer.setFont(Layout.summaryTextFont);
@@ -103,7 +101,7 @@ public class CustomerPanel extends JPanel {
 		errorMessage.setForeground(Layout.errorColor);
 		
 		//Set the initial mode of the panel to searching
-		changeMode(false);
+		changeFunction(false);
 		
 		searchInput.addKeyListener(new KeyAdapter() {
 			/*keyReleased() used for searching as getText() does not return the
@@ -128,7 +126,7 @@ public class CustomerPanel extends JPanel {
 		newCustomer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				changeMode(true);
+				changeFunction(true);
 			}
 		});
 		
@@ -165,7 +163,7 @@ public class CustomerPanel extends JPanel {
 					
 					currentOrder.setCustomer(newCustomer);
 					searchInput.setText("");
-					changeMode(false);
+					changeFunction(false);
 				}
 			}
 		});
@@ -173,7 +171,7 @@ public class CustomerPanel extends JPanel {
 		cancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				changeMode(false);
+				changeFunction(false);
 			}
 		});
 	}
@@ -185,7 +183,7 @@ public class CustomerPanel extends JPanel {
 	 * @param addingCustomer True if the <code>CustomerPanel</code> is to be used for adding new customers,
 	 * false if it is to be used for searching for existing customers.
 	 */
-	private void changeMode(boolean addingCustomer) {
+	private void changeFunction(boolean addingCustomer) {
 		removeAll();
 		
 		if (addingCustomer) {

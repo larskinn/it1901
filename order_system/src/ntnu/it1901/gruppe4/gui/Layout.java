@@ -22,7 +22,7 @@ import javax.swing.border.Border;
  */
 public class Layout {
 	/**
-	 * The initial size of {@link OrderWindow}.
+	 * The initial size of all windows in the GUI.
 	 */
 	public static final Dimension initialSize = new Dimension(1024, 768);
 	
@@ -98,9 +98,13 @@ public class Layout {
 	public static final int spaceAfterConfigBox = 5;
 	
 	/**
-	 * Specifies the density of the components in the {@link CustomerPanel} when addding a new customer.
+	 * Specifies the density of the components (space between them) in the {@link CustomerPanel} when addding a new customer.
 	 */
 	public static final double newCustomerDensity = 8;
+	/**
+	 * Specifies the density of the components (space between them) in the {@link MenuSearchPanel} when addding a new dish.
+	 */
+	public static final double newDishDensity = 8;
 	
 	/**
 	 * The padding used between the edges of the {@link OrderWindow} and its closest {@link JPanel panels}.
@@ -131,7 +135,7 @@ public class Layout {
 	public static final Dimension buttonSize = new Dimension(100, 50);
 	
 	/**
-	 * The {@link java.text.DateFormat DateFormat} used to format the dates shown.
+	 * The {@link java.text.DateFormat DateFormat} used to format all dates shown.
 	 */
 	public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM-yyyy H:mm");
 }

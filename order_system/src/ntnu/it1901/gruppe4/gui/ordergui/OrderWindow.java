@@ -1,6 +1,7 @@
 package ntnu.it1901.gruppe4.gui.ordergui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
@@ -21,11 +22,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.db.DataAPI;
-import ntnu.it1901.gruppe4.db.Dish;
 import ntnu.it1901.gruppe4.gui.ConfigWindow;
 import ntnu.it1901.gruppe4.gui.Layout;
+import ntnu.it1901.gruppe4.gui.MenuSearchPanel;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
-import ntnu.it1901.gruppe4.gui.OrderHistoryPanel.Mode;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
 
 public class OrderWindow implements ActionListener {
@@ -51,7 +51,7 @@ public class OrderWindow implements ActionListener {
 		}
 	}
 
-	public enum View {
+	private enum View {
 		MENU, CUSTOMER, HISTORY;
 	}
 
@@ -69,8 +69,8 @@ public class OrderWindow implements ActionListener {
 	public OrderWindow() {
 		frame = new JFrame();
 		operatorOrderSummary = new OperatorOrderSummary();
-		orderHistoryPanel = new OrderHistoryPanel(Mode.ORDER, operatorOrderSummary);
-		menuSearchPanel = new MenuSearchPanel(operatorOrderSummary);
+		orderHistoryPanel = new OrderHistoryPanel(OrderHistoryPanel.Mode.ORDER, operatorOrderSummary);
+		menuSearchPanel = new MenuSearchPanel(MenuSearchPanel.Mode.ORDER, operatorOrderSummary);
 		customerPanel = new CustomerPanel(operatorOrderSummary);
 		buttonPanel = new ButtonPanel(this);
 		resizeListener = new ResizeListener();
@@ -92,6 +92,7 @@ public class OrderWindow implements ActionListener {
 		
 		//Adds a menu bar that will open a new config window when pressed
 		JMenu menu = new JMenu("Valg");
+		menu.setOpaque(false);
 		
 		//Fired when the menu in the menu bar is clicked
 		menu.addMouseListener(new MouseAdapter() {
@@ -110,6 +111,7 @@ public class OrderWindow implements ActionListener {
 			}
 		});
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBackground(frame.getBackground());
 		menuBar.add(menu);
 		frame.setJMenuBar(menuBar);
 
@@ -168,10 +170,8 @@ public class OrderWindow implements ActionListener {
 			currentPanel = orderHistoryPanel;
 			break;
 		}
-		currentPanel.grabFocus(); // This method should be overrided to pass on
-									// focus to the search box
-		currentPanel.revalidate(); // Check if the panel has all its components
-									// loaded
+		currentPanel.grabFocus(); // This method should be overrided to pass on focus to the search box
+		currentPanel.revalidate(); // Check if the panel has all its components loaded
 		frame.repaint(); // Repaint the frame and all its components
 	}
 
