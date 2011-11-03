@@ -21,6 +21,7 @@ import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.gui.ConfigWindow;
 import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.MenuSearchPanel;
+import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 
 public class ChefWindow implements ActionListener {
@@ -57,8 +58,8 @@ public class ChefWindow implements ActionListener {
 	public ChefWindow() {
 		buttonPanel = new ButtonPanel(this);
 		chefOrderSummary = new ChefOrderSummary();
-		orderHistoryPanel = new OrderHistoryPanel(OrderHistoryPanel.Mode.CHEF, chefOrderSummary);
-		menuPanel = new MenuSearchPanel(MenuSearchPanel.Mode.CHEF);
+		orderHistoryPanel = new OrderHistoryPanel(Mode.CHEF, chefOrderSummary);
+		menuPanel = new MenuSearchPanel(Mode.CHEF);
 		
 		chefOrderSummary.setOrderHistoryPanel(orderHistoryPanel);
 		resizeListener = new ResizeListener();

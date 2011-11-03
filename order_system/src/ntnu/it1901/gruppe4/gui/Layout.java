@@ -41,6 +41,10 @@ public class Layout {
 	 */
 	public static final Font itemFont = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
 	/**
+	 * The {@link Font} of all text on a {@link CustomerPanelItem}, {@link MenuPanelItem} or {@link OrderHistoryItem}.
+	 */
+	public static final Font itemDescriptionFont = new Font(Font.SANS_SERIF, Font.PLAIN, 14);
+	/**
 	 * The {@link Font} of all text on a {@link OrderSummaryItem}.
 	 */
 	public static final Font summaryItemFont = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
@@ -117,7 +121,7 @@ public class Layout {
 	/**
 	 * The internal padding used inside every {@link MenuPanelItem}.
 	 */
-	public static final Border menuItemPadding = BorderFactory.createEmptyBorder(0, 5, 40, 5);
+	public static final Border menuItemPadding = BorderFactory.createEmptyBorder(10, 5, 10, 5);
 	/**
 	 * The internal padding used inside every {@link CustomerPanelItem}.
 	 */
