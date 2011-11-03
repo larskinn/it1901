@@ -150,9 +150,12 @@ public class OrderSummary extends JPanel {
 							"<tr> <td> Frakt: </td> <td align='right'> <b>" +
 							Layout.decimalFormat.format(currentOrder.getOrder().getDeliveryFee()) +
 							" kr </b> </td> </tr>" +
-							"<tr> <td> Totalpris: </td> <td align='right'> <b>" + 
+							"<tr> <td> <b> Totalpris: </b> </td> <td align='right'> <b>" + 
 							Layout.decimalFormat.format(currentOrder.getOrder().getTotalAmount()) + 
 							" kr </b> </td> </tr>" +
+							"<tr> <td> Herav MVA: </td> <td align='right'>" + 
+							Layout.decimalFormat.format(currentOrder.getOrder().getTaxAmount()) + 
+							" kr </td> </tr>" +
 							"</table> </html>");
 	}
 	

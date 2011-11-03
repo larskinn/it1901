@@ -47,6 +47,9 @@ public class Order {
 	float totalAmount;
 
 	@DatabaseField(useGetSet = true)
+	float taxAmount;
+
+	@DatabaseField(useGetSet = true)
 	float deliveryFee;
 
 	// PS: The idAddress object might not actually contain the data. The
@@ -196,6 +199,26 @@ public class Order {
 	 */
 	public void setTotalAmount(float totalAmount) {
 		this.totalAmount = totalAmount;
+	}
+
+	/**
+	 * Returns the tax amount of this order. The tax amount is the
+	 * total*tax/(1+tax)
+	 * 
+	 * @return The tax amount of this order.
+	 */
+	public float getTaxAmount() {
+		return taxAmount;
+	}
+
+	/**
+	 * Sets the ax amount of this order. Should only be done by OrderMaker.
+	 * 
+	 * @param taxAmount
+	 *            the new tax amount of the order.
+	 */
+	public void setTaxAmount(float taxAmount) {
+		this.taxAmount = taxAmount;
 	}
 
 	/**

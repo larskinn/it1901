@@ -105,18 +105,24 @@ public class OrderMaker {
 		}
 
 		// TODO: beregn frakt
-		
+
 		float delivery = 0.0f;
 		float max_delivery = Settings.getDeliveryFee();
-		
+		float tax = Settings.getTax();
+
 		delivery = Settings.getFreeDeliveryLimit() - total;
-		if (delivery > max_delivery) delivery = max_delivery;
-		if (delivery < 0.0f) delivery = 0.0f;
-		
+		if (delivery > max_delivery)
+			delivery = max_delivery;
+		if (delivery < 0.0f)
+			delivery = 0.0f;
+
 		total += delivery;
+		
+		float taxAmt = total * tax / (100.f + tax);
 
 		order.setTotalAmount(total);
 		order.setDeliveryFee(delivery);
+		order.setTaxAmount(taxAmt);
 	}
 
 	/**
