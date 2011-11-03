@@ -1,7 +1,6 @@
 package ntnu.it1901.gruppe4.gui.ordergui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
@@ -25,6 +24,7 @@ import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.gui.ConfigWindow;
 import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.MenuSearchPanel;
+import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
 
@@ -80,8 +80,8 @@ public class OrderWindow implements ActionListener {
 	public OrderWindow() {
 		frame = new JFrame();
 		operatorOrderSummary = new OperatorOrderSummary();
-		orderHistoryPanel = new OrderHistoryPanel(OrderHistoryPanel.Mode.ORDER, operatorOrderSummary);
-		menuSearchPanel = new MenuSearchPanel(MenuSearchPanel.Mode.ORDER, operatorOrderSummary);
+		orderHistoryPanel = new OrderHistoryPanel(Mode.ORDER, operatorOrderSummary);
+		menuSearchPanel = new MenuSearchPanel(Mode.ORDER, operatorOrderSummary);
 		customerPanel = new CustomerPanel(operatorOrderSummary);
 		buttonPanel = new ButtonPanel(this);
 		resizeListener = new ResizeListener();
@@ -175,18 +175,18 @@ public class OrderWindow implements ActionListener {
 		}
 
 		switch (view) {
-		case MENU:
-			frame.add(menuSearchPanel, BorderLayout.CENTER);
-			currentPanel = menuSearchPanel;
-			break;
-		case CUSTOMER:
-			frame.add(customerPanel, BorderLayout.CENTER);
-			currentPanel = customerPanel;
-			break;
-		case HISTORY:
-			frame.add(orderHistoryPanel, BorderLayout.CENTER);
-			currentPanel = orderHistoryPanel;
-			break;
+			case MENU:
+				frame.add(menuSearchPanel, BorderLayout.CENTER);
+				currentPanel = menuSearchPanel;
+				break;
+			case CUSTOMER:
+				frame.add(customerPanel, BorderLayout.CENTER);
+				currentPanel = customerPanel;
+				break;
+			case HISTORY:
+				frame.add(orderHistoryPanel, BorderLayout.CENTER);
+				currentPanel = orderHistoryPanel;
+				break;
 		}
 		currentPanel.grabFocus(); // This method should be overrided to pass on focus to the search box
 		currentPanel.revalidate(); // Check if the panel has all its components loaded
