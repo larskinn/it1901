@@ -24,6 +24,11 @@ import ntnu.it1901.gruppe4.gui.MenuSearchPanel;
 import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 
+/**
+ * The window where the chef may review and confirm orders, and edit the food menu
+ * @author LeoMartin, David
+ *
+ */
 public class ChefWindow implements ActionListener {
 	private JFrame frame;
 	private ButtonPanel buttonPanel;
@@ -33,7 +38,13 @@ public class ChefWindow implements ActionListener {
 	private JPanel currentPanel;
 	private ResizeListener resizeListener;
 
-	private enum View {
+	/**
+	 * An enum of view modes for ChefWindow
+	 * ORDERS -- The orders list view, where placed orders may be reviewed and confirmed
+	 * MENU -- The food menu view, where the dishes of the food menu may be modified
+	 * 
+	 */
+	public enum View {
 		ORDERS, MENU;
 	}
 
@@ -122,7 +133,14 @@ public class ChefWindow implements ActionListener {
 	private static void cleanup() {
 		DataAPI.close();
 	}
-	
+
+	/**
+	 * Change the view of the chef window. Options are:
+	 * ORDERS -- The orders list view, where placed orders may be reviewed and confirmed
+	 * MENU -- The food menu view, where the dishes of the food menu may be modified
+	 * @param view The view to show. Options are View.ORDERS, View.MENU
+	 * 
+	 */
 	public void changeView(View view) {
 		// If the frame already has a panel providing its view, remove it
 		if (currentPanel != null) {
