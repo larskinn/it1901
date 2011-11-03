@@ -161,11 +161,11 @@ public class DataAPI {
 						"Billigere, men med spesiell topping", true);
 				Dish d4 = new Dish("Krempizza", 60, DishType.PIZZA,
 						"Bløtkake på pizzabunn", true);
-				Dish d5 = new Dish("Kokkens spesial", 70, DishType.CONDIMENTS,
+				Dish d5 = new Dish("Kokkens spesial", 70, DishType.CONDIMENT,
 						"Med kokkens spesialsaus", true);
 				Dish d6 = new Dish("Coca Cola 1.5L", 40, DishType.DRINK,
 						"Din favorittbrus, en-og-en-halv-liter", true);
-				Dish d7 = new Dish("Rømmedressing", 25, DishType.CONDIMENTS,
+				Dish d7 = new Dish("Rømmedressing", 25, DishType.CONDIMENT,
 						"Plastskei ikke inkludert", true);
 
 				saveCustomer(c);

@@ -3,23 +3,21 @@ package ntnu.it1901.gruppe4.gui;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 import ntnu.it1901.gruppe4.db.Dish;
+import ntnu.it1901.gruppe4.db.DishType;
 
 /**
  * A panel that shows information about a {@link Dish}.
@@ -31,6 +29,7 @@ public class MenuPanelItem extends JPanel {
 	private Dish item;
 	private JLabel name, price, priceSuffix, description, errorMessage;
 	private JTextField nameInput, priceInput;
+	private JComboBox typeInput;
 	private JTextArea descriptionInput;
 	private JButton save;
 
@@ -49,6 +48,7 @@ public class MenuPanelItem extends JPanel {
 		nameInput = new JTextField();
 		priceInput = new JTextField();
 		descriptionInput = new JTextArea();
+		typeInput = new JComboBox(DishType.values());
 		save = new JButton("Lagre");
 
 		name.setFont(Layout.itemFont);
@@ -103,6 +103,7 @@ public class MenuPanelItem extends JPanel {
 				}
 				item.setName(name);
 				item.setPrice(newPrice);
+				item.setType((DishType)typeInput.getSelectedItem());
 				item.setDescription(description);
 				changeMode(false);
 			}
@@ -113,13 +114,12 @@ public class MenuPanelItem extends JPanel {
 		beingEdited = editing;
 		
 		if (editing) {
-			remove(name);
-			remove(price);
-			remove(description);
+			removeAll();
 
 			nameInput.setText(item.getName());
 			priceInput.setText(Layout.decimalFormat.format(item.getPrice()));
 			descriptionInput.setText(item.getDescription());
+			typeInput.setSelectedItem(item.getType());
 
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.gridy = 0;
@@ -129,7 +129,14 @@ public class MenuPanelItem extends JPanel {
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			gbc.anchor = GridBagConstraints.WEST;
 			add(nameInput, gbc);
-
+			
+			gbc.gridx++;
+			//Todo: Move "magic number" to some constant
+			add(Box.createHorizontalStrut(20), gbc);
+			
+			gbc.gridx++;
+			add(typeInput, gbc);
+			
 			gbc.gridx++;
 			//Todo: Move "magic number" to some constant
 			add(Box.createHorizontalStrut(20), gbc);
@@ -151,7 +158,7 @@ public class MenuPanelItem extends JPanel {
 			gbc.anchor = GridBagConstraints.WEST;
 			add(descriptionInput, gbc);
 
-			gbc.gridx += 2;
+			gbc.gridx += 4;
 			gbc.gridwidth = 2;
 			add(save, gbc);
 			
@@ -169,11 +176,7 @@ public class MenuPanelItem extends JPanel {
 			setMaximumSize(new Dimension(Short.MAX_VALUE, getPreferredSize().height));
 		}
 		else {
-			remove(nameInput);
-			remove(priceInput);
-			remove(descriptionInput);
-			remove(save);
-			remove(errorMessage);
+			removeAll();
 
 			errorMessage.setText(" ");
 			name.setText(item.getName());

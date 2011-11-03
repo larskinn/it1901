@@ -136,7 +136,7 @@ public class Dish {
 	}
 	
 	public void setType(DishType type) {
-		this.type = type.toString();
+		this.type = type.name();
 	}
 
 	/**
