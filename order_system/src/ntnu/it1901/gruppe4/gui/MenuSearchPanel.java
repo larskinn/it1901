@@ -13,6 +13,7 @@ import java.util.Collection;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -105,6 +106,7 @@ public class MenuSearchPanel extends JPanel {
 	private SearchBox nameInput;
 	private SearchBox priceInput;
 	private JTextArea descriptionInput;
+	private JComboBox typeInput;
 	private JButton newDish;
 	private JButton createDish;
 	private JButton cancel;
@@ -123,6 +125,7 @@ public class MenuSearchPanel extends JPanel {
 		nameInput = new SearchBox();
 		priceInput = new SearchBox();
 		descriptionInput = new JTextArea();
+		typeInput = new JComboBox(DishType.values());
 		newDish = new JButton("Ny rett");
 		createDish = new JButton("Opprett ny rett");
 		cancel = new JButton("Avbryt");
@@ -197,8 +200,8 @@ public class MenuSearchPanel extends JPanel {
 					return;
 				}
 				
-				//TODO: Actually enable user specification of dish type
-				DishType type = DishType.PIZZA;
+				//TODO: Prettify text in combobox
+				DishType type = (DishType)typeInput.getSelectedItem();
 				Dish newDish = new Dish(nameInput.getText(), price, type, descriptionInput.getText(), true);
 				DataAPI.saveDish(newDish);
 
@@ -261,11 +264,13 @@ public class MenuSearchPanel extends JPanel {
 			JLabel pricePrefix = new JLabel("Pris: ");
 			JLabel descriptionPrefix = new JLabel("Beskrivelse: ");
 			JLabel priceSuffix = new JLabel(" kr");
+			JLabel typePrefix = new JLabel("Type: ");
 			
 			namePrefix.setFont(Layout.summaryTextFont);
 			pricePrefix.setFont(Layout.summaryTextFont);
 			descriptionPrefix.setFont(Layout.summaryTextFont);
 			priceSuffix.setFont(Layout.summaryTextFont);
+			typePrefix.setFont(Layout.summaryTextFont);
 			
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			gbc.anchor = GridBagConstraints.BASELINE_LEADING;
@@ -304,6 +309,16 @@ public class MenuSearchPanel extends JPanel {
 			gbc.weightx = 1;
 			gbc.gridx++;
 			add(descriptionInput, gbc);
+			
+			//Insert dish type selection box
+			gbc.weightx = 0;
+			gbc.gridy++;
+			gbc.gridx = 0;
+			add(typePrefix, gbc);
+			
+			gbc.weightx = 1;
+			gbc.gridx++;
+			add(typeInput, gbc);
 			
 			//Insert buttons
 			gbc.anchor = GridBagConstraints.NORTHWEST;
