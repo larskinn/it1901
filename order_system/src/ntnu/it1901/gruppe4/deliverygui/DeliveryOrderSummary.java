@@ -12,7 +12,7 @@ import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
 
 /**
- * This class contains details about the {@link Order} being looked at by the {@link DeliveryView},<br>
+ * This class contains details about the {@link Order} being looked at by the {@link DeliveryWindow},<br>
  * as well as buttons for marking orders as in transit and delivered.
  * 
  * @author Leo, David, Morten
