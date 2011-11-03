@@ -30,7 +30,7 @@ public class Settings {
 		m.put(FREE_DELIVERY_LIMIT, "500");
 		m.put(TAX, "25");
 		m.put(RESTAURANT_ADDRESS, "Høgskoleringen 3, Trondheim");
-		m.put(DB_VERSION, "3"); // DB Version can only be set here!
+		m.put(DB_VERSION, "4"); // DB Version can only be set here!
 		DEFAULT_SETTINGS = Collections.unmodifiableMap(m);
 	}
 	

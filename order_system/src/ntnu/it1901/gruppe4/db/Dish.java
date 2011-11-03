@@ -22,6 +22,9 @@ public class Dish {
 
 	@DatabaseField(useGetSet = true)
 	private float price;
+	
+	@DatabaseField(useGetSet = false)
+	private String type;
 
 	@DatabaseField(useGetSet = true)
 	private String description;
@@ -38,17 +41,20 @@ public class Dish {
 	 *            Name of the dish
 	 * @param price
 	 *            Price of the dish
+	 * @param type
+	 *            Type of dish
 	 * @param description
 	 *            Short description of dish
 	 * @param active
 	 *            Whether the dish is active (can be ordered)
 	 */
-	public Dish(String name, float price, String description, boolean active) {
+	public Dish(String name, float price, DishType type, String description, boolean active) {
 		if (name != null) {
 			this.name = name;
 			this.price = price;
 			this.description = description;
 			this.active = active;
+			this.setType(type);
 		} else {
 			throw new IllegalArgumentException("String name can't be null");
 		}
@@ -83,6 +89,16 @@ public class Dish {
 	public float getPrice() {
 		return price;
 	}
+	
+	/**
+	 * Returns the type of the dish
+	 * 
+	 * @return the type of the dish
+	 */
+	public DishType getType() {
+		return DishType.valueOf(type);
+	}
+	
 
 	/**
 	 * Returns the description of the dish
@@ -117,6 +133,10 @@ public class Dish {
 	 */
 	public void setPrice(float price) {
 		this.price = price;
+	}
+	
+	public void setType(DishType type) {
+		this.type = type.toString();
 	}
 
 	/**

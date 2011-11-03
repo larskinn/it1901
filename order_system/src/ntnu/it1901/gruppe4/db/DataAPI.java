@@ -153,25 +153,20 @@ public class DataAPI {
 				Address a4 = new Address(c2, "Land of Ooo", 5000);
 				Address a5 = new Address(c3, "Candy Kingdom", 7000);
 
-				Dish d1 = new Dish("Pizza Capriciosa", 50,
+				Dish d1 = new Dish("Pizza Capriciosa", 50, DishType.PIZZA,
 						"Skinke & Champignon", true);
-				Dish d2 = new Dish("Pizza Pepperoni", 52, "Pepperoni; nom nom",
-						true);
-				Dish d3 = new Dish("Hårete pizza", 35,
+				Dish d2 = new Dish("Pizza Pepperoni", 52, DishType.PIZZA,
+						"Pepperoni; nom nom", true);
+				Dish d3 = new Dish("Hårete pizza", 35, DishType.PIZZA,
 						"Billigere, men med spesiell topping", true);
-				Dish d4 = new Dish("Krempizza", 60, "Bløtkake på pizzabunn",
-						true);
-				Dish d5 = new Dish("Kokkens spesial", 70,
+				Dish d4 = new Dish("Krempizza", 60, DishType.PIZZA,
+						"Bløtkake på pizzabunn", true);
+				Dish d5 = new Dish("Kokkens spesial", 70, DishType.CONDIMENTS,
 						"Med kokkens spesialsaus", true);
-				Dish d6 = new Dish("Coca Cola 1.5L", 40,
+				Dish d6 = new Dish("Coca Cola 1.5L", 40, DishType.DRINK,
 						"Din favorittbrus, en-og-en-halv-liter", true);
-				Dish d7 = new Dish("Rømmedressing", 25,
+				Dish d7 = new Dish("Rømmedressing", 25, DishType.CONDIMENTS,
 						"Plastskei ikke inkludert", true);
-				Dish d8 = new Dish("Plastskei", 2, "Trengs til saus/dressing",
-						true);
-				Dish d9 = new Dish("Serviett", 10,
-						"Luksusserviett av stoff. Sydd av barn i Bangladesh",
-						true);
 
 				saveCustomer(c);
 				saveCustomer(c1);
@@ -189,8 +184,6 @@ public class DataAPI {
 				saveDish(d5);
 				saveDish(d6);
 				saveDish(d7);
-				saveDish(d8);
-				saveDish(d9);
 
 				OrderMaker om = new OrderMaker();
 				Order o = om.getOrder();
