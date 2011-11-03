@@ -30,8 +30,9 @@ import ntnu.it1901.gruppe4.gui.OrderSummary;
 
 /**
  * The window where the operator may add or edit orders and customers
+ * 
  * @author LeoMartin
- *
+ * 
  */
 public class OrderWindow implements ActionListener {
 	private JFrame frame;
@@ -49,17 +50,18 @@ public class OrderWindow implements ActionListener {
 			currentPanel.setPreferredSize(new Dimension(
 					(int) (frame.getWidth() * 0.6666), frame.getHeight()));
 
-			operatorOrderSummary.setPreferredSize(new Dimension(
-					(int) (frame.getWidth() * 0.3333), frame.getHeight()));
+			operatorOrderSummary.setPreferredSize(new Dimension((int) (frame
+					.getWidth() * 0.3333), frame.getHeight()));
 
 			currentPanel.revalidate();
 		}
 	}
 
 	/**
-	 * An enum of view modes for OrderWindow
-	 * MENU -- The food menu view, where dishes can be added to the order
-	 * CUSTOMER -- The customer list view, where a customer can be applied to the order
+	 * An enum of view modes for OrderWindow<br>
+	 * MENU -- The food menu view, where dishes can be added to the order<br>
+	 * CUSTOMER -- The customer list view, where a customer can be applied to
+	 * the order<br>
 	 * HISTORY --- The order history view, where past orders may be reviewed
 	 */
 	public enum View {
@@ -73,14 +75,18 @@ public class OrderWindow implements ActionListener {
 	}
 
 	private static void cleanup() {
-		//	This would make more sense if DataAPI was non-static.
+		// This would make more sense if DataAPI was non-static.
 		DataAPI.close();
 	}
 
+	/**
+	 * Public constructor.
+	 */
 	public OrderWindow() {
 		frame = new JFrame();
 		operatorOrderSummary = new OperatorOrderSummary();
-		orderHistoryPanel = new OrderHistoryPanel(Mode.ORDER, operatorOrderSummary);
+		orderHistoryPanel = new OrderHistoryPanel(Mode.ORDER,
+				operatorOrderSummary);
 		menuSearchPanel = new MenuSearchPanel(Mode.ORDER, operatorOrderSummary);
 		customerPanel = new CustomerPanel(operatorOrderSummary);
 		buttonPanel = new ButtonPanel(this);
@@ -100,19 +106,19 @@ public class OrderWindow implements ActionListener {
 
 		frame.setTitle("Bestillingsvindu");
 		frame.setLocationRelativeTo(null); // Center the frame
-		
-		//Adds a menu bar that will open a new config window when pressed
+
+		// Adds a menu bar that will open a new config window when pressed
 		JMenu menu = new JMenu("Valg");
 		menu.setOpaque(false);
-		
-		//Fired when the menu in the menu bar is clicked
+
+		// Fired when the menu in the menu bar is clicked
 		menu.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ConfigWindow configWindow = new ConfigWindow(frame);
 				frame.setEnabled(false);
-				
-				//When the config window is closed, enable the parent frame
+
+				// When the config window is closed, enable the parent frame
 				configWindow.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosing(WindowEvent e) {
@@ -148,8 +154,8 @@ public class OrderWindow implements ActionListener {
 						return false;
 					}
 				});
-		
-		//Makes sure that the connection to the database is properly closed
+
+		// Makes sure that the connection to the database is properly closed
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -162,11 +168,16 @@ public class OrderWindow implements ActionListener {
 	}
 
 	/**
-	 * Change the view of the order window. Options are:
-	 * MENU -- Shows the food menu view, where dishes can be added to the order
-	 * CUSTOMER -- Shows the customer list view, where a customer can be applied to the order
-	 * HISTORY --- Shows the order history view, where past orders may be reviewed
-	 * @param view The view to show. Options are View.MENU, View.CUSTOMER, View.HISTORY 
+	 * Change the view of the order window. Options are (from {@link View}):<br>
+	 * MENU -- Shows the food menu view, where dishes can be added to the order<br>
+	 * CUSTOMER -- Shows the customer list view, where a customer can be applied
+	 * to the order<br>
+	 * HISTORY --- Shows the order history view, where past orders may be
+	 * reviewed
+	 * 
+	 * @param view
+	 *            The view to show. Options are View.MENU, View.CUSTOMER,
+	 *            View.HISTORY
 	 */
 	public void changeView(View view) {
 		// If the frame already has a panel providing its view, remove it
@@ -175,27 +186,30 @@ public class OrderWindow implements ActionListener {
 		}
 
 		switch (view) {
-			case MENU:
-				frame.add(menuSearchPanel, BorderLayout.CENTER);
-				currentPanel = menuSearchPanel;
-				break;
-			case CUSTOMER:
-				frame.add(customerPanel, BorderLayout.CENTER);
-				currentPanel = customerPanel;
-				break;
-			case HISTORY:
-				frame.add(orderHistoryPanel, BorderLayout.CENTER);
-				currentPanel = orderHistoryPanel;
-				break;
+		case MENU:
+			frame.add(menuSearchPanel, BorderLayout.CENTER);
+			currentPanel = menuSearchPanel;
+			break;
+		case CUSTOMER:
+			frame.add(customerPanel, BorderLayout.CENTER);
+			currentPanel = customerPanel;
+			break;
+		case HISTORY:
+			frame.add(orderHistoryPanel, BorderLayout.CENTER);
+			currentPanel = orderHistoryPanel;
+			break;
 		}
-		currentPanel.grabFocus(); // This method should be overrided to pass on focus to the search box
-		currentPanel.revalidate(); // Check if the panel has all its components loaded
+		currentPanel.grabFocus(); // This method should be overrided to pass on
+									// focus to the search box
+		currentPanel.revalidate(); // Check if the panel has all its components
+									// loaded
 		frame.repaint(); // Repaint the frame and all its components
 	}
 
 	/**
-	 * Returns the OrderSummary object used in this window.
-	 * @return an OrderSummary
+	 * Returns the {@link OrderSummary} object used in this window.
+	 * 
+	 * @return an {@link OrderSummary}
 	 */
 	public OrderSummary getCurrentOrderSummary() {
 		return operatorOrderSummary;
