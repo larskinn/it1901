@@ -13,9 +13,9 @@ import ntnu.it1901.gruppe4.gui.OrderSummary;
 
 /**
  * This class contains details about the {@link Order} being looked at by the {@link DeliveryView},<br>
- * as well as a button for marking orders as delivered.
+ * as well as buttons for marking orders as in transit and delivered.
  * 
- * @author Leo, David
+ * @author Leo, David, Morten
  */
 public class DeliveryOrderSummary extends OrderSummary {
 	private JButton deliveredButton;
@@ -63,6 +63,9 @@ public class DeliveryOrderSummary extends OrderSummary {
 		orderHistoryPanel.refresh();
 	}
 	
+	/**
+	 * Marks the current current {@link Order} as in transit in the database and updates the {@link OrderHistoryPanel}.
+	 */
 	public void transitOrder() {
 		currentOrder.setState(Order.IN_TRANSIT);
 		currentOrder.save();
