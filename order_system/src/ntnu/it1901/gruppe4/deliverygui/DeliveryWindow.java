@@ -19,7 +19,7 @@ import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
 import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
-import ntnu.it1901.gruppe4.gui.OrderHistoryPanel.Mode;
+import ntnu.it1901.gruppe4.gui.Mode;
 
 /**
  * 

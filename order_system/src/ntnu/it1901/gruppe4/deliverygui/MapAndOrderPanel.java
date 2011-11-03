@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
-import ntnu.it1901.gruppe4.gui.OrderHistoryPanel.Mode;
+import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
 
 public class MapAndOrderPanel extends JPanel {
