@@ -9,17 +9,12 @@ import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
-import ntnu.it1901.gruppe4.deliverygui.MapWindow;
+import ntnu.it1901.gruppe4.deliverygui.MapPanel;
 
 public class OrderHistoryPanel extends JPanel implements OrderListener {
 	private OrderSummary orderSummary;
-	private MapWindow mapWindow;
-
-	public enum Mode {
-		ORDER, CHEF, DELIVERY;
-	};
-	
-	Mode mode;
+	private MapPanel MapPanel;
+	private Mode mode;
 
 	/**
 	 * Creates a new {@link OrderHistoryPanel} in the specified {@link Mode}.
@@ -45,16 +40,16 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 	/**
 	 * Creates a new {@link OrderHistoryPanel} in the specified {@link Mode}<br>
 	 * that adds all items of an {@link Order} to the specified {@link OrderSummary} and
-	 * the specified {@link MapWindow} when clicked.
+	 * the specified {@link MapPanel} when clicked.
 	 * 
 	 * @param mode The <code>Mode</code> specifying which GUI-view the panel is to be created in.
 	 * @param orderSummary The <code>OrderSummary</code> on which clicked <code>Orders</code> are shown.
-	 * @param mapWindow The <code>MapWindow</code> in which clicked <code>Orders</code> are shown.
+	 * @param MapPanel The <code>MapPanel</code> in which clicked <code>Orders</code> are shown.
 	 */
-	public OrderHistoryPanel(Mode mode, OrderSummary orderSummary, MapWindow mapWindow) {
+	public OrderHistoryPanel(Mode mode, OrderSummary orderSummary, MapPanel MapPanel) {
 		this.mode = mode;
 		this.orderSummary = orderSummary;
-		this.mapWindow = mapWindow;
+		this.MapPanel = MapPanel;
 		
 		setBorder(Layout.panelPadding);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -84,9 +79,9 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 					public void mouseClicked(MouseEvent e) {
 						orderSummary.setOrder(order);
 						
-						if (mapWindow != null) {
+						if (MapPanel != null) {
 							//Update the map with the clicked order
-							mapWindow.setAddress(DataAPI.getAddress(order));
+							MapPanel.setAddress(DataAPI.getAddress(order));
 						}
 					}
 				});
