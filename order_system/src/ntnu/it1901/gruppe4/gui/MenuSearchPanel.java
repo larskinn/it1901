@@ -20,6 +20,7 @@ import javax.swing.JTextArea;
 
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Dish;
+import ntnu.it1901.gruppe4.db.DishType;
 import ntnu.it1901.gruppe4.gui.ordergui.OperatorOrderSummary;
 import ntnu.it1901.gruppe4.gui.ordergui.SearchBox;
 
@@ -195,8 +196,10 @@ public class MenuSearchPanel extends JPanel {
 					errorMessage.setText("Fyll inn en gyldig pris til retten du ønsker å registrere");
 					return;
 				}
-
-				Dish newDish = new Dish(nameInput.getText(), price, descriptionInput.getText(), true);
+				
+				//TODO: Actually enable user specification of dish type
+				DishType type = DishType.PIZZA;
+				Dish newDish = new Dish(nameInput.getText(), price, type, descriptionInput.getText(), true);
 				DataAPI.saveDish(newDish);
 
 				searchInput.setText("");
