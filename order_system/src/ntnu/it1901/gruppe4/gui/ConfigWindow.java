@@ -8,13 +8,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ntnu.it1901.gruppe4.db.Settings;
 
+/**
+ * A GUI window for editing the variables in the {@link Settings} class.
+ *
+ * @author Leo
+ * @author Lars
+ */
 public class ConfigWindow {
 	public class ConfigBox extends JTextField {
 		private ConfigBox() {
@@ -26,44 +34,56 @@ public class ConfigWindow {
 	}
 
 	private JFrame frame;
+	private JPanel container;
 	
+	/**
+	 * Creates a new {@link ConfigWindow}.
+	 */
 	public ConfigWindow() {
 		this(null);
 	}
 	
+	/**
+	 * Creates a new {@link ConfigWindow} with its initial location set to the middle of its parent frame.
+	 *
+	 * @param parentFrame The frame which this frame's location will be set relative to.
+	 */
 	public ConfigWindow(JFrame parentFrame) {
 		frame = new JFrame();
+		container = new JPanel();
 		
-		addComponents();
+		addComponentsToContainer();
 
-		frame.setSize(Layout.configWindowSize);
+		container.setBorder(Layout.panelPadding);
+		frame.add(container);
 		frame.setTitle("Valg");
+		frame.pack();
 		frame.setLocationRelativeTo(parentFrame);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 	}
 	
-	private void addComponents() {
-		frame.setLayout(new GridBagLayout());
+	private void addComponentsToContainer() {
+		container.setLayout(new GridBagLayout());
 		
-		final JButton save = new JButton("Lagre");
-		final JButton cancel = new JButton("Avbryt");
+		JButton save = new JButton("Lagre");
+		JButton cancel = new JButton("Avbryt");
 		
-		final JLabel deliveryFeePrefix = new JLabel("Fraktpris: ");
-		final JLabel freeDeliveryLimitPrefix = new JLabel("Gratis frakt : ");
-		final JLabel taxPrefix = new JLabel("MVA: ");
-		final JLabel addressPrefix = new JLabel("Vår addresse: ");
+		JLabel deliveryFeePrefix = new JLabel("Fraktpris: ");
+		JLabel freeDeliveryLimitPrefix = new JLabel("Gratis frakt : ");
+		JLabel taxPrefix = new JLabel("MVA: ");
+		JLabel addressPrefix = new JLabel("Vår addresse: ");
 		
+		/* These boxes are marked as 'final' so they
+		can be referenced inside anonymous classes */
 		final ConfigBox deliveryFee = new ConfigBox();
 		final ConfigBox freeDeliveryLimit = new ConfigBox();
 		final ConfigBox tax = new ConfigBox();
 		final ConfigBox address = new ConfigBox();
 		
-		final JLabel deliveryFeeSuffix = new JLabel(" kr");
-		final JLabel freeDeliveryLimitSuffix = new JLabel(" kr");
-		final JLabel taxSuffix = new JLabel(" %");
-		// needs an empty addressSuffix to please the whims of Leo's layout system
-		final JLabel addressSuffix = new JLabel(" ");
+		JLabel deliveryFeeSuffix = new JLabel(" kr");
+		JLabel freeDeliveryLimitSuffix = new JLabel(" kr");
+		JLabel taxSuffix = new JLabel(" %");
 		
 		final JLabel errorMessage = new JLabel(" ");
 		
@@ -108,6 +128,8 @@ public class ConfigWindow {
 				Settings.setFreeDeliveryLimit(limit);
 				Settings.setTax(percentage);
 				Settings.setRestaurantAddress(address.getText());
+				
+				//Close the frame in a clean and safe manner
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 			}
 		});
@@ -140,64 +162,78 @@ public class ConfigWindow {
 		errorMessage.setForeground(Layout.errorColor);
 
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.anchor = GridBagConstraints.BASELINE_LEADING;
-		gbc.weightx = 0;
+		gbc.weightx = 1;
 		gbc.weighty = 1;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		frame.add(deliveryFeePrefix, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.anchor = GridBagConstraints.BASELINE_LEADING;
 		
-		gbc.gridy++;
-		frame.add(freeDeliveryLimitPrefix, gbc);
-		
-		gbc.gridy++;
-		frame.add(taxPrefix, gbc);
-		
-		gbc.gridy++;
-		frame.add(addressPrefix, gbc);
-
-		gbc.gridx++;
-		gbc.gridy = 0;
-		gbc.weightx = 1;
-		frame.add(deliveryFee, gbc);
-		
-		gbc.gridy++;
-		frame.add(freeDeliveryLimit, gbc);
-
-		gbc.gridy++;
-		frame.add(tax, gbc);
-		
-		gbc.gridy++;
-		frame.add(address, gbc);
+		//Insert the delivery fee information in the first row
+		container.add(deliveryFeePrefix, gbc);
 		
 		gbc.gridx++;
-		gbc.gridy = 0;
-		gbc.weightx = 0;
-		frame.add(deliveryFeeSuffix, gbc);
+		container.add(deliveryFee, gbc);
+		
+		gbc.gridx++;
+		container.add(deliveryFeeSuffix, gbc);
 		
 		gbc.gridy++;
-		frame.add(freeDeliveryLimitSuffix, gbc);
-
+		container.add(Box.createVerticalStrut(Layout.spaceAfterConfigBox), gbc);
+		
+		//Insert the free delivery limit information
 		gbc.gridy++;
-		frame.add(taxSuffix, gbc);
+		gbc.gridx = 0;
+		container.add(freeDeliveryLimitPrefix, gbc);
+		
+		gbc.gridx++;
+		container.add(freeDeliveryLimit, gbc);
+		
+		gbc.gridx++;
+		container.add(freeDeliveryLimitSuffix, gbc);
 		
 		gbc.gridy++;
-		frame.add(addressSuffix, gbc);
+		container.add(Box.createVerticalStrut(Layout.spaceAfterConfigBox), gbc);
 		
+		//Insert the tax information
+		gbc.gridy++;
+		gbc.gridx = 0;
+		container.add(taxPrefix, gbc);
+		
+		gbc.gridx++;
+		container.add(tax, gbc);
+		
+		gbc.gridx++;
+		container.add(taxSuffix, gbc);
+		
+		gbc.gridy++;
+		container.add(Box.createVerticalStrut(Layout.spaceAfterConfigBox), gbc);
+		
+		//Insert the home address information
+		gbc.gridy++;
+		gbc.gridx = 0;
+		container.add(addressPrefix, gbc);
+		
+		gbc.gridx++;
+		container.add(address, gbc);
+		
+		gbc.gridy++;
+		container.add(Box.createVerticalStrut(Layout.spaceAfterConfigBox), gbc);
+		
+		//Insert buttons
+		gbc.gridy++;
+		gbc.gridx = 1;
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 1;
-		gbc.gridx--;
-		gbc.gridy++;
-		frame.add(cancel, gbc);
+		container.add(cancel, gbc);
 		
 		gbc.anchor = GridBagConstraints.NORTHEAST;
-		frame.add(save, gbc);
+		container.add(save, gbc);
 		
-		gbc.anchor = GridBagConstraints.NORTHWEST;
+		//Insert the empty error label in the last row
 		gbc.gridy++;
-		frame.add(errorMessage, gbc);
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		container.add(errorMessage, gbc);
 		
 		deliveryFee.grabFocus();
 	}
