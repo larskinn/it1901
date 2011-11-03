@@ -27,7 +27,6 @@ public class DeliveryView implements ActionListener {
 	private OrderHistoryPanel orderHistoryPanel;
 	private ResizeListener resizeListener;
 	private MapAndOrderPanel mapAndOrderPanel;
-	private MapWindow mapWindow;
 	
 	
 	private class ResizeListener extends ComponentAdapter {
@@ -49,7 +48,6 @@ public class DeliveryView implements ActionListener {
 		orderHistoryPanel = new OrderHistoryPanel(Mode.DELIVERY, deliveryOrderSummary);
 		deliveryOrderSummary.setOrderHistoryPanel(orderHistoryPanel);
 		resizeListener = new ResizeListener();
-		mapWindow = new MapWindow();
 		mapAndOrderPanel = new MapAndOrderPanel(deliveryOrderSummary);
 		
 
