@@ -28,6 +28,11 @@ import ntnu.it1901.gruppe4.gui.MenuSearchPanel;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
 
+/**
+ * The window where the operator may add or edit orders and customers
+ * @author LeoMartin
+ *
+ */
 public class OrderWindow implements ActionListener {
 	private JFrame frame;
 	private ButtonPanel buttonPanel;
@@ -51,7 +56,13 @@ public class OrderWindow implements ActionListener {
 		}
 	}
 
-	private enum View {
+	/**
+	 * An enum of view modes for OrderWindow
+	 * MENU -- The food menu view, where dishes can be added to the order
+	 * CUSTOMER -- The customer list view, where a customer can be applied to the order
+	 * HISTORY --- The order history view, where past orders may be reviewed
+	 */
+	public enum View {
 		MENU, CUSTOMER, HISTORY;
 	}
 
@@ -150,6 +161,13 @@ public class OrderWindow implements ActionListener {
 		frame.setVisible(true);
 	}
 
+	/**
+	 * Change the view of the order window. Options are:
+	 * MENU -- Shows the food menu view, where dishes can be added to the order
+	 * CUSTOMER -- Shows the customer list view, where a customer can be applied to the order
+	 * HISTORY --- Shows the order history view, where past orders may be reviewed
+	 * @param view The view to show. Options are View.MENU, View.CUSTOMER, View.HISTORY 
+	 */
 	public void changeView(View view) {
 		// If the frame already has a panel providing its view, remove it
 		if (currentPanel != null) {
@@ -175,6 +193,10 @@ public class OrderWindow implements ActionListener {
 		frame.repaint(); // Repaint the frame and all its components
 	}
 
+	/**
+	 * Returns the OrderSummary object used in this window.
+	 * @return an OrderSummary
+	 */
 	public OrderSummary getCurrentOrderSummary() {
 		return operatorOrderSummary;
 	}
