@@ -27,11 +27,6 @@ public class Layout {
 	public static final Dimension initialSize = new Dimension(1024, 768);
 	
 	/**
-	 * The initial size of {@link ConfigWindow}.
-	 */
-	public static final Dimension configWindowSize = new Dimension(492, 500);
-	
-	/**
 	 * The {@link DecimalFormat} used to format every floating point number shown.
 	 */
 	public static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
@@ -41,13 +36,17 @@ public class Layout {
 	 */
 	public static final Font itemFont = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
 	/**
-	 * The {@link Font} of all text on a {@link CustomerPanelItem}, {@link MenuPanelItem} or {@link OrderHistoryItem}.
+	 * The {@link Font} of the description of a {@link MenuPanelItem}.
 	 */
-	public static final Font itemDescriptionFont = new Font(Font.SANS_SERIF, Font.PLAIN, 14);
+	public static final Font itemDescriptionFont = new Font(Font.SANS_SERIF, Font.PLAIN, 13);
 	/**
 	 * The {@link Font} of all text on a {@link OrderSummaryItem}.
 	 */
 	public static final Font summaryItemFont = new Font(Font.SANS_SERIF, Font.PLAIN, 16);
+	/**
+	 * The {@link Font} of the description of a {@link OrderSummaryItem}.
+	 */
+	public static final Font summaryItemDescriptionFont = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 	/**
 	 * The {@link Font} of the summary text, as well as the text on the save button.
 	 */

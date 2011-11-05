@@ -24,6 +24,7 @@ import ntnu.it1901.gruppe4.gui.OrderSummaryItem;
  * @author Leo
  */
 public class OperatorOrderSummary extends OrderSummary {
+	private OrderSummaryItem itemBeingEdited = null;
 	private JButton saveButton;
 	private JLabel errorMessage;
 
@@ -80,12 +81,26 @@ public class OperatorOrderSummary extends OrderSummary {
 		List<OrderItem> currentItems = currentOrder.getItemList();
 		
 		for (final OrderItem i : currentItems) {
-			OrderSummaryItem item = new OrderSummaryItem(i, Mode.ORDER);
+			final OrderSummaryItem item = new OrderSummaryItem(i, Mode.ORDER);
 			
+			//Remove item when right mouse button is pressed
+			//Edit description when left mouse button is pressed
 			item.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					removeItem(i);
+					if (e.getButton() == 3) {
+						removeItem(i);
+					}
+					else if (e.getButton() == 1) {
+						if (itemBeingEdited != null) {
+							if (itemBeingEdited == item) {
+								return;
+							}
+							itemBeingEdited.changeFunction(false);
+						}
+						item.changeFunction(true);
+						itemBeingEdited = item;
+					}
 				}
 			});
 			

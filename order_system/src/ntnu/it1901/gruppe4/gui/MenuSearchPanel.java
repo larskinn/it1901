@@ -146,8 +146,6 @@ public class MenuSearchPanel extends JPanel {
 
 		setBorder(Layout.panelPadding);
 
-		/*Sets the border of the text area to whatever is the default border
-		  for text fields on the current OS*/
 		descriptionInput.setBorder(searchInput.getBorder());
 		descriptionInput.setFont(Layout.searchBoxFont);
 		descriptionInput.setRows(5);
