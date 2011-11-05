@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import ntnu.it1901.gruppe4.db.Order;
 import ntnu.it1901.gruppe4.db.OrderMaker;
 import ntnu.it1901.gruppe4.gui.Layout;
+import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
 
@@ -26,7 +27,7 @@ public class DeliveryOrderSummary extends OrderSummary {
 	 * Creates a new {@link DeliveryOrderSummary}.
 	 */
 	DeliveryOrderSummary() {
-		super();
+		super(Mode.DELIVERY);
 		
 		inTransitButton = new JButton("Under levering");
 		deliveredButton = new JButton("Levert");

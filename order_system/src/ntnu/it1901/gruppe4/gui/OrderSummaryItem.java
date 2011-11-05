@@ -16,13 +16,18 @@ import ntnu.it1901.gruppe4.db.OrderItem;
  */
 public class OrderSummaryItem extends JPanel {
 	private JLabel name, price;
+	private OrderItem item;
+	private Mode mode;
 
 	/**
 	 * Creates a new {@link OrderSummaryItem} containing the specified {@link OrderItem}.
 	 *  
 	 * @param item The <code>OrderItem</code> to be associated with the new <code>OrderSummaryItem</code>.
 	 */
-	public OrderSummaryItem(OrderItem item) {
+	public OrderSummaryItem(OrderItem item, Mode mode) {
+		this.item = item;
+		this.mode = mode;
+		
 		name = new JLabel(item.getName());
 		price = new JLabel(Layout.decimalFormat.format(item.getAmount()) + " kr");
 		

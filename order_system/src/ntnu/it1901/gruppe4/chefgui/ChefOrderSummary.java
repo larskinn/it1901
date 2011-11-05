@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import ntnu.it1901.gruppe4.db.Order;
 import ntnu.it1901.gruppe4.db.OrderMaker;
 import ntnu.it1901.gruppe4.gui.Layout;
+import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
 
@@ -25,7 +26,7 @@ public class ChefOrderSummary extends OrderSummary {
 	 * Creates a new {@link ChefOrderSummary}.
 	 */
 	ChefOrderSummary() {
-		super();
+		super(Mode.CHEF);
 		
 		deliverButton = new JButton("Klar til levering");
 		orderHistoryPanel = null;

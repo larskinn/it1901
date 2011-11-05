@@ -1,20 +1,21 @@
 package ntnu.it1901.gruppe4.gui.ordergui;
 
-import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+
 import ntnu.it1901.gruppe4.db.Customer;
 import ntnu.it1901.gruppe4.db.Dish;
 import ntnu.it1901.gruppe4.db.OrderItem;
 import ntnu.it1901.gruppe4.db.OrderMaker;
 import ntnu.it1901.gruppe4.gui.Layout;
-import ntnu.it1901.gruppe4.gui.OrderSummaryItem;
+import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderListener;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
+import ntnu.it1901.gruppe4.gui.OrderSummaryItem;
 
 /**
  * This class contains every detail about the {@link ntnu.it1901.gruppe4.db.Order Order}
@@ -30,7 +31,7 @@ public class OperatorOrderSummary extends OrderSummary {
 	 * Creates a new {@link OperatorOrderSummary} for viewing and editing {@link ntnu.it1901.gruppe4.db.Order Orders}.
 	 */
 	OperatorOrderSummary() {
-		super();
+		super(Mode.ORDER);
 		
 		saveButton = new JButton("Lagre");
 		errorMessage = new JLabel("Ordren er ikke ferdig utfylt");
@@ -79,7 +80,7 @@ public class OperatorOrderSummary extends OrderSummary {
 		List<OrderItem> currentItems = currentOrder.getItemList();
 		
 		for (final OrderItem i : currentItems) {
-			OrderSummaryItem item = new OrderSummaryItem(i);
+			OrderSummaryItem item = new OrderSummaryItem(i, Mode.ORDER);
 			
 			item.addMouseListener(new MouseAdapter() {
 				@Override

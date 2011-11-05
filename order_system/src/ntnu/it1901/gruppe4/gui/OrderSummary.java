@@ -31,6 +31,7 @@ public class OrderSummary extends JPanel {
 	private JLabel status;
 	protected Customer customer;
 	protected Collection<OrderListener> orderListeners;
+	protected Mode mode;
 	
 	//Internal panels used for component grouping
 	protected JPanel centerPanel;
@@ -39,8 +40,10 @@ public class OrderSummary extends JPanel {
 	/**
 	 * Creates a new {@link ChefOrderSummary} for viewing details about {@link ntnu.it1901.gruppe4.db.Order Orders}.
 	 */
-	public OrderSummary() {
+	public OrderSummary(Mode mode) {
+		this.mode = mode;
 		this.orderListeners = new ArrayList<OrderListener>();
+		
 		totalPrice = new JLabel();
 		customerInfo = new JLabel();
 		status = new JLabel();
@@ -124,7 +127,7 @@ public class OrderSummary extends JPanel {
 		List<OrderItem> currentItems = currentOrder.getItemList();
 		
 		for (final OrderItem i : currentItems) {
-			OrderSummaryItem item = new OrderSummaryItem(i);
+			OrderSummaryItem item = new OrderSummaryItem(i, mode);
 			
 			//item.addListener() goes here
 			
