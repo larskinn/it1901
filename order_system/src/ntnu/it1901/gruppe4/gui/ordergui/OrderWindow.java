@@ -27,6 +27,7 @@ import ntnu.it1901.gruppe4.gui.MenuSearchPanel;
 import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
+import ntnu.it1901.gruppe4.gui.Receipt;
 
 /**
  * The window where the operator may add or edit orders and customers
@@ -107,12 +108,11 @@ public class OrderWindow implements ActionListener {
 		frame.setTitle("Bestillingsvindu");
 		frame.setLocationRelativeTo(null); // Center the frame
 
-		// Adds a menu bar that will open a new config window when pressed
-		JMenu menu = new JMenu("Valg");
-		menu.setOpaque(false);
+		// Adds a menu that will open a new config window when pressed
+		JMenu settings = new JMenu("Valg");
+		settings.setOpaque(false);
 
-		// Fired when the menu in the menu bar is clicked
-		menu.addMouseListener(new MouseAdapter() {
+		settings.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ConfigWindow configWindow = new ConfigWindow(frame);
@@ -127,9 +127,31 @@ public class OrderWindow implements ActionListener {
 				});
 			}
 		});
+		
+		// Adds a menu that will show a receipt when pressed
+		JMenu receipt = new JMenu("Vis kvittering");
+		settings.setOpaque(false);
+
+		receipt.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Receipt receiptWindow = new Receipt(frame, operatorOrderSummary);
+				frame.setEnabled(false);
+
+				// When the config window is closed, enable the parent frame
+				receiptWindow.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosing(WindowEvent e) {
+						frame.setEnabled(true);
+					}
+				});
+			}
+		});
+		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(frame.getBackground());
-		menuBar.add(menu);
+		menuBar.add(settings);
+		menuBar.add(receipt);
 		frame.setJMenuBar(menuBar);
 
 		// Adds a global key listener
