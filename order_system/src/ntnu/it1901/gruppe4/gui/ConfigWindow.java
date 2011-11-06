@@ -10,6 +10,7 @@ import java.awt.event.WindowListener;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,7 +34,7 @@ public class ConfigWindow {
 		}
 	}
 
-	private JFrame frame;
+	private JDialog frame;
 	private JPanel container;
 	
 	/**
@@ -49,7 +50,7 @@ public class ConfigWindow {
 	 * @param parentFrame The frame which this frame's location will be set relative to.
 	 */
 	public ConfigWindow(JFrame parentFrame) {
-		frame = new JFrame();
+		frame = new JDialog();
 		container = new JPanel();
 		
 		addComponentsToContainer();
@@ -58,8 +59,10 @@ public class ConfigWindow {
 		frame.add(container);
 		frame.setTitle("Valg");
 		frame.pack();
+		frame.setResizable(false);
+		frame.setAlwaysOnTop(true);
 		frame.setLocationRelativeTo(parentFrame);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 	}
 	
