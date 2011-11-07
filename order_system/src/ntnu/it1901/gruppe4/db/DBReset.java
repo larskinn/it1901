@@ -10,14 +10,27 @@ import java.io.File;
  */
 
 public class DBReset {
-	public static void main(String args[]) {
+	/**
+	 * Delete database file and recreate tables
+	 */
+	public static void resetDB() {
+
 		(new File("./data.db")).delete();
 		DataAPI.open("./data.db");
 		DataAPI.clearDatabase();
-		DataAPI.createExampleData();
-
 		DataAPI.close();
 
-		System.out.println("Database has been reset.");
+		System.out.println("[Debug] Database has been reset");
+	}
+
+	/**
+	 * Populate database with example data
+	 */
+	public static void createExampleData() {
+		DataAPI.open("./data.db");
+		DataAPI.createExampleData();
+		DataAPI.close();
+
+		System.out.println("[Debug] Example data has been inserted");
 	}
 }
