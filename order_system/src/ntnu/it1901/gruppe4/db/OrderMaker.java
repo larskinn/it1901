@@ -117,7 +117,7 @@ public class OrderMaker {
 			delivery = 0.0f;
 
 		total += delivery;
-		
+
 		float taxAmt = total * tax / (100.f + tax);
 
 		order.setTotalAmount(total);
@@ -317,6 +317,28 @@ public class OrderMaker {
 		if (canBeChanged()) {
 			order.setState(state);
 			hasBeenModified = true;
+		}
+	}
+
+	/**
+	 * Discards the whole order and its order items from the database.
+	 */
+	public void discard() {
+		if (canBeChanged()) {
+			// Remove order and order items from database.
+			DataAPI.remOrderItems(order);
+			DataAPI.remOrder(order);
+
+			// Set up the OrderMaker as if the order is unsaved.
+			order.setState(Order.NOT_SAVED);
+			hasBeenModified = true;
+			hasBeenSaved = false;
+
+			for (OrderItem o : orderItems) {
+				addQue.add(o);
+			}
+			remQue.clear();
+			updateQue.clear();
 		}
 	}
 }

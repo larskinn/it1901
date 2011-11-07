@@ -91,12 +91,21 @@ public class Customer {
 	public boolean isValid() {
 		return true;
 	}
-	
+
 	/**
 	 * Persists the Customer to the database by updating an existing Customer,
-	 * or -- if one doesn't exist -- adding a new Customer. 
+	 * or -- if one doesn't exist -- adding a new Customer.
 	 */
 	public void save() {
 		DataAPI.saveCustomer(this);
+	}
+
+	/**
+	 * Completely removes the customer from the database, including their
+	 * addresses.
+	 */
+	public void remove() {
+		DataAPI.remAddresses(this);
+		DataAPI.remCustomer(this);
 	}
 }

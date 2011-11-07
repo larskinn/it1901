@@ -8,7 +8,8 @@ import java.lang.Exception;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
-import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.PreparedDelete;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.table.TableUtils;
@@ -56,7 +57,8 @@ public class DataAPI {
 
 			setupDatabase();
 			setupSettings();
-			/* setupSettings() should only be called here, but since the GUIs
+			/*
+			 * setupSettings() should only be called here, but since the GUIs
 			 * clear the database on startup, it has to be called again later,
 			 * from outside this class.
 			 */
@@ -91,7 +93,7 @@ public class DataAPI {
 					.println("[Error] Tried to setup database without a connection");
 		}
 	}
-	
+
 	/**
 	 * Ensures that the program settings exist, by setting any missing settings
 	 * to defaults from {@link Settings#DEFAULT_SETTINGS}. Does not overwrite
@@ -99,11 +101,14 @@ public class DataAPI {
 	 */
 	public static void setupSettings() {
 		// TODO: This should be private, eventually.
-		for (Map.Entry<String, String> entry : Settings.DEFAULT_SETTINGS.entrySet()) {
+		for (Map.Entry<String, String> entry : Settings.DEFAULT_SETTINGS
+				.entrySet()) {
 			try {
-				configDao.createIfNotExists(new Config(entry.getKey(), entry.getValue()));
+				configDao.createIfNotExists(new Config(entry.getKey(), entry
+						.getValue()));
 			} catch (SQLException e) {
-				System.err.println("Error setting default config value: " + e.getMessage());
+				System.err.println("Error setting default config value: "
+						+ e.getMessage());
 			}
 		}
 	}
@@ -148,7 +153,7 @@ public class DataAPI {
 
 				Address a1 = new Address(c, "Internettveien 64", 1024);
 				Address a2 = new Address(c, "Addresseveien 32", 2048);
-				
+
 				Address a3 = new Address(c1, "Land of Ooo", 5000);
 				Address a4 = new Address(c2, "Land of Ooo", 5000);
 				Address a5 = new Address(c3, "Candy Kingdom", 7000);
@@ -223,8 +228,9 @@ public class DataAPI {
 	// Customer
 
 	/**
-	 * Stores a Customer to the database. If the ID matches an existing Customer,
-	 * the match is updated. If not, a new Customer is added to the database.
+	 * Stores a Customer to the database. If the ID matches an existing
+	 * Customer, the match is updated. If not, a new Customer is added to the
+	 * database.
 	 * 
 	 * @param c
 	 *            a reference to the Customer object containing the data to be
@@ -269,10 +275,30 @@ public class DataAPI {
 		try {
 			if (address == null)
 				return null;
-			return customerDao.queryForId(address.getIdCustomer().getIdCustomer());
+			return customerDao.queryForId(address.getIdCustomer()
+					.getIdCustomer());
 		} catch (SQLException e) {
-			System.err.println("Error fetching customer by address: " + e.getMessage());
+			System.err.println("Error fetching customer by address: "
+					+ e.getMessage());
 			return null;
+		}
+	}
+
+	/**
+	 * Removes customer from database. Does not remove any addresses; call
+	 * remAddresses first.
+	 * 
+	 * @param customer
+	 *            The customer to be removed.
+	 */
+	public static void remCustomer(Customer customer) {
+		try {
+			if (customer == null)
+				return;
+			customerDao.delete(customer);
+		} catch (SQLException e) {
+			System.err.println("Error removing customer: " + e.getMessage());
+			return;
 		}
 	}
 
@@ -394,6 +420,27 @@ public class DataAPI {
 	}
 
 	/**
+	 * Removes addresses associated with a customer and stores it in
+	 * 
+	 * @param customer
+	 *            the customer whose addresses should be removed
+	 */
+	public static void remAddresses(Customer customer) {
+		try {
+			if (customer == null)
+				return;
+
+			int i = customer.getIdCustomer();
+			DeleteBuilder<Address, Integer> del = addressDao.deleteBuilder();
+			del.where().eq("idCustomer_id", i);
+			addressDao.delete(del.prepare());
+
+		} catch (SQLException e) {
+			System.err.println("Error fetching addresses: " + e.getMessage());
+		}
+	}
+
+	/**
 	 * Finds addresses containing the search string
 	 * 
 	 * @param s
@@ -414,8 +461,8 @@ public class DataAPI {
 	}
 
 	/**
-	 * Stores a Dish to the database. If the ID matches an existing Dish,
-	 * the match is updated. If not, a new Dish is added to the database.
+	 * Stores a Dish to the database. If the ID matches an existing Dish, the
+	 * match is updated. If not, a new Dish is added to the database.
 	 * 
 	 * @param dish
 	 *            a reference to the Dish object containing the data to be
@@ -428,7 +475,7 @@ public class DataAPI {
 			System.err.println("Error storing dish: " + e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Fetches dish data and stores it in a Dish object
 	 * 
@@ -466,8 +513,8 @@ public class DataAPI {
 	}
 
 	/**
-	 * Stores an Order to the database. If the ID matches an existing Order,
-	 * the match is updated. If not, a new Order is added to the database.
+	 * Stores an Order to the database. If the ID matches an existing Order, the
+	 * match is updated. If not, a new Order is added to the database.
 	 * 
 	 * @param order
 	 *            a reference to the Order object containing the data to be
@@ -534,8 +581,9 @@ public class DataAPI {
 	}
 
 	/**
-	 * Stores an OrderItem to the database. If the ID matches an existing OrderItem,
-	 * the match is updated. If not, a new OrderItem is added to the database.
+	 * Stores an OrderItem to the database. If the ID matches an existing
+	 * OrderItem, the match is updated. If not, a new OrderItem is added to the
+	 * database.
 	 * 
 	 * @param orderItem
 	 *            a reference to the OrderItem object containing the data to be
@@ -550,7 +598,7 @@ public class DataAPI {
 	}
 
 	/**
-	 * Stores an OrderItem from the database
+	 * Removes an OrderItem from the database
 	 * 
 	 * @param orderItem
 	 *            a reference to the OrderItem object containing the data to be
@@ -561,6 +609,27 @@ public class DataAPI {
 			orderItemDao.delete(orderItem);
 		} catch (SQLException e) {
 			System.err.println("Error removing orderitem: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * Removes OrderItems from the database
+	 * 
+	 * @param order
+	 *            a reference to the Order object for which the OrderItems to be
+	 *            removed are associated
+	 */
+	public static void remOrderItems(Order order) {
+		if (order == null)
+			return;
+		try {
+			int i = order.getIdOrder();
+			DeleteBuilder<OrderItem, Integer> del = orderItemDao
+					.deleteBuilder();
+			del.where().eq("idOrder_id", i);
+			orderItemDao.delete(del.prepare());
+		} catch (SQLException e) {
+			System.err.println("Error removing orderitems: " + e.getMessage());
 		}
 	}
 
@@ -598,14 +667,16 @@ public class DataAPI {
 			return null;
 		}
 	}
-	
+
 	// Config
-	
+
 	/**
 	 * Stores a configuration value to the database
 	 * 
-	 * @param key - the name of the configuration value (a String)
-	 * @param value - the value (a String)
+	 * @param key
+	 *            - the name of the configuration value (a String)
+	 * @param value
+	 *            - the value (a String)
 	 */
 	static void setConfig(String key, String value) {
 		try {
@@ -614,11 +685,12 @@ public class DataAPI {
 			System.err.println("Error storing config value: " + e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Fetches a configuration value from the database
 	 * 
-	 * @param key - the name of the configuration (a String)
+	 * @param key
+	 *            - the name of the configuration (a String)
 	 * @return the value, as a String
 	 */
 	static String getConfig(String key) {
@@ -629,7 +701,8 @@ public class DataAPI {
 			}
 			return config.getValue();
 		} catch (SQLException e) {
-			System.err.println("Error fetching config value: " + e.getMessage());
+			System.err
+					.println("Error fetching config value: " + e.getMessage());
 			return null;
 		}
 	}
