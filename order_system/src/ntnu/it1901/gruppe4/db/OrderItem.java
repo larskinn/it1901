@@ -50,7 +50,7 @@ public class OrderItem {
 		setIdDish(dish);
 		setAmount(dish.getPrice());
 		setName(dish.getName());
-		setDescription(dish.getDescription());
+		setDescription("");
 	}
 
 	/**
