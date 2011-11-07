@@ -17,6 +17,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
+import ntnu.it1901.gruppe4.Main;
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.gui.ConfigWindow;
 import ntnu.it1901.gruppe4.gui.Layout;
@@ -25,9 +26,11 @@ import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 
 /**
- * The window where the chef may review and confirm orders, and edit the food menu
+ * The window where the chef may review and confirm orders, and edit the food
+ * menu
+ * 
  * @author LeoMartin, David
- *
+ * 
  */
 public class ChefWindow implements ActionListener {
 	private JFrame frame;
@@ -39,19 +42,18 @@ public class ChefWindow implements ActionListener {
 	private ResizeListener resizeListener;
 
 	/**
-	 * An enum of view modes for ChefWindow
-	 * ORDERS -- The orders list view, where placed orders may be reviewed and confirmed
-	 * MENU -- The food menu view, where the dishes of the food menu may be modified
+	 * An enum of view modes for ChefWindow ORDERS -- The orders list view,
+	 * where placed orders may be reviewed and confirmed MENU -- The food menu
+	 * view, where the dishes of the food menu may be modified
 	 * 
 	 */
 	public enum View {
 		ORDERS, MENU;
 	}
 
-	private void handleResize()
-	{
-		orderHistoryPanel.setPreferredSize(new Dimension(
-				(int) (frame.getWidth() * 0.6666), frame.getHeight()));
+	private void handleResize() {
+		orderHistoryPanel.setPreferredSize(new Dimension((int) (frame
+				.getWidth() * 0.6666), frame.getHeight()));
 
 		chefOrderSummary.setPreferredSize(new Dimension(
 				(int) (frame.getWidth() * 0.3333), frame.getHeight()));
@@ -59,19 +61,21 @@ public class ChefWindow implements ActionListener {
 		orderHistoryPanel.revalidate();
 		chefOrderSummary.revalidate();
 	}
-	
+
 	private class ResizeListener extends ComponentAdapter {
 		public void componentResized(ComponentEvent e) {
 			handleResize();
 		}
 	}
-	
+
 	public ChefWindow() {
+		DataAPI.open("./data.db");
+
 		buttonPanel = new ButtonPanel(this);
 		chefOrderSummary = new ChefOrderSummary();
 		orderHistoryPanel = new OrderHistoryPanel(Mode.CHEF, chefOrderSummary);
 		menuPanel = new MenuSearchPanel(Mode.CHEF);
-		
+
 		chefOrderSummary.setOrderHistoryPanel(orderHistoryPanel);
 		resizeListener = new ResizeListener();
 
@@ -85,18 +89,18 @@ public class ChefWindow implements ActionListener {
 		frame.add(buttonPanel, BorderLayout.SOUTH);
 		changeView(View.ORDERS);
 
-		//Adds a menu bar that will open a new config window when pressed
+		// Adds a menu bar that will open a new config window when pressed
 		JMenu menu = new JMenu("Valg");
 		menu.setOpaque(false);
-		
-		//Fired when the menu in the menu bar is clicked
+
+		// Fired when the menu in the menu bar is clicked
 		menu.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ConfigWindow configWindow = new ConfigWindow(frame);
 				frame.setEnabled(false);
-				
-				//When the config window is closed, enable the parent frame
+
+				// When the config window is closed, enable the parent frame
 				configWindow.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosing(WindowEvent e) {
@@ -109,25 +113,19 @@ public class ChefWindow implements ActionListener {
 		menuBar.setBackground(frame.getBackground());
 		menuBar.add(menu);
 		frame.setJMenuBar(menuBar);
-		
+
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				cleanup();
-				System.exit(0);
+				Main.showSplash();
 			}
 		});
-		
+
 		frame.setSize(Layout.initialSize);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 		handleResize();
-	}
-
-	public static void main(String[] args) {
-		DataAPI.open("./data.db");
-
-		new ChefWindow();
 	}
 
 	private static void cleanup() {
@@ -135,10 +133,12 @@ public class ChefWindow implements ActionListener {
 	}
 
 	/**
-	 * Change the view of the chef window. Options are:
-	 * ORDERS -- The orders list view, where placed orders may be reviewed and confirmed
-	 * MENU -- The food menu view, where the dishes of the food menu may be modified
-	 * @param view The view to show. Options are View.ORDERS, View.MENU
+	 * Change the view of the chef window. Options are: ORDERS -- The orders
+	 * list view, where placed orders may be reviewed and confirmed MENU -- The
+	 * food menu view, where the dishes of the food menu may be modified
+	 * 
+	 * @param view
+	 *            The view to show. Options are View.ORDERS, View.MENU
 	 * 
 	 */
 	public void changeView(View view) {
@@ -148,24 +148,26 @@ public class ChefWindow implements ActionListener {
 		}
 
 		switch (view) {
-			case ORDERS:
-				frame.add(orderHistoryPanel, BorderLayout.CENTER);
-				currentPanel = orderHistoryPanel;
-				break;
-			case MENU:
-				frame.add(menuPanel, BorderLayout.CENTER);
-				currentPanel = menuPanel;
-				break;
+		case ORDERS:
+			frame.add(orderHistoryPanel, BorderLayout.CENTER);
+			currentPanel = orderHistoryPanel;
+			break;
+		case MENU:
+			frame.add(menuPanel, BorderLayout.CENTER);
+			currentPanel = menuPanel;
+			break;
 		}
-		currentPanel.grabFocus(); // This method should be overrided to pass on focus to the search box
-		currentPanel.revalidate(); // Check if the panel has all its components loaded
+		currentPanel.grabFocus(); // This method should be overrided to pass on
+									// focus to the search box
+		currentPanel.revalidate(); // Check if the panel has all its components
+									// loaded
 		frame.repaint(); // Repaint the frame and all its components
 	}
 
 	// Fired whenever a button in ButtonPanel is pressed
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JButton src = (JButton)e.getSource();
+		JButton src = (JButton) e.getSource();
 
 		if (src == buttonPanel.orders) {
 			changeView(View.ORDERS);

@@ -15,33 +15,32 @@ import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
 
 public class MapAndOrderPanel extends JPanel {
-	
+
 	private OrderHistoryPanel orderHistoryPanel;
 	private MapPanel mapPanel;
 	private ResizeListener resizeListener;
 	private JScrollPane scrollpane;
-	
+
 	/**
 	 * 
 	 * @author Morten, Leo
-	 *
+	 * 
 	 */
-	
+
 	private class ResizeListener extends ComponentAdapter {
 		public void componentResized(ComponentEvent e) {
 			// Resizes the mapPanel to its preferred size.
 			mapPanel.setMinimumSize(mapPanel.getPreferredSize());
-			
-			scrollpane.setPreferredSize(new Dimension(
-					getWidth(), (int) (getHeight() - mapPanel.getSize().height)));
 
+			scrollpane.setPreferredSize(new Dimension(getWidth(),
+					(int) (getHeight() - mapPanel.getSize().height)));
 
 			scrollpane.revalidate();
 			mapPanel.revalidate();
 		}
-		
+
 	}
-	
+
 	/**
 	 * Constructs a MapAndOrderPanel
 	 * 
@@ -51,19 +50,20 @@ public class MapAndOrderPanel extends JPanel {
 	 * @throws IOException
 	 * 
 	 */
-	
-	public MapAndOrderPanel(OrderSummary summary) throws MalformedURLException, IOException {
-		
+
+	public MapAndOrderPanel(OrderSummary summary) {
+
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
+
 		mapPanel = new MapPanel();
-		orderHistoryPanel = new OrderHistoryPanel(Mode.DELIVERY, summary, mapPanel);
+		orderHistoryPanel = new OrderHistoryPanel(Mode.DELIVERY, summary,
+				mapPanel);
 		resizeListener = new ResizeListener();
 		scrollpane = new JScrollPane(orderHistoryPanel);
-		
+
 		scrollpane.addComponentListener(resizeListener);
 		mapPanel.addComponentListener(resizeListener);
-		
+
 		add(scrollpane);
 		add(mapPanel);
 	}

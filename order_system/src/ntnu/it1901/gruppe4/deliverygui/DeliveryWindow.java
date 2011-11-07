@@ -14,7 +14,7 @@ import java.net.MalformedURLException;
 
 import javax.swing.JFrame;
 
-
+import ntnu.it1901.gruppe4.Main;
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
 import ntnu.it1901.gruppe4.gui.Layout;
@@ -27,35 +27,36 @@ import ntnu.it1901.gruppe4.gui.Mode;
  */
 
 public class DeliveryWindow implements ActionListener {
-	
+
 	private JFrame frame;
 	private DeliveryOrderSummary deliveryOrderSummary;
 	private OrderHistoryPanel orderHistoryPanel;
 	private ResizeListener resizeListener;
 	private MapAndOrderPanel mapAndOrderPanel;
-	
-	
+
 	private class ResizeListener extends ComponentAdapter {
 		public void componentResized(ComponentEvent e) {
-			mapAndOrderPanel.setPreferredSize(new Dimension(
-					(int) (frame.getWidth() * 0.6666), frame.getHeight()));
+			mapAndOrderPanel.setPreferredSize(new Dimension((int) (frame
+					.getWidth() * 0.6666), frame.getHeight()));
 
-			deliveryOrderSummary.setPreferredSize(new Dimension(
-					(int) (frame.getWidth() * 0.3333), frame.getHeight()));
+			deliveryOrderSummary.setPreferredSize(new Dimension((int) (frame
+					.getWidth() * 0.3333), frame.getHeight()));
 
 			mapAndOrderPanel.revalidate();
 			deliveryOrderSummary.revalidate();
 		}
 	}
-	
-	public DeliveryWindow() throws MalformedURLException, IOException {
+
+	public DeliveryWindow() {
+
+		DataAPI.open("./data.db");
 
 		deliveryOrderSummary = new DeliveryOrderSummary();
-		orderHistoryPanel = new OrderHistoryPanel(Mode.DELIVERY, deliveryOrderSummary);
+		orderHistoryPanel = new OrderHistoryPanel(Mode.DELIVERY,
+				deliveryOrderSummary);
 		deliveryOrderSummary.setOrderHistoryPanel(orderHistoryPanel);
 		resizeListener = new ResizeListener();
 		mapAndOrderPanel = new MapAndOrderPanel(deliveryOrderSummary);
-		
 
 		orderHistoryPanel.addComponentListener(resizeListener);
 		mapAndOrderPanel.addComponentListener(resizeListener);
@@ -72,26 +73,20 @@ public class DeliveryWindow implements ActionListener {
 		frame.setLayout(new BorderLayout(5, 5));
 		frame.add(deliveryOrderSummary, BorderLayout.EAST);
 		frame.add(mapAndOrderPanel, BorderLayout.WEST);
-		
+
 		frame.pack();
 
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				cleanup();
-				System.exit(0);
+				Main.showSplash();
 			}
 		});
-		
-		//handleResize();
-	}
-	
-	public static void main(String[] args) throws MalformedURLException, IOException {
-		DataAPI.open("./data.db");
 
-		new DeliveryWindow();
+		// handleResize();
 	}
-	
+
 	private static void cleanup() {
 		DataAPI.close();
 	}
@@ -99,8 +94,7 @@ public class DeliveryWindow implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
 
 }

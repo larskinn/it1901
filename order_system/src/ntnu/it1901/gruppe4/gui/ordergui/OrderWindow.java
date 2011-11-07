@@ -20,6 +20,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
+import ntnu.it1901.gruppe4.Main;
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.gui.ConfigWindow;
 import ntnu.it1901.gruppe4.gui.Layout;
@@ -69,12 +70,6 @@ public class OrderWindow implements ActionListener {
 		MENU, CUSTOMER, HISTORY;
 	}
 
-	public static void main(String[] args) {
-		DataAPI.open("./data.db");
-
-		new OrderWindow();
-	}
-
 	private static void cleanup() {
 		// This would make more sense if DataAPI was non-static.
 		DataAPI.close();
@@ -84,6 +79,8 @@ public class OrderWindow implements ActionListener {
 	 * Public constructor.
 	 */
 	public OrderWindow() {
+		DataAPI.open("./data.db");
+
 		frame = new JFrame();
 		operatorOrderSummary = new OperatorOrderSummary();
 		orderHistoryPanel = new OrderHistoryPanel(Mode.ORDER,
@@ -127,7 +124,7 @@ public class OrderWindow implements ActionListener {
 				});
 			}
 		});
-		
+
 		// Adds a menu that will show a receipt when pressed
 		JMenu receipt = new JMenu("Vis kvittering");
 		settings.setOpaque(false);
@@ -147,7 +144,7 @@ public class OrderWindow implements ActionListener {
 				});
 			}
 		});
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(frame.getBackground());
 		menuBar.add(settings);
@@ -182,7 +179,7 @@ public class OrderWindow implements ActionListener {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				cleanup();
-				System.exit(0);
+				Main.showSplash();
 			}
 		});
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
