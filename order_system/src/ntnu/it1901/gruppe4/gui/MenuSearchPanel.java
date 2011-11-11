@@ -91,9 +91,9 @@ public class MenuSearchPanel extends JPanel {
 								if (itemBeingEdited == item) {
 									return;
 								}
-								itemBeingEdited.changeMode(false);
+								itemBeingEdited.changeFunction(false);
 							}
-							item.changeMode(true);
+							item.changeFunction(true);
 							itemBeingEdited = item;
 						}
 					});

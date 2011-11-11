@@ -25,6 +25,8 @@ import ntnu.it1901.gruppe4.db.DishType;
  * @author Leo
  */
 public class MenuPanelItem extends JPanel {
+	private final int HGAP = 20, VGAP = 15;
+	
 	private boolean beingEdited;
 	private Dish item;
 	private JLabel name, price, priceSuffix, description, errorMessage;
@@ -68,7 +70,7 @@ public class MenuPanelItem extends JPanel {
 
 		setBorder(Layout.menuItemPadding);
 		setLayout(new GridBagLayout());
-		changeMode(false);
+		changeFunction(false);
 
 		//To prevent this component's height from growing
 		setMaximumSize(new Dimension(Short.MAX_VALUE, getPreferredSize().height));
@@ -105,12 +107,18 @@ public class MenuPanelItem extends JPanel {
 				item.setPrice(newPrice);
 				item.setType((DishType)typeInput.getSelectedItem());
 				item.setDescription(description);
-				changeMode(false);
+				changeFunction(false);
 			}
 		});
 	}
 
-	public void changeMode(boolean editing) {
+	/**
+	 * Changes the function of this {@link MenuPanelItem} to either edit the description
+	 * of the contained {@link Order} or just showing it.
+	 * 
+	 * @param editing If the description of the current <code>Order</code> should be edited.
+	 */
+	public void changeFunction(boolean editing) {
 		beingEdited = editing;
 		
 		if (editing) {
@@ -131,15 +139,13 @@ public class MenuPanelItem extends JPanel {
 			add(nameInput, gbc);
 			
 			gbc.gridx++;
-			//Todo: Move "magic number" to some constant
-			add(Box.createHorizontalStrut(20), gbc);
+			add(Box.createHorizontalStrut(HGAP), gbc);
 			
 			gbc.gridx++;
 			add(typeInput, gbc);
 			
 			gbc.gridx++;
-			//Todo: Move "magic number" to some constant
-			add(Box.createHorizontalStrut(20), gbc);
+			add(Box.createHorizontalStrut(HGAP), gbc);
 
 			gbc.gridx++;
 			gbc.anchor = GridBagConstraints.EAST;
@@ -149,9 +155,8 @@ public class MenuPanelItem extends JPanel {
 			gbc.weightx = 0;
 			add(priceSuffix, gbc);
 
-			//Todo: Move "magic number" to some constant
 			gbc.gridy++;
-			add(Box.createVerticalStrut(15), gbc);
+			add(Box.createVerticalStrut(VGAP), gbc);
 
 			gbc.gridy++;
 			gbc.gridx = 0;
@@ -199,9 +204,8 @@ public class MenuPanelItem extends JPanel {
 			gbc.weightx = 0;
 			add(priceSuffix, gbc);
 
-			//Todo: Move "magic number" to some constant
 			gbc.gridy++;
-			add(Box.createVerticalStrut(15), gbc);
+			add(Box.createVerticalStrut(VGAP), gbc);
 
 			gbc.gridy++;
 			gbc.gridx = 0;
