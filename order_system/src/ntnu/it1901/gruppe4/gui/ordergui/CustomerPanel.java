@@ -37,6 +37,8 @@ public class CustomerPanel extends JPanel {
 	private OperatorOrderSummary currentOrder;
 
 	public class CustomerList extends JPanel {
+		private CustomerPanelItem itemBeingEdited;
+		
 		/**
 		 * Creates a new CustomerList containing a list of {@link CustomerPanelItem CustomerPanelItems}.<br>
 		 * Only the CustomerPanel is allowed to do this.
@@ -54,18 +56,32 @@ public class CustomerPanel extends JPanel {
 		public void addCustomers(Collection<Customer> customers) {
 			int counter = 0;
 			removeAll();
-			
+
 			for (final Customer customer : customers) {
-				CustomerPanelItem item = new CustomerPanelItem(customer);
-				
-				//Fired whenever a customer panel item is clicked
+				final CustomerPanelItem item = new CustomerPanelItem(customer);
+
+				//Activated when a customer panel item is clicked
 				item.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mousePressed(MouseEvent e) {
-						CustomerPanel.this.currentOrder.setCustomer(customer);
+						if (e.getButton() == 1) {
+							CustomerPanel.this.currentOrder.setCustomer(customer);
+						}
+						else if (itemBeingEdited != null && itemBeingEdited.isBeingEdited()) {
+							if (itemBeingEdited == item) {
+								return;
+							}
+							itemBeingEdited.changeFunction(false);
+							item.changeFunction(true);
+							itemBeingEdited = item;
+						}
+						else {
+							item.changeFunction(true);
+							itemBeingEdited = item;
+						}
 					}
 				});
-				
+
 				if (counter++ % 2 == 0) {
 					item.setBackground(Layout.bgColor1);
 				}
