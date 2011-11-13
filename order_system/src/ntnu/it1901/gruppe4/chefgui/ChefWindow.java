@@ -85,7 +85,6 @@ public class ChefWindow implements ActionListener {
 		frame = new JFrame("Kokkevindu");
 		frame.setSize(Layout.initialSize);
 		frame.setLayout(new BorderLayout());
-		frame.add(chefOrderSummary, BorderLayout.EAST);
 		frame.add(buttonPanel, BorderLayout.SOUTH);
 		changeView(View.ORDERS);
 
@@ -146,22 +145,22 @@ public class ChefWindow implements ActionListener {
 		if (currentPanel != null) {
 			frame.remove(currentPanel);
 		}
+		frame.remove(chefOrderSummary);
 
 		switch (view) {
-		case ORDERS:
-			frame.add(orderHistoryPanel, BorderLayout.CENTER);
-			currentPanel = orderHistoryPanel;
-			break;
-		case MENU:
-			frame.add(menuPanel, BorderLayout.CENTER);
-			currentPanel = menuPanel;
-			break;
+			case ORDERS:
+				frame.add(orderHistoryPanel, BorderLayout.CENTER);
+				frame.add(chefOrderSummary, BorderLayout.EAST);
+				currentPanel = orderHistoryPanel;
+				break;
+			case MENU:
+				frame.add(menuPanel, BorderLayout.CENTER);
+				currentPanel = menuPanel;
+				break;
 		}
-		currentPanel.grabFocus(); // This method should be overrided to pass on
-									// focus to the search box
-		currentPanel.revalidate(); // Check if the panel has all its components
-									// loaded
-		frame.repaint(); // Repaint the frame and all its components
+		currentPanel.grabFocus(); // This method should be overrided to pass on focus to the search box
+		currentPanel.revalidate(); // Check if the panel has all its components loaded
+		frame.repaint(); //Repaint the frame and all its components
 	}
 
 	// Fired whenever a button in ButtonPanel is pressed
