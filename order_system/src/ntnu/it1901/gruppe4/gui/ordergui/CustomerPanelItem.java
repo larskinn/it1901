@@ -118,9 +118,9 @@ public class CustomerPanelItem extends JPanel {
 				customer.setName(name);
 				customer.setPhone(number);
 				
-				//delete old address
+				DataAPI.deleteAddress(DataAPI.getAddresses(customer).get(0));
 				newAddress = new Address(customer, address, newPostNo);
-				//add new address
+				newAddress.save();
 				
 				changeFunction(false);
 				
