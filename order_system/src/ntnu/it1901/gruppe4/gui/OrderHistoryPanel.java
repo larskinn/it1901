@@ -6,7 +6,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -76,7 +75,7 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 			
 			OrderHistoryItem item = new OrderHistoryItem(order, mode);
 
-			if ((mode == Mode.DELIVERY || mode == Mode.CHEF) && orderSummary != null) {
+			if (orderSummary != null) {
 				//This listener is called when an order history item is clicked
 				item.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
@@ -91,13 +90,6 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 			}
 			
 			if (mode == Mode.ORDER && orderSummary != null) {
-				item.addEditButtonListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						orderSummary.setOrder(order);
-					}
-				});
-
 				item.addDeleteButtonListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {

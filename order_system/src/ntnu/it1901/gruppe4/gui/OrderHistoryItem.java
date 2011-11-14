@@ -21,11 +21,10 @@ import ntnu.it1901.gruppe4.db.Order;
 public class OrderHistoryItem extends JPanel {
 	private Order order;
 	private JLabel text;
-	private JButton edit, delete;
+	private JButton delete;
 	
 	public OrderHistoryItem(Order order, Mode mode) {
 		this.order = order;
-		edit = new JButton("Endre");
 		delete = new JButton("Slett");
 		text = new JLabel("<html><table>" +
 								"<tr>" +
@@ -51,9 +50,6 @@ public class OrderHistoryItem extends JPanel {
 			gbc.anchor = GridBagConstraints.NORTHEAST;
 			gbc.weightx = 0;
 			gbc.gridx++;
-			add(edit, gbc);
-			
-			gbc.gridx++;
 			add(delete, gbc);
 		}
 		
@@ -61,15 +57,6 @@ public class OrderHistoryItem extends JPanel {
 		setMaximumSize(new Dimension(Short.MAX_VALUE, getPreferredSize().height));
 	}
 	
-	/**
-	 * Adds a listener that will be called when the edit button in this {@link OrderHistoryItem} is clicked.
-	 * 
-	 * @param listener The listener that will be called when the item is clicked.
-	 */
-	public void addEditButtonListener(ActionListener listener) {
-		edit.addActionListener(listener);
-	}
-
 	/**
 	 * Adds a listener that will be called when the delete button in this {@link OrderHistoryItem} is clicked.
 	 * 
