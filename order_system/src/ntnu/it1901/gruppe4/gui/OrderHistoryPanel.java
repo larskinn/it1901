@@ -93,8 +93,12 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 				item.addDeleteButtonListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						//Delete the customer contained within the item from the database
-						//FIXME: This is not yet implemented in the database API
+						//Delete the order contained within the item from the database
+						//FIXME: This is very bugged at the moment
+						DataAPI.remOrder(order);
+						orderSummary.update();
+						revalidate();
+						repaint();
 					}
 				});
 			}
