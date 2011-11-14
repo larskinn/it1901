@@ -28,17 +28,19 @@ public class MenuPanelItem extends JPanel {
 	private final int HGAP = 20, VGAP = 15;
 	
 	private boolean beingEdited;
+	private boolean deleting = false;
 	private Dish item;
-	private JLabel name, price, priceSuffix, description, errorMessage;
+	private JLabel name, price, priceSuffix, description, errorMessage, confirmMessage;
 	private JTextField nameInput, priceInput;
 	private JComboBox typeInput;
 	private JTextArea descriptionInput;
-	private JButton save;
+	private JButton save, delete;
 
 	/**
 	 * Creates a new {@link MenuPanelItem} containing the specified {@link Dish} within.
 	 *  
 	 * @param dish The <code>Dish</code> to be associated with the new <code>MenuPanelItem</code>.
+	 * @param mode The {@link Mode} which specifies in which window this <code>MenuPanelItem</code> is shown.
 	 */
 	public MenuPanelItem(Dish dish, Mode mode) {
 		this.item = dish;
@@ -52,6 +54,8 @@ public class MenuPanelItem extends JPanel {
 		descriptionInput = new JTextArea();
 		typeInput = new JComboBox(DishType.values());
 		save = new JButton("Lagre");
+		delete = new JButton("Slett");
+		confirmMessage = new JLabel();
 
 		name.setFont(Layout.itemFont);
 		price.setFont(Layout.itemFont);
@@ -59,6 +63,7 @@ public class MenuPanelItem extends JPanel {
 		description.setFont(Layout.itemDescriptionFont);
 		nameInput.setFont(Layout.itemFont);
 		priceInput.setFont(Layout.itemFont);
+		confirmMessage.setFont(Layout.itemFont);
 		errorMessage.setFont(Layout.errorFont);
 		errorMessage.setForeground(Layout.errorColor);
 
@@ -67,6 +72,7 @@ public class MenuPanelItem extends JPanel {
 		descriptionInput.setLineWrap(true);
 
 		save.setFont(Layout.itemFont);
+		delete.setFont(Layout.itemFont);
 
 		setBorder(Layout.menuItemPadding);
 		setLayout(new GridBagLayout());
@@ -110,6 +116,21 @@ public class MenuPanelItem extends JPanel {
 				changeFunction(false);
 			}
 		});
+		
+		delete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (deleting) {
+					//FIXME: This state does not stick
+					item.setActive(false);
+				}
+				else {
+					confirmMessage.setText("Sikker?");
+					delete.setText("Ja");
+					deleting = true;
+				}
+			}
+		});
 	}
 
 	/**
@@ -119,9 +140,13 @@ public class MenuPanelItem extends JPanel {
 	 * @param editing If the description of the current <code>Order</code> should be edited.
 	 */
 	public void changeFunction(boolean editing) {
+		deleting = false;
 		beingEdited = editing;
 		
 		if (editing) {
+			confirmMessage.setText("");
+			delete.setText("Slett");
+			deleting = false;
 			removeAll();
 
 			nameInput.setText(item.getName());
@@ -162,8 +187,15 @@ public class MenuPanelItem extends JPanel {
 			gbc.gridx = 0;
 			gbc.anchor = GridBagConstraints.WEST;
 			add(descriptionInput, gbc);
-
-			gbc.gridx += 4;
+			
+			gbc.fill = GridBagConstraints.NONE;
+			gbc.gridx += 2;
+			add(confirmMessage, gbc);
+			
+			gbc.anchor = GridBagConstraints.NORTHEAST;
+			add(delete, gbc);
+			
+			gbc.gridx += 2;
 			gbc.gridwidth = 2;
 			add(save, gbc);
 			

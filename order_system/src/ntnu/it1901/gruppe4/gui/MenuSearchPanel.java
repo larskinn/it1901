@@ -71,6 +71,9 @@ public class MenuSearchPanel extends JPanel {
 			removeAll();
 
 			for (final Dish dish : dishes) {
+				if (!dish.getActive()) {
+					continue;
+				}
 				final MenuPanelItem item = new MenuPanelItem(dish, mode);
 
 				//This listener is fired every time an item is clicked
