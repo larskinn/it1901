@@ -71,6 +71,9 @@ public class MenuSearchPanel extends JPanel {
 			removeAll();
 
 			for (final Dish dish : dishes) {
+				if (!dish.getActive()) {
+					continue;
+				}
 				final MenuPanelItem item = new MenuPanelItem(dish, mode);
 
 				//This listener is fired every time an item is clicked
@@ -91,9 +94,9 @@ public class MenuSearchPanel extends JPanel {
 								if (itemBeingEdited == item) {
 									return;
 								}
-								itemBeingEdited.changeMode(false);
+								itemBeingEdited.changeFunction(false);
 							}
-							item.changeMode(true);
+							item.changeFunction(true);
 							itemBeingEdited = item;
 						}
 					});

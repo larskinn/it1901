@@ -24,7 +24,7 @@ import ntnu.it1901.gruppe4.gui.Layout;
 
 public class CustomerPanel extends JPanel {
 	CustomerList customerList;
-	
+
 	private SearchBox searchInput;
 	private SearchBox nameInput;
 	private SearchBox numberInput;
@@ -37,6 +37,8 @@ public class CustomerPanel extends JPanel {
 	private OperatorOrderSummary currentOrder;
 
 	public class CustomerList extends JPanel {
+		private CustomerPanelItem itemBeingEdited;
+
 		/**
 		 * Creates a new CustomerList containing a list of {@link CustomerPanelItem CustomerPanelItems}.<br>
 		 * Only the CustomerPanel is allowed to do this.
@@ -44,7 +46,7 @@ public class CustomerPanel extends JPanel {
 		private CustomerList() {
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		}
-		
+
 		/**
 		 * Converts all customers in the given collection to {@link CustomerPanelItem},
 		 * adds them to the {@link CustomerList} and repaints the panel.
@@ -54,18 +56,30 @@ public class CustomerPanel extends JPanel {
 		public void addCustomers(Collection<Customer> customers) {
 			int counter = 0;
 			removeAll();
-			
+
 			for (final Customer customer : customers) {
-				CustomerPanelItem item = new CustomerPanelItem(customer);
-				
-				//Fired whenever a customer panel item is clicked
+				final CustomerPanelItem item = new CustomerPanelItem(customer, currentOrder);
+
+				//Activated when a customer panel item is clicked
 				item.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mousePressed(MouseEvent e) {
 						CustomerPanel.this.currentOrder.setCustomer(customer);
 					}
 				});
-				
+
+				item.addEditButtonListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						//If another item is already being edited, cancel the editing of that item
+						if (itemBeingEdited != null && itemBeingEdited.isBeingEdited()) {
+							itemBeingEdited.changeFunction(false);
+						}
+						item.changeFunction(true);
+						itemBeingEdited = item;
+					}
+				});
+
 				if (counter++ % 2 == 0) {
 					item.setBackground(Layout.bgColor1);
 				}
@@ -91,7 +105,7 @@ public class CustomerPanel extends JPanel {
 		createCustomer = new JButton("Opprett ny kunde");
 		cancel = new JButton("Avbryt");
 		errorMessage = new JLabel();
-		
+
 		setBorder(Layout.panelPadding);
 		newCustomer.setAlignmentY(TOP_ALIGNMENT + 0.1f);
 		newCustomer.setFont(Layout.summaryTextFont);
@@ -99,10 +113,10 @@ public class CustomerPanel extends JPanel {
 		cancel.setFont(Layout.summaryTextFont);
 		errorMessage.setFont(Layout.errorFont);
 		errorMessage.setForeground(Layout.errorColor);
-		
+
 		//Set the initial mode of the panel to searching
 		changeFunction(false);
-		
+
 		searchInput.addKeyListener(new KeyAdapter() {
 			/*keyReleased() used for searching as getText() does not return the
 			 *updated content of the search box when keyTyped() is called 
@@ -111,7 +125,7 @@ public class CustomerPanel extends JPanel {
 			public void keyReleased(KeyEvent e) {
 				SearchBox source = (SearchBox)e.getSource();
 				String boxContent = source.getText();
-				
+
 				//If the search box is empty, interrupt and restore the list of results
 				if (boxContent.equals("")) {
 					customerList.addCustomers(DataAPI.findCustomers(""));
@@ -122,14 +136,14 @@ public class CustomerPanel extends JPanel {
 				customerList.addCustomers(DataAPI.findCustomers(boxContent));
 			}
 		});
-		
+
 		newCustomer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				changeFunction(true);
 			}
 		});
-		
+
 		createCustomer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -147,7 +161,7 @@ public class CustomerPanel extends JPanel {
 				}
 				else {
 					int postNo = 0;
-					
+
 					try {
 						postNo = Integer.parseInt(postNoInput.getText());
 					}
@@ -157,17 +171,17 @@ public class CustomerPanel extends JPanel {
 					}
 					Customer newCustomer = new Customer(nameInput.getText(), numberInput.getText());
 					DataAPI.saveCustomer(newCustomer);
-					
+
 					Address newAddress = new Address(newCustomer, addressInput.getText(), postNo);
 					DataAPI.saveAddress(newAddress);
-					
+
 					currentOrder.setCustomer(newCustomer);
 					searchInput.setText("");
 					changeFunction(false);
 				}
 			}
 		});
-		
+
 		cancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -175,7 +189,7 @@ public class CustomerPanel extends JPanel {
 			}
 		});
 	}
-	
+
 	/**
 	 * Changes the layout of the {@link CustomerPanel} to either support adding new customers or searching
 	 * for existing ones.
@@ -185,7 +199,7 @@ public class CustomerPanel extends JPanel {
 	 */
 	private void changeFunction(boolean addingCustomer) {
 		removeAll();
-		
+
 		if (addingCustomer) {
 			setLayout(new GridBagLayout());
 			GridBagConstraints gbc = new GridBagConstraints();
@@ -193,12 +207,12 @@ public class CustomerPanel extends JPanel {
 			JLabel phone = new JLabel("Telefonnummer: ");
 			JLabel address = new JLabel("Adresse: ");
 			JLabel postNo = new JLabel("Postnummer: ");
-			
+
 			name.setFont(Layout.summaryTextFont);
 			phone.setFont(Layout.summaryTextFont);
 			address.setFont(Layout.summaryTextFont);
 			postNo.setFont(Layout.summaryTextFont);
-			
+
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			gbc.anchor = GridBagConstraints.BASELINE_LEADING;
 			gbc.weightx = 0;
@@ -206,28 +220,28 @@ public class CustomerPanel extends JPanel {
 			gbc.gridx = 0;
 			gbc.gridy = 0;
 			add(name, gbc);
-			
+
 			gbc.gridy++;
 			add(phone, gbc);
-			
+
 			gbc.gridy++;
 			add(address, gbc);
-			
+
 			gbc.gridy++;
 			add(postNo, gbc);
-			
+
 			gbc.gridwidth = 2;
 			gbc.gridx++;
 			gbc.gridy = 0;
 			gbc.weightx = 1;
 			add(nameInput, gbc);
-			
+
 			gbc.gridy++;
 			add(numberInput, gbc);
 
 			gbc.gridy++;
 			add(addressInput, gbc);
-			
+
 			gbc.gridy++;
 			add(postNoInput, gbc);
 
@@ -235,17 +249,17 @@ public class CustomerPanel extends JPanel {
 			gbc.fill = GridBagConstraints.NONE;
 			gbc.gridy++;
 			add(cancel, gbc);
-			
+
 			gbc.anchor = GridBagConstraints.NORTHEAST;
 			gbc.gridx++;
 			add(createCustomer, gbc);
-			
+
 			gbc.anchor = GridBagConstraints.NORTHWEST;
 			gbc.weighty = Layout.newCustomerDensity;
 			gbc.gridy++;
 			gbc.gridx--;
 			add(errorMessage, gbc);
-			
+
 			nameInput.setText(searchInput.getText());
 			numberInput.setText("");
 			addressInput.setText("");
@@ -255,10 +269,10 @@ public class CustomerPanel extends JPanel {
 		else {
 			//Reload all customers from the database and add them to the list
 			customerList.addCustomers(DataAPI.findCustomers(""));
-			
+
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			errorMessage.setText(" ");
-			
+
 			//Box used to place the new customer button to the right of the name input box
 			//with three spaces between them
 			Box horizontalBox = Box.createHorizontalBox();
@@ -267,18 +281,18 @@ public class CustomerPanel extends JPanel {
 			horizontalBox.add(newCustomer);
 			add(horizontalBox);
 			add(Box.createVerticalStrut(Layout.spaceAfterSearchBox));
-			
+
 			//Wrap the customer list inside a JScrollPane
 			JScrollPane sp = new JScrollPane(customerList);
 			sp.setBorder(null);
 			add(sp);
-			
+
 			searchInput.grabFocus();
 		}
 		revalidate();
 		repaint();
 	}
-	
+
 	@Override
 	public void grabFocus() {
 		searchInput.grabFocus();

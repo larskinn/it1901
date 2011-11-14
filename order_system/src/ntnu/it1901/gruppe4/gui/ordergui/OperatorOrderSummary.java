@@ -1,5 +1,7 @@
 package ntnu.it1901.gruppe4.gui.ordergui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -83,24 +85,25 @@ public class OperatorOrderSummary extends OrderSummary {
 		for (final OrderItem i : currentItems) {
 			final OrderSummaryItem item = new OrderSummaryItem(i, Mode.ORDER);
 			
-			//Remove item when right mouse button is pressed
-			//Edit description when left mouse button is pressed
+			//Activated when the item panel is pressed
 			item.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					if (e.getButton() == 3) {
-						removeItem(i);
-					}
-					else if (e.getButton() == 1) {
-						if (itemBeingEdited != null) {
-							if (itemBeingEdited == item) {
-								return;
-							}
-							itemBeingEdited.changeFunction(false);
+					if (itemBeingEdited != null) {
+						if (itemBeingEdited == item) {
+							return;
 						}
-						item.changeFunction(true);
-						itemBeingEdited = item;
+						itemBeingEdited.changeFunction(false);
 					}
+					item.changeFunction(true);
+					itemBeingEdited = item;
+				}
+			});
+			
+			item.addDeleteButtonListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					removeItem(i);
 				}
 			});
 			

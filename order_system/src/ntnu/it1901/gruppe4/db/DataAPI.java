@@ -360,7 +360,20 @@ public class DataAPI {
 			System.err.println("Error storing address: " + e.getMessage());
 		}
 	}
+	
+	/**
+	 * Deletes an Address from the database
+	 * @param a
+	 *         a reference to the Address object to be deleted.
+	 */
 
+	public static void deleteAddress(Address a) {
+		try {
+			addressDao.delete(a);
+		} catch (SQLException e) {
+			System.err.println("Error deleting address: " + e.getMessage());
+		}
+	}
 	/**
 	 * Fetches address data and stores it in a Address object
 	 * 
@@ -459,6 +472,7 @@ public class DataAPI {
 			return null;
 		}
 	}
+	
 
 	/**
 	 * Stores a Dish to the database. If the ID matches an existing Dish, the
@@ -507,6 +521,22 @@ public class DataAPI {
 					.like("name", "%" + s + "%").prepare());
 		} catch (SQLException e) {
 			System.err.println("Error when searching for dish: "
+					+ e.getMessage());
+			return null;
+		}
+	}
+	
+	/**
+	 * Finds all the dishes of the specified type 
+	 * @param type
+	 *         the type of dish to search for
+	 * @return a reference to a new List<Dish> object with the matching dishes
+	 */
+	public static List<Dish> findDishes(DishType type) {
+		try {
+			return dishDao.query(dishDao.queryBuilder().where().eq("type", type.name()).prepare());
+		} catch (SQLException e) {
+			System.err.println("Error finding dishes of type " + type.name() + ": "
 					+ e.getMessage());
 			return null;
 		}

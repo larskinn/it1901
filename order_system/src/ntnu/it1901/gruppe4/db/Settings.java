@@ -17,6 +17,7 @@ public class Settings {
 	private static final String FREE_DELIVERY_LIMIT = "FREE_DELIVERY_LIMIT";
 	private static final String TAX = "TAX";
 	private static final String RESTAURANT_ADDRESS = "RESTAURANT_ADDRESS";
+	private static final String RESTAURANT_NAME = "RESTAURANT_NAME";
 	private static final String DB_VERSION = "DB_VERSION";
 
 	/**
@@ -30,6 +31,7 @@ public class Settings {
 		m.put(FREE_DELIVERY_LIMIT, "500");
 		m.put(TAX, "25");
 		m.put(RESTAURANT_ADDRESS, "Høgskoleringen 3, Trondheim");
+		m.put(RESTAURANT_NAME, "Mario & Luigis pizzeria");
 		m.put(DB_VERSION, "4"); // DB Version can only be set here!
 		DEFAULT_SETTINGS = Collections.unmodifiableMap(m);
 	}
@@ -105,6 +107,20 @@ public class Settings {
 		DataAPI.setConfig(RESTAURANT_ADDRESS, address);
 	}
 	
+	/**
+	 * @return the name of the restaurant
+	 */
+	public static String getRestaurantName() {
+		return getConfig(RESTAURANT_NAME);
+	}
+	
+	/**
+	 * @param name
+	 *         the name of the restaurant
+	 */
+	public static void setRestaurantName(String name) {
+		DataAPI.setConfig(RESTAURANT_NAME, name);
+	}
 
 	/**
 	 * @return the database version number

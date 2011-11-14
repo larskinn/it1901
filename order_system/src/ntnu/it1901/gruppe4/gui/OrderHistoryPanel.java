@@ -1,5 +1,7 @@
 package ntnu.it1901.gruppe4.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -71,18 +73,32 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 				if (!order.isVisibleToDelivery()) continue;
 			}
 			
-			OrderHistoryItem item = new OrderHistoryItem(order);
+			OrderHistoryItem item = new OrderHistoryItem(order, mode);
 
-			// This listener is called when an order history item is clicked
 			if (orderSummary != null) {
+				//This listener is called when an order history item is clicked
 				item.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
 						orderSummary.setOrder(order);
-						
+
 						if (MapPanel != null) {
-							//Update the map with the clicked order
+							//Update the map and the order summary  with the clicked order
 							MapPanel.setAddress(DataAPI.getAddress(order));
 						}
+					}
+				});
+			}
+			
+			if (mode == Mode.ORDER && orderSummary != null) {
+				item.addDeleteButtonListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						//Delete the order contained within the item from the database
+						//FIXME: This is very bugged at the moment
+						DataAPI.remOrder(order);
+						orderSummary.update();
+						revalidate();
+						repaint();
 					}
 				});
 			}
