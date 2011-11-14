@@ -40,6 +40,7 @@ public class MenuSearchPanel extends JPanel {
 	 */
 	public class MenuPanel extends JPanel {
 		private MenuPanelItem itemBeingEdited = null;
+		private Collection<Dish> containedDishes = null;
 		private OperatorOrderSummary operatorOrderSummary;
 
 		/**
@@ -53,7 +54,7 @@ public class MenuSearchPanel extends JPanel {
 		 * Constructs a new {@link MenuPanel} that will add {@link MenuPanelItem MenuItems}
 		 * to the specified {@link operatorOrderSummary} when clicked.
 		 * 
-		 * @param operatorOrderSummary The <code>ChefOrderSummary</code> to which clicked <code>MenuItems</code> will be added.
+		 * @param operatorOrderSummary The <code>OperatorOrderSummary</code> to which clicked <code>MenuItems</code> will be added.
 		 */
 		public MenuPanel(OperatorOrderSummary orderSummary) {
 			this.operatorOrderSummary = orderSummary;
@@ -67,6 +68,10 @@ public class MenuSearchPanel extends JPanel {
 		 * @param dishes The dishes to be added to the {@link OrderMenu}.
 		 */
 		public void addDishes(Collection<Dish> dishes) {
+			if (dishes == null) {
+				return;
+			}
+			containedDishes = dishes;
 			int counter = 0;
 			removeAll();
 
@@ -74,7 +79,7 @@ public class MenuSearchPanel extends JPanel {
 				if (!dish.getActive()) {
 					continue;
 				}
-				final MenuPanelItem item = new MenuPanelItem(dish, mode);
+				final MenuPanelItem item = new MenuPanelItem(dish, mode, this);
 
 				//This listener is fired every time an item is clicked
 				if (operatorOrderSummary != null) {
@@ -112,6 +117,13 @@ public class MenuSearchPanel extends JPanel {
 			}
 			revalidate();
 			repaint();
+		}
+		
+		/**
+		 * Synchronizes the <code>Dishes</code> shown in the {@link MenuPanel} with the database.
+		 */
+		public void refresh() {
+			addDishes(containedDishes);
 		}
 	}
 
