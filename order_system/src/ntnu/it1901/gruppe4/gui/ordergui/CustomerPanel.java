@@ -80,14 +80,6 @@ public class CustomerPanel extends JPanel {
 					}
 				});
 
-				item.addDeleteButtonListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						//Delete the customer contained within the item from the database
-						//FIXME: This is not yet implemented in the database API
-					}
-				});
-
 				if (counter++ % 2 == 0) {
 					item.setBackground(Layout.bgColor1);
 				}

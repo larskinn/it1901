@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ntnu.it1901.gruppe4.db.Address;
 import ntnu.it1901.gruppe4.db.Customer;
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.gui.Layout;
@@ -27,7 +28,7 @@ public class CustomerPanelItem extends JPanel {
 	private Customer customer;
 	private JLabel prefixes, info, errorMessage;
 	private JTextField nameInput, numberInput, addressInput, postNoInput;
-	private JButton save, edit, delete;
+	private JButton save, edit;
 	private boolean beingEdited;
 	private OrderSummary orderSummary;
 
@@ -55,7 +56,6 @@ public class CustomerPanelItem extends JPanel {
 		postNoInput = new JTextField();
 		save = new JButton("Lagre");
 		edit = new JButton("Endre");
-		delete = new JButton("Slett");
 		prefixes = new JLabel("<html><table>" +
 				"<tr><td>Navn:</td></tr>" +
 				"<tr><td>Nummer:</td></tr>" +
@@ -83,11 +83,13 @@ public class CustomerPanelItem extends JPanel {
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Customer customer = CustomerPanelItem.this.customer;
 				String name = nameInput.getText();
 				String number = numberInput.getText();
 				String address = addressInput.getText();
 				String postNo = postNoInput.getText();
 				int newPostNo = 0;
+				Address newAddress;
 
 				if (name.isEmpty()) {
 					errorMessage.setText("Ugyldig navn");
@@ -113,8 +115,13 @@ public class CustomerPanelItem extends JPanel {
 					errorMessage.setText("Ugyldig postnummer");
 					return;
 				}
-				CustomerPanelItem.this.customer.setName(name);
-				CustomerPanelItem.this.customer.setPhone(number);
+				customer.setName(name);
+				customer.setPhone(number);
+				
+				//delete old address
+				newAddress = new Address(customer, address, newPostNo);
+				//add new address
+				
 				changeFunction(false);
 				
 				if (CustomerPanelItem.this.orderSummary != null) {
@@ -214,9 +221,6 @@ public class CustomerPanelItem extends JPanel {
 			gbc.weightx--;
 			gbc.gridx++;
 			add(edit, gbc);
-			
-			gbc.gridx++;
-			add(delete, gbc);
 
 			//Set bottom padding to the height of the error message to avoid "shaking" when editing an item
 			Insets borderInsets = Layout.menuItemPadding.getBorderInsets(this);
@@ -246,15 +250,6 @@ public class CustomerPanelItem extends JPanel {
 	 */
 	public void addEditButtonListener(ActionListener listener) {
 		edit.addActionListener(listener);
-	}
-
-	/**
-	 * Adds a listener that will be called when the delete button in this {@link CustomerPanelItem} is clicked.
-	 * 
-	 * @param listener The listener that will be called when the item is clicked.
-	 */
-	public void addDeleteButtonListener(ActionListener listener) {
-		delete.addActionListener(listener);
 	}
 
 	/**
