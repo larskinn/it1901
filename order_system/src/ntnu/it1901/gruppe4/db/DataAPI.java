@@ -334,7 +334,20 @@ public class DataAPI {
 			System.err.println("Error storing address: " + e.getMessage());
 		}
 	}
+	
+	/**
+	 * Deletes an Address from the database
+	 * @param a
+	 *         a reference to the Address object to be deleted.
+	 */
 
+	public static void deleteAddress(Address a) {
+		try {
+			addressDao.delete(a);
+		} catch (SQLException e) {
+			System.err.println("Error deleting address: " + e.getMessage());
+		}
+	}
 	/**
 	 * Fetches address data and stores it in a Address object
 	 * 
@@ -412,6 +425,7 @@ public class DataAPI {
 			return null;
 		}
 	}
+	
 
 	/**
 	 * Stores a Dish to the database. If the ID matches an existing Dish,
