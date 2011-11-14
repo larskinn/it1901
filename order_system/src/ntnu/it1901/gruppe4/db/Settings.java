@@ -118,7 +118,7 @@ public class Settings {
 	 * @param name
 	 *         the name of the restaurant
 	 */
-	public static void setRestaurantname(String name) {
+	public static void setRestaurantName(String name) {
 		DataAPI.setConfig(RESTAURANT_NAME, name);
 	}
 
