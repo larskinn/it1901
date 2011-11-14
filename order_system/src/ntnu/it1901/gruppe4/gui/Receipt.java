@@ -15,12 +15,13 @@ public class Receipt extends JDialog {
 	}
 	
 	public Receipt(JFrame parentFrame, OrderSummary orderSummary) {
+		final int dashedLineLength = 60;
 		StringBuilder sb = new StringBuilder();
 		JLabel text = new JLabel();
 		String dashedLine;
 		
 		//Create a dashed line seperator of variable length
-		for (int i = 0; i < 60; i++) {
+		for (int i = 0; i < dashedLineLength; i++) {
 			sb.append('-');
 		}
 		
@@ -33,20 +34,20 @@ public class Receipt extends JDialog {
 						"<body>" +
 							"<table>" +
 								"<tr>" +
-									"<td colspan='4' align='center'> Marios Pizzeria </td>" +
+									"<td colspan='2' align='center'>" + Settings.getRestaurantName() + "</td>" +
 								"</tr>" +
 								"<tr>" +
-									"<td colspan='4' align='center'>" + Settings.getRestaurantAddress() + "</td>" +
+									"<td colspan='2' align='center'>" + Settings.getRestaurantAddress() + "</td>" +
 								"</tr>" +
 								"<tr>" +
-									"<td colspan='4'>" + dashedLine + "</td>" +
+									"<td colspan='2'>" + dashedLine + "</td>" +
 								"</tr>"
 		);
 		
 		if (orderSummary.getItemCount() == 0) {
 			sb.append(
 						"<tr>" +
-							"<td colspan='4'> Ingen varer bestilt </td>" +
+							"<td colspan='2'> Ingen varer bestilt </td>" +
 						"</tr>"	
 			);
 		}
@@ -55,37 +56,42 @@ public class Receipt extends JDialog {
 			for (OrderItem item : orderSummary.getItemList()) {
 				sb.append(
 							"<tr>" +
-								"<td colspan='2'>" + item.getName() + "</td>" +
-								"<td colspan='2' align='right'>" + Layout.decimalFormat.format(item.getAmount()) + " kr </td>" +
+								"<td>" + item.getName() + "</td>" +
+								"<td align='right'>" + Layout.decimalFormat.format(item.getAmount()) + " kr </td>" +
 							"</tr>"				
 				);
 			}
 			//Add delivery fee and total amount
 			sb.append(
 						"<tr>" +
-							"<td colspan='2'>Frakt </td>" +
-							"<td colspan='2' align='right'>" + Layout.decimalFormat.format(orderSummary.getOrder().getDeliveryFee()) + " kr </td>" +
+							"<td>Frakt </td>" +
+							"<td align='right'>" + Layout.decimalFormat.format(orderSummary.getOrder().getDeliveryFee()) + " kr </td>" +
 						"</tr>" +
 							
 						"<tr>" +
-							"<td colspan='4'>" + dashedLine + "</td>" +
+							"<td colspan='2'>" + dashedLine + "</td>" +
 						"</tr>" +
 							
 						"<tr>" +
-							"<td colspan='2'>Total </td>" +
-							"<td colspan='2' align='right'>" + Layout.decimalFormat.format(orderSummary.getOrder().getTotalAmount()) + " kr </td>" +
+							"<td>Total </td>" +
+							"<td align='right'>" + Layout.decimalFormat.format(orderSummary.getOrder().getTotalAmount()) + " kr </td>" +
 						"</tr>" +
 							
 						"<tr>" +
-							//An empty line
+						"<td>Herav MVA </td>" +
+						"<td align='right'>" + Layout.decimalFormat.format(orderSummary.getOrder().getTaxAmount()) + " kr </td>" +
 						"</tr>"
-			);
+					);
 			
 			//Add some relevant date
 			if (orderSummary.getOrder().getState() != Order.NOT_SAVED) {
 				sb.append(
 							"<tr>" +
-								"<td colspan='4'>"
+								//An empty line
+							"</tr>" +
+								
+							"<tr>" +
+								"<td colspan='2'>"
 						);
 				
 				if (orderSummary.getOrder().getDeliveryTime() != null) {
@@ -97,41 +103,22 @@ public class Receipt extends JDialog {
 				
 				sb.append(
 							"</td>" +
-						"</tr>" +
-						"<tr>" +
-						//An empty line
 						"</tr>"
 				);
 			}
-			//Add gross, mva%, mva and net values
-			sb.append(		
-						"<tr>" +
-							"<td>Brutto</td>" +
-							"<td align='center'>Mva-%</td>" +
-							"<td align='right'>Mva</td>" +
-							"<td align='right'>Netto</td>" +
-						"</tr>" +
-						"<tr>" +
-							"<td>" + Layout.decimalFormat.format(orderSummary.getOrder().getGrossAmount()) + "</td>" +
-							"<td align='center'>" + Layout.decimalFormat.format(Settings.getTax()) + "</td>" +
-							"<td align='right'>" + Layout.decimalFormat.format(orderSummary.getOrder().getTaxAmount()) + "</td>" +
-							"<td align='right'>" + Layout.decimalFormat.format(orderSummary.getOrder().getTotalAmount() -
-									orderSummary.getOrder().getTaxAmount()) + "</td>" +
-						"</tr>"
-					);
 		} //End of if (items == 0)
 		
 		//Add some smalltalk as a footer
 		sb.append(						
 					"<tr>" +
-						"<td colspan='4'>" + dashedLine + "</td>" +
+						"<td colspan='2'>" + dashedLine + "</td>" +
 					"</tr>" +
 						
 					"<tr>" +
-						"<td colspan='4' align='center'>Takk for handelen!</td>" +
+						"<td colspan='2' align='center'>Takk for handelen!</td>" +
 					"</tr>" +
 					"<tr>" +
-						"<td colspan='4' align='center'>Velkommen igjen.</td>" +
+						"<td colspan='2' align='center'>Velkommen igjen.</td>" +
 					"</tr>"
 		);
 		

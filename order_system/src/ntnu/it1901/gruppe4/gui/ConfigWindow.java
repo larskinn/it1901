@@ -75,13 +75,15 @@ public class ConfigWindow {
 		JLabel deliveryFeePrefix = new JLabel("Fraktpris: ");
 		JLabel freeDeliveryLimitPrefix = new JLabel("Gratis frakt : ");
 		JLabel taxPrefix = new JLabel("MVA: ");
-		JLabel addressPrefix = new JLabel("Vår addresse: ");
+		JLabel namePrefix = new JLabel("Restaurantens navn: ");
+		JLabel addressPrefix = new JLabel("Restaurantens adresse: ");
 		
 		/* These boxes are marked as 'final' so they
 		can be referenced inside anonymous classes */
 		final ConfigBox deliveryFee = new ConfigBox();
 		final ConfigBox freeDeliveryLimit = new ConfigBox();
 		final ConfigBox tax = new ConfigBox();
+		final ConfigBox name = new ConfigBox();
 		final ConfigBox address = new ConfigBox();
 		
 		JLabel deliveryFeeSuffix = new JLabel(" kr");
@@ -127,9 +129,20 @@ public class ConfigWindow {
 					return;
 				}
 				
+				if (name.getText().isEmpty() || Character.isWhitespace(name.getText().charAt(0))) {
+					errorMessage.setText("Spesifisert restaurantnavn er ugyldig");
+					return;
+				}
+				
+				if (address.getText().isEmpty() || Character.isWhitespace(address.getText().charAt(0))) {
+					errorMessage.setText("Spesifisert restaurantadresse er ugyldig");
+					return;
+				}
+				
 				Settings.setDeliveryFee(delivery);
 				Settings.setFreeDeliveryLimit(limit);
 				Settings.setTax(percentage);
+				Settings.setRestaurantName(name.getText());
 				Settings.setRestaurantAddress(address.getText());
 				
 				//Close the frame in a clean and safe manner
@@ -150,11 +163,13 @@ public class ConfigWindow {
 		deliveryFeePrefix.setFont(Layout.configTextFont);
 		freeDeliveryLimitPrefix.setFont(Layout.configTextFont);
 		taxPrefix.setFont(Layout.configTextFont);
+		namePrefix.setFont(Layout.configTextFont);
 		addressPrefix.setFont(Layout.configTextFont);
 		
 		deliveryFee.setText(Layout.decimalFormat.format(Settings.getDeliveryFee()));
 		freeDeliveryLimit.setText(Layout.decimalFormat.format(Settings.getFreeDeliveryLimit()));
 		tax.setText(Layout.decimalFormat.format(Settings.getTax()));
+		name.setText(Settings.getRestaurantName());
 		address.setText(Settings.getRestaurantAddress());
 		
 		deliveryFeeSuffix.setFont(Layout.configTextFont);
@@ -208,6 +223,17 @@ public class ConfigWindow {
 		
 		gbc.gridx++;
 		container.add(taxSuffix, gbc);
+		
+		gbc.gridy++;
+		container.add(Box.createVerticalStrut(Layout.spaceAfterConfigBox), gbc);
+		
+		//Insert the home name information
+		gbc.gridy++;
+		gbc.gridx = 0;
+		container.add(namePrefix, gbc);
+		
+		gbc.gridx++;
+		container.add(name, gbc);
 		
 		gbc.gridy++;
 		container.add(Box.createVerticalStrut(Layout.spaceAfterConfigBox), gbc);
