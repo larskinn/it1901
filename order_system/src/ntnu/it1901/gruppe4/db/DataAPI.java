@@ -464,6 +464,22 @@ public class DataAPI {
 			return null;
 		}
 	}
+	
+	/**
+	 * Finds all the dishes of the specified type 
+	 * @param type
+	 *         the type of dish to search for
+	 * @return a reference to a new List<Dish> object with the matching dishes
+	 */
+	public static List<Dish> findDishes(DishType type) {
+		try {
+			return dishDao.query(dishDao.queryBuilder().where().eq("type", type.name()).prepare());
+		} catch (SQLException e) {
+			System.err.println("Error finding dishes of type " + type.name() + ": "
+					+ e.getMessage());
+			return null;
+		}
+	}
 
 	/**
 	 * Stores an Order to the database. If the ID matches an existing Order,
