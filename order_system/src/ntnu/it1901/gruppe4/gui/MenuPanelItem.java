@@ -121,8 +121,8 @@ public class MenuPanelItem extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (deleting) {
-					//FIXME: This state does not stick
 					item.setActive(false);
+					item.save();
 				}
 				else {
 					confirmMessage.setText("Sikker?");
