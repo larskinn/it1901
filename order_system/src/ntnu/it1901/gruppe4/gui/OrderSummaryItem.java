@@ -25,7 +25,7 @@ import ntnu.it1901.gruppe4.db.OrderItem;
 public class OrderSummaryItem extends JPanel {
 	private JLabel name, price, description;
 	private JTextArea descriptionInput;
-	private JButton save;
+	private JButton save, delete;
 	private OrderItem item;
 	private Mode mode;
 
@@ -43,12 +43,14 @@ public class OrderSummaryItem extends JPanel {
 		description = new JLabel(item.getDescription());
 		descriptionInput = new JTextArea(description.getText());
 		save = new JButton("Lagre");
+		delete = new JButton("Slett");
 		
 		setBorder(Layout.summaryItemPadding);
 		name.setFont(Layout.summaryItemFont);
 		price.setFont(Layout.summaryItemFont);
 		description.setFont(Layout.summaryItemDescriptionFont);
 		save.setFont(Layout.summaryItemDescriptionFont);
+		delete.setFont(Layout.summaryItemDescriptionFont);
 		
 		/*Sets the border of the text area to whatever is the default border
 		  for text fields on the current OS*/
@@ -58,19 +60,17 @@ public class OrderSummaryItem extends JPanel {
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-		
 		gbc.weightx = 1;
 		gbc.weighty = 1;
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.gridy = 0;
 		gbc.gridx = 0;
-		gbc.gridwidth = 2;
+		gbc.gridwidth = 3;
 		add(name, gbc);
 		
 		gbc.anchor = GridBagConstraints.EAST;
 		add(price, gbc);
 
-		//Todo: Move "magic number" to some constant
 		gbc.gridy++;
 		add(Box.createVerticalStrut(5), gbc);
 		
@@ -98,6 +98,7 @@ public class OrderSummaryItem extends JPanel {
 	public void changeFunction(boolean editingComment) {
 		remove(descriptionInput);
 		remove(save);
+		remove(delete);
 		remove(description);
 		
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -114,6 +115,9 @@ public class OrderSummaryItem extends JPanel {
 			add(descriptionInput, gbc);
 			
 			gbc.gridx++;
+			add(delete, gbc);
+			
+			gbc.gridx++;
 			add(save, gbc);
 			descriptionInput.grabFocus();
 		}
@@ -125,6 +129,15 @@ public class OrderSummaryItem extends JPanel {
 		setMaximumSize(new Dimension(Short.MAX_VALUE, getPreferredSize().height));
 		revalidate();
 		repaint();
+	}
+	
+	/**
+	 * Adds a listener that will be called when the delete button in this {@link OrderSummaryItem} is clicked.
+	 * 
+	 * @param listener The listener that will be called when the item is clicked.
+	 */
+	public void addDeleteButtonListener(ActionListener listener) {
+		delete.addActionListener(listener);
 	}
 	
 }
