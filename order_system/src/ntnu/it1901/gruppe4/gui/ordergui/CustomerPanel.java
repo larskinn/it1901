@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -21,6 +22,7 @@ import ntnu.it1901.gruppe4.db.Address;
 import ntnu.it1901.gruppe4.db.Customer;
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.gui.Layout;
+import ntnu.it1901.gruppe4.gui.SearchBox;
 
 public class CustomerPanel extends JPanel {
 	CustomerList customerList;
@@ -37,6 +39,7 @@ public class CustomerPanel extends JPanel {
 	private OperatorOrderSummary currentOrder;
 
 	public class CustomerList extends JPanel {
+		CustomerPanelItem topItem = null;
 		private CustomerPanelItem itemBeingEdited;
 
 		/**
@@ -54,11 +57,18 @@ public class CustomerPanel extends JPanel {
 		 * @param customers The customers to be added to the {@link CustomerList}.
 		 */
 		public void addCustomers(Collection<Customer> customers) {
+			topItem = null;
+			boolean topItemSet = false;
 			int counter = 0;
 			removeAll();
 
 			for (final Customer customer : customers) {
 				final CustomerPanelItem item = new CustomerPanelItem(customer, currentOrder);
+				
+				if (!topItemSet) {
+					topItem = item;
+					topItemSet = true;
+				}
 
 				//Activated when a customer panel item is clicked
 				item.addMouseListener(new MouseAdapter() {
@@ -90,6 +100,17 @@ public class CustomerPanel extends JPanel {
 			}
 			revalidate();
 			repaint();
+		}
+		
+		/**
+		 * Getter for the topmost element of the {@link CustomerPanel}.
+		 * <p>
+		 * This is the element that should be selected when the user presses 'enter'.
+		 * 
+		 * @return The {@link CustomerPanelItem} currently on top of the {@link CustomerPanel}.
+		 */
+		public CustomerPanelItem getTopItem() {
+			return topItem;
 		}
 	}
 
@@ -123,6 +144,16 @@ public class CustomerPanel extends JPanel {
 			 */
 			@Override
 			public void keyReleased(KeyEvent e) {
+				//When enter is pressed, set the topmost element of the list as the selected customer
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					CustomerPanelItem c = customerList.getTopItem();
+					
+					if (c != null) {
+						currentOrder.setCustomer(c.getCustomer());
+					}
+					return;
+				}
+				
 				SearchBox source = (SearchBox)e.getSource();
 				String boxContent = source.getText();
 

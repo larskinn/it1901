@@ -24,8 +24,8 @@ import javax.swing.JTextArea;
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Dish;
 import ntnu.it1901.gruppe4.db.DishType;
+import ntnu.it1901.gruppe4.gui.ordergui.CustomerPanelItem;
 import ntnu.it1901.gruppe4.gui.ordergui.OperatorOrderSummary;
-import ntnu.it1901.gruppe4.gui.ordergui.SearchBox;
 
 /**
  * A panel containing a {@link SearchBox} for searching in a {@link MenuPanel}. 
@@ -46,6 +46,7 @@ public class MenuSearchPanel extends JPanel {
 		private OperatorOrderSummary operatorOrderSummary;
 		private boolean searching = false;
 		private JPanel backButton;
+		private MenuPanelItem topItem = null;
 
 		/**
 		 * Constructs a new {@link MenuPanel}
@@ -63,7 +64,7 @@ public class MenuSearchPanel extends JPanel {
 		public MenuPanel(OperatorOrderSummary orderSummary) {
 			this.operatorOrderSummary = orderSummary;
 			backButton = new JPanel();
-			JLabel backText = new JLabel("Tilbake");
+			JLabel backText = new JLabel("< Tilbake");
 			
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			backButton.setLayout(new FlowLayout(FlowLayout.LEADING));
@@ -95,7 +96,10 @@ public class MenuSearchPanel extends JPanel {
 			if (dishes == null) {
 				return;
 			}
+			
 			int counter = 0;
+			boolean topItemSet = false;
+			topItem = null;
 			removeAll();
 
 			for (Dish dish : dishes) {
@@ -103,6 +107,11 @@ public class MenuSearchPanel extends JPanel {
 					continue;
 				}
 				final MenuPanelItem item = new MenuPanelItem(dish, mode, this);
+				
+				if (!topItemSet) {
+					topItem = item;
+					topItemSet = true;
+				}
 
 				//This listener is fired every time an item is clicked
 				if (operatorOrderSummary != null) {
@@ -164,6 +173,7 @@ public class MenuSearchPanel extends JPanel {
 			removeAll();
 			int counter = 0;
 			searching = false;
+			topItem = null;
 			
 			for (DishType type : DishType.values()) {
 				final DishTypeItem item = new DishTypeItem(type);
@@ -215,6 +225,19 @@ public class MenuSearchPanel extends JPanel {
 				searching = true;
 				addDishes(DataAPI.findDishes(searchString));
 			}
+		}
+
+		/**
+		 * Getter for the topmost {@link MenuPanelItem} element of the {@link MenuPanel}.
+		 * <p>
+		 * This is the element that should be selected when the user presses 'enter'.
+		 * 
+		 * @return The <code>MenuPanelItem</code> currently on top of the {@link MenuPanel}.
+		 * If there is no item currently on top of the menu, or if the topmost item is a {@link DishTypeItem},
+		 * null is returned.
+		 */
+		public MenuPanelItem getTopItem() {
+			return topItem;
 		}
 	} //End of inner class
 
@@ -272,6 +295,15 @@ public class MenuSearchPanel extends JPanel {
 			 updated content of the search box when keyTyped() is called */
 			@Override
 			public void keyReleased(KeyEvent e) {
+				//When enter is pressed, set the topmost element of the list as the selected dish
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					MenuPanelItem m = orderMenu.getTopItem();
+					
+					if (m != null) {
+						MenuSearchPanel.this.currentOrder.addItem(m.getdish());
+					}
+					return;
+				}
 				SearchBox source = (SearchBox)e.getSource();
 				String boxContent = source.getText();
 
