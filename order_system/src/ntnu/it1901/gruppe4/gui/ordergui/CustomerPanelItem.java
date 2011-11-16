@@ -18,6 +18,7 @@ import ntnu.it1901.gruppe4.db.Customer;
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
+import ntnu.it1901.gruppe4.gui.ordergui.CustomerPanel.CustomerList;
 
 /**
  * A panel used in the {@link CustomerPanel} to display details about a given {@link Customer} and functions to edit its information.
@@ -31,6 +32,7 @@ public class CustomerPanelItem extends JPanel {
 	private JButton save, edit;
 	private boolean beingEdited;
 	private OrderSummary orderSummary;
+	private CustomerList customerList;
 
 	/**
 	 * Creates a new item containing a {@link Customer} object.
@@ -38,18 +40,30 @@ public class CustomerPanelItem extends JPanel {
 	 * @param customer {@link Customer} object containing name and phone number.
 	 */
 	public CustomerPanelItem(Customer customer) {
-		this(customer, null);
+		this(customer, null, null);
 	}
 	
 	/**
 	 * Creates a new item containing a {@link Customer} object which will update the given {@link OrderSummary} when edited.
 	 * 
 	 * @param customer {@link Customer} object containing name and phone number.
-	 * @param orderSummary {@link OrderSummary} that will be updated when a user is edited.
+	 * @param orderSummary The {@link OrderSummary} that will be updated when a user is edited.
 	 */
 	public CustomerPanelItem(Customer customer, OrderSummary orderSummary) {
+		this(customer, orderSummary, null);
+	}
+	
+	/**
+	 * Creates a new item containing a {@link Customer} object which will update the given {@link OrderSummary} and {@link CustomerPanel} when edited.
+	 * 
+	 * @param customer {@link Customer} object containing name and phone number.
+	 * @param orderSummary The {@link OrderSummary} that will be updated when a user is edited.
+	 * @param customerPanel The {@link CustomerPanel} that will be updated when a user is edited.
+	 */
+	public CustomerPanelItem(Customer customer, OrderSummary orderSummary, CustomerList customerList) {
 		this.customer = customer;
 		this.orderSummary = orderSummary;
+		this.customerList = customerList;
 		nameInput = new JTextField();
 		numberInput = new JTextField();
 		addressInput = new JTextField();
@@ -128,6 +142,10 @@ public class CustomerPanelItem extends JPanel {
 				
 				if (CustomerPanelItem.this.orderSummary != null) {
 					CustomerPanelItem.this.orderSummary.update();
+				}
+				
+				if (CustomerPanelItem.this.customerList != null) {
+					CustomerPanelItem.this.customerList.refresh();
 				}
 			}
 		});

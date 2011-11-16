@@ -39,8 +39,9 @@ public class CustomerPanel extends JPanel {
 	private OperatorOrderSummary currentOrder;
 
 	public class CustomerList extends JPanel {
-		CustomerPanelItem topItem = null;
+		private CustomerPanelItem topItem = null;
 		private CustomerPanelItem itemBeingEdited;
+		private String prevSearchString = "";
 
 		/**
 		 * Creates a new CustomerList containing a list of {@link CustomerPanelItem CustomerPanelItems}.<br>
@@ -56,14 +57,14 @@ public class CustomerPanel extends JPanel {
 		 *  
 		 * @param customers The customers to be added to the {@link CustomerList}.
 		 */
-		public void addCustomers(Collection<Customer> customers) {
+		private void addCustomers(Collection<Customer> customers) {
 			topItem = null;
 			boolean topItemSet = false;
 			int counter = 0;
 			removeAll();
 
 			for (final Customer customer : customers) {
-				final CustomerPanelItem item = new CustomerPanelItem(customer, currentOrder);
+				final CustomerPanelItem item = new CustomerPanelItem(customer, currentOrder, this);
 				
 				if (!topItemSet) {
 					topItem = item;
@@ -100,6 +101,27 @@ public class CustomerPanel extends JPanel {
 			}
 			revalidate();
 			repaint();
+		}
+		
+		/**
+		 * Synchronizes the <code>Customers</code> shown in the {@link CustomerList} with the database using the last search string specified,
+		 * or the empty string if no search string was specified.
+		 */
+		public void refresh() {
+			refresh(prevSearchString);
+		}
+		
+		/**
+		 * Synchronizes the <code>Customers</code> shown in the {@link CustomerList} with the database using the search string specified.
+		 * 
+		 * @param searchString The <code>String</code> to search the database with.
+		 */
+		public void refresh(String searchString) {
+			if (searchString == null) {
+				return;
+			}
+			prevSearchString = searchString;
+			addCustomers(DataAPI.findCustomers(searchString));
 		}
 		
 		/**
@@ -153,18 +175,11 @@ public class CustomerPanel extends JPanel {
 					}
 					return;
 				}
-				
 				SearchBox source = (SearchBox)e.getSource();
 				String boxContent = source.getText();
 
-				//If the search box is empty, interrupt and restore the list of results
-				if (boxContent.equals("")) {
-					customerList.addCustomers(DataAPI.findCustomers(""));
-					return;
-				}
-
 				//Search for name and number using the DataAPI
-				customerList.addCustomers(DataAPI.findCustomers(boxContent));
+				customerList.refresh(boxContent);
 			}
 		});
 
@@ -299,7 +314,7 @@ public class CustomerPanel extends JPanel {
 		}
 		else {
 			//Reload all customers from the database and add them to the list
-			customerList.addCustomers(DataAPI.findCustomers(""));
+			customerList.refresh("");
 
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			errorMessage.setText(" ");
