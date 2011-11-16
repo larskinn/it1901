@@ -96,7 +96,7 @@ public class OrderSummary extends JPanel {
 		
 		//Add customer information to the panel
 		if (customer == null) {
-			customerInfo.setText("<html> <br> Denne orderen er ikke knyttet til noen kunde." +
+			customerInfo.setText("<html> <br> Denne ordren er ikke knyttet til noen kunde." +
 							"<br> <br> <br> <br> <br> </html>");
 		}
 		else {
