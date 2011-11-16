@@ -1,5 +1,7 @@
 package ntnu.it1901.gruppe4.gui;
 
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -34,14 +36,16 @@ public class MenuSearchPanel extends JPanel {
 	/**
 	 * A container for {@link MenuPanelItem}.<br><br>
 	 * 
-	 * Use {@link #addDishes} to add {@link Dish Dishes} to the <code>MenuPanel</code>.
+	 * Use {@link #refresh} to add {@link Dish Dishes} to the <code>MenuPanel</code>.
 	 * 
 	 * @author Leo
 	 */
 	public class MenuPanel extends JPanel {
 		private MenuPanelItem itemBeingEdited = null;
-		private Collection<Dish> containedDishes = null;
+		private String prevSearchString = "";
 		private OperatorOrderSummary operatorOrderSummary;
+		private boolean searching = false;
+		private JPanel backButton;
 
 		/**
 		 * Constructs a new {@link MenuPanel}
@@ -58,7 +62,27 @@ public class MenuSearchPanel extends JPanel {
 		 */
 		public MenuPanel(OperatorOrderSummary orderSummary) {
 			this.operatorOrderSummary = orderSummary;
+			backButton = new JPanel();
+			JLabel backText = new JLabel("Tilbake");
+			
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			backButton.setLayout(new FlowLayout(FlowLayout.LEADING));
+			backButton.setBorder(Layout.menuItemPadding);
+			backText.setFont(Layout.itemFont);
+			
+			backButton.add(backText);
+			backButton.setMaximumSize(new Dimension(Short.MAX_VALUE, backButton.getPreferredSize().height));
+
+			//backButton's function is to take the user back to the dish type overview
+			backButton.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					addAllDishTypes();
+					
+					searchInput.setText("");
+					searchInput.grabFocus();
+				}
+			});
 		}
 
 		/**
@@ -67,15 +91,14 @@ public class MenuSearchPanel extends JPanel {
 		 *  
 		 * @param dishes The dishes to be added to the {@link OrderMenu}.
 		 */
-		public void addDishes(Collection<Dish> dishes) {
+		private void addDishes(Collection<Dish> dishes) {
 			if (dishes == null) {
 				return;
 			}
-			containedDishes = dishes;
 			int counter = 0;
 			removeAll();
 
-			for (final Dish dish : dishes) {
+			for (Dish dish : dishes) {
 				if (!dish.getActive()) {
 					continue;
 				}
@@ -86,7 +109,7 @@ public class MenuSearchPanel extends JPanel {
 					item.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
-							operatorOrderSummary.addItem(dish);
+							operatorOrderSummary.addItem(item.getdish());
 						}
 					});
 				}
@@ -115,17 +138,85 @@ public class MenuSearchPanel extends JPanel {
 				}
 				add(item);
 			}
+			
+			/*If the dishes have been added by selecting a dish type
+			  instead of searching, add a back button */
+			if (!searching) {
+				if (counter % 2 == 0) {
+					backButton.setBackground(Layout.bgColor1);
+				}
+				else {
+					backButton.setBackground(Layout.bgColor2);
+				}
+				add(backButton);
+			}
 			revalidate();
 			repaint();
 		}
 		
 		/**
-		 * Synchronizes the <code>Dishes</code> shown in the {@link MenuPanel} with the database.
+		 * All available <code>DishTypes</code> in the database are converted 
+		 * to {@link DishTypeItem} objects and added to the {@link MenuPanel}.
+		 * 
+		 * @param dishType The {@link DishType} object that will converted to a {@link DishTypeItem}.
+		 */
+		private void addAllDishTypes() {
+			removeAll();
+			int counter = 0;
+			searching = false;
+			
+			for (DishType type : DishType.values()) {
+				final DishTypeItem item = new DishTypeItem(type);
+				
+				item.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						addDishes(DataAPI.findDishes(item.getDishType()));
+					}
+				});
+				
+				if (counter++ % 2 == 0) {
+					item.setBackground(Layout.bgColor1);
+				}
+				else {
+					item.setBackground(Layout.bgColor2);
+				}
+				
+				add(item);
+			}
+			revalidate();
+			repaint();
+		}
+		
+		/**
+		 * Synchronizes the <code>Dishes</code> shown in the {@link MenuPanel} with the database using the last search string specified,
+		 * or the empty string if no search string was specified.
 		 */
 		public void refresh() {
-			addDishes(containedDishes);
+			refresh(prevSearchString);
 		}
-	}
+		
+		/**
+		 * Synchronizes the <code>Dishes</code> shown in the {@link MenuPanel} with the database using the search string specified.
+		 * <p>
+		 * If the search string is empty, all categories will be added to the <code>MenuPanel</code>.
+		 * 
+		 * @param searchString The <code>String</code> to search the database with.
+		 */
+		public void refresh(String searchString) {
+			if (searchString == null) {
+				return;
+			}
+			
+			if (searchString.isEmpty()) {
+				addAllDishTypes();
+			}
+			else {
+				searching = true;
+				addDishes(DataAPI.findDishes(searchString));
+			}
+		}
+	} //End of inner class
 
 	private Mode mode;
 	private OperatorOrderSummary currentOrder;
@@ -184,14 +275,8 @@ public class MenuSearchPanel extends JPanel {
 				SearchBox source = (SearchBox)e.getSource();
 				String boxContent = source.getText();
 
-				//If the search box is empty, restore the list of results
-				if (boxContent.equals("")) {
-					orderMenu.addDishes(DataAPI.findDishes(""));
-					return;
-				}
-
 				//Do the search
-				orderMenu.addDishes(DataAPI.findDishes(boxContent));
+				orderMenu.refresh(boxContent);
 			}
 		});
 
@@ -226,7 +311,6 @@ public class MenuSearchPanel extends JPanel {
 					return;
 				}
 
-				//TODO: Prettify text in combobox
 				DishType type = (DishType)typeInput.getSelectedItem(); 
 				Dish newDish = new Dish(nameInput.getText(), price, type, descriptionInput.getText(), true);
 				DataAPI.saveDish(newDish);
@@ -256,7 +340,7 @@ public class MenuSearchPanel extends JPanel {
 
 		if (!addingDish) {
 			//Reload all dishes from the database and add them to the list
-			orderMenu.addDishes(DataAPI.findDishes(""));
+			orderMenu.refresh("");
 
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			errorMessage.setText(" ");
@@ -373,6 +457,9 @@ public class MenuSearchPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Moves the user's cursor to the search box.
+	 */
 	@Override
 	public void grabFocus() {
 		searchInput.grabFocus();

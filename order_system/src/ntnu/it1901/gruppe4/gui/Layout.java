@@ -125,11 +125,14 @@ public class Layout {
 	 * The internal padding used inside every {@link CustomerPanelItem}.
 	 */
 	public static final Border customerItemPadding = BorderFactory.createEmptyBorder(10, 5, 10, 5);
-	
 	/**
 	 * The internal padding used inside every {@link OrderHistoryItem}.
 	 */
 	public static final Border historyItemPadding = BorderFactory.createEmptyBorder(10, 5, 10, 5);
+	/**
+	 * The internal padding used inside every {@link DishTypeItem}.
+	 */
+	public static final Border dishTypeItemPadding = BorderFactory.createEmptyBorder(10, 5, 54, 5);
 	
 	/**
 	 * The relative size of all buttons in the {@link ButtonPanel}.<br><br>
