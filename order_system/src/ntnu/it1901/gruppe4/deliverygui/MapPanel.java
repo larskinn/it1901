@@ -49,7 +49,7 @@ public class MapPanel extends JPanel {
 
 	public void setAddress(Address address) {
 		removeAll();
-		String destinationAddress = address.getAddressLine().replace(' ', '+') + ",Trondheim";
+		String destinationAddress = address.getAddressLine().replace(' ', '+') + ","+ address.getPostalCode();
 
 		BufferedImage image = null;
 		try {
