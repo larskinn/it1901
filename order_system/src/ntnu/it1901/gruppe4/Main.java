@@ -1,16 +1,24 @@
 package ntnu.it1901.gruppe4;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 
+import javax.sound.sampled.ReverbType;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.chefgui.ChefWindow;
 import ntnu.it1901.gruppe4.db.DBReset;
@@ -18,57 +26,81 @@ import ntnu.it1901.gruppe4.deliverygui.DeliveryWindow;
 import ntnu.it1901.gruppe4.gui.ordergui.OrderWindow;
 
 /**
- * The main entry point of the program, and main menu.
+ * The main entry point of the program.
  * 
  * @author David M.
+ * @author Leo
  * 
  */
+public class Main {
+	private static SplashScreen splashScreen;
+	
+	public static void main(String[] args) {
+		splashScreen = new SplashScreen();
+	}
+	
+	public static void showSplash() {
+		splashScreen.setVisible(true);
+	}
+	
+	public static void hideSplash() {
+		splashScreen.setVisible(false);
+	}
+}
 
-public class Main extends JFrame implements ActionListener {
-
+/**
+ * The main menu (splash screen) of the program.
+ * 
+ * @author David M.
+ * @author Leo
+ * @author Morten
+ * 
+ */
+class SplashScreen extends JFrame implements ActionListener {
 	private JButton btnOrder;
 	private JButton btnChef;
 	private JButton btnDelivery;
-
 	private JButton btnReset;
+	private JPanel contentPanel;
+	private static Image splashImage;
+	
+	SplashScreen() {
+		btnOrder = new JButton();
+		btnChef = new JButton();
+		btnDelivery = new JButton();
+		btnReset = new JButton();
+		splashImage = Toolkit.getDefaultToolkit().createImage
+				(getClass().getResource("/images/SplashScreen.png"));
+		
+		contentPanel = new JPanel() {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponents(g);
 
-	private static Main splash;
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		splash = new Main();
-	}
-
-	private Main() {
-		btnOrder = new JButton("Bestilling");
-		btnChef = new JButton("Kokk / Menyredigering");
-		btnDelivery = new JButton("Henting / Levering");
-
-		btnReset = new JButton("Resett database");
-
-		JLabel lblTitle = new JLabel("<html><h1>Gruppe 4 Pizza</h1></html>");
-
-		Dimension dimBigButton = new Dimension(300, 50);
-
-		btnOrder.setMinimumSize(dimBigButton);
-		btnChef.setMinimumSize(dimBigButton);
-		btnDelivery.setMinimumSize(dimBigButton);
-
+				//Paint the splash image on the background
+				g.drawImage(splashImage, 0, 0, splashImage.getWidth(null), splashImage.getHeight(null), null);
+			}
+		};
+		
+		setTitle("Gruppe 4 pizza");
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		contentPanel.setLayout(new GridLayout(2, 2));
+		
 		btnOrder.addActionListener(this);
 		btnChef.addActionListener(this);
 		btnDelivery.addActionListener(this);
 		btnReset.addActionListener(this);
+		
+		btnOrder.setContentAreaFilled(false);
+		btnChef.setContentAreaFilled(false);
+		btnDelivery.setContentAreaFilled(false);
+		btnReset.setContentAreaFilled(false);
+		
+		contentPanel.add(btnOrder);
+		contentPanel.add(btnChef);
+		contentPanel.add(btnDelivery);
+		add(contentPanel);
 
-		setMinimumSize(new Dimension(350, 300));
-
-		setLayout(new GridLayout(0, 1));
-
-		add(lblTitle);
-		add(btnOrder);
-		add(btnChef);
-		add(btnDelivery);
-		add(btnReset);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -76,28 +108,48 @@ public class Main extends JFrame implements ActionListener {
 				System.exit(0);
 			}
 		});
-		setLocationRelativeTo(null);
-		setTitle("Gruppe 4 pizza");
+		
+		
+		int timeout = 0;
+		
+		//Wait until Java has loaded the splash screen picture
+		while(!splashScreenLoaded()) {
+			try {
+				Thread.sleep(80);
+				timeout += 80;
+				
+				if (timeout > 2000) {
+					System.err.println("CRITICAL ERROR: The program timed out while attempting to load 'SplashScreen.png'");
+				}
+			} catch (InterruptedException e) {}
+		}
+		
+		setSize(splashImage.getWidth(null), splashImage.getHeight(null));
 		setVisible(true);
+		setResizable(false);
+		setLocationRelativeTo(null);
+		contentPanel.revalidate();
+		contentPanel.repaint();
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		Object src = arg0.getSource();
+	public void actionPerformed(ActionEvent e) {
+		Object src = e.getSource();
 
 		if (src == btnChef) {
-			hideSplash();
+			setVisible(false);
 			new ChefWindow();
-		} else if (src == btnDelivery) {
-			hideSplash();
+		} 
+		else if (src == btnDelivery) {
+			setVisible(false);
 			new DeliveryWindow();
-		} else if (src == btnOrder) {
-			hideSplash();
+		} 
+		else if (src == btnOrder) {
+			setVisible(false);
 			new OrderWindow();
-		} else if (src == btnReset) {
-
-			int res = JOptionPane.showConfirmDialog(splash,
+		} 
+		else if (src == btnReset) {
+			int res = JOptionPane.showConfirmDialog(null,
 					"Sett inn eksempeldata?");
 
 			if (res == JOptionPane.YES_OPTION) {
@@ -108,18 +160,14 @@ public class Main extends JFrame implements ActionListener {
 			}
 		}
 	}
-
+	
 	/**
-	 * Show the splash screen.
+	 * Java does not immediately load pictures into RAM.
+	 * This method returns whether or not the splash screen has been loaded.
+	 * 
+	 * @return True if the splash screen has been loaded into RAM.
 	 */
-	public static void showSplash() {
-		splash.setVisible(true);
-	}
-
-	/**
-	 * Hide the splash screen.
-	 */
-	public static void hideSplash() {
-		splash.setVisible(false);
+	public boolean splashScreenLoaded() {
+		return splashImage.getWidth(null) != -1;
 	}
 }
