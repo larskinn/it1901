@@ -408,6 +408,8 @@ public class DataAPI {
 		try {
 			if (order == null)
 				return null;
+			if (order.getAnonymous())
+				return null;
 			return addressDao.queryForId(order.getIdAddress().getIdAddress());
 		} catch (SQLException e) {
 			System.err.println("Error fetching address by order: "
