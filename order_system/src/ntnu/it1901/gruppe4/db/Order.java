@@ -284,7 +284,7 @@ public class Order {
 	 * @return TRUE or FALSE
 	 */
 	public boolean isVisibleToDelivery() {
-		return state == READY_FOR_DELIVERY || state == IN_TRANSIT;
+		return !getAnonymous() && (state == READY_FOR_DELIVERY || state == IN_TRANSIT);
 	}
 
 	/**
