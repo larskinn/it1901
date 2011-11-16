@@ -24,6 +24,7 @@ import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.MenuSearchPanel;
 import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
+import ntnu.it1901.gruppe4.gui.Receipt;
 
 /**
  * The window where the chef may review and confirm orders, and edit the food
@@ -45,7 +46,6 @@ public class ChefWindow implements ActionListener {
 	 * An enum of view modes for ChefWindow ORDERS -- The orders list view,
 	 * where placed orders may be reviewed and confirmed MENU -- The food menu
 	 * view, where the dishes of the food menu may be modified
-	 * 
 	 */
 	public enum View {
 		ORDERS, MENU;
@@ -87,31 +87,6 @@ public class ChefWindow implements ActionListener {
 		frame.setLayout(new BorderLayout());
 		frame.add(buttonPanel, BorderLayout.SOUTH);
 		changeView(View.ORDERS);
-
-		// Adds a menu bar that will open a new config window when pressed
-		JMenu menu = new JMenu("Valg");
-		menu.setOpaque(false);
-
-		// Fired when the menu in the menu bar is clicked
-		menu.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				ConfigWindow configWindow = new ConfigWindow(frame);
-				frame.setEnabled(false);
-
-				// When the config window is closed, enable the parent frame
-				configWindow.addWindowListener(new WindowAdapter() {
-					@Override
-					public void windowClosing(WindowEvent e) {
-						frame.setEnabled(true);
-					}
-				});
-			}
-		});
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBackground(frame.getBackground());
-		menuBar.add(menu);
-		frame.setJMenuBar(menuBar);
 
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
