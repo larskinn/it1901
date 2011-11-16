@@ -315,7 +315,7 @@ public class DataAPI {
 
 			String[] strings = search.split(" ");
 
-			QueryBuilder<Customer, Integer> qb = customerDao.queryBuilder().orderBy("name", true);
+			QueryBuilder<Customer, Integer> qb = customerDao.queryBuilder();
 			Where<Customer, Integer> where = qb.where();
 
 			// Test for each word in the string sequence.
