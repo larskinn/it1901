@@ -109,6 +109,10 @@ public class OrderMaker {
 		float delivery = 0.0f;
 		float max_delivery = Settings.getDeliveryFee();
 		float tax = Settings.getTax();
+		
+		if (order.getAnonymous()) {
+			max_delivery = 0.0f;
+		}
 
 		delivery = Settings.getFreeDeliveryLimit() - total;
 		if (delivery > max_delivery)
@@ -134,13 +138,18 @@ public class OrderMaker {
 	 * @return TRUE if it's valid, FALSE if not
 	 */
 	public boolean isValid() {
-		if (getItemCount() == 0)
+		if (getItemCount() == 0) {
 			return false;
-		if (order.getIdAddress() == null)
-			return false;
-		if (!order.getIdAddress().isValid())
-			return false;
-		return true;
+		} else if (order.getIdAddress() == null) {
+			if (order.getAnonymous())
+				return true;
+			else
+				return false;
+		} else if (!order.getIdAddress().isValid()) {
+			return !order.getAnonymous();
+		} else {
+			return true;
+		}
 	}
 
 	/**
@@ -261,7 +270,19 @@ public class OrderMaker {
 				order.setIdAddress(null);
 			} else {
 				order.setIdAddress(DataAPI.getAddress(address.getIdAddress()));
+				order.setAnonymous(false);
 			}
+			hasBeenModified = true;
+		}
+	}
+
+	/**
+	 * Sets the order as anonymous, and sets the address to null.
+	 */
+	public void setAnonymous() {
+		if (canBeChanged()) {
+			setAddress(null);
+			order.setAnonymous(true);
 			hasBeenModified = true;
 		}
 	}

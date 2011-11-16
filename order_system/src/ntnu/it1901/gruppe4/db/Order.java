@@ -25,7 +25,7 @@ public class Order {
 			"I produksjon", "Klar til levering", "I bil", "Levert og betalt" };
 
 	@DatabaseField(canBeNull = false, generatedId = true)
-	int idOrder;
+	int idOrder = 0;
 
 	@DatabaseField(useGetSet = true)
 	Date orderTime;
@@ -34,7 +34,7 @@ public class Order {
 	Date deliveryTime;
 
 	@DatabaseField(useGetSet = true)
-	int state;
+	int state = 0;
 	// States:
 	// 0: Not saved
 	// 1: Saved
@@ -44,20 +44,23 @@ public class Order {
 	// 5: Delivered & paid for
 
 	@DatabaseField(useGetSet = true)
-	float totalAmount;
+	float totalAmount = 0;
 
 	@DatabaseField(useGetSet = true)
-	float taxAmount;
+	float taxAmount = 0;
 
 	@DatabaseField(useGetSet = true)
-	float deliveryFee;
+	float deliveryFee = 0;
 
 	// PS: The idAddress object might not actually contain the data. The
 	// idAddress object will be an Address object without any id, except for the
 	// idAddress field. This is it's only use, and it's used by DataAPI.
 
-	@DatabaseField(useGetSet = true, foreign = true, canBeNull = false)
-	Address idAddress;
+	@DatabaseField(useGetSet = true, foreign = true)
+	Address idAddress = null;
+
+	@DatabaseField(useGetSet = true)
+	boolean anonymous = false;
 
 	/**
 	 * Constructor that creates an empty Order object
@@ -281,7 +284,7 @@ public class Order {
 	 * @return TRUE or FALSE
 	 */
 	public boolean isVisibleToDelivery() {
-		return state == READY_FOR_DELIVERY || state == IN_TRANSIT;
+		return !getAnonymous() && (state == READY_FOR_DELIVERY || state == IN_TRANSIT);
 	}
 
 	/**
@@ -293,5 +296,20 @@ public class Order {
 		return state == DELIVERED_AND_PAID || state == SAVED
 				|| state == IN_PRODUCTION || state == READY_FOR_DELIVERY
 				|| state == IN_TRANSIT;
+	}
+
+	/**
+	 * Sets whether this order is anonymous. If it is anonymous, customer will
+	 * be set to null.
+	 */
+	public void setAnonymous(boolean anonymous) {
+		this.anonymous = anonymous;
+	}
+	
+	/**
+	 * Returns anonymity status.
+	 */
+	public boolean getAnonymous() {
+		return anonymous;
 	}
 }
