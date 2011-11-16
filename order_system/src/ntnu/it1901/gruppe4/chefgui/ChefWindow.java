@@ -97,6 +97,7 @@ public class ChefWindow implements ActionListener {
 		});
 
 		frame.setSize(Layout.initialSize);
+		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 		handleResize();
