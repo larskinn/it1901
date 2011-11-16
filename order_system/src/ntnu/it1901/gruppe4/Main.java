@@ -1,6 +1,7 @@
 package ntnu.it1901.gruppe4;
 
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -81,7 +82,7 @@ class SplashScreen extends JFrame implements ActionListener {
 		btnReset = new JButton();
 		
 		setTitle("Gruppe 4 pizza");
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setResizable(false);
 		setLayout(new GridLayout(2, 2));
 		
 		btnOrder.addActionListener(this);
@@ -95,6 +96,51 @@ class SplashScreen extends JFrame implements ActionListener {
 		btnDelivery.setPreferredSize(new Dimension(iconDelivery.getIconWidth(), iconDelivery.getIconHeight()));
 		lblMadeBy.setPreferredSize(new Dimension(iconMadeBy.getIconWidth(), iconMadeBy.getIconHeight()));
 		
+		//A menu that will open the config window when pressed
+		JMenu settings = new JMenu("Innstillinger");
+		settings.setOpaque(false);
+
+		settings.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ConfigWindow configWindow = new ConfigWindow(SplashScreen.this);
+				setEnabled(false);
+
+				//When the config window is closed, re-enable the splash screen
+				configWindow.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosing(WindowEvent e) {
+						setEnabled(true);
+					}
+				});
+			}
+		});
+		
+		//A menu that will reset the database when pressed
+		JMenu reset = new JMenu("Nullstill database");
+		reset.setOpaque(false);
+
+		reset.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int response = JOptionPane.showConfirmDialog(null, "Sett inn eksempeldata?");
+				
+				if (response == JOptionPane.YES_OPTION) {
+					DBReset.resetDB();
+					DBReset.createExampleData();
+				}
+				else if (response == JOptionPane.NO_OPTION) {
+					DBReset.resetDB();
+				}
+				//The cancel button does nothing
+			}
+		});
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.add(settings);
+		menuBar.add(reset);
+		setJMenuBar(menuBar);
+
 		add(btnOrder);
 		add(btnChef);
 		add(btnDelivery);
@@ -102,8 +148,9 @@ class SplashScreen extends JFrame implements ActionListener {
 		pack();
 		
 		setLocationRelativeTo(null);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setVisible(true);
-
+		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -128,17 +175,6 @@ class SplashScreen extends JFrame implements ActionListener {
 		else if (src == btnOrder) {
 			setVisible(false);
 			new OrderWindow();
-		} 
-		else if (src == btnReset) {
-			int res = JOptionPane.showConfirmDialog(null,
-					"Sett inn eksempeldata?");
-
-			if (res == JOptionPane.YES_OPTION) {
-				DBReset.resetDB();
-				DBReset.createExampleData();
-			} else if (res == JOptionPane.NO_OPTION) {
-				DBReset.resetDB();
-			}
 		}
 	}
 }
