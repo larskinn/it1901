@@ -32,7 +32,7 @@ public class OrderHistoryItem extends JPanel {
 									"<td>" + Layout.dateFormat.format(order.getOrderTime()) + "</td>" +
 								"</tr><tr>" +
 									"<td>Kunde:</td>" +
-									"<td>" + DataAPI.getCustomer(DataAPI.getAddress(order)).getName() + "</td>" +
+									"<td>" + DataAPI.getCustomerName(order) + "</td>" +
 								"</tr>" +
 							"</table></html>");
 		
