@@ -28,6 +28,7 @@ import ntnu.it1901.gruppe4.gui.OrderSummaryItem;
 public class OperatorOrderSummary extends OrderSummary {
 	private OrderSummaryItem itemBeingEdited = null;
 	private JButton saveButton;
+	private JButton anonButton;
 	private JLabel errorMessage;
 
 	/**
@@ -37,9 +38,11 @@ public class OperatorOrderSummary extends OrderSummary {
 		super(Mode.ORDER);
 		
 		saveButton = new JButton("Lagre");
+		anonButton = new JButton("Hent selv");
 		errorMessage = new JLabel("Ordren er ikke ferdig utfylt");
 		
 		saveButton.setFont(Layout.summaryTextFont);
+		anonButton.setFont(Layout.summaryTextFont);
 		errorMessage.setForeground(Layout.errorColor);
 		errorMessage.setFont(Layout.errorFont);
 		
@@ -59,6 +62,15 @@ public class OperatorOrderSummary extends OrderSummary {
 			}
 		});
 		southPanel.add(saveButton);
+		
+
+		anonButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				setAnonymous();
+			}
+		});
+		southPanel.add(anonButton);
 	}
 	
 	/**

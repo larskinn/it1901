@@ -145,42 +145,53 @@ public class DataAPI {
 		setupSettings();
 
 		List<Customer> customers = new ArrayList<Customer>();
-		customers.add(new Customer("Lars Kinn Ekroll",  "98765432"));
-		customers.add(new Customer("Eskild Eksempelsen","51225612"));
-		customers.add(new Customer("Kåre Utvåg",        "11235713"));
-		customers.add(new Customer("Rita Ottervik",     "72546111"));
-		
+		customers.add(new Customer("Lars Kinn Ekroll", "98765432"));
+		customers.add(new Customer("Eskild Eksempelsen", "51225612"));
+		customers.add(new Customer("Kåre Utvåg", "11235713"));
+		customers.add(new Customer("Rita Ottervik", "72546111"));
+
 		for (Customer c : customers) {
 			c.save();
 		}
-		
+
 		List<Address> addresses = new ArrayList<Address>();
-		addresses.add(new Address(customers.get(0), "Håkon Sverressons veg 10", 7051));
-		addresses.add(new Address(customers.get(1), "Starevegen 9",             7022));
-		addresses.add(new Address(customers.get(2), "Krambugata 12",            7010));
-		addresses.add(new Address(customers.get(3), "Rådhuset",                 7013));
-		
+		addresses.add(new Address(customers.get(0), "Håkon Sverressons veg 10",
+				7051));
+		addresses.add(new Address(customers.get(1), "Starevegen 9", 7022));
+		addresses.add(new Address(customers.get(2), "Krambugata 12", 7010));
+		addresses.add(new Address(customers.get(3), "Rådhuset", 7013));
+
 		for (Address a : addresses) {
 			a.save();
 		}
-		
+
 		List<Dish> dishes = new ArrayList<Dish>();
 
-		dishes.add(new Dish("Capricciosa", 160, DishType.PIZZA,
-		                    "Tomatsaus, mozzarella, skinke, champignon, artisjokk og oliven", true));
+		dishes.add(new Dish(
+				"Capricciosa",
+				160,
+				DishType.PIZZA,
+				"Tomatsaus, mozzarella, skinke, champignon, artisjokk og oliven",
+				true));
 		dishes.add(new Dish("Pepperoni", 140, DishType.PIZZA,
-		                    "Tomatsaus, mozzarella og delikate pepperoni-pølser", true));
+				"Tomatsaus, mozzarella og delikate pepperoni-pølser", true));
 		dishes.add(new Dish("Napoletana", 140, DishType.PIZZA,
-                            "Tomatsaus, mozarella og ansjos", true));
-		dishes.add(new Dish("Americana", 190, DishType.PIZZA,
-		                    "Tomatsaus, spare ribs, mais og cheddar på en ekstra tykk bunn", true));
+				"Tomatsaus, mozarella og ansjos", true));
+		dishes.add(new Dish(
+				"Americana",
+				190,
+				DishType.PIZZA,
+				"Tomatsaus, spare ribs, mais og cheddar på en ekstra tykk bunn",
+				true));
 		dishes.add(new Dish("Coca Cola 1.5 liter", 40, DishType.DRINK, "", true));
 		dishes.add(new Dish("Coca Cola 0.5 liter", 25, DishType.DRINK, "", true));
 		dishes.add(new Dish("Fanta 1.5 liter", 40, DishType.DRINK, "", true));
 		dishes.add(new Dish("Fanta 0.5 liter", 25, DishType.DRINK, "", true));
-		dishes.add(new Dish("Rømmedressing", 25, DishType.CONDIMENT, "Plastskei ikke inkludert", true));
-		dishes.add(new Dish("Plastskei", (float)1.5, DishType.ACCESSORY, "", true));
-		
+		dishes.add(new Dish("Rømmedressing", 25, DishType.CONDIMENT,
+				"Plastskei ikke inkludert", true));
+		dishes.add(new Dish("Plastskei", (float) 1.5, DishType.ACCESSORY, "",
+				true));
+
 		for (Dish d : dishes) {
 			d.save();
 		}
@@ -194,7 +205,7 @@ public class DataAPI {
 		om.addItem(dishes.get(7));
 		om.setState(Order.READY_FOR_DELIVERY);
 		om.save();
-		
+
 		System.out.println("[Debug] Inserted example data");
 	}
 
@@ -351,11 +362,12 @@ public class DataAPI {
 			System.err.println("Error storing address: " + e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Deletes an Address from the database
+	 * 
 	 * @param a
-	 *         a reference to the Address object to be deleted.
+	 *            a reference to the Address object to be deleted.
 	 */
 
 	public static void deleteAddress(Address a) {
@@ -365,6 +377,7 @@ public class DataAPI {
 			System.err.println("Error deleting address: " + e.getMessage());
 		}
 	}
+
 	/**
 	 * Fetches address data and stores it in a Address object
 	 * 
@@ -463,7 +476,6 @@ public class DataAPI {
 			return null;
 		}
 	}
-	
 
 	/**
 	 * Stores a Dish to the database. If the ID matches an existing Dish, the
@@ -516,19 +528,21 @@ public class DataAPI {
 			return null;
 		}
 	}
-	
+
 	/**
-	 * Finds all the dishes of the specified type 
+	 * Finds all the dishes of the specified type
+	 * 
 	 * @param type
-	 *         the type of dish to search for
+	 *            the type of dish to search for
 	 * @return a reference to a new List<Dish> object with the matching dishes
 	 */
 	public static List<Dish> findDishes(DishType type) {
 		try {
-			return dishDao.query(dishDao.queryBuilder().where().eq("type", type.name()).prepare());
+			return dishDao.query(dishDao.queryBuilder().where()
+					.eq("type", type.name()).prepare());
 		} catch (SQLException e) {
-			System.err.println("Error finding dishes of type " + type.name() + ": "
-					+ e.getMessage());
+			System.err.println("Error finding dishes of type " + type.name()
+					+ ": " + e.getMessage());
 			return null;
 		}
 	}
@@ -594,7 +608,8 @@ public class DataAPI {
 	 */
 	public static List<Order> getOrders() {
 		try {
-			return orderDao.query(orderDao.queryBuilder().orderBy("orderTime", false).prepare());
+			return orderDao.query(orderDao.queryBuilder()
+					.orderBy("orderTime", false).prepare());
 		} catch (SQLException e) {
 			System.err.println("Error fetching order: " + e.getMessage());
 			return null;
@@ -725,6 +740,22 @@ public class DataAPI {
 			System.err
 					.println("Error fetching config value: " + e.getMessage());
 			return null;
+		}
+	}
+
+	/**
+	 * Returns the name of the customer assigned to an order, or a string
+	 * describing anonymity.
+	 */
+	public static String getCustomerName(Order order) {
+		if (order == null) {
+			return "(Ingen)";
+		}
+		else if (order.getAnonymous()) {
+			return "(Anonym)";
+		}
+		else {
+			return getCustomer(getAddress(order)).getName();
 		}
 	}
 }
