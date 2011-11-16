@@ -117,6 +117,7 @@ public class MenuPanelItem extends JPanel {
 				item.setPrice(newPrice);
 				item.setType((DishType)typeInput.getSelectedItem());
 				item.setDescription(description);
+				item.save();
 				changeFunction(false);
 			}
 		});
