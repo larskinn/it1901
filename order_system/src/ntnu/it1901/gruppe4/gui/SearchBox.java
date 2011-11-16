@@ -1,4 +1,4 @@
-package ntnu.it1901.gruppe4.gui.ordergui;
+package ntnu.it1901.gruppe4.gui;
 
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JTextField;
 
-import ntnu.it1901.gruppe4.gui.Layout;
 
 public class SearchBox extends JTextField {
 	public SearchBox() {
