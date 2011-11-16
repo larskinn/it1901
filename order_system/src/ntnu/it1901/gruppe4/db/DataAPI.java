@@ -591,7 +591,7 @@ public class DataAPI {
 	 */
 	public static List<Order> getOrders() {
 		try {
-			return orderDao.queryForAll();
+			return orderDao.query(orderDao.queryBuilder().orderBy("orderTime", false).prepare());
 		} catch (SQLException e) {
 			System.err.println("Error fetching order: " + e.getMessage());
 			return null;
