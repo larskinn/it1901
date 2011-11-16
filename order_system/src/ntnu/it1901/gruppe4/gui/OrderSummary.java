@@ -207,8 +207,14 @@ public class OrderSummary extends JPanel {
 	 * @param order The already existing <code>Order</code> to view in the <code>ChefOrderSummary</code>.
 	 */
 	public void setOrder(Order order) {
-		currentOrder = new OrderMaker(order);
-		assignCustomer(DataAPI.getCustomer(DataAPI.getAddress(order)));
+		if (order == null) {
+			currentOrder = new OrderMaker();
+			assignCustomer(null);
+		}
+		else {
+			currentOrder = new OrderMaker(order);
+			assignCustomer(DataAPI.getCustomer(DataAPI.getAddress(order)));
+		}
 		update();
 	}
 	
