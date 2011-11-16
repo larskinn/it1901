@@ -1,5 +1,6 @@
 package ntnu.it1901.gruppe4.deliverygui;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -45,6 +46,8 @@ public class MapPanel extends JPanel {
 			JLabel label = new JLabel(new ImageIcon(image));
 			add(label);
 		}
+		setBackground(Color.white);
+		setBorder(BorderFactory.createLoweredBevelBorder());
 	}
 
 	public void setAddress(Address address) {
