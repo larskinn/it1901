@@ -31,6 +31,10 @@ public class DeliveryOrderSummary extends OrderSummary {
 		
 		inTransitButton = new JButton("Under levering");
 		deliveredButton = new JButton("Levert");
+
+		inTransitButton.setEnabled(false);
+		deliveredButton.setEnabled(false);
+		
 		orderHistoryPanel = null;
 
 		totalPrice.setFont(Layout.summaryTextFont);
@@ -46,6 +50,7 @@ public class DeliveryOrderSummary extends OrderSummary {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				transitOrder();
+				
 			}
 		});
 		southPanel.add(inTransitButton);
@@ -60,6 +65,7 @@ public class DeliveryOrderSummary extends OrderSummary {
 		currentOrder.save();
 		currentOrder = new OrderMaker();
 		assignCustomer(null);
+		
 		update();
 		orderHistoryPanel.refresh();
 	}
@@ -72,11 +78,22 @@ public class DeliveryOrderSummary extends OrderSummary {
 		currentOrder.save();
 		currentOrder = new OrderMaker();
 		assignCustomer(null);
+		
 		update();
 		orderHistoryPanel.refresh();
 	}
 
 	public void setOrderHistoryPanel(OrderHistoryPanel orderHistoryPanel) {
 		this.orderHistoryPanel = orderHistoryPanel;
+	}
+	
+	@Override
+	public void update()
+	{
+		super.update();
+		if (inTransitButton != null && deliveredButton != null) {
+			inTransitButton.setEnabled(currentOrder.getOrder().getState() == Order.READY_FOR_DELIVERY);
+			deliveredButton.setEnabled(currentOrder.getOrder().getState() == Order.IN_TRANSIT);
+		}
 	}
 }

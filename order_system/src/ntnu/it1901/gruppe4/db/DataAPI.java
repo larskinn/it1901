@@ -1,6 +1,7 @@
 package ntnu.it1901.gruppe4.db;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.lang.Exception;
@@ -140,73 +141,60 @@ public class DataAPI {
 	 * Inserts example data into database
 	 */
 	public static void createExampleData() {
-		try {
-			Customer c = new Customer("Eksemplus Eksempelsen", "512256128");
+		setupSettings();
 
-			List<Customer> cl = customerDao.queryForMatching(c);
-
-			if (cl == null || cl.size() == 0) {
-
-				Customer c1 = new Customer("Finn", "2002");
-				Customer c2 = new Customer("Jake", "1001");
-				Customer c3 = new Customer("Princess Bubblegum", "3003");
-
-				Address a1 = new Address(c, "Internettveien 64", 1024);
-				Address a2 = new Address(c, "Addresseveien 32", 2048);
-
-				Address a3 = new Address(c1, "Land of Ooo", 5000);
-				Address a4 = new Address(c2, "Land of Ooo", 5000);
-				Address a5 = new Address(c3, "Candy Kingdom", 7000);
-
-				Dish d1 = new Dish("Pizza Capriciosa", 50, DishType.PIZZA,
-						"Skinke & Champignon", true);
-				Dish d2 = new Dish("Pizza Pepperoni", 52, DishType.PIZZA,
-						"Pepperoni; nom nom", true);
-				Dish d3 = new Dish("Hårete pizza", 35, DishType.PIZZA,
-						"Billigere, men med spesiell topping", true);
-				Dish d4 = new Dish("Krempizza", 60, DishType.PIZZA,
-						"Bløtkake på pizzabunn", true);
-				Dish d5 = new Dish("Kokkens spesial", 70, DishType.CONDIMENT,
-						"Med kokkens spesialsaus", true);
-				Dish d6 = new Dish("Coca Cola 1.5L", 40, DishType.DRINK,
-						"Din favorittbrus, en-og-en-halv-liter", true);
-				Dish d7 = new Dish("Rømmedressing", 25, DishType.CONDIMENT,
-						"Plastskei ikke inkludert", true);
-
-				saveCustomer(c);
-				saveCustomer(c1);
-				saveCustomer(c2);
-				saveCustomer(c3);
-				saveAddress(a1);
-				saveAddress(a2);
-				saveAddress(a3);
-				saveAddress(a4);
-				saveAddress(a5);
-				saveDish(d1);
-				saveDish(d2);
-				saveDish(d3);
-				saveDish(d4);
-				saveDish(d5);
-				saveDish(d6);
-				saveDish(d7);
-
-				OrderMaker om = new OrderMaker();
-				Order o = om.getOrder();
-				o.setIdAddress(a1);
-				om.addItem(d3);
-				om.addItem(d4);
-				om.addItem(d5);
-				om.save();
-				setupSettings();
-
-				System.out.println("[Debug] Inserted example data");
-			} else {
-				System.out.println("[Debug] Example data already present");
-			}
-		} catch (SQLException e) {
-			System.err.println("Error inserting example data: "
-					+ e.getMessage());
+		List<Customer> customers = new ArrayList<Customer>();
+		customers.add(new Customer("Lars Kinn Ekroll",  "98765432"));
+		customers.add(new Customer("Eskild Eksempelsen","51225612"));
+		customers.add(new Customer("Kåre Utvåg",        "11235713"));
+		customers.add(new Customer("Rita Ottervik",     "72546111"));
+		
+		for (Customer c : customers) {
+			c.save();
 		}
+		
+		List<Address> addresses = new ArrayList<Address>();
+		addresses.add(new Address(customers.get(0), "Håkon Sverressons veg 10", 7051));
+		addresses.add(new Address(customers.get(1), "Starevegen 9",             7022));
+		addresses.add(new Address(customers.get(2), "Krambugata 12",            7010));
+		addresses.add(new Address(customers.get(3), "Rådhuset",                 7013));
+		
+		for (Address a : addresses) {
+			a.save();
+		}
+		
+		List<Dish> dishes = new ArrayList<Dish>();
+
+		dishes.add(new Dish("Capricciosa", 160, DishType.PIZZA,
+		                    "Tomatsaus, mozzarella, skinke, champignon, artisjokk og oliven", true));
+		dishes.add(new Dish("Pepperoni", 140, DishType.PIZZA,
+		                    "Tomatsaus, mozzarella og delikate pepperoni-pølser", true));
+		dishes.add(new Dish("Napoletana", 140, DishType.PIZZA,
+                            "Tomatsaus, mozarella og ansjos", true));
+		dishes.add(new Dish("Americana", 190, DishType.PIZZA,
+		                    "Tomatsaus, spare ribs, mais og cheddar på en ekstra tykk bunn", true));
+		dishes.add(new Dish("Coca Cola 1.5 liter", 40, DishType.DRINK, "", true));
+		dishes.add(new Dish("Coca Cola 0.5 liter", 25, DishType.DRINK, "", true));
+		dishes.add(new Dish("Fanta 1.5 liter", 40, DishType.DRINK, "", true));
+		dishes.add(new Dish("Fanta 0.5 liter", 25, DishType.DRINK, "", true));
+		dishes.add(new Dish("Rømmedressing", 25, DishType.CONDIMENT, "Plastskei ikke inkludert", true));
+		dishes.add(new Dish("Plastskei", (float)1.5, DishType.ACCESSORY, "", true));
+		
+		for (Dish d : dishes) {
+			d.save();
+		}
+
+		OrderMaker om = new OrderMaker();
+		Order o = om.getOrder();
+		o.setIdAddress(addresses.get(0));
+		om.addItem(dishes.get(0));
+		om.addItem(dishes.get(3));
+		om.addItem(dishes.get(4));
+		om.addItem(dishes.get(7));
+		om.setState(Order.READY_FOR_DELIVERY);
+		om.save();
+		
+		System.out.println("[Debug] Inserted example data");
 	}
 
 	/**
