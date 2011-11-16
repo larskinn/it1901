@@ -86,10 +86,9 @@ public class CustomerPanelItem extends JPanel {
 				Customer customer = CustomerPanelItem.this.customer;
 				String name = nameInput.getText();
 				String number = numberInput.getText();
-				String address = addressInput.getText();
+				String addressLine = addressInput.getText();
 				String postNo = postNoInput.getText();
 				int newPostNo = 0;
-				Address newAddress;
 
 				if (name.isEmpty()) {
 					errorMessage.setText("Ugyldig navn");
@@ -99,7 +98,7 @@ public class CustomerPanelItem extends JPanel {
 					errorMessage.setText("Ugyldig nummer");
 					return;
 				}
-				else if (address.isEmpty()) {
+				else if (addressLine.isEmpty()) {
 					errorMessage.setText("Ugyldig adresse");
 					return;
 				}
@@ -117,10 +116,13 @@ public class CustomerPanelItem extends JPanel {
 				}
 				customer.setName(name);
 				customer.setPhone(number);
+				customer.save();
 				
-				DataAPI.deleteAddress(DataAPI.getAddresses(customer).get(0));
-				newAddress = new Address(customer, address, newPostNo);
-				newAddress.save();
+				Address address = DataAPI.getAddresses(customer).get(0);
+				address.setIdCustomer(customer);
+				address.setAddressLine(addressLine);
+				address.setPostalCode(newPostNo);
+				address.save();
 				
 				changeFunction(false);
 				
