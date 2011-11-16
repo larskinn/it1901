@@ -263,7 +263,7 @@ public class Order {
 	 * @return TRUE or FALSE
 	 */
 	public boolean isVisibleToOperator() {
-		return state == SAVED || state == NOT_SAVED;
+		return true;
 	}
 
 	/**
