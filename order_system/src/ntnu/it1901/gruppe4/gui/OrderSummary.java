@@ -31,7 +31,6 @@ public class OrderSummary extends JPanel {
 	private JLabel customerInfo;
 	private JLabel status;
 	protected Customer customer;
-	protected Collection<OrderListener> orderListeners;
 	protected Mode mode;
 
 	// Internal panels used for component grouping
@@ -44,7 +43,6 @@ public class OrderSummary extends JPanel {
 	 */
 	public OrderSummary(Mode mode) {
 		this.mode = mode;
-		this.orderListeners = new ArrayList<OrderListener>();
 
 		totalPrice = new JLabel();
 		customerInfo = new JLabel();
@@ -72,9 +70,7 @@ public class OrderSummary extends JPanel {
 
 		assignCustomer(null);
 
-		// When the panel is resized, the size of the total price label must be
-		// repainted
-		// Todo: Check if this works on a Mac
+		// When the panel is resized, the size of the total price label must be epainted
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
@@ -231,9 +227,8 @@ public class OrderSummary extends JPanel {
 
 	/**
 	 * Changes the currently displayed {@link Order} to an already existing one,
-	 * which when saved will replace the old one. <br>
-	 * <br>
-	 * 
+	 * which when saved will replace the old one.
+	 * <p>
 	 * Warning: The currently displayed <code>Order</code> will be lost unless
 	 * saved.
 	 * 
@@ -254,17 +249,5 @@ public class OrderSummary extends JPanel {
 
 	public Order getOrder() {
 		return currentOrder.getOrder();
-	}
-
-	/**
-	 * Adds a new {@link OrderListener} to this {@link ChefOrderSummary}.
-	 * 
-	 * @deprecated OrderListeners are no longer used.
-	 * 
-	 * @param listener
-	 *            The <code>OrderListener</code> to add.
-	 */
-	public void addOrderListener(OrderListener listener) {
-		orderListeners.add(listener);
 	}
 }

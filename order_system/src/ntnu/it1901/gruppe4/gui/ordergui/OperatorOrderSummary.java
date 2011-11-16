@@ -15,7 +15,7 @@ import ntnu.it1901.gruppe4.db.OrderItem;
 import ntnu.it1901.gruppe4.db.OrderMaker;
 import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.Mode;
-import ntnu.it1901.gruppe4.gui.OrderListener;
+import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
 import ntnu.it1901.gruppe4.gui.OrderSummaryItem;
 
@@ -30,22 +30,23 @@ public class OperatorOrderSummary extends OrderSummary {
 	private JButton saveButton;
 	private JButton anonButton;
 	private JLabel errorMessage;
+	private OrderHistoryPanel orderPanel;
 
 	/**
 	 * Creates a new {@link OperatorOrderSummary} for viewing and editing {@link ntnu.it1901.gruppe4.db.Order Orders}.
 	 */
 	OperatorOrderSummary() {
 		super(Mode.ORDER);
-		
+
 		saveButton = new JButton("Lagre");
 		anonButton = new JButton("Hent selv");
 		errorMessage = new JLabel("Ordren er ikke ferdig utfylt");
-		
+
 		saveButton.setFont(Layout.summaryTextFont);
 		anonButton.setFont(Layout.summaryTextFont);
 		errorMessage.setForeground(Layout.errorColor);
 		errorMessage.setFont(Layout.errorFont);
-		
+
 		//Fired when the south panel (ie. the customer information) is clicked
 		southPanel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -53,7 +54,7 @@ public class OperatorOrderSummary extends OrderSummary {
 				setCustomer(null);
 			}
 		});
-		
+
 		//Fired when saveButton is clicked
 		saveButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -62,7 +63,7 @@ public class OperatorOrderSummary extends OrderSummary {
 			}
 		});
 		southPanel.add(saveButton);
-		
+
 
 		anonButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -72,19 +73,19 @@ public class OperatorOrderSummary extends OrderSummary {
 		});
 		southPanel.add(anonButton);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void update() {
 		super.update();
-		
+
 		if (errorMessage != null) {
 			southPanel.remove(errorMessage);
 		}
 	}
-	
+
 	/**
 	 * Adds all {@link OrderItem OrderItems} to the center panel.
 	 * Overrided and rewritten to add a {@link MouseAdapter} to each individual <code>OrderItem</code>.
@@ -93,10 +94,10 @@ public class OperatorOrderSummary extends OrderSummary {
 	protected void drawOrderItems() {
 		int counter = 0;
 		List<OrderItem> currentItems = currentOrder.getItemList();
-		
+
 		for (final OrderItem i : currentItems) {
 			final OrderSummaryItem item = new OrderSummaryItem(i, Mode.ORDER);
-			
+
 			//Activated when the item panel is pressed
 			item.addMouseListener(new MouseAdapter() {
 				@Override
@@ -111,14 +112,14 @@ public class OperatorOrderSummary extends OrderSummary {
 					itemBeingEdited = item;
 				}
 			});
-			
+
 			item.addDeleteButtonListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					removeItem(i);
 				}
 			});
-			
+
 			if (counter++ % 2 == 0) {
 				item.setBackground(Layout.summaryBgColor1);
 			}
@@ -128,7 +129,7 @@ public class OperatorOrderSummary extends OrderSummary {
 			centerPanel.add(item);
 		}
 	}
-	
+
 	/**
 	 * If {@link OrderMaker#isValid()} returns true, all data in the {@link ChefOrderSummary}
 	 * is saved to the SQL database and the <code>ChefOrderSummary</code> is emptied.<br><br>
@@ -143,10 +144,9 @@ public class OperatorOrderSummary extends OrderSummary {
 			currentOrder = new OrderMaker();
 			update();
 			setCustomer(null);
-			
-			//Make order listeners aware that a new order has been saved
-			for (OrderListener listener : orderListeners) {
-				listener.OrderSaved();
+
+			if (orderPanel != null) {
+				orderPanel.refresh();
 			}
 			return true;
 		}
@@ -155,13 +155,13 @@ public class OperatorOrderSummary extends OrderSummary {
 			southPanel.remove(saveButton);
 			southPanel.add(errorMessage);
 			southPanel.add(saveButton);
-			
+
 			southPanel.revalidate();
 			southPanel.repaint();
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Adds a new dish as an {@link OrderItem} to the {@link ChefOrderSummary} and recalculates the total price.
 	 * 
@@ -173,7 +173,7 @@ public class OperatorOrderSummary extends OrderSummary {
 		update();
 		return item;
 	}
-	
+
 	/**
 	 * Assigns a {@link Customer} to the {@link ChefOrderSummary}.
 	 * 
@@ -183,7 +183,7 @@ public class OperatorOrderSummary extends OrderSummary {
 	public void setCustomer(Customer customer) {
 		super.assignCustomer(customer);
 	}
-	
+
 	/**
 	 * Removes an {@link OrderItem} from the {@link ChefOrderSummary} and recalculates the total price.
 	 * 
@@ -192,5 +192,15 @@ public class OperatorOrderSummary extends OrderSummary {
 	public void removeItem(OrderItem item) {
 		currentOrder.remItem(item);
 		update();
+	}
+
+	/**
+	 * Adds an {@link OrderHistoryPanel} to the {@link OperatorOrderSummary} that
+	 * will be refreshed when an {@link Order} is saved.
+	 * 
+	 * @param orderPanel The <code>OrderHistoryPanel</code> that will be updated.
+	 */
+	public void setOrderHistoryPanel(OrderHistoryPanel orderPanel) {
+		this.orderPanel = orderPanel;
 	}
 }

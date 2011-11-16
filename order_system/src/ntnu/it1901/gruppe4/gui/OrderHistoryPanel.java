@@ -14,7 +14,7 @@ import ntnu.it1901.gruppe4.db.Order;
 import ntnu.it1901.gruppe4.db.OrderMaker;
 import ntnu.it1901.gruppe4.deliverygui.MapPanel;
 
-public class OrderHistoryPanel extends JPanel implements OrderListener {
+public class OrderHistoryPanel extends JPanel {
 	private OrderSummary orderSummary;
 	private MapPanel MapPanel;
 	private Mode mode;
@@ -111,17 +111,10 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 			add(item);
 		}
 		
-		if (getComponents().length == 0)
-		{
+		if (getComponents().length == 0) {
 			add(new JLabel("Ingen ordre er tilgjengelig."));
 		}
-		
 		revalidate();
 		repaint();
-	}
-
-	@Override
-	public void OrderSaved() {
-		refresh();
 	}
 }

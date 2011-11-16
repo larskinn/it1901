@@ -33,7 +33,7 @@ import ntnu.it1901.gruppe4.gui.Receipt;
 /**
  * The window where the operator may add or edit orders and customers
  * 
- * @author LeoMartin
+ * @author Leo
  * 
  */
 public class OrderWindow implements ActionListener {
@@ -62,8 +62,7 @@ public class OrderWindow implements ActionListener {
 	/**
 	 * An enum of view modes for OrderWindow<br>
 	 * MENU -- The food menu view, where dishes can be added to the order<br>
-	 * CUSTOMER -- The customer list view, where a customer can be applied to
-	 * the order<br>
+	 * CUSTOMER -- The customer list view, where a customer can be applied to the order<br>
 	 * HISTORY --- The order history view, where past orders may be reviewed
 	 */
 	public enum View {
@@ -83,14 +82,13 @@ public class OrderWindow implements ActionListener {
 
 		frame = new JFrame();
 		operatorOrderSummary = new OperatorOrderSummary();
-		orderHistoryPanel = new OrderHistoryPanel(Mode.ORDER,
-				operatorOrderSummary);
+		orderHistoryPanel = new OrderHistoryPanel(Mode.ORDER, operatorOrderSummary);
 		menuSearchPanel = new MenuSearchPanel(Mode.ORDER, operatorOrderSummary);
 		customerPanel = new CustomerPanel(operatorOrderSummary);
 		buttonPanel = new ButtonPanel(this);
 		resizeListener = new ResizeListener();
 
-		operatorOrderSummary.addOrderListener(orderHistoryPanel);
+		operatorOrderSummary.setOrderHistoryPanel(orderHistoryPanel);
 		operatorOrderSummary.addComponentListener(resizeListener);
 		menuSearchPanel.addComponentListener(resizeListener);
 		customerPanel.addComponentListener(resizeListener);
@@ -141,12 +139,11 @@ public class OrderWindow implements ActionListener {
 	}
 
 	/**
-	 * Change the view of the order window. Options are (from {@link View}):<br>
+	 * Change the view of the order window. Options are (from {@link View}):
+	 * <p>
 	 * MENU -- Shows the food menu view, where dishes can be added to the order<br>
-	 * CUSTOMER -- Shows the customer list view, where a customer can be applied
-	 * to the order<br>
-	 * HISTORY --- Shows the order history view, where past orders may be
-	 * reviewed
+	 * CUSTOMER -- Shows the customer list view, where a customer can be assigned to the order<br>
+	 * HISTORY --- Shows the order history view, where past orders may be reviewed
 	 * 
 	 * @param view
 	 *            The view to show. Options are View.MENU, View.CUSTOMER,
