@@ -10,7 +10,7 @@ import ntnu.it1901.gruppe4.db.DataAPI;
  * @author David M.
  */
 @DatabaseTable(tableName = "customer")
-public class Customer {
+public class Customer implements Comparable<Customer> {
 	@DatabaseField(canBeNull = false, generatedId = true)
 	private int idCustomer;
 
@@ -108,4 +108,27 @@ public class Customer {
 		DataAPI.remAddresses(this);
 		DataAPI.remCustomer(this);
 	}
+	
+	/**
+	 * Returns a sortable version of the name. If the name is "First Second Third",
+	 * the sortName is "Third, First Second".
+	 * 
+	 * @return this customer's sortName
+	 */
+	public String getSortName() {
+		String name = this.name.trim();
+		int lastSpace = name.lastIndexOf(' ');
+		if (lastSpace == -1) {
+			// In this case, the original name was an empty string, only whitespace, or one word long
+			return name;
+		} else {
+			return name.substring(lastSpace+1, name.length()) + ", " + name.substring(0, lastSpace);
+		}
+	}
+
+	@Override
+	public int compareTo(Customer c) {
+		return getSortName().compareTo(c.getSortName());
+	}
+
 }

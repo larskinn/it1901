@@ -2,6 +2,7 @@ package ntnu.it1901.gruppe4.db;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.lang.Exception;
@@ -334,7 +335,9 @@ public class DataAPI {
 			where.or();
 			where.like("name", "%" + strings[i] + "%");
 
-			return customerDao.query(where.prepare());
+			List<Customer> customers = customerDao.query(where.prepare());
+			Collections.sort(customers);
+			return customers;
 		} catch (SQLException e) {
 			System.err.println("Error searching for customer: "
 					+ e.getMessage());
