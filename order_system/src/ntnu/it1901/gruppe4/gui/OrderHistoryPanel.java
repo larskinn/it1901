@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
+import ntnu.it1901.gruppe4.db.OrderMaker;
 import ntnu.it1901.gruppe4.deliverygui.MapPanel;
 
 public class OrderHistoryPanel extends JPanel implements OrderListener {
@@ -94,11 +95,10 @@ public class OrderHistoryPanel extends JPanel implements OrderListener {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						//Delete the order contained within the item from the database
-						//FIXME: This is very bugged at the moment
+						DataAPI.remOrderItems(order);
 						DataAPI.remOrder(order);
-						orderSummary.update();
-						revalidate();
-						repaint();
+						orderSummary.setOrder(null);
+						refresh();
 					}
 				});
 			}
