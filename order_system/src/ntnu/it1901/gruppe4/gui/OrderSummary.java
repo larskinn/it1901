@@ -1,6 +1,8 @@
 package ntnu.it1901.gruppe4.gui;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
@@ -27,7 +29,8 @@ import ntnu.it1901.gruppe4.db.OrderMaker;
  */
 public class OrderSummary extends JPanel {
 	protected OrderMaker currentOrder;
-	protected JLabel totalPrice;
+	protected JLabel pricePrefix;
+	protected JLabel price;
 	private JLabel customerInfo;
 	private JLabel status;
 	protected Customer customer;
@@ -36,6 +39,7 @@ public class OrderSummary extends JPanel {
 	// Internal panels used for component grouping
 	protected JPanel centerPanel;
 	protected JPanel southPanel;
+	protected JPanel buttonPanel;
 
 	/**
 	 * Creates a new {@link ChefOrderSummary} for viewing details about
@@ -44,22 +48,51 @@ public class OrderSummary extends JPanel {
 	public OrderSummary(Mode mode) {
 		this.mode = mode;
 
-		totalPrice = new JLabel();
+		pricePrefix = new JLabel("<html> <table>" +
+									"<tr> <td> Brutto </td> </tr>" +
+									"<tr> <td> Frakt </td> </tr>" +
+									"<tr> <td> MVA </td> </tr>" +
+									"<tr> <td> Totalpris </td> </tr>" +
+								"</table> </html>"
+								);
+		price = new JLabel();
 		customerInfo = new JLabel();
 		status = new JLabel();
 		currentOrder = new OrderMaker();
 		centerPanel = new JPanel();
 		southPanel = new JPanel();
+		buttonPanel = new JPanel();
 
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
-		southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS));
+		southPanel.setLayout(new GridBagLayout());
+		buttonPanel.setLayout(new GridBagLayout());
 
-		totalPrice.setFont(Layout.summaryTextFont);
+		pricePrefix.setFont(Layout.summaryTextFont);
+		price.setFont(Layout.summaryTextFont);
 		customerInfo.setFont(Layout.summaryTextFont);
 		status.setFont(Layout.summaryTextFont);
-		southPanel.add(totalPrice);
-		southPanel.add(customerInfo);
-		southPanel.add(status);
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		southPanel.add(pricePrefix, gbc);
+		
+		gbc.anchor = GridBagConstraints.NORTHEAST;
+		southPanel.add(price, gbc);
+		
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.gridx = 0;
+		gbc.gridy++;
+		southPanel.add(customerInfo, gbc);
+		
+		gbc.gridy++;
+		southPanel.add(status, gbc);
+		
+		gbc.gridy++;
+		southPanel.add(buttonPanel, gbc);
 
 		setBorder(Layout.panelPadding);
 		setLayout(new BorderLayout());
@@ -69,22 +102,15 @@ public class OrderSummary extends JPanel {
 		add(southPanel, BorderLayout.SOUTH);
 
 		assignCustomer(null);
-
-		// When the panel is resized, the size of the total price label must be epainted
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				drawTotalPrice();
-			}
-		});
 	}
 
 	/**
 	 * Reloads the current order shown in {@link OrderSummary} from the SQL
-	 * database and updates the total price.<br>
+	 * database and updates the total price.
+	 * <p>
 	 * There is usually no need to call on this method explicitly, as all
-	 * methods modifying the <code>ChefOrderSummary</code> are required to call
-	 * this method automatically before returning.
+	 * methods modifying the <code>OrderSummary</code> are required to call
+	 * this method before returning.
 	 */
 	public void update() {
 		centerPanel.removeAll();
@@ -92,8 +118,22 @@ public class OrderSummary extends JPanel {
 		// Add order items to the panel
 		drawOrderItems();
 
-		// Add the total price to the panel
-		drawTotalPrice();
+		// Update the total price on the panel
+		price.setText("<html> <table>" +
+				"<tr> <td align='right'> <b>" + 
+					Layout.decimalFormat.format(currentOrder.getOrder().getGrossAmount()) + 
+				" kr </b> </td> </tr>" +
+				"<tr> <td align='right'> <b>" + 
+					Layout.decimalFormat.format(currentOrder.getOrder().getDeliveryFee()) + 
+				" kr </b> </td> </tr>" +
+				"<tr> <td align='right'> <b>" + 
+					Layout.decimalFormat.format(currentOrder.getOrder().getTaxAmount()) + 
+				" kr </b> </td> </tr>" +
+				"<tr> <td align='right'> <b>" + 
+					Layout.decimalFormat.format(currentOrder.getOrder().getTotalAmount()) + 
+				" kr </b> </td> </tr>" +
+			"</table> </html>"
+		);
 
 		// Add customer information to the panel
 		if (customer == null) {
@@ -152,34 +192,7 @@ public class OrderSummary extends JPanel {
 			centerPanel.add(item);
 		}
 	}
-
-	/**
-	 * Draws the total price of the current {@link Order} to the
-	 * {@link OrderSummary}.
-	 */
-	protected void drawTotalPrice() {
-		// Table width is set to the width of the order summary panel
-		totalPrice.setText("<html> <hr> <table width='"
-				+ getSize().width
-				+ "'"
-				+ "<tr> <td> Brutto: </td> <td align='right'> <b>"
-				+ Layout.decimalFormat.format(currentOrder.getOrder()
-						.getGrossAmount())
-				+ " kr </b> </td> </tr>"
-				+ "<tr> <td> Frakt: </td> <td align='right'> <b>"
-				+ Layout.decimalFormat.format(currentOrder.getOrder()
-						.getDeliveryFee())
-				+ " kr </b> </td> </tr>"
-				+ "<tr> <td> MVA: </td> <td align='right'> <b>"
-				+ Layout.decimalFormat.format(currentOrder.getOrder()
-						.getTaxAmount())
-				+ " kr </b> </td> </tr>"
-				+ "<tr> <td> <b> Totalpris: </b> </td> <td align='right'> <b>"
-				+ Layout.decimalFormat.format(currentOrder.getOrder()
-						.getTotalAmount()) + " kr </b> </td> </tr>"
-				+ "</table> </html>");
-	}
-
+	
 	/**
 	 * Assigns a {@link Customer} to the {@link ChefOrderSummary}.
 	 * 
@@ -199,8 +212,7 @@ public class OrderSummary extends JPanel {
 		update();
 	}
 	
-	protected void setAnonymous()
-	{
+	protected void setAnonymous() {
 		assignCustomer(null);
 		currentOrder.setAnonymous();
 		update();

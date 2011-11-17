@@ -1,5 +1,6 @@
 package ntnu.it1901.gruppe4.gui.ordergui;
 
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -28,7 +29,7 @@ import ntnu.it1901.gruppe4.gui.OrderSummaryItem;
 public class OperatorOrderSummary extends OrderSummary {
 	private OrderSummaryItem itemBeingEdited = null;
 	private JButton saveButton;
-	private JButton anonButton;
+	private JButton pickUpButton;
 	private JLabel errorMessage;
 	private OrderHistoryPanel orderPanel;
 
@@ -39,15 +40,30 @@ public class OperatorOrderSummary extends OrderSummary {
 		super(Mode.ORDER);
 
 		saveButton = new JButton("Lagre");
-		anonButton = new JButton("Hent selv");
+		pickUpButton = new JButton("Hent selv");
 		errorMessage = new JLabel("Ordren er ikke ferdig utfylt");
 
 		saveButton.setFont(Layout.summaryTextFont);
-		anonButton.setFont(Layout.summaryTextFont);
+		pickUpButton.setFont(Layout.summaryTextFont);
 		errorMessage.setForeground(Layout.errorColor);
 		errorMessage.setFont(Layout.errorFont);
+		errorMessage.setVisible(false);
 
-		//Fired when the south panel (ie. the customer information) is clicked
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.gridy = gbc.gridx = 0;
+		gbc.weightx = gbc.weighty = 1;
+		buttonPanel.add(pickUpButton, gbc);
+		
+		gbc.gridx++;
+		buttonPanel.add(saveButton, gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy++;
+		buttonPanel.add(errorMessage, gbc);
+
+		/*When the south panel (ie. the customer information) is clicked,
+		  the customer is removed from the order */
 		southPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -55,23 +71,19 @@ public class OperatorOrderSummary extends OrderSummary {
 			}
 		});
 
-		//Fired when saveButton is clicked
 		saveButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				saveOrder();
 			}
 		});
-		southPanel.add(saveButton);
 
-
-		anonButton.addMouseListener(new MouseAdapter() {
+		pickUpButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				setAnonymous();
 			}
 		});
-		southPanel.add(anonButton);
 	}
 
 	/**
@@ -82,7 +94,7 @@ public class OperatorOrderSummary extends OrderSummary {
 		super.update();
 
 		if (errorMessage != null) {
-			southPanel.remove(errorMessage);
+			errorMessage.setVisible(false);
 		}
 	}
 
@@ -151,13 +163,7 @@ public class OperatorOrderSummary extends OrderSummary {
 			return true;
 		}
 		else {
-			southPanel.remove(errorMessage);
-			southPanel.remove(saveButton);
-			southPanel.add(errorMessage);
-			southPanel.add(saveButton);
-
-			southPanel.revalidate();
-			southPanel.repaint();
+			errorMessage.setVisible(true);
 			return false;
 		}
 	}
