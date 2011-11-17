@@ -128,7 +128,7 @@ public class Layout {
 	/**
 	 * The internal padding used inside every {@link OrderHistoryItem}.
 	 */
-	public static final Border historyItemPadding = BorderFactory.createEmptyBorder(10, 5, 10, 5);
+	public static final Border historyItemPadding = BorderFactory.createEmptyBorder(10, 5, 20, 5);
 	/**
 	 * The internal padding used inside every {@link DishTypeItem}.
 	 */

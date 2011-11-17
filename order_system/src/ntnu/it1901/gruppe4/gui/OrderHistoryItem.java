@@ -17,6 +17,7 @@ import ntnu.it1901.gruppe4.db.Order;
  * A panel that shows information about an {@link Order}.
  * 
  * @author Leo
+ * @author David
  */
 public class OrderHistoryItem extends JPanel {
 	private Order order;
@@ -30,13 +31,14 @@ public class OrderHistoryItem extends JPanel {
 								"<tr>" +
 									"<td>Dato:</td>" +
 									"<td>" + Layout.dateFormat.format(order.getOrderTime()) + "</td>" +
-									"<td>&nbsp;&nbsp;&nbsp;&nbsp;Totalpris: "+Layout.decimalFormat.format(order.getTotalAmount())+" kr</td>" +
-								"</tr><tr>" +
+								"</tr> <tr>" +
 									"<td>Kunde:</td>" +
 									"<td>" + DataAPI.getCustomerName(order) + "</td>" +
-									"<td> </td>" +
-								"</tr>" +
-							"</table></html>");
+								"</tr> <tr>" +
+								"<td>Totalpris:</td>" +
+								"<td>" + Layout.decimalFormat.format(order.getTotalAmount()) + "</td>" +
+							"</tr>" +
+							"</table> </html>");
 		
 		setBorder(Layout.historyItemPadding);
 		setLayout(new GridBagLayout());
