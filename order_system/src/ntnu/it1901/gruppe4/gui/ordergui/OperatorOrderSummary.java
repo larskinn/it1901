@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -40,25 +41,19 @@ public class OperatorOrderSummary extends OrderSummary {
 		super(Mode.ORDER);
 
 		saveButton = new JButton("Lagre");
-		pickUpButton = new JButton("Hent selv");
 		errorMessage = new JLabel("Ordren er ikke ferdig utfylt");
 
 		saveButton.setFont(Layout.summaryTextFont);
-		pickUpButton.setFont(Layout.summaryTextFont);
 		errorMessage.setForeground(Layout.errorColor);
 		errorMessage.setFont(Layout.errorFont);
 		errorMessage.setVisible(false);
 
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.anchor = GridBagConstraints.WEST;
 		gbc.gridy = gbc.gridx = 0;
 		gbc.weightx = gbc.weighty = 1;
-		buttonPanel.add(pickUpButton, gbc);
-		
-		gbc.gridx++;
 		buttonPanel.add(saveButton, gbc);
-		
-		gbc.gridx = 0;
+
 		gbc.gridy++;
 		buttonPanel.add(errorMessage, gbc);
 
@@ -71,17 +66,10 @@ public class OperatorOrderSummary extends OrderSummary {
 			}
 		});
 
-		saveButton.addMouseListener(new MouseAdapter() {
+		saveButton.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				saveOrder();
-			}
-		});
-
-		pickUpButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setAnonymous();
 			}
 		});
 	}

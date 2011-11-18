@@ -1,18 +1,27 @@
 package ntnu.it1901.gruppe4.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.Border;
 
 import ntnu.it1901.gruppe4.db.Address;
 import ntnu.it1901.gruppe4.db.Customer;
@@ -20,6 +29,7 @@ import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
 import ntnu.it1901.gruppe4.db.OrderItem;
 import ntnu.it1901.gruppe4.db.OrderMaker;
+import ntnu.it1901.gruppe4.gui.ordergui.OperatorOrderSummary;
 
 /**
  * This class contains a basic set of fields and methods for viewing
@@ -29,10 +39,9 @@ import ntnu.it1901.gruppe4.db.OrderMaker;
  */
 public class OrderSummary extends JPanel {
 	protected OrderMaker currentOrder;
-	protected JLabel pricePrefix;
-	protected JLabel price;
-	private JLabel customerInfo;
-	private JLabel status;
+	protected JLabel pricePrefix, price;
+	private JLabel customerInfo, statusPrefix, status;
+	private JButton receiptButton, pickUpButton;
 	protected Customer customer;
 	protected Mode mode;
 
@@ -58,6 +67,8 @@ public class OrderSummary extends JPanel {
 		price = new JLabel();
 		customerInfo = new JLabel();
 		status = new JLabel();
+		receiptButton = new JButton("Vis kvittering");
+		pickUpButton = new JButton("Hentes i butikken");
 		currentOrder = new OrderMaker();
 		centerPanel = new JPanel();
 		southPanel = new JPanel();
@@ -74,10 +85,8 @@ public class OrderSummary extends JPanel {
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.NORTHWEST;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.weightx = 1;
-		gbc.weighty = 1;
+		gbc.gridx = gbc.gridy = 0;
+		gbc.weightx = gbc.weighty = 1;
 		southPanel.add(pricePrefix, gbc);
 		
 		gbc.anchor = GridBagConstraints.NORTHEAST;
@@ -88,20 +97,69 @@ public class OrderSummary extends JPanel {
 		gbc.gridy++;
 		southPanel.add(customerInfo, gbc);
 		
+		if (mode == Mode.ORDER) {
+			gbc.gridy++;
+			southPanel.add(pickUpButton, gbc);
+			
+			gbc.anchor = GridBagConstraints.EAST;
+			southPanel.add(receiptButton, gbc);
+			
+			gbc.gridy++;
+			southPanel.add(Box.createVerticalStrut(20), gbc);
+		}
+		
+		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.gridy++;
 		southPanel.add(status, gbc);
 		
+		if (mode != Mode.ORDER) {
+			gbc.anchor = GridBagConstraints.EAST;
+			southPanel.add(receiptButton, gbc);
+		}
+	
+		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.gridy++;
 		southPanel.add(buttonPanel, gbc);
 
 		setBorder(Layout.panelPadding);
 		setLayout(new BorderLayout());
+		
 		JScrollPane sp = new JScrollPane(centerPanel);
 		sp.setBorder(null);
 		add(sp, BorderLayout.CENTER);
 		add(southPanel, BorderLayout.SOUTH);
 
 		assignCustomer(null);
+		
+		receiptButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				receiptButton.setEnabled(false);
+				Receipt receipt = new Receipt(OrderSummary.this);
+				
+				receipt.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosing(WindowEvent e) {
+						receiptButton.setEnabled(true);
+					}
+				});
+			}
+		});
+		
+		pickUpButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setAnonymous();
+			}
+		});
+		
+		//Make sure that the button panel always fills the entire width of the order summary
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				buttonPanel.setPreferredSize(new Dimension(getPreferredSize().width - 10, buttonPanel.getPreferredSize().height));
+			}
+		});
 	}
 
 	/**
