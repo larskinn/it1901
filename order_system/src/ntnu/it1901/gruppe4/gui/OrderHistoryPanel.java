@@ -1,5 +1,6 @@
 package ntnu.it1901.gruppe4.gui;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -8,6 +9,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
@@ -15,6 +17,7 @@ import ntnu.it1901.gruppe4.db.OrderMaker;
 import ntnu.it1901.gruppe4.deliverygui.MapPanel;
 
 public class OrderHistoryPanel extends JPanel {
+	private JPanel innerPanel;
 	private OrderSummary orderSummary;
 	private MapPanel MapPanel;
 	private Mode mode;
@@ -26,7 +29,6 @@ public class OrderHistoryPanel extends JPanel {
 	 */
 	public OrderHistoryPanel(Mode mode) {
 		this(mode, null);
-		mode = Mode.ORDER;
 	}
 
 	/**
@@ -50,18 +52,24 @@ public class OrderHistoryPanel extends JPanel {
 	 * @param MapPanel The <code>MapPanel</code> in which clicked <code>Orders</code> are shown.
 	 */
 	public OrderHistoryPanel(Mode mode, OrderSummary orderSummary, MapPanel MapPanel) {
+		innerPanel = new JPanel();
 		this.mode = mode;
 		this.orderSummary = orderSummary;
 		this.MapPanel = MapPanel;
 		
 		setBorder(Layout.panelPadding);
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setLayout(new BorderLayout());
+		innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
 		refresh();
+		
+		JScrollPane sp = new JScrollPane(innerPanel);
+		sp.setBorder(null);
+		add(sp, BorderLayout.CENTER);
 	}
 
 	public void refresh() {
 		int counter = 0;
-		removeAll();
+		innerPanel.removeAll();
 		
 		for (final Order order : DataAPI.getOrders()) {
 			if (mode == Mode.ORDER){
@@ -108,13 +116,13 @@ public class OrderHistoryPanel extends JPanel {
 			} else {
 				item.setBackground(Layout.bgColor2);
 			}
-			add(item);
+			innerPanel.add(item);
 		}
 		
-		if (getComponents().length == 0) {
-			add(new JLabel("Ingen ordre er tilgjengelig."));
+		if (innerPanel.getComponents().length == 0) {
+			innerPanel.add(new JLabel("Ingen ordre er tilgjengelig."));
 		}
-		revalidate();
-		repaint();
+		innerPanel.revalidate();
+		innerPanel.repaint();
 	}
 }

@@ -36,7 +36,7 @@ public class OrderHistoryItem extends JPanel {
 									"<td>" + DataAPI.getCustomerName(order) + "</td>" +
 								"</tr> <tr>" +
 								"<td>Totalpris:</td>" +
-								"<td>" + Layout.decimalFormat.format(order.getTotalAmount()) + "</td>" +
+								"<td>" + Layout.decimalFormat.format(order.getTotalAmount()) + "&nbsp;kr</td>" +
 							"</tr>" +
 							"</table> </html>");
 		

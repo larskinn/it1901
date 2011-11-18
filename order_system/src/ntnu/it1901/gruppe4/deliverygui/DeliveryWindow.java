@@ -58,14 +58,14 @@ public class DeliveryWindow {
 	}
 	
 	/**
-	 * Resizes all components in the {@link DeliveryWindow} according to its size
+	 * Resizes all components in the {@link DeliveryWindow} according to the frame's size.
 	 */
 	private void handleResize() {
 		map.setPreferredSize(new Dimension((int)(frame.getWidth() * 0.65),
-				(int)(frame.getHeight() * 0.47)));
+				(int)(frame.getHeight() * 0.55)));
 		
 		orderPanel.setPreferredSize(new Dimension((int)(frame.getWidth() * 0.65),
-				(int)(frame.getHeight() * 0.47)));
+				(int)(frame.getHeight() * 0.45)));
 		
 		orderSummary.setPreferredSize(new Dimension((int)(frame.getWidth() * 0.32),
 				frame.getHeight()));
@@ -76,17 +76,17 @@ public class DeliveryWindow {
 	}
 	
 	/**
-	 * Resize the map according to the size of the frame.
+	 * Resize the map according to the frame's size.
 	 */
 	private void resizeMap() {
 		Customer c = orderSummary.getCustomer();
 		
 		if (c == null) {
-			map.setAddress(null, new Dimension((int)(frame.getWidth() * 0.65), (int)(frame.getHeight() * 0.47)));
+			map.setAddress(null, new Dimension((int)(frame.getWidth() * 0.65), (int)(frame.getHeight() * 0.55)));
 		}
 		else {
 			map.setAddress(DataAPI.getAddresses(c).get(0),
-					new Dimension((int)(frame.getWidth() * 0.65), (int)(frame.getHeight() * 0.47)));
+					new Dimension((int)(frame.getWidth() * 0.65), (int)(frame.getHeight() * 0.55)));
 		}
 	}
 
