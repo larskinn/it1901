@@ -91,7 +91,7 @@ public class DeliveryWindow {
 	}
 
 	public DeliveryWindow() {
-		DataAPI.open("./data.db");
+		DataAPI.open();
 
 		frame = new JFrame();
 		orderSummary = new DeliveryOrderSummary();

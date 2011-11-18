@@ -71,6 +71,13 @@ public class DataAPI {
 	}
 
 	/**
+	 * Opens the default database
+	 */
+	public static void open() {
+		open("./data.db");
+	}
+
+	/**
 	 * Sets up the database
 	 */
 	private static void setupDatabase() throws SQLException {
@@ -752,11 +759,9 @@ public class DataAPI {
 	public static String getCustomerName(Order order) {
 		if (order == null) {
 			return "(Ingen)";
-		}
-		else if (order.getAnonymous()) {
+		} else if (order.getAnonymous()) {
 			return "(Anonym)";
-		}
-		else {
+		} else {
 			return getCustomer(getAddress(order)).getName();
 		}
 	}

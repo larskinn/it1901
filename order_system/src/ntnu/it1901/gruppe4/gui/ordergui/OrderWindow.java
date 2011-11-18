@@ -78,7 +78,7 @@ public class OrderWindow implements ActionListener {
 	 * Public constructor.
 	 */
 	public OrderWindow() {
-		DataAPI.open("./data.db");
+		DataAPI.open();
 
 		frame = new JFrame();
 		operatorOrderSummary = new OperatorOrderSummary();

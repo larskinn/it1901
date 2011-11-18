@@ -69,7 +69,7 @@ public class ChefWindow implements ActionListener {
 	}
 
 	public ChefWindow() {
-		DataAPI.open("./data.db");
+		DataAPI.open();
 
 		buttonPanel = new ButtonPanel(this);
 		chefOrderSummary = new ChefOrderSummary();
