@@ -72,6 +72,7 @@ public class DeliveryOrderSummary extends OrderSummary {
 	public void deliverOrder() {
 		currentOrder.setState(Order.DELIVERED_AND_PAID);
 		currentOrder.save();
+		setOrder(null);
 		update();
 		orderHistoryPanel.refresh();
 	}

@@ -49,10 +49,10 @@ public class OrderSummary extends JPanel {
 		this.mode = mode;
 
 		pricePrefix = new JLabel("<html> <table>" +
-									"<tr> <td> Brutto </td> </tr>" +
-									"<tr> <td> Frakt </td> </tr>" +
-									"<tr> <td> MVA </td> </tr>" +
-									"<tr> <td> Totalpris </td> </tr>" +
+									"<tr> <td> Brutto: </td> </tr>" +
+									"<tr> <td> Frakt: </td> </tr>" +
+									"<tr> <td> MVA: </td> </tr>" +
+									"<tr> <td> Totalpris: </td> </tr>" +
 								"</table> </html>"
 								);
 		price = new JLabel();
@@ -122,16 +122,16 @@ public class OrderSummary extends JPanel {
 		price.setText("<html> <table>" +
 				"<tr> <td align='right'> <b>" + 
 					Layout.decimalFormat.format(currentOrder.getOrder().getGrossAmount()) + 
-				" kr </b> </td> </tr>" +
+				"&nbsp;kr </b> </td> </tr>" +
 				"<tr> <td align='right'> <b>" + 
 					Layout.decimalFormat.format(currentOrder.getOrder().getDeliveryFee()) + 
-				" kr </b> </td> </tr>" +
+				"&nbsp;kr </b> </td> </tr>" +
 				"<tr> <td align='right'> <b>" + 
 					Layout.decimalFormat.format(currentOrder.getOrder().getTaxAmount()) + 
-				" kr </b> </td> </tr>" +
+				"&nbsp;kr </b> </td> </tr>" +
 				"<tr> <td align='right'> <b>" + 
 					Layout.decimalFormat.format(currentOrder.getOrder().getTotalAmount()) + 
-				" kr </b> </td> </tr>" +
+				"&nbsp;kr </b> </td> </tr>" +
 			"</table> </html>"
 		);
 
@@ -147,8 +147,7 @@ public class OrderSummary extends JPanel {
 								+ "<br> <br> <br> <br> <br> </html>");
 			}
 		} else {
-			// The system does not currently support more than one address per
-			// customer.
+			// The system does not currently support more than one address per customer.
 			Address address = DataAPI.getAddresses(customer).get(0);
 
 			customerInfo.setText("<html> <br> <table>"
@@ -216,6 +215,16 @@ public class OrderSummary extends JPanel {
 		assignCustomer(null);
 		currentOrder.setAnonymous();
 		update();
+	}
+	
+	/**
+	 * Returns the {@link Customer} assigned to the currently displayed {@link Order}.
+	 * 
+	 * @return The {@link Customer} shown in this {@link OrderSummary} or <code>null</code>
+	 * if no <code>Customer</code> is shown.
+	 */
+	public Customer getCustomer() {
+		return customer;
 	}
 
 	/**
