@@ -152,14 +152,6 @@ public class OrderSummary extends JPanel {
 				setAnonymous();
 			}
 		});
-		
-		//Make sure that the button panel always fills the entire width of the order summary
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				buttonPanel.setPreferredSize(new Dimension(getPreferredSize().width - 10, buttonPanel.getPreferredSize().height));
-			}
-		});
 	}
 
 	/**
