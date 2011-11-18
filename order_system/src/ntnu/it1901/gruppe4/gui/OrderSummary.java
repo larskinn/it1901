@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -41,7 +44,8 @@ public class OrderSummary extends JPanel {
 	protected OrderMaker currentOrder;
 	protected JLabel pricePrefix, price;
 	private JLabel customerInfo, statusPrefix, status;
-	private JButton receiptButton, pickUpButton;
+	private JButton receiptButton;
+	private JCheckBox pickupCheckbox;
 	protected Customer customer;
 	protected Mode mode;
 
@@ -68,7 +72,7 @@ public class OrderSummary extends JPanel {
 		customerInfo = new JLabel();
 		status = new JLabel();
 		receiptButton = new JButton("Vis kvittering");
-		pickUpButton = new JButton("Hentes i butikken");
+		pickupCheckbox = new JCheckBox("Hentes i butikken");
 		currentOrder = new OrderMaker();
 		centerPanel = new JPanel();
 		southPanel = new JPanel();
@@ -99,7 +103,7 @@ public class OrderSummary extends JPanel {
 		
 		if (mode == Mode.ORDER) {
 			gbc.gridy++;
-			southPanel.add(pickUpButton, gbc);
+			southPanel.add(pickupCheckbox, gbc);
 			
 			gbc.anchor = GridBagConstraints.EAST;
 			southPanel.add(receiptButton, gbc);
@@ -146,10 +150,10 @@ public class OrderSummary extends JPanel {
 			}
 		});
 		
-		pickUpButton.addActionListener(new ActionListener() {
+		pickupCheckbox.addItemListener(new ItemListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				setAnonymous();
+			public void itemStateChanged(ItemEvent e) {
+				setSelfPickup(e.getStateChange() == ItemEvent.SELECTED);
 			}
 		});
 	}
@@ -187,7 +191,7 @@ public class OrderSummary extends JPanel {
 
 		// Add customer information to the panel
 		if (customer == null) {
-			if (currentOrder.getOrder().getAnonymous()) {
+			if (currentOrder.getOrder().getSelfPickup()) {
 				customerInfo
 				.setText("<html> <br> Ordren hentes av kunden."
 						+ "<br> <br> <br> <br> <br> </html>");
@@ -215,6 +219,9 @@ public class OrderSummary extends JPanel {
 		status.setText("<html> <br> Status: <b>"
 				+ currentOrder.getOrder().getStateName()
 				+ "</b> <br> <br> </html>");
+		
+		// Update the state of the pickup checkbox
+		pickupCheckbox.setSelected(currentOrder.getOrder().getSelfPickup());
 
 		centerPanel.revalidate();
 		centerPanel.repaint();
@@ -261,9 +268,8 @@ public class OrderSummary extends JPanel {
 		update();
 	}
 	
-	protected void setAnonymous() {
-		assignCustomer(null);
-		currentOrder.setAnonymous();
+	protected void setSelfPickup(boolean selfPickup) {
+		currentOrder.setSelfPickup(selfPickup);
 		update();
 	}
 	

@@ -60,7 +60,7 @@ public class Order {
 	Address idAddress = null;
 
 	@DatabaseField(useGetSet = true)
-	boolean anonymous = false;
+	boolean selfPickup = false;
 
 	/**
 	 * Constructor that creates an empty Order object
@@ -284,7 +284,8 @@ public class Order {
 	 * @return TRUE or FALSE
 	 */
 	public boolean isVisibleToDelivery() {
-		return !getAnonymous() && (state == READY_FOR_DELIVERY || state == IN_TRANSIT);
+		return !selfPickup
+				&& (state == READY_FOR_DELIVERY || state == IN_TRANSIT);
 	}
 
 	/**
@@ -299,17 +300,18 @@ public class Order {
 	}
 
 	/**
-	 * Sets whether this order is anonymous. If it is anonymous, customer will
-	 * be set to null.
+	 * Sets whether this order should be picked up in the restaurant by the
+	 * customer.
 	 */
-	public void setAnonymous(boolean anonymous) {
-		this.anonymous = anonymous;
+	public void setSelfPickup(boolean selfPickup) {
+		this.selfPickup = selfPickup;
 	}
-	
+
 	/**
-	 * Returns anonymity status.
+	 * Returns whether this order should be picked up in the restaurant by the
+	 * customer.
 	 */
-	public boolean getAnonymous() {
-		return anonymous;
+	public boolean getSelfPickup() {
+		return selfPickup;
 	}
 }

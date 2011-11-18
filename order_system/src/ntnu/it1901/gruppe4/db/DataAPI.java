@@ -415,8 +415,6 @@ public class DataAPI {
 		try {
 			if (order == null)
 				return null;
-			if (order.getAnonymous())
-				return null;
 			return addressDao.queryForId(order.getIdAddress().getIdAddress());
 		} catch (SQLException e) {
 			System.err.println("Error fetching address by order: "
@@ -754,13 +752,13 @@ public class DataAPI {
 
 	/**
 	 * Returns the name of the customer assigned to an order, or a string
-	 * describing anonymity.
+	 * describing self pickup.
 	 */
 	public static String getCustomerName(Order order) {
 		if (order == null) {
 			return "(Ingen)";
-		} else if (order.getAnonymous()) {
-			return "(Anonym)";
+		} else if (order.getSelfPickup()) {
+			return "(Kunden henter ordren selv)";
 		} else {
 			return getCustomer(getAddress(order)).getName();
 		}

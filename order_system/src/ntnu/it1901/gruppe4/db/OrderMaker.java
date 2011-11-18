@@ -109,8 +109,8 @@ public class OrderMaker {
 		float delivery = 0.0f;
 		float max_delivery = Settings.getDeliveryFee();
 		float tax = Settings.getTax();
-		
-		if (order.getAnonymous()) {
+
+		if (order.getSelfPickup()) {
 			max_delivery = 0.0f;
 		}
 
@@ -138,17 +138,26 @@ public class OrderMaker {
 	 * @return TRUE if it's valid, FALSE if not
 	 */
 	public boolean isValid() {
+		/* A valid order must have:
+		 * 	- Items
+		 *  - One of:
+		 *  	- A valid address (implies customer)
+		 *  	- Self pickup
+		 */
 		if (getItemCount() == 0) {
-			return false;
+			return false;	//	The order must have at least one item
 		} else if (order.getIdAddress() == null) {
-			if (order.getAnonymous())
-				return true;
+			if (order.getSelfPickup())
+				return true; // An anonymous order with self-pickup is valid
 			else
-				return false;
+				return false; // An anonymous order without self-pickup is not valid
 		} else if (!order.getIdAddress().isValid()) {
-			return !order.getAnonymous();
+			if (order.getSelfPickup())
+				return true; // An order with an invalid address with self-pickup is valid
+			else
+				return false; // An order with an invalid address without self-pickup is not valid
 		} else {
-			return true;
+			return true; // Everything is OK
 		}
 	}
 
@@ -270,7 +279,6 @@ public class OrderMaker {
 				order.setIdAddress(null);
 			} else {
 				order.setIdAddress(DataAPI.getAddress(address.getIdAddress()));
-				order.setAnonymous(false);
 			}
 			hasBeenModified = true;
 		}
@@ -279,10 +287,10 @@ public class OrderMaker {
 	/**
 	 * Sets the order as anonymous, and sets the address to null.
 	 */
-	public void setAnonymous() {
+	public void setSelfPickup(boolean selfPickup) {
 		if (canBeChanged()) {
-			setAddress(null);
-			order.setAnonymous(true);
+			order.setSelfPickup(selfPickup);
+			calculatePrice();
 			hasBeenModified = true;
 		}
 	}
