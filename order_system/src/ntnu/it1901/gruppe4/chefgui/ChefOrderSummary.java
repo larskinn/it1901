@@ -10,6 +10,7 @@ import ntnu.it1901.gruppe4.db.Order;
 import ntnu.it1901.gruppe4.db.OrderMaker;
 import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.Mode;
+import ntnu.it1901.gruppe4.gui.OrderHistoryItem;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
 
@@ -49,15 +50,26 @@ public class ChefOrderSummary extends OrderSummary {
 	}
 	
 	/**
-	 * Marks the current current {@link Order} as delivered in the database and updates the {@link OrderHistoryPanel}.
+	 * Marks the current current {@link Order} as delivered, updates the {@link OrderHistoryPanel}
+	 * and selects the next item off the <code>OrderHistoryPanel</code>.
 	 */
 	public void deliverOrder() {
+		if (orderHistoryPanel == null || currentOrder.getOrder().getState() != Order.SAVED) {
+			return;
+		}
+		
 		currentOrder.setState(Order.READY_FOR_DELIVERY);
 		currentOrder.save();
-		currentOrder = new OrderMaker();
-		assignCustomer(null);
-		update();
 		orderHistoryPanel.refresh();
+		OrderHistoryItem nextItem = orderHistoryPanel.getTopItem();
+		
+		if (nextItem != null) {
+			setOrder(nextItem.getOrder());
+		}
+		else {
+			setOrder(null);
+		}
+		update();
 	}
 
 	/**

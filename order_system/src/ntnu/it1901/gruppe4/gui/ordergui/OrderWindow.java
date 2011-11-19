@@ -103,24 +103,28 @@ public class OrderWindow implements ActionListener {
 		frame.setTitle("Bestillingsvindu");
 		frame.setLocationRelativeTo(null); // Center the frame
 
-		// Adds a global key listener
+		// Adds a key listener to the order window
 		KeyboardFocusManager.getCurrentKeyboardFocusManager()
 				.addKeyEventDispatcher(new KeyEventDispatcher() {
 					@Override
 					public boolean dispatchKeyEvent(KeyEvent e) {
+						if (e.getID() != KeyEvent.KEY_RELEASED) {
+							return false;
+						}
+						
 						switch (e.getKeyCode()) {
-						case KeyEvent.VK_F1:
-							changeView(View.MENU);
-							break;
-						case KeyEvent.VK_F2:
-							changeView(View.CUSTOMER);
-							break;
-						case KeyEvent.VK_F3:
-							changeView(View.HISTORY);
-							break;
-						case KeyEvent.VK_ESCAPE:
-							System.exit(0);
-							break;
+							case KeyEvent.VK_F1:
+								changeView(View.MENU);
+								break;
+							case KeyEvent.VK_F2:
+								changeView(View.CUSTOMER);
+								break;
+							case KeyEvent.VK_F3:
+								changeView(View.HISTORY);
+								break;
+							case KeyEvent.VK_ESCAPE:
+								frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+								break;
 						}
 						return false;
 					}
@@ -185,7 +189,7 @@ public class OrderWindow implements ActionListener {
 		return operatorOrderSummary;
 	}
 
-	// Fired whenever a button in ButtonPanel is pressed
+	//Called when a button in the button panel is pressed
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JButton src = (JButton) e.getSource();

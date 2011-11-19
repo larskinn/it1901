@@ -22,6 +22,7 @@ public class OrderHistoryPanel extends JPanel {
 	private OrderSummary orderSummary;
 	private MapPanel MapPanel;
 	private Mode mode;
+	private OrderHistoryItem topItem = null;
 
 	/**
 	 * Creates a new {@link OrderHistoryPanel} in the specified {@link Mode}.
@@ -69,6 +70,8 @@ public class OrderHistoryPanel extends JPanel {
 	}
 
 	public void refresh() {
+		topItem = null;
+		boolean topItemSet = false;
 		int counter = 0;
 		innerPanel.removeAll();
 		
@@ -84,6 +87,11 @@ public class OrderHistoryPanel extends JPanel {
 			}
 			
 			OrderHistoryItem item = new OrderHistoryItem(order, mode);
+			
+			if (!topItemSet) {
+				topItem = item;
+				topItemSet = true;
+			}
 
 			if (orderSummary != null) {
 				//This listener is called when an order history item is clicked
@@ -150,5 +158,16 @@ public class OrderHistoryPanel extends JPanel {
 		}
 		innerPanel.revalidate();
 		innerPanel.repaint();
+	}
+	
+	/**
+	 * Getter for the topmost {@link OrderHistoryItem} element of the {@link OrderHistoryPanel}.
+	 * 
+	 * @return The <code>OrderHistoryItem</code> currently on top of the {@link OrderHistoryPanel}.
+	 * <p>
+	 * If the panel is empty, <code>null</code> is returned.
+	 */
+	public OrderHistoryItem getTopItem() {
+		return topItem;
 	}
 }

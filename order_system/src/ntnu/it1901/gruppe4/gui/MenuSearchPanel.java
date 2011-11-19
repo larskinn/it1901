@@ -291,16 +291,22 @@ public class MenuSearchPanel extends JPanel {
 		changeFunction(false);
 
 		searchInput.addKeyListener(new KeyAdapter() {
-			/* keyReleased() used for searching as getText() does not return the
+			/*keyReleased() used for searching as getText() does not return the
 			 updated content of the search box when keyTyped() is called */
 			@Override
 			public void keyReleased(KeyEvent e) {
-				//When enter is pressed, set the topmost element of the list as the selected dish
+				/*When enter is pressed, set the topmost element of the list as
+				 the selected dish or start editing it */
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					MenuPanelItem m = orderMenu.getTopItem();
-					
+				
 					if (m != null) {
-						MenuSearchPanel.this.currentOrder.addItem(m.getdish());
+						if (MenuSearchPanel.this.mode == Mode.ORDER) {
+							MenuSearchPanel.this.currentOrder.addItem(m.getdish());
+						}
+						else if (MenuSearchPanel.this.mode == Mode.CHEF) {
+							m.changeFunction(true);
+						}
 					}
 					return;
 				}

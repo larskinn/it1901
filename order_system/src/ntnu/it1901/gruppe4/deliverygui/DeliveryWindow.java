@@ -2,12 +2,15 @@ package ntnu.it1901.gruppe4.deliverygui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -25,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import ntnu.it1901.gruppe4.Main;
+import ntnu.it1901.gruppe4.chefgui.ChefWindow.View;
 import ntnu.it1901.gruppe4.db.Address;
 import ntnu.it1901.gruppe4.db.Customer;
 import ntnu.it1901.gruppe4.db.DataAPI;
@@ -129,6 +133,24 @@ public class DeliveryWindow {
 				Main.showSplash();
 			}
 		});
+		
+		//Add a key listener to the chef window
+		KeyboardFocusManager.getCurrentKeyboardFocusManager()
+				.addKeyEventDispatcher(new KeyEventDispatcher() {
+					@Override
+					public boolean dispatchKeyEvent(KeyEvent e) {
+						if (e.getID() != KeyEvent.KEY_RELEASED) {
+							return false;
+						}
+						
+						switch (e.getKeyCode()) {
+							case KeyEvent.VK_ESCAPE:
+								frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+								break;
+						}
+						return false;
+					}
+				});
 		
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
