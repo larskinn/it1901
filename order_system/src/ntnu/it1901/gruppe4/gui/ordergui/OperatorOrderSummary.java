@@ -48,7 +48,7 @@ public class OperatorOrderSummary extends OrderSummary {
 		saveButton = new JButton("Lagre");
 		paidButton = new JButton("Hentet og betalt");
 		resetButton = new JButton("Nullstill");
-		errorMessage = new JLabel("Ordren er ikke ferdig utfylt");
+		errorMessage = new JLabel(" ");
 
 		saveButton.setFont(Layout.summaryTextFont);
 		paidButton.setFont(Layout.summaryTextFont);
@@ -56,13 +56,17 @@ public class OperatorOrderSummary extends OrderSummary {
 		paidButton.setVisible(false);
 		errorMessage.setForeground(Layout.errorColor);
 		errorMessage.setFont(Layout.errorFont);
-		errorMessage.setVisible(false);
 
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.gridy = gbc.gridx = 0;
+		gbc.weighty = gbc.weightx = 1;
+		gbc.gridwidth = 2;
+		buttonPanel.add(errorMessage, gbc);
+		
+		gbc.gridy++;
+		gbc.gridwidth = 1;
 		gbc.weightx = 0.01;
-		gbc.weighty = 1;
 		buttonPanel.add(resetButton, gbc);
 		
 		gbc.gridx++;
@@ -71,10 +75,6 @@ public class OperatorOrderSummary extends OrderSummary {
 		
 		gbc.anchor = GridBagConstraints.EAST;
 		buttonPanel.add(paidButton, gbc);
-
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.gridy++;
-		buttonPanel.add(errorMessage, gbc);
 
 		/*When the south panel (ie. the customer information) is clicked,
 		  the customer is removed from the order */
@@ -128,7 +128,7 @@ public class OperatorOrderSummary extends OrderSummary {
 		super.update();
 
 		if (errorMessage != null) {
-			errorMessage.setVisible(false);
+			errorMessage.setText(" ");
 		}
 		
 		if (paidButton != null) {
@@ -221,7 +221,7 @@ public class OperatorOrderSummary extends OrderSummary {
 			return true;
 		}
 		else {
-			errorMessage.setVisible(true);
+			errorMessage.setText("Ordren er ikke ferdig utfylt");
 			return false;
 		}
 	}

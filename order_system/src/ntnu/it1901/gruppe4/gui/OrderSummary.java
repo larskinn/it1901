@@ -119,6 +119,12 @@ public class OrderSummary extends JPanel {
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.gridy++;
 		southPanel.add(status, gbc);
+		
+		if (mode != Mode.ORDER) {
+			//Add some space between status label and buttons
+			gbc.gridy++;
+			southPanel.add(Box.createVerticalStrut(12), gbc);
+		}
 	
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.gridy++;
@@ -217,7 +223,7 @@ public class OrderSummary extends JPanel {
 		// Add the current order status
 		status.setText("<html> <br> Status: <b>"
 				+ currentOrder.getOrder().getStateName()
-				+ "</b> <br> <br> </html>");
+				+ "</b> </html>");
 		
 		// Update the state of the pickup checkbox
 		pickupCheckbox.setSelected(currentOrder.getOrder().getSelfPickup());
@@ -264,6 +270,9 @@ public class OrderSummary extends JPanel {
 		this.customer = customer;
 
 		if (customer == null) {
+			if (currentOrder.getOrder().getState() != Order.NOT_SAVED) {
+				return false;
+			}
 			currentOrder.setAddress(null);
 		} else {
 			currentOrder.setAddress(DataAPI.getAddresses(customer).get(0));
