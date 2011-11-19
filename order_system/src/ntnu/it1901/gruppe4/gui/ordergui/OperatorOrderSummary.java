@@ -140,6 +140,16 @@ public class OperatorOrderSummary extends OrderSummary {
 				paidButton.setVisible(false);
 			}
 		}
+		
+		//Only show the save button if the order can be edited
+		if (saveButton != null) {
+			if (currentOrder.canBeChanged()) {
+				saveButton.setVisible(true);
+			}
+			else {
+				saveButton.setVisible(false);
+			}
+		}
 	}
 
 	/**
@@ -158,6 +168,10 @@ public class OperatorOrderSummary extends OrderSummary {
 			item.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
+					if (!currentOrder.canBeChanged()) {
+						return;
+					}
+					
 					if (itemBeingEdited != null) {
 						if (itemBeingEdited == item) {
 							return;
@@ -187,8 +201,8 @@ public class OperatorOrderSummary extends OrderSummary {
 	}
 
 	/**
-	 * If {@link OrderMaker#isValid()} returns true, all data in the {@link ChefOrderSummary}
-	 * is saved to the SQL database and the <code>ChefOrderSummary</code> is emptied.<br><br>
+	 * If {@link OrderMaker#isValid()} returns true, all data in the {@link OperatorOrderSummary}
+	 * is saved to the SQL database and the <code>OperatorOrderSummary</code> is emptied.<br><br>
 	 * 
 	 * If not, an error message is put above the save button and the method does nothing.
 	 * 
@@ -213,35 +227,48 @@ public class OperatorOrderSummary extends OrderSummary {
 	}
 
 	/**
-	 * Adds a new dish as an {@link OrderItem} to the {@link ChefOrderSummary} and recalculates the total price.
+	 * Adds a new dish as an {@link OrderItem} to the {@link OperatorOrderSummary} and recalculates the total price.
 	 * 
 	 * @param dish The dish to add.
-	 * @return The new {@link OrderItem} that contains the name, price and the dish.
+	 * @return True if the dish was successfully added to the <code>OperatorOrderSummary</code>.
 	 */
-	public OrderItem addItem(Dish dish) {
-		OrderItem item = currentOrder.addItem(dish);
+	public boolean addItem(Dish dish) {
+		if (!currentOrder.canBeChanged()) {
+			return false;
+		}
+		
+		currentOrder.addItem(dish);
 		update();
-		return item;
+		return true;
 	}
 
 	/**
-	 * Assigns a {@link Customer} to the {@link ChefOrderSummary}.
+	 * Assigns a {@link Customer} to the {@link OrderSummary}.
 	 * 
-	 * @param customer The <code>Customer</code> to assign to the <code>Order</code>, 
-	 * or <code>null</code> to unassign the currently assigned <code>Customer</code>.
+	 * @param customer
+	 *            The <code>Customer</code> to assign to the <code>Order</code>,
+	 *            or <code>null</code> to unassign the currently assigned <code>Customer</code>.
+	 * @return
+	 * 			True if the specified <code>Customer</code> was successfully assigned / unassigned.
 	 */
-	public void setCustomer(Customer customer) {
-		super.assignCustomer(customer);
+	public boolean setCustomer(Customer customer) {
+		return super.assignCustomer(customer);
 	}
 
 	/**
-	 * Removes an {@link OrderItem} from the {@link ChefOrderSummary} and recalculates the total price.
+	 * Removes an {@link OrderItem} from the {@link OperatorOrderSummary} and recalculates the total price.
 	 * 
-	 * @param item The {@link OrderItem} to remove.
+	 * @param item The <code>OrderItem</code> to remove.
+	 * @return True if the <code>OrderItem</code> was successfully removed.
 	 */
-	public void removeItem(OrderItem item) {
+	public boolean removeItem(OrderItem item) {
+		if (!currentOrder.canBeChanged()) {
+			return false;
+		}
+		
 		currentOrder.remItem(item);
 		update();
+		return true;
 	}
 
 	/**

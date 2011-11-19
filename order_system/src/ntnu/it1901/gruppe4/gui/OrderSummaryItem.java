@@ -27,7 +27,6 @@ public class OrderSummaryItem extends JPanel {
 	private JTextArea descriptionInput;
 	private JButton save, delete;
 	private OrderItem item;
-	private Mode mode;
 
 	/**
 	 * Creates a new {@link OrderSummaryItem} containing the specified {@link OrderItem}.
@@ -36,7 +35,6 @@ public class OrderSummaryItem extends JPanel {
 	 */
 	public OrderSummaryItem(OrderItem item, Mode mode) {
 		this.item = item;
-		this.mode = mode;
 		
 		name = new JLabel(item.getName());
 		price = new JLabel(Layout.decimalFormat.format(item.getAmount()) + " kr");
@@ -139,5 +137,4 @@ public class OrderSummaryItem extends JPanel {
 	public void addDeleteButtonListener(ActionListener listener) {
 		delete.addActionListener(listener);
 	}
-	
 }

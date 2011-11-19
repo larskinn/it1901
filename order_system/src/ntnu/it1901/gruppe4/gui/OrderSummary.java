@@ -55,7 +55,7 @@ public class OrderSummary extends JPanel {
 	protected JPanel buttonPanel;
 
 	/**
-	 * Creates a new {@link ChefOrderSummary} for viewing details about
+	 * Creates a new {@link OrderSummary} for viewing details about
 	 * {@link ntnu.it1901.gruppe4.db.Order Orders}.
 	 */
 	public OrderSummary(Mode mode) {
@@ -249,14 +249,18 @@ public class OrderSummary extends JPanel {
 	}
 	
 	/**
-	 * Assigns a {@link Customer} to the {@link ChefOrderSummary}.
+	 * Assigns a {@link Customer} to the {@link OrderSummary}.
 	 * 
 	 * @param customer
 	 *            The <code>Customer</code> to assign to the <code>Order</code>,
-	 *            or <code>null</code> to unassign the currently assigned
-	 *            <code>Customer</code>.
+	 *            or <code>null</code> to unassign the currently assigned <code>Customer</code>.
+	 * @return
+	 * 			True if the specified <code>Customer</code> was successfully assigned / unassigned.
 	 */
-	protected void assignCustomer(Customer customer) {
+	protected boolean assignCustomer(Customer customer) {
+		if (!currentOrder.canBeChanged()) {
+			return false;
+		}
 		this.customer = customer;
 
 		if (customer == null) {
@@ -265,8 +269,14 @@ public class OrderSummary extends JPanel {
 			currentOrder.setAddress(DataAPI.getAddresses(customer).get(0));
 		}
 		update();
+		return true;
 	}
 	
+	/**
+	 * Marks the contained {@link Order} for pickup.
+	 * 
+	 * @param selfPickup True if the <Order> should be picked up by the <code>Customer</code>.
+	 */
 	protected void setSelfPickup(boolean selfPickup) {
 		currentOrder.setSelfPickup(selfPickup);
 		update();
@@ -283,9 +293,9 @@ public class OrderSummary extends JPanel {
 	}
 
 	/**
-	 * Returns the number of items in this {@link ChefOrderSummary}.
+	 * Returns the number of items in this {@link OrderSummary}.
 	 * 
-	 * @return The number of items in this {@link ChefOrderSummary}.
+	 * @return The number of items in this {@link OrderSummary}.
 	 */
 	public int getItemCount() {
 		return currentOrder.getItemCount();
@@ -293,7 +303,7 @@ public class OrderSummary extends JPanel {
 
 	/**
 	 * Returns an unmodifiable list containing all {@link OrderItem} in this
-	 * {@link ChefOrderSummary}.<br>
+	 * {@link OrderSummary}.<br>
 	 * 
 	 * @return An unmodifiable list containing the {@link OrderItem}.
 	 */
@@ -310,7 +320,7 @@ public class OrderSummary extends JPanel {
 	 * 
 	 * @param order
 	 *            The already existing <code>Order</code> to view in the
-	 *            <code>ChefOrderSummary</code>.
+	 *            <code>OrderSummary</code>.
 	 */
 	public void setOrder(Order order) {
 		if (order == null) {
