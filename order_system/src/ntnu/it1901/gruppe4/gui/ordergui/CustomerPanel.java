@@ -79,9 +79,9 @@ public class CustomerPanel extends JPanel {
 					}
 				});
 
-				item.addEditButtonListener(new ActionListener() {
+				item.addEditButtonListener(new MouseAdapter() {
 					@Override
-					public void actionPerformed(ActionEvent e) {
+					public void mouseClicked(MouseEvent e) {
 						//If another item is already being edited, cancel the editing of that item
 						if (itemBeingEdited != null && itemBeingEdited.isBeingEdited()) {
 							itemBeingEdited.changeFunction(false);

@@ -6,8 +6,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,9 +29,9 @@ import ntnu.it1901.gruppe4.gui.ordergui.CustomerPanel.CustomerList;
  */
 public class CustomerPanelItem extends JPanel {
 	private Customer customer;
-	private JLabel prefixes, info, errorMessage;
+	private JLabel prefixes, info, edit, errorMessage;
 	private JTextField nameInput, numberInput, addressInput, postNoInput;
-	private JButton save, edit;
+	private JButton save;
 	private boolean beingEdited;
 	private OrderSummary orderSummary;
 	private CustomerList customerList;
@@ -69,15 +71,16 @@ public class CustomerPanelItem extends JPanel {
 		addressInput = new JTextField();
 		postNoInput = new JTextField();
 		save = new JButton("Lagre");
-		edit = new JButton("Endre");
+		edit = new JLabel(new ImageIcon(getClass().getResource("/images/Edit.gif")));
+		info = new JLabel();
+		errorMessage = new JLabel(" ");
+		
 		prefixes = new JLabel("<html><table>" +
 				"<tr><td>Navn:</td></tr>" +
 				"<tr><td>Nummer:</td></tr>" +
 				"<tr><td>Adresse:</td></tr>" +
 				"<tr><td>Postnummer:</td></tr>" +
 				"</table></html>");
-		info = new JLabel();
-		errorMessage = new JLabel(" ");
 
 		setBorder(Layout.customerItemPadding);
 		setLayout(new GridBagLayout());
@@ -268,8 +271,8 @@ public class CustomerPanelItem extends JPanel {
 	 * 
 	 * @param listener The listener that will be called when the item is clicked.
 	 */
-	public void addEditButtonListener(ActionListener listener) {
-		edit.addActionListener(listener);
+	public void addEditButtonListener(MouseListener listener) {
+		edit.addMouseListener(listener);
 	}
 
 	/**

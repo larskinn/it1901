@@ -15,6 +15,7 @@ import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
 import ntnu.it1901.gruppe4.db.OrderMaker;
 import ntnu.it1901.gruppe4.deliverygui.MapPanel;
+import ntnu.it1901.gruppe4.gui.OrderHistoryItem.LampColor;
 
 public class OrderHistoryPanel extends JPanel {
 	private JPanel innerPanel;
@@ -99,9 +100,9 @@ public class OrderHistoryPanel extends JPanel {
 			}
 			
 			if (mode == Mode.ORDER && orderSummary != null) {
-				item.addDeleteButtonListener(new ActionListener() {
+				item.addDeleteButtonListener(new MouseAdapter() {
 					@Override
-					public void actionPerformed(ActionEvent e) {
+					public void mouseClicked(MouseEvent e) {
 						//Delete the order contained within the item from the database
 						DataAPI.remOrderItems(order);
 						DataAPI.remOrder(order);
@@ -116,6 +117,31 @@ public class OrderHistoryPanel extends JPanel {
 			} else {
 				item.setBackground(Layout.bgColor2);
 			}
+			
+			//Set the lamp color
+			switch(item.getOrder().getState()) {
+				case Order.NOT_SAVED:
+					item.setLampColor(LampColor.GREEN);
+					break;
+				case Order.SAVED:
+					item.setLampColor(LampColor.GREEN);
+					break;
+				case Order.IN_PRODUCTION:
+					item.setLampColor(LampColor.GREEN);
+					break;
+				case Order.READY_FOR_DELIVERY:
+					item.setLampColor(LampColor.GREEN);
+					break;
+				case Order.IN_TRANSIT:
+					item.setLampColor(LampColor.GREEN);
+					break;
+				case Order.DELIVERED_AND_PAID:
+					item.setLampColor(LampColor.GREEN);
+					break;
+				default:
+					item.setLampColor(LampColor.RED);
+			}
+			
 			innerPanel.add(item);
 		}
 		
