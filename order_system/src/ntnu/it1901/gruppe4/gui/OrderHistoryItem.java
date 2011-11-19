@@ -3,12 +3,9 @@ package ntnu.it1901.gruppe4.gui;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -62,13 +59,15 @@ public class OrderHistoryItem extends JPanel {
 		lamp = new JLabel();
 		delete = new JLabel(new ImageIcon(getClass().getResource(
 				"/images/RedX.gif")));
-		text = new JLabel("<html><table>" + "<tr>" + "<td>Dato:</td>" + "<td>"
-				+ Layout.dateFormat.format(order.getOrderTime()) + "</td>"
-				+ "</tr> <tr>" + "<td>Kunde:</td>" + "<td>"
-				+ DataAPI.getCustomerName(order) + "</td>" + "</tr> <tr>"
-				+ "<td>Totalpris:</td>" + "<td>"
+		text = new JLabel("<html><table><tr><td>Dato:</td><td>"
+				+ Layout.dateFormat.format(order.getOrderTime())
+				+ "</td></tr><tr><td>Kunde:</td><td>"
+				+ DataAPI.getCustomerName(order)
+				+ "</td></tr><tr><td>Levering:</td><td>"
+				+ DataAPI.getDeliveryDescription(order)
+				+ "</td></tr><tr><td>Totalpris:</td><td>"
 				+ Layout.decimalFormat.format(order.getTotalAmount())
-				+ "&nbsp;kr</td>" + "</tr>" + "</table> </html>");
+				+ "&nbsp;kr</td></tr></table></html>");
 
 		setBorder(Layout.historyItemPadding);
 		setLayout(new GridBagLayout());

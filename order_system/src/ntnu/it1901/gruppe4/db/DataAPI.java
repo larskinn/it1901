@@ -753,6 +753,8 @@ public class DataAPI {
 	/**
 	 * Returns the name of the customer assigned to an order, or a string
 	 * describing self pickup.
+	 * 
+	 * @return A string with a customer name, or a parenthesized comment.
 	 */
 	public static String getCustomerName(Order order) {
 		if (order == null) {
@@ -761,6 +763,25 @@ public class DataAPI {
 			return "(Kunden henter ordren selv)";
 		} else {
 			return getCustomer(getAddress(order)).getName();
+		}
+	}
+
+	/**
+	 * Returns a string describing where (or if) the order should be delivered.
+	 * 
+	 * @return A string with an address, or a parenthesized comment.
+	 */
+	public static String getDeliveryDescription(Order order) {
+		if (order == null) {
+			return "(Ingen)";
+		}
+		if (order.getSelfPickup()) {
+			return "(Hentes av kunden)";
+		} else if (order.getIdAddress() == null) {
+			return "(Ingen addresse spesifisert)";
+		} else {
+			Address a = getAddress(order);
+			return a.getAddressLine() + ", " + a.getPostalCode();
 		}
 	}
 }
