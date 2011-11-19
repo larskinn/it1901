@@ -1,18 +1,24 @@
 package ntnu.it1901.gruppe4.gui.ordergui;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import ntnu.it1901.gruppe4.db.Customer;
 import ntnu.it1901.gruppe4.db.Dish;
+import ntnu.it1901.gruppe4.db.Order;
 import ntnu.it1901.gruppe4.db.OrderItem;
 import ntnu.it1901.gruppe4.db.OrderMaker;
 import ntnu.it1901.gruppe4.gui.Layout;
@@ -29,8 +35,7 @@ import ntnu.it1901.gruppe4.gui.OrderSummaryItem;
  */
 public class OperatorOrderSummary extends OrderSummary {
 	private OrderSummaryItem itemBeingEdited = null;
-	private JButton saveButton;
-	private JButton pickUpButton;
+	private JButton saveButton, paidButton;
 	private JLabel errorMessage;
 	private OrderHistoryPanel orderPanel;
 
@@ -41,9 +46,12 @@ public class OperatorOrderSummary extends OrderSummary {
 		super(Mode.ORDER);
 
 		saveButton = new JButton("Lagre");
+		paidButton = new JButton("Hentet og betalt");
 		errorMessage = new JLabel("Ordren er ikke ferdig utfylt");
 
 		saveButton.setFont(Layout.summaryTextFont);
+		paidButton.setFont(Layout.summaryTextFont);
+		paidButton.setVisible(false);
 		errorMessage.setForeground(Layout.errorColor);
 		errorMessage.setFont(Layout.errorFont);
 		errorMessage.setVisible(false);
@@ -53,7 +61,11 @@ public class OperatorOrderSummary extends OrderSummary {
 		gbc.gridy = gbc.gridx = 0;
 		gbc.weightx = gbc.weighty = 1;
 		buttonPanel.add(saveButton, gbc);
+		
+		gbc.anchor = GridBagConstraints.EAST;
+		buttonPanel.add(paidButton, gbc);
 
+		gbc.anchor = GridBagConstraints.WEST;
 		gbc.gridy++;
 		buttonPanel.add(errorMessage, gbc);
 
@@ -72,6 +84,26 @@ public class OperatorOrderSummary extends OrderSummary {
 				saveOrder();
 			}
 		});
+		
+		paidButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				currentOrder.setState(Order.DELIVERED_AND_PAID);
+				currentOrder.save();
+				setOrder(null);
+				update();
+				orderPanel.refresh();
+			}
+		});
+		
+		//Force the button panel to always stretch out
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				buttonPanel.setPreferredSize(new Dimension(getPreferredSize().width - 10,
+						buttonPanel.getPreferredSize().height));
+			}
+		});
 	}
 
 	/**
@@ -83,6 +115,16 @@ public class OperatorOrderSummary extends OrderSummary {
 
 		if (errorMessage != null) {
 			errorMessage.setVisible(false);
+		}
+		
+		if (paidButton != null) {
+			if (currentOrder.getOrder().getSelfPickup() 
+					&& currentOrder.getOrder().getState() == Order.READY_FOR_DELIVERY) {
+				paidButton.setVisible(true);
+			}
+			else {
+				paidButton.setVisible(false);
+			}
 		}
 	}
 
