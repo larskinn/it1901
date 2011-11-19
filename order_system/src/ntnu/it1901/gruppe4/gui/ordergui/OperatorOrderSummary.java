@@ -35,7 +35,7 @@ import ntnu.it1901.gruppe4.gui.OrderSummaryItem;
  */
 public class OperatorOrderSummary extends OrderSummary {
 	private OrderSummaryItem itemBeingEdited = null;
-	private JButton saveButton, paidButton;
+	private JButton saveButton, paidButton, resetButton;
 	private JLabel errorMessage;
 	private OrderHistoryPanel orderPanel;
 
@@ -47,10 +47,12 @@ public class OperatorOrderSummary extends OrderSummary {
 
 		saveButton = new JButton("Lagre");
 		paidButton = new JButton("Hentet og betalt");
+		resetButton = new JButton("Nullstill");
 		errorMessage = new JLabel("Ordren er ikke ferdig utfylt");
 
 		saveButton.setFont(Layout.summaryTextFont);
 		paidButton.setFont(Layout.summaryTextFont);
+		resetButton.setFont(Layout.summaryTextFont);
 		paidButton.setVisible(false);
 		errorMessage.setForeground(Layout.errorColor);
 		errorMessage.setFont(Layout.errorFont);
@@ -59,7 +61,12 @@ public class OperatorOrderSummary extends OrderSummary {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.gridy = gbc.gridx = 0;
-		gbc.weightx = gbc.weighty = 1;
+		gbc.weightx = 0.01;
+		gbc.weighty = 1;
+		buttonPanel.add(resetButton, gbc);
+		
+		gbc.gridx++;
+		gbc.weightx = 1;
 		buttonPanel.add(saveButton, gbc);
 		
 		gbc.anchor = GridBagConstraints.EAST;
@@ -93,6 +100,13 @@ public class OperatorOrderSummary extends OrderSummary {
 				setOrder(null);
 				update();
 				orderPanel.refresh();
+			}
+		});
+		
+		resetButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setOrder(null);
 			}
 		});
 		

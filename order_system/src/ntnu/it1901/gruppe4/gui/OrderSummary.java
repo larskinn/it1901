@@ -43,7 +43,7 @@ import ntnu.it1901.gruppe4.gui.ordergui.OperatorOrderSummary;
 public class OrderSummary extends JPanel {
 	protected OrderMaker currentOrder;
 	protected JLabel pricePrefix, price;
-	private JLabel customerInfo, statusPrefix, status;
+	private JLabel customerInfo, status;
 	private JButton receiptButton;
 	private JCheckBox pickupCheckbox;
 	protected Customer customer;
@@ -96,18 +96,22 @@ public class OrderSummary extends JPanel {
 		gbc.anchor = GridBagConstraints.NORTHEAST;
 		southPanel.add(price, gbc);
 		
+		//Add space between price and receipt button
+		gbc.gridy++;
+		southPanel.add(Box.createVerticalStrut(7), gbc);
+		
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.gridy++;
+		southPanel.add(receiptButton, gbc);
+		
 		gbc.anchor = GridBagConstraints.NORTHWEST;
-		gbc.gridx = 0;
 		gbc.gridy++;
 		southPanel.add(customerInfo, gbc);
 		
 		if (mode == Mode.ORDER) {
 			gbc.gridy++;
 			southPanel.add(pickupCheckbox, gbc);
-			
-			gbc.anchor = GridBagConstraints.EAST;
-			southPanel.add(receiptButton, gbc);
-			
+
 			gbc.gridy++;
 			southPanel.add(Box.createVerticalStrut(20), gbc);
 		}
@@ -115,11 +119,6 @@ public class OrderSummary extends JPanel {
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.gridy++;
 		southPanel.add(status, gbc);
-		
-		if (mode != Mode.ORDER) {
-			gbc.anchor = GridBagConstraints.EAST;
-			southPanel.add(receiptButton, gbc);
-		}
 	
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.gridy++;
