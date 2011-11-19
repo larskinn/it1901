@@ -129,26 +129,27 @@ public class OrderHistoryPanel extends JPanel {
 			//Set the lamp color
 			switch(item.getOrder().getState()) {
 				case Order.NOT_SAVED:
-					item.setLampColor(LampColor.GREEN);
+					item.setLampColor(LampColor.RED);
 					break;
 				case Order.SAVED:
-					item.setLampColor(LampColor.GREEN);
+					item.setLampColor(LampColor.YELLOW);
 					break;
 				case Order.IN_PRODUCTION:
-					item.setLampColor(LampColor.GREEN);
+					item.setLampColor(LampColor.YELLOW);
 					break;
 				case Order.READY_FOR_DELIVERY:
 					item.setLampColor(LampColor.GREEN);
 					break;
 				case Order.IN_TRANSIT:
-					item.setLampColor(LampColor.GREEN);
+					item.setLampColor(LampColor.PURPLE);
 					break;
 				case Order.DELIVERED_AND_PAID:
-					item.setLampColor(LampColor.GREEN);
+					item.setLampColor(LampColor.BLUE);
 					break;
 				default:
 					item.setLampColor(LampColor.RED);
 			}
+			item.setLampText(item.getOrder().getStateName());
 			
 			innerPanel.add(item);
 		}
