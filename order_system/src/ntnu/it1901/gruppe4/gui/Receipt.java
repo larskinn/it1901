@@ -83,28 +83,28 @@ public class Receipt extends JDialog {
 						"</tr>"
 					);
 			
-			//Add some relevant date
+			//Add relevant dates
 			if (orderSummary.getOrder().getState() != Order.NOT_SAVED) {
 				sb.append(
-							"<tr>" +
-								//An empty line
-							"</tr>" +
-								
-							"<tr>" +
-								"<td colspan='2'>"
-						);
+						"<tr>" +
+							//An empty line
+						"</tr>" +
+						"<tr>" +
+							"<td colspan='2'>" +
+								"Bestilt " + Layout.dateFormat.format(orderSummary.getOrder().getOrderTime()) +
+							"</td>" +
+						"</tr>"	
+				);
 				
 				if (orderSummary.getOrder().getDeliveryTime() != null) {
-					sb.append("Levert " + Layout.dateFormat.format(orderSummary.getOrder().getDeliveryTime()));
+					sb.append(
+							"<tr>" +
+								"<td colspan='2'>" +
+									"Levert " + Layout.dateFormat.format(orderSummary.getOrder().getDeliveryTime()) +
+								"</td>" +
+							"</tr>"	
+					);
 				}
-				else {
-					sb.append("Bestilt " + Layout.dateFormat.format(orderSummary.getOrder().getOrderTime()));
-				}
-				
-				sb.append(
-							"</td>" +
-						"</tr>"
-				);
 			}
 		} //End of if (items == 0)
 		
