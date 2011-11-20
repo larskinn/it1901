@@ -12,7 +12,7 @@ public class ButtonPanel extends JPanel {
 	final JButton orders, menu;
 	
 	public ButtonPanel(ActionListener...buttonListeners) {
-		orders = new JButton("Orders (F1)");
+		orders = new JButton("Ordre (F1)");
 		menu = new JButton("Meny (F2)");
 
 		for (ActionListener listener : buttonListeners) {

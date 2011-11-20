@@ -116,7 +116,7 @@ public class DeliveryWindow {
 		});
 
 		
-		frame.setTitle("Leveringsvindu");
+		frame.setTitle("Gruppe 4 Pizza - Levering");
 		frame.setSize(Layout.initialSize);
 		frame.setLayout(new BorderLayout());
 		

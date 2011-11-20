@@ -94,7 +94,7 @@ public class ChefWindow implements ActionListener {
 			chefOrderSummary.setOrder(item.getOrder());
 		}
 		
-		frame = new JFrame("Kokkevindu");
+		frame = new JFrame("Gruppe 4 Pizza - Kokk");
 		frame.setSize(Layout.initialSize);
 		frame.setLayout(new BorderLayout());
 		frame.add(buttonPanel, BorderLayout.SOUTH);

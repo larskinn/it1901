@@ -100,7 +100,7 @@ public class OrderWindow implements ActionListener {
 		frame.add(buttonPanel, BorderLayout.SOUTH);
 		changeView(View.MENU);
 
-		frame.setTitle("Bestillingsvindu");
+		frame.setTitle("Gruppe 4 Pizza - Bestilling");
 		frame.setLocationRelativeTo(null); // Center the frame
 
 		// Adds a key listener to the order window

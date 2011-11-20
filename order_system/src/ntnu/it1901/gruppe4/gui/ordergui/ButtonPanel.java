@@ -26,9 +26,9 @@ public class ButtonPanel extends JPanel {
 	 *            three buttons.
 	 */
 	public ButtonPanel(ActionListener... buttonListeners) {
-		menu = new JButton("Meny (F1)");
+		menu = new JButton("Matmeny (F1)");
 		customer = new JButton("Kunde (F2)");
-		history = new JButton("Order History (F3)");
+		history = new JButton("Ordre (F3)");
 
 		for (ActionListener listener : buttonListeners) {
 			menu.addActionListener(listener);
