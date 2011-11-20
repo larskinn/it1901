@@ -61,18 +61,15 @@ public class OrderSummary extends JPanel {
 	public OrderSummary(Mode mode) {
 		this.mode = mode;
 
-		pricePrefix = new JLabel("<html> <table>" +
-									"<tr> <td> Brutto: </td> </tr>" +
-									"<tr> <td> Frakt: </td> </tr>" +
-									"<tr> <td> MVA: </td> </tr>" +
-									"<tr> <td> Totalpris: </td> </tr>" +
-								"</table> </html>"
-								);
+		pricePrefix = new JLabel("<html> <table>"
+				+ "<tr> <td> Brutto: </td> </tr>"
+				+ "<tr> <td> Frakt: </td> </tr>" + "<tr> <td> MVA: </td> </tr>"
+				+ "<tr> <td> Totalpris: </td> </tr>" + "</table> </html>");
 		price = new JLabel();
 		customerInfo = new JLabel();
 		status = new JLabel();
 		receiptButton = new JButton("Vis kvittering");
-		pickupCheckbox = new JCheckBox("Hentes i butikken");
+		pickupCheckbox = new JCheckBox("Hentes av kunden (F4)");
 		currentOrder = new OrderMaker();
 		centerPanel = new JPanel();
 		southPanel = new JPanel();
@@ -86,28 +83,28 @@ public class OrderSummary extends JPanel {
 		price.setFont(Layout.summaryTextFont);
 		customerInfo.setFont(Layout.summaryTextFont);
 		status.setFont(Layout.summaryTextFont);
-		
+
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.gridx = gbc.gridy = 0;
 		gbc.weightx = gbc.weighty = 1;
 		southPanel.add(pricePrefix, gbc);
-		
+
 		gbc.anchor = GridBagConstraints.NORTHEAST;
 		southPanel.add(price, gbc);
-		
-		//Add space between price and receipt button
+
+		// Add space between price and receipt button
 		gbc.gridy++;
 		southPanel.add(Box.createVerticalStrut(7), gbc);
-		
+
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.gridy++;
 		southPanel.add(receiptButton, gbc);
-		
+
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.gridy++;
 		southPanel.add(customerInfo, gbc);
-		
+
 		if (mode == Mode.ORDER) {
 			gbc.gridy++;
 			southPanel.add(pickupCheckbox, gbc);
@@ -115,37 +112,37 @@ public class OrderSummary extends JPanel {
 			gbc.gridy++;
 			southPanel.add(Box.createVerticalStrut(20), gbc);
 		}
-		
+
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.gridy++;
 		southPanel.add(status, gbc);
-		
+
 		if (mode != Mode.ORDER) {
-			//Add some space between status label and buttons
+			// Add some space between status label and buttons
 			gbc.gridy++;
 			southPanel.add(Box.createVerticalStrut(12), gbc);
 		}
-	
+
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.gridy++;
 		southPanel.add(buttonPanel, gbc);
 
 		setBorder(Layout.panelPadding);
 		setLayout(new BorderLayout());
-		
+
 		JScrollPane sp = new JScrollPane(centerPanel);
 		sp.setBorder(null);
 		add(sp, BorderLayout.CENTER);
 		add(southPanel, BorderLayout.SOUTH);
 
 		assignCustomer(null);
-		
+
 		receiptButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				receiptButton.setEnabled(false);
 				Receipt receipt = new Receipt(OrderSummary.this);
-				
+
 				receipt.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosing(WindowEvent e) {
@@ -154,7 +151,7 @@ public class OrderSummary extends JPanel {
 				});
 			}
 		});
-		
+
 		pickupCheckbox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -168,8 +165,8 @@ public class OrderSummary extends JPanel {
 	 * database and updates the total price.
 	 * <p>
 	 * There is usually no need to call on this method explicitly, as all
-	 * methods modifying the <code>OrderSummary</code> are required to call
-	 * this method before returning.
+	 * methods modifying the <code>OrderSummary</code> are required to call this
+	 * method before returning.
 	 */
 	public void update() {
 		centerPanel.removeAll();
@@ -178,27 +175,28 @@ public class OrderSummary extends JPanel {
 		drawOrderItems();
 
 		// Update the total price on the panel
-		price.setText("<html> <table>" +
-				"<tr> <td align='right'> <b>" + 
-					Layout.decimalFormat.format(currentOrder.getOrder().getGrossAmount()) + 
-				"&nbsp;kr </b> </td> </tr>" +
-				"<tr> <td align='right'> <b>" + 
-					Layout.decimalFormat.format(currentOrder.getOrder().getDeliveryFee()) + 
-				"&nbsp;kr </b> </td> </tr>" +
-				"<tr> <td align='right'> <b>" + 
-					Layout.decimalFormat.format(currentOrder.getOrder().getTaxAmount()) + 
-				"&nbsp;kr </b> </td> </tr>" +
-				"<tr> <td align='right'> <b>" + 
-					Layout.decimalFormat.format(currentOrder.getOrder().getTotalAmount()) + 
-				"&nbsp;kr </b> </td> </tr>" +
-			"</table> </html>"
-		);
+		price.setText("<html> <table>"
+				+ "<tr> <td align='right'> <b>"
+				+ Layout.decimalFormat.format(currentOrder.getOrder()
+						.getGrossAmount())
+				+ "&nbsp;kr </b> </td> </tr>"
+				+ "<tr> <td align='right'> <b>"
+				+ Layout.decimalFormat.format(currentOrder.getOrder()
+						.getDeliveryFee())
+				+ "&nbsp;kr </b> </td> </tr>"
+				+ "<tr> <td align='right'> <b>"
+				+ Layout.decimalFormat.format(currentOrder.getOrder()
+						.getTaxAmount())
+				+ "&nbsp;kr </b> </td> </tr>"
+				+ "<tr> <td align='right'> <b>"
+				+ Layout.decimalFormat.format(currentOrder.getOrder()
+						.getTotalAmount()) + "&nbsp;kr </b> </td> </tr>"
+				+ "</table> </html>");
 
 		// Add customer information to the panel
 		if (customer == null) {
 			if (currentOrder.getOrder().getSelfPickup()) {
-				customerInfo
-				.setText("<html> <br> Ordren hentes av kunden."
+				customerInfo.setText("<html> <br> Ordren hentes av kunden."
 						+ "<br> <br> <br> <br> <br> </html>");
 			} else {
 				customerInfo
@@ -206,7 +204,8 @@ public class OrderSummary extends JPanel {
 								+ "<br> <br> <br> <br> <br> </html>");
 			}
 		} else {
-			// The system does not currently support more than one address per customer.
+			// The system does not currently support more than one address per
+			// customer.
 			Address address = DataAPI.getAddresses(customer).get(0);
 
 			customerInfo.setText("<html> <br> <table>"
@@ -222,9 +221,8 @@ public class OrderSummary extends JPanel {
 
 		// Add the current order status
 		status.setText("<html> <br> Status: <b>"
-				+ currentOrder.getOrder().getStateName()
-				+ "</b> </html>");
-		
+				+ currentOrder.getOrder().getStateName() + "</b> </html>");
+
 		// Update the state of the pickup checkbox
 		pickupCheckbox.setSelected(currentOrder.getOrder().getSelfPickup());
 
@@ -253,15 +251,16 @@ public class OrderSummary extends JPanel {
 			centerPanel.add(item);
 		}
 	}
-	
+
 	/**
 	 * Assigns a {@link Customer} to the {@link OrderSummary}.
 	 * 
 	 * @param customer
 	 *            The <code>Customer</code> to assign to the <code>Order</code>,
-	 *            or <code>null</code> to unassign the currently assigned <code>Customer</code>.
-	 * @return
-	 * 			True if the specified <code>Customer</code> was successfully assigned / unassigned.
+	 *            or <code>null</code> to unassign the currently assigned
+	 *            <code>Customer</code>.
+	 * @return True if the specified <code>Customer</code> was successfully
+	 *         assigned / unassigned.
 	 */
 	protected boolean assignCustomer(Customer customer) {
 		if (!currentOrder.canBeChanged()) {
@@ -280,22 +279,25 @@ public class OrderSummary extends JPanel {
 		update();
 		return true;
 	}
-	
+
 	/**
 	 * Marks the contained {@link Order} for pickup.
 	 * 
-	 * @param selfPickup True if the <Order> should be picked up by the <code>Customer</code>.
+	 * @param selfPickup
+	 *            True if the <Order> should be picked up by the
+	 *            <code>Customer</code>.
 	 */
 	protected void setSelfPickup(boolean selfPickup) {
 		currentOrder.setSelfPickup(selfPickup);
 		update();
 	}
-	
+
 	/**
-	 * Returns the {@link Customer} assigned to the currently displayed {@link Order}.
+	 * Returns the {@link Customer} assigned to the currently displayed
+	 * {@link Order}.
 	 * 
-	 * @return The {@link Customer} shown in this {@link OrderSummary} or <code>null</code>
-	 * if no <code>Customer</code> is shown.
+	 * @return The {@link Customer} shown in this {@link OrderSummary} or
+	 *         <code>null</code> if no <code>Customer</code> is shown.
 	 */
 	public Customer getCustomer() {
 		return customer;
@@ -344,5 +346,14 @@ public class OrderSummary extends JPanel {
 
 	public Order getOrder() {
 		return currentOrder.getOrder();
+	}
+
+	/**
+	 * Toggle the self delivery checkbox
+	 */
+	public void toggleSelfDelivery() {
+		if (pickupCheckbox.isVisible()) {
+			pickupCheckbox.doClick();
+		}
 	}
 }

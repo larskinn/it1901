@@ -122,6 +122,12 @@ public class OrderWindow implements ActionListener {
 							case KeyEvent.VK_F3:
 								changeView(View.HISTORY);
 								break;
+							case KeyEvent.VK_F4:
+								operatorOrderSummary.toggleSelfDelivery();
+								break;
+							case KeyEvent.VK_F5:
+								operatorOrderSummary.saveOrder();
+								break;
 							case KeyEvent.VK_ESCAPE:
 								frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 								break;

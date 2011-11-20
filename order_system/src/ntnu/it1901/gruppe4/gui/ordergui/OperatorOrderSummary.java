@@ -45,7 +45,7 @@ public class OperatorOrderSummary extends OrderSummary {
 	OperatorOrderSummary() {
 		super(Mode.ORDER);
 
-		saveButton = new JButton("Lagre");
+		saveButton = new JButton("Lagre (F5)");
 		paidButton = new JButton("Hentet og betalt");
 		resetButton = new JButton("Nullstill");
 		errorMessage = new JLabel(" ");
