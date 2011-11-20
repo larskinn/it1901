@@ -76,7 +76,7 @@ public class MenuSearchPanel extends JPanel {
 			//backButton's function is to take the user back to the dish type overview
 			backButton.addMouseListener(new MouseAdapter() {
 				@Override
-				public void mouseClicked(MouseEvent e) {
+				public void mouseReleased(MouseEvent e) {
 					addAllDishTypes();
 					
 					searchInput.setText("");
@@ -116,7 +116,7 @@ public class MenuSearchPanel extends JPanel {
 				if (operatorOrderSummary != null) {
 					item.addMouseListener(new MouseAdapter() {
 						@Override
-						public void mouseClicked(MouseEvent e) {
+						public void mouseReleased(MouseEvent e) {
 							operatorOrderSummary.addItem(item.getdish());
 						}
 					});
@@ -125,7 +125,7 @@ public class MenuSearchPanel extends JPanel {
 				if (mode == Mode.CHEF) {
 					item.addMouseListener(new MouseAdapter() {
 						@Override
-						public void mouseClicked(MouseEvent e) {
+						public void mouseReleased(MouseEvent e) {
 							if (itemBeingEdited != null && itemBeingEdited.isBeingEdited()) {
 								if (itemBeingEdited == item) {
 									return;
@@ -179,7 +179,7 @@ public class MenuSearchPanel extends JPanel {
 				
 				item.addMouseListener(new MouseAdapter() {
 					@Override
-					public void mouseClicked(MouseEvent e) {
+					public void mouseReleased(MouseEvent e) {
 						addDishes(DataAPI.findDishes(item.getDishType()));
 					}
 				});

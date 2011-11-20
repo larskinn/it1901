@@ -52,14 +52,14 @@ public class DeliveryOrderSummary extends OrderSummary {
 		
 		deliveredButton.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
 				deliverOrder();
 			}
 		});
 		
 		inTransitButton.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
 				transitOrder();
 			}
 		});

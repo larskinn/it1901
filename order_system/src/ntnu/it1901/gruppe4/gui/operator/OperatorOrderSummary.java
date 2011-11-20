@@ -77,7 +77,7 @@ public class OperatorOrderSummary extends OrderSummary {
 		  the customer is removed from the order */
 		southPanel.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
 				setCustomer(null);
 			}
 		});
@@ -165,7 +165,7 @@ public class OperatorOrderSummary extends OrderSummary {
 			//Activated when the item panel is pressed
 			item.addMouseListener(new MouseAdapter() {
 				@Override
-				public void mouseClicked(MouseEvent e) {
+				public void mouseReleased(MouseEvent e) {
 					if (!currentOrder.canBeChanged()) {
 						return;
 					}

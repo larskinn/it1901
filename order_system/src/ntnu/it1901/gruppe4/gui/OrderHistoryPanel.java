@@ -93,7 +93,7 @@ public class OrderHistoryPanel extends JPanel {
 			if (orderSummary != null) {
 				//This listener is called when an order history item is clicked
 				item.addMouseListener(new MouseAdapter() {
-					public void mouseClicked(MouseEvent e) {
+					public void mouseReleased(MouseEvent e) {
 						orderSummary.setOrder(order);
 
 						if (MapPanel != null) {
@@ -107,7 +107,7 @@ public class OrderHistoryPanel extends JPanel {
 			if (mode == Mode.ORDER && orderSummary != null) {
 				item.addDeleteButtonListener(new MouseAdapter() {
 					@Override
-					public void mouseClicked(MouseEvent e) {
+					public void mouseReleased(MouseEvent e) {
 						//Delete the order contained within the item from the database
 						DataAPI.remOrderItems(order);
 						DataAPI.remOrder(order);

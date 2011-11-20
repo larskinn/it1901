@@ -42,7 +42,7 @@ public class ChefOrderSummary extends OrderSummary {
 		//Called when deliveryButton is clicked
 		deliveryButton.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
 				deliverOrder();
 			}
 		});
