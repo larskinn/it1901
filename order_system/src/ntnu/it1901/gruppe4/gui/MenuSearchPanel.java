@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -241,6 +243,7 @@ public class MenuSearchPanel extends JPanel {
 	} //End of inner class
 
 	private Mode mode;
+	private boolean addingNewDish;
 	private OperatorOrderSummary currentOrder;
 	private MenuPanel orderMenu;
 	private SearchBox searchInput;
@@ -327,33 +330,7 @@ public class MenuSearchPanel extends JPanel {
 		createDish.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				float price = 0;
-
-				if (nameInput.getText().isEmpty()) {
-					errorMessage.setText("Fyll inn navnet til retten du ønsker å registrere");
-					return;
-				}
-
-				String priceString = priceInput.getText();
-
-				//Use dot instead of comma as decimal seperator
-				priceString = priceString.replaceAll(",", ".");
-
-				//Try parsing
-				try {
-					price = Float.parseFloat(priceString);
-				}
-				catch (NumberFormatException nfe) {
-					errorMessage.setText("Fyll inn en gyldig pris til retten du ønsker å registrere");
-					return;
-				}
-
-				DishType type = (DishType)typeInput.getSelectedItem(); 
-				Dish newDish = new Dish(nameInput.getText(), price, type, descriptionInput.getText(), true);
-				DataAPI.saveDish(newDish);
-
-				searchInput.setText("");
-				changeFunction(false);
+				saveDish();
 			}
 		});
 
@@ -363,6 +340,62 @@ public class MenuSearchPanel extends JPanel {
 				changeFunction(false);
 			}
 		});
+		
+		/*Adds a key listener to the menu search panel.
+		 * Enter will save the new dish, escape will cancel the editing 
+		 */
+		KeyboardFocusManager.getCurrentKeyboardFocusManager()
+				.addKeyEventDispatcher(new KeyEventDispatcher() {
+					@Override
+					public boolean dispatchKeyEvent(KeyEvent e) {
+						if (!addingNewDish || e.getID() != KeyEvent.KEY_RELEASED) {
+							return false;
+						}
+						
+						switch (e.getKeyCode()) {
+							case KeyEvent.VK_ENTER:
+								saveDish();
+								break;
+							case KeyEvent.VK_ESCAPE:
+								changeFunction(false);
+								break;
+						}
+						return false;
+					}
+				});
+	}
+	
+	/**
+	 * Saves the new <code>Dish</code> object to the database and changes the panel's function to searching.
+	 */
+	private void saveDish() {
+		float price = 0;
+
+		if (nameInput.getText().isEmpty()) {
+			errorMessage.setText("Fyll inn navnet til retten du ønsker å registrere");
+			return;
+		}
+
+		String priceString = priceInput.getText();
+
+		//Use dot instead of comma as decimal seperator
+		priceString = priceString.replaceAll(",", ".");
+
+		//Try parsing
+		try {
+			price = Float.parseFloat(priceString);
+		}
+		catch (NumberFormatException nfe) {
+			errorMessage.setText("Fyll inn en gyldig pris til retten du ønsker å registrere");
+			return;
+		}
+
+		DishType type = (DishType)typeInput.getSelectedItem(); 
+		Dish newDish = new Dish(nameInput.getText(), price, type, descriptionInput.getText(), true);
+		DataAPI.saveDish(newDish);
+
+		searchInput.setText("");
+		changeFunction(false);
 	}
 
 	/**
@@ -373,6 +406,7 @@ public class MenuSearchPanel extends JPanel {
 	 * or false if it is to be used for searching for existing ones.
 	 */
 	public void changeFunction(boolean addingDish) {
+		addingNewDish = addingDish;
 		removeAll();
 
 		if (!addingDish) {
@@ -500,5 +534,14 @@ public class MenuSearchPanel extends JPanel {
 	@Override
 	public void grabFocus() {
 		searchInput.grabFocus();
+	}
+	
+	/**
+	 * Clears all text from the search box and restores the list of dish types.
+	 */
+	public void clearSearchBox() {
+		searchInput.setText("");
+		orderMenu.refresh("");
+		grabFocus();
 	}
 }

@@ -2,6 +2,8 @@ package ntnu.it1901.gruppe4.gui.operator;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -24,19 +26,6 @@ import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.SearchBox;
 
 public class CustomerPanel extends JPanel {
-	CustomerList customerList;
-
-	private SearchBox searchInput;
-	private SearchBox nameInput;
-	private SearchBox numberInput;
-	private SearchBox addressInput;
-	private SearchBox postNoInput;
-	private JButton newCustomer;
-	private JButton createCustomer;
-	private JButton cancel;
-	private JLabel errorMessage;
-	private OperatorOrderSummary currentOrder;
-
 	public class CustomerList extends JPanel {
 		private CustomerPanelItem topItem = null;
 		private CustomerPanelItem itemBeingEdited;
@@ -133,7 +122,21 @@ public class CustomerPanel extends JPanel {
 		public CustomerPanelItem getTopItem() {
 			return topItem;
 		}
-	}
+	} //End of inner class
+	
+	CustomerList customerList;
+
+	private boolean addingNewCustomer;
+	private SearchBox searchInput;
+	private SearchBox nameInput;
+	private SearchBox numberInput;
+	private SearchBox addressInput;
+	private SearchBox postNoInput;
+	private JButton newCustomer;
+	private JButton createCustomer;
+	private JButton cancel;
+	private JLabel errorMessage;
+	private OperatorOrderSummary currentOrder;
 
 	public CustomerPanel(OperatorOrderSummary orderSummary) {
 		currentOrder = orderSummary;
@@ -192,39 +195,9 @@ public class CustomerPanel extends JPanel {
 		createCustomer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (nameInput.getText().isEmpty()) {
-					errorMessage.setText("Fyll inn navnet til kunden du ønsker å registrere");
-				}
-				else if (numberInput.getText().isEmpty()) {
-					errorMessage.setText("Fyll inn telefonnummeret til kunden du ønsker å registrere");
-				}
-				else if (addressInput.getText().isEmpty()) {
-					errorMessage.setText("Fyll inn adressen til kunden du ønsker å registrere");
-				}
-				else if (postNoInput.getText().isEmpty()) {
-					errorMessage.setText("Fyll inn postnummeret til kunden du ønsker å registrere");
-				}
-				else {
-					int postNo = 0;
-
-					try {
-						postNo = Integer.parseInt(postNoInput.getText());
-					}
-					catch (NumberFormatException exception) {
-						errorMessage.setText("Fyll inn et gyldig postnummer til kunden du ønsker å registrere");
-						return;
-					}
-					Customer newCustomer = new Customer(nameInput.getText(), numberInput.getText());
-					DataAPI.saveCustomer(newCustomer);
-
-					Address newAddress = new Address(newCustomer, addressInput.getText(), postNo);
-					DataAPI.saveAddress(newAddress);
-
-					currentOrder.setCustomer(newCustomer);
-					searchInput.setText("");
-					changeFunction(false);
-				}
+				saveCustomer();
 			}
+
 		});
 
 		cancel.addActionListener(new ActionListener() {
@@ -233,6 +206,67 @@ public class CustomerPanel extends JPanel {
 				changeFunction(false);
 			}
 		});
+		
+		/*Adds a key listener to the customer panel.
+		 * Enter will save the new customer, escape will cancel the editing 
+		 */
+		KeyboardFocusManager.getCurrentKeyboardFocusManager()
+				.addKeyEventDispatcher(new KeyEventDispatcher() {
+					@Override
+					public boolean dispatchKeyEvent(KeyEvent e) {
+						if (!addingNewCustomer || e.getID() != KeyEvent.KEY_RELEASED) {
+							return false;
+						}
+						
+						switch (e.getKeyCode()) {
+							case KeyEvent.VK_ENTER:
+								saveCustomer();
+								break;
+							case KeyEvent.VK_ESCAPE:
+								changeFunction(false);
+								break;
+						}
+						return false;
+					}
+				});
+	}
+
+	/**
+	 * Saves the new <code>Customer</code> object to the database and changes the panel's function to searching.
+	 */
+	private void saveCustomer() {
+		if (nameInput.getText().isEmpty()) {
+			errorMessage.setText("Fyll inn navnet til kunden du ønsker å registrere");
+		}
+		else if (numberInput.getText().isEmpty()) {
+			errorMessage.setText("Fyll inn telefonnummeret til kunden du ønsker å registrere");
+		}
+		else if (addressInput.getText().isEmpty()) {
+			errorMessage.setText("Fyll inn adressen til kunden du ønsker å registrere");
+		}
+		else if (postNoInput.getText().isEmpty()) {
+			errorMessage.setText("Fyll inn postnummeret til kunden du ønsker å registrere");
+		}
+		else {
+			int postNo = 0;
+
+			try {
+				postNo = Integer.parseInt(postNoInput.getText());
+			}
+			catch (NumberFormatException exception) {
+				errorMessage.setText("Fyll inn et gyldig postnummer til kunden du ønsker å registrere");
+				return;
+			}
+			Customer newCustomer = new Customer(nameInput.getText(), numberInput.getText());
+			DataAPI.saveCustomer(newCustomer);
+
+			Address newAddress = new Address(newCustomer, addressInput.getText(), postNo);
+			DataAPI.saveAddress(newAddress);
+
+			currentOrder.setCustomer(newCustomer);
+			searchInput.setText("");
+			changeFunction(false);
+		}
 	}
 
 	/**
@@ -243,6 +277,7 @@ public class CustomerPanel extends JPanel {
 	 * false if it is to be used for searching for existing customers.
 	 */
 	private void changeFunction(boolean addingCustomer) {
+		addingNewCustomer = addingCustomer;
 		removeAll();
 
 		if (addingCustomer) {
@@ -341,5 +376,14 @@ public class CustomerPanel extends JPanel {
 	@Override
 	public void grabFocus() {
 		searchInput.grabFocus();
+	}
+	
+	/**
+	 * Clears all text from the search box and restores the list of customers.
+	 */
+	public void clearSearchBox() {
+		searchInput.setText("");
+		customerList.refresh("");
+		grabFocus();
 	}
 }

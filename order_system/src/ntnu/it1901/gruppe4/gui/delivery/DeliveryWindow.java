@@ -2,11 +2,8 @@ package ntnu.it1901.gruppe4.gui.delivery;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -95,7 +92,6 @@ public class DeliveryWindow {
 			}
 		});
 
-		
 		frame.setTitle("Gruppe 4 Pizza - Levering");
 		frame.setSize(Layout.initialSize);
 		frame.setLayout(new BorderLayout());
@@ -113,24 +109,6 @@ public class DeliveryWindow {
 				Main.showSplash();
 			}
 		});
-		
-		//Add a key listener to the chef window
-		KeyboardFocusManager.getCurrentKeyboardFocusManager()
-				.addKeyEventDispatcher(new KeyEventDispatcher() {
-					@Override
-					public boolean dispatchKeyEvent(KeyEvent e) {
-						if (e.getID() != KeyEvent.KEY_RELEASED) {
-							return false;
-						}
-						
-						switch (e.getKeyCode()) {
-							case KeyEvent.VK_ESCAPE:
-								frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-								break;
-						}
-						return false;
-					}
-				});
 		
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setLocationRelativeTo(null);

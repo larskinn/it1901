@@ -115,7 +115,9 @@ public class ChefWindow implements ActionListener {
 										}
 										break;
 									case KeyEvent.VK_ESCAPE:
-										frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+										if (currentPanel == menuPanel) {
+											menuPanel.clearSearchBox();
+										}
 										break;
 								}
 								return false;

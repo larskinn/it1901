@@ -123,7 +123,12 @@ public class OrderWindow implements ActionListener {
 								operatorOrderSummary.saveOrder();
 								break;
 							case KeyEvent.VK_ESCAPE:
-								frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+								if (currentPanel == menuSearchPanel) {
+									menuSearchPanel.clearSearchBox();
+								}
+								else if (currentPanel == customerPanel) {
+									customerPanel.clearSearchBox();
+								}
 								break;
 						}
 						return false;
