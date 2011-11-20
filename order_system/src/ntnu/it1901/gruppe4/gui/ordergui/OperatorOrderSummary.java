@@ -133,7 +133,8 @@ public class OperatorOrderSummary extends OrderSummary {
 		
 		if (paidButton != null) {
 			if (currentOrder.getOrder().getSelfPickup() 
-					&& currentOrder.getOrder().getState() == Order.READY_FOR_DELIVERY) {
+					&& (currentOrder.getOrder().getState() == Order.READY_FOR_DELIVERY
+					|| currentOrder.getOrder().getState() == Order.IN_TRANSIT)) {
 				paidButton.setVisible(true);
 			}
 			else {
