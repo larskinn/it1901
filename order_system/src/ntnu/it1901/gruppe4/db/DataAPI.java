@@ -759,10 +759,13 @@ public class DataAPI {
 	public static String getCustomerName(Order order) {
 		if (order == null) {
 			return "(Ingen)";
-		} else if (order.getSelfPickup()) {
-			return "(Kunden henter ordren selv)";
 		} else {
-			return getCustomer(getAddress(order)).getName();
+			Address a = getAddress(order);
+			if (a == null) {
+				return "(Ikke spesifisert)";
+			} else {
+				return getCustomer(a).getName();
+			}
 		}
 	}
 
