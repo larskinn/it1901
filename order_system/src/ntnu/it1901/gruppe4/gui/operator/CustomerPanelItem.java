@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import ntnu.it1901.gruppe4.db.Address;
 import ntnu.it1901.gruppe4.db.Customer;
 import ntnu.it1901.gruppe4.db.DataAPI;
+import ntnu.it1901.gruppe4.gui.ClickablePanel;
 import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
 import ntnu.it1901.gruppe4.gui.operator.CustomerPanel.CustomerList;
@@ -27,7 +28,7 @@ import ntnu.it1901.gruppe4.gui.operator.CustomerPanel.CustomerList;
  * 
  * @author Leo
  */
-public class CustomerPanelItem extends JPanel {
+public class CustomerPanelItem extends ClickablePanel {
 	private Customer customer;
 	private JLabel prefixes, info, edit, errorMessage;
 	private JTextField nameInput, numberInput, addressInput, postNoInput;

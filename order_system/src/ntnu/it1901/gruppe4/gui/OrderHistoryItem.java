@@ -18,7 +18,7 @@ import ntnu.it1901.gruppe4.db.Order;
  * @author Leo
  * @author David
  */
-public class OrderHistoryItem extends JPanel {
+public class OrderHistoryItem extends ClickablePanel {
 	/**
 	 * The different colors the lamp displayed on an {@link OrderHistoryItem}
 	 * can be.

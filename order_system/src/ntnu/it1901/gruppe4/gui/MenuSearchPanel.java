@@ -62,7 +62,7 @@ public class MenuSearchPanel extends JPanel {
 		 */
 		public MenuPanel(OperatorOrderSummary orderSummary) {
 			this.operatorOrderSummary = orderSummary;
-			backButton = new JPanel();
+			backButton = new ClickablePanel();
 			JLabel backText = new JLabel("< Tilbake");
 			
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

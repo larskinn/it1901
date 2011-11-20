@@ -81,6 +81,10 @@ public class Layout {
 	 */
 	public static final Color bgColor2 = Color.WHITE;
 	/**
+	 * The background {@link Color} of a highlighted item.
+	 */
+	public static final Color bgColorHighlight = new Color(0.5f, 0.5f, 1.0f);
+	/**
 	 * The background {@link Color} of a {@link OrderSummaryItem} an even index.
 	 */
 	public static final Color summaryBgColor1 = Color.LIGHT_GRAY;

@@ -20,7 +20,7 @@ import ntnu.it1901.gruppe4.db.OrderItem;
  * 
  * @author Leo
  */
-public class OrderSummaryItem extends JPanel {
+public class OrderSummaryItem extends ClickablePanel {
 	private JLabel name, price, description;
 	private JTextArea descriptionInput;
 	private JButton save, delete;

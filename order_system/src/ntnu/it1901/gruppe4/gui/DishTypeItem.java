@@ -15,7 +15,7 @@ import ntnu.it1901.gruppe4.db.DishType;
  * 
  * @author Leo
  */
-public class DishTypeItem extends JPanel {
+public class DishTypeItem extends ClickablePanel {
 	private DishType type;
 	
 	/**

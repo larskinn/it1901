@@ -25,7 +25,7 @@ import ntnu.it1901.gruppe4.gui.MenuSearchPanel.MenuPanel;
  * 
  * @author Leo
  */
-public class MenuPanelItem extends JPanel {
+public class MenuPanelItem extends ClickablePanel {
 	private final int HGAP = 20, VGAP = 15;
 	
 	private boolean beingEdited;
