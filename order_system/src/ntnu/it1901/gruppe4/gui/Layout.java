@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import ntnu.it1901.gruppe4.gui.ordergui.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;

@@ -2,7 +2,6 @@ package ntnu.it1901.gruppe4.db;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import ntnu.it1901.gruppe4.db.DataAPI;
 
 /**
  * Data class for addresses of customers

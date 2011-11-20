@@ -1,8 +1,6 @@
 package ntnu.it1901.gruppe4.gui;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -13,7 +11,6 @@ import javax.swing.JScrollPane;
 
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
-import ntnu.it1901.gruppe4.db.OrderMaker;
 import ntnu.it1901.gruppe4.deliverygui.MapPanel;
 import ntnu.it1901.gruppe4.gui.OrderHistoryItem.LampColor;
 

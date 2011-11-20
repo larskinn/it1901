@@ -9,27 +9,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.Main;
 import ntnu.it1901.gruppe4.db.DataAPI;
-import ntnu.it1901.gruppe4.gui.ConfigWindow;
 import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.MenuSearchPanel;
 import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderHistoryItem;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
-import ntnu.it1901.gruppe4.gui.Receipt;
-import ntnu.it1901.gruppe4.gui.ordergui.OrderWindow.View;
 
 /**
  * The window where the chef may review and confirm orders, and edit the food

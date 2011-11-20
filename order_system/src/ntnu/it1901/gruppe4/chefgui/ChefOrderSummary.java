@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 
 import ntnu.it1901.gruppe4.db.Order;
-import ntnu.it1901.gruppe4.db.OrderMaker;
 import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderHistoryItem;
