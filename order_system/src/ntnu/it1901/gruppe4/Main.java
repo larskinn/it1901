@@ -18,12 +18,12 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 
-import ntnu.it1901.gruppe4.chefgui.ChefWindow;
 import ntnu.it1901.gruppe4.db.DBReset;
 import ntnu.it1901.gruppe4.db.DataAPI;
-import ntnu.it1901.gruppe4.deliverygui.DeliveryWindow;
 import ntnu.it1901.gruppe4.gui.ConfigWindow;
-import ntnu.it1901.gruppe4.gui.ordergui.OrderWindow;
+import ntnu.it1901.gruppe4.gui.chef.ChefWindow;
+import ntnu.it1901.gruppe4.gui.delivery.DeliveryWindow;
+import ntnu.it1901.gruppe4.gui.operator.OrderWindow;
 
 /**
  * The main entry point of the program.

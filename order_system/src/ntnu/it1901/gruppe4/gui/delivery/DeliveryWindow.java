@@ -1,4 +1,4 @@
-package ntnu.it1901.gruppe4.deliverygui;
+package ntnu.it1901.gruppe4.gui.delivery;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

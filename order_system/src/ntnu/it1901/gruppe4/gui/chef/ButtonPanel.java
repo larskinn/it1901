@@ -1,4 +1,4 @@
-package ntnu.it1901.gruppe4.chefgui;
+package ntnu.it1901.gruppe4.gui.chef;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;

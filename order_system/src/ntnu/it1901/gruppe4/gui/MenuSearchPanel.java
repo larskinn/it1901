@@ -24,7 +24,7 @@ import javax.swing.JTextArea;
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Dish;
 import ntnu.it1901.gruppe4.db.DishType;
-import ntnu.it1901.gruppe4.gui.ordergui.OperatorOrderSummary;
+import ntnu.it1901.gruppe4.gui.operator.OperatorOrderSummary;
 
 /**
  * A panel containing a {@link SearchBox} for searching in a {@link MenuPanel}. 

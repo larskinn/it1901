@@ -1,4 +1,4 @@
-package ntnu.it1901.gruppe4.gui.ordergui;
+package ntnu.it1901.gruppe4.gui.operator;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -20,7 +20,7 @@ import ntnu.it1901.gruppe4.db.Customer;
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
-import ntnu.it1901.gruppe4.gui.ordergui.CustomerPanel.CustomerList;
+import ntnu.it1901.gruppe4.gui.operator.CustomerPanel.CustomerList;
 
 /**
  * A panel used in the {@link CustomerPanel} to display details about a given {@link Customer} and functions to edit its information.

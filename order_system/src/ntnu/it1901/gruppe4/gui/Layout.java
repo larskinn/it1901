@@ -109,7 +109,7 @@ public class Layout {
 	public static final double newDishDensity = 8;
 	
 	/**
-	 * The padding used between the edges of the {@link OrderWindow} and its closest {@link JPanel panels}.
+	 * The padding used between the edges of the {@link OperatorWindow} and its closest {@link JPanel panels}.
 	 */
 	public static final Border panelPadding = BorderFactory.createEmptyBorder(10, 5, 10, 3);
 	/**
@@ -135,7 +135,7 @@ public class Layout {
 	
 	/**
 	 * The relative size of all buttons in the {@link ButtonPanel}.<br><br>
-	 * Remember that this size is merely a hint, and the the actual size is relative to the size of the {@link OrderWindow}.
+	 * Remember that this size is merely a hint, and the the actual size is relative to the size of the {@link OperatorWindow}.
 	 */
 	public static final Dimension buttonSize = new Dimension(100, 50);
 	

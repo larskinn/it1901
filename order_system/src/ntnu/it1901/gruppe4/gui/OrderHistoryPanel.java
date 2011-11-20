@@ -11,8 +11,8 @@ import javax.swing.JScrollPane;
 
 import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.db.Order;
-import ntnu.it1901.gruppe4.deliverygui.MapPanel;
 import ntnu.it1901.gruppe4.gui.OrderHistoryItem.LampColor;
+import ntnu.it1901.gruppe4.gui.delivery.MapPanel;
 
 public class OrderHistoryPanel extends JPanel {
 	private JPanel innerPanel;

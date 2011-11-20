@@ -1,4 +1,4 @@
-package ntnu.it1901.gruppe4.gui.ordergui;
+package ntnu.it1901.gruppe4.gui.operator;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
