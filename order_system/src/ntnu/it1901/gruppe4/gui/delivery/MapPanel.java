@@ -63,10 +63,10 @@ public class MapPanel extends JPanel {
 			e.printStackTrace();
 		} catch (IOException e) {
 			if (hasInternetConnection) {
+				hasInternetConnection = false;
 				JOptionPane.showMessageDialog(null, 
 						"Kunne ikke koble til internett. Kart vil være utilgjengelig.", 
 						"Feil", JOptionPane.WARNING_MESSAGE);
-				hasInternetConnection = false;
 			}
 			add(new JLabel("Ingen internettilgang."));
 		}
