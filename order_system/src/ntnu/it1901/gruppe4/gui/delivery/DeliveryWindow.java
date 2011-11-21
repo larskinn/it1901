@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.Box;
 import javax.swing.JFrame;
+import javax.xml.crypto.Data;
 
 import ntnu.it1901.gruppe4.Main;
 import ntnu.it1901.gruppe4.db.Customer;
@@ -18,7 +19,7 @@ import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 
 /**
- * 
+ * The window in which {@link MapPanel} and {@link DeliveryOrderSummary} are implemented.
  * @author Morten 
  * @author David
  * @author Leo 
@@ -70,7 +71,10 @@ public class DeliveryWindow {
 					new Dimension((int)(frame.getWidth() * 0.65), (int)(frame.getHeight() * 0.55)));
 		}
 	}
-
+	/**
+	 * Creates a new {@link DeliveryWindow}.
+	 *
+	 */
 	public DeliveryWindow() {
 		DataAPI.open();
 
@@ -117,7 +121,10 @@ public class DeliveryWindow {
 		handleResize();
 		resizeMap();
 	}
-
+	
+	/**
+	 * Closes {@link DataAPI}.
+	 */
 	private static void cleanup() {
 		DataAPI.close();
 	}
