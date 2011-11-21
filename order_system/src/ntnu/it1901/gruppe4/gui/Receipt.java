@@ -1,5 +1,11 @@
 package ntnu.it1901.gruppe4.gui;
 
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,6 +21,7 @@ public class Receipt extends JDialog {
 	}
 	
 	public Receipt(JFrame parentFrame, OrderSummary orderSummary) {
+		JButton closeButton = new JButton("Lukk");
 		final int dashedLineLength = 60;
 		StringBuilder sb = new StringBuilder();
 		JLabel text = new JLabel();
@@ -130,10 +137,16 @@ public class Receipt extends JDialog {
 		JPanel container = new JPanel();
 		container.setLayout(null);
 		text.setBounds(4, 4, text.getPreferredSize().width, text.getPreferredSize().height);
+		closeButton.setBounds(text.getPreferredSize().width - closeButton.getPreferredSize().width, 
+				text.getPreferredSize().height + 10, 
+				closeButton.getPreferredSize().width, 
+				closeButton.getPreferredSize().height); 
 		container.add(text);
+		container.add(closeButton);
 		
 		//Set the final size of the dialog to the size required by the html
-		container.setPreferredSize(text.getPreferredSize());
+		container.setPreferredSize(new Dimension(text.getPreferredSize().width,
+				text.getPreferredSize().height + closeButton.getPreferredSize().height));
 		add(container);
 		pack();
 		setResizable(false);
@@ -143,5 +156,12 @@ public class Receipt extends JDialog {
 		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setVisible(true);
+		
+		closeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispatchEvent(new WindowEvent(Receipt.this, WindowEvent.WINDOW_CLOSING));
+			}
+		});
 	}
 }
