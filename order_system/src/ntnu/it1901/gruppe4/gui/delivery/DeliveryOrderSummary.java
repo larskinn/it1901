@@ -11,6 +11,7 @@ import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
+import ntnu.it1901.gruppe4.gui.Receipt;
 
 /**
  * This class contains details about the {@link Order} being looked at by the {@link DeliveryWindow},<br>
@@ -21,8 +22,7 @@ import ntnu.it1901.gruppe4.gui.OrderSummary;
  * @author Leo
  */
 public class DeliveryOrderSummary extends OrderSummary {
-	private JButton deliveredButton;
-	private JButton inTransitButton;
+	private JButton deliveredButton, inTransitButton;
 	private OrderHistoryPanel orderHistoryPanel;
 	
 	/**
@@ -66,13 +66,15 @@ public class DeliveryOrderSummary extends OrderSummary {
 	}
 	
 	/**
-	 * Marks the current current {@link Order} as delivered in the database and updates the {@link OrderHistoryPanel}.
+	 * Marks the current current {@link Order} as delivered in the database,
+	 * updates the {@link OrderHistoryPanel} and shows a {@link Receipt};
 	 */
 	public void deliverOrder() {
 		currentOrder.setState(Order.DELIVERED_AND_PAID);
 		currentOrder.save();
 		update();
 		orderHistoryPanel.refresh();
+		new Receipt(this);
 	}
 	
 	/**
