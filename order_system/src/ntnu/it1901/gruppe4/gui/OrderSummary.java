@@ -124,6 +124,7 @@ public class OrderSummary extends JPanel {
 
 		JScrollPane sp = new JScrollPane(centerPanel);
 		sp.setBorder(null);
+		sp.getVerticalScrollBar().setUnitIncrement(Layout.scrollBarSpeed);
 		add(sp, BorderLayout.CENTER);
 		add(southPanel, BorderLayout.SOUTH);
 

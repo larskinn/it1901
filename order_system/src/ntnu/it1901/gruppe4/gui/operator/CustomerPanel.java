@@ -365,6 +365,7 @@ public class CustomerPanel extends JPanel {
 			//Wrap the customer list inside a JScrollPane
 			JScrollPane sp = new JScrollPane(customerList);
 			sp.setBorder(null);
+			sp.getVerticalScrollBar().setUnitIncrement(Layout.scrollBarSpeed);
 			add(sp);
 
 			searchInput.grabFocus();

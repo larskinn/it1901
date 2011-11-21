@@ -147,4 +147,9 @@ public class Layout {
 	 * The {@link java.text.DateFormat DateFormat} used to format all dates shown.
 	 */
 	public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM-yyyy H:mm");
+
+	/**
+	 * Sets the scrolling speed of all the scroll bars used in the program in units per click.
+	 */
+	public static final int scrollBarSpeed = 16;
 }

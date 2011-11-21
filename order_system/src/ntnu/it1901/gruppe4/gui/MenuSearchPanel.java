@@ -434,6 +434,7 @@ public class MenuSearchPanel extends JPanel {
 			//Wrap the menu list inside a JScrollPane
 			JScrollPane sp = new JScrollPane(orderMenu);
 			sp.setBorder(null);
+			sp.getVerticalScrollBar().setUnitIncrement(Layout.scrollBarSpeed);
 			add(sp);
 
 			searchInput.grabFocus();
