@@ -171,9 +171,6 @@ public class OperatorOrderSummary extends OrderSummary {
 					}
 					
 					if (itemBeingEdited != null) {
-						if (itemBeingEdited == item) {
-							return;
-						}
 						itemBeingEdited.changeFunction(false);
 					}
 					item.changeFunction(true);

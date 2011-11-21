@@ -21,7 +21,7 @@ import ntnu.it1901.gruppe4.db.OrderItem;
  */
 public class OrderSummaryItem extends ClickablePanel {
 	private JLabel name, price, description;
-	private JTextArea descriptionInput;
+	private JTextField descriptionInput;
 	private JButton save, delete;
 	private OrderItem item;
 
@@ -36,7 +36,7 @@ public class OrderSummaryItem extends ClickablePanel {
 		name = new JLabel(item.getName());
 		price = new JLabel(Layout.decimalFormat.format(item.getAmount()) + " kr");
 		description = new JLabel(item.getDescription());
-		descriptionInput = new JTextArea(description.getText());
+		descriptionInput = new JTextField(description.getText());
 		save = new JButton("Lagre");
 		delete = new JButton("Slett");
 		
@@ -46,12 +46,7 @@ public class OrderSummaryItem extends ClickablePanel {
 		description.setFont(Layout.summaryItemDescriptionFont);
 		save.setFont(Layout.summaryItemDescriptionFont);
 		delete.setFont(Layout.summaryItemDescriptionFont);
-		
-		/*Sets the border of the text area to whatever is the default border
-		  for text fields on the current OS*/
-		descriptionInput.setBorder(new JTextField().getBorder());
 		descriptionInput.setFont(Layout.summaryItemDescriptionFont);
-		descriptionInput.setLineWrap(true);
 		
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -109,6 +104,7 @@ public class OrderSummaryItem extends ClickablePanel {
 			
 			add(descriptionInput, gbc);
 			
+			gbc.weightx = 0;
 			gbc.gridx++;
 			add(delete, gbc);
 			
