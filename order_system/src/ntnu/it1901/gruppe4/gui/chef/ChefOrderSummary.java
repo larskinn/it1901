@@ -30,7 +30,7 @@ public class ChefOrderSummary extends OrderSummary {
 	ChefOrderSummary() {
 		super(Mode.CHEF);
 		
-		deliveryButton = new JButton("Klar til henting");
+		deliveryButton = new JButton("Klar til henting (Enter)");
 		deliveryButton.setFont(Layout.summaryTextFont);
 		
 		GridBagConstraints gbc = new GridBagConstraints();

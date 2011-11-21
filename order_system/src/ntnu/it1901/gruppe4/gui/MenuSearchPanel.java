@@ -271,8 +271,8 @@ public class MenuSearchPanel extends JPanel {
 		descriptionInput = new JTextArea();
 		typeInput = new JComboBox(DishType.values());
 		newDish = new JButton("Ny rett");
-		createDish = new JButton("Opprett ny rett");
-		cancel = new JButton("Avbryt");
+		createDish = new JButton("Lagre (Enter)");
+		cancel = new JButton("Avbryt (Esc)");
 		errorMessage = new JLabel();
 
 		setBorder(Layout.panelPadding);

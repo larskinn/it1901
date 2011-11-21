@@ -147,8 +147,8 @@ public class CustomerPanel extends JPanel {
 		addressInput = new SearchBox();
 		postNoInput = new SearchBox();
 		newCustomer = new JButton("Ny kunde");
-		createCustomer = new JButton("Opprett ny kunde");
-		cancel = new JButton("Avbryt");
+		createCustomer = new JButton("Lagre (Enter)");
+		cancel = new JButton("Avbryt (Esc)");
 		errorMessage = new JLabel();
 
 		setBorder(Layout.panelPadding);

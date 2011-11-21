@@ -4,8 +4,11 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
@@ -70,7 +73,7 @@ public class CustomerPanelItem extends ClickablePanel {
 		numberInput = new JTextField();
 		addressInput = new JTextField();
 		postNoInput = new JTextField();
-		save = new JButton("Lagre");
+		save = new JButton("Lagre (Enter)");
 		edit = new JLabel(new ImageIcon(getClass().getResource("/images/Edit.gif")));
 		info = new JLabel();
 		errorMessage = new JLabel(" ");
@@ -100,61 +103,88 @@ public class CustomerPanelItem extends ClickablePanel {
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Customer customer = CustomerPanelItem.this.customer;
-				String name = nameInput.getText();
-				String number = numberInput.getText();
-				String addressLine = addressInput.getText();
-				String postNo = postNoInput.getText();
-				int newPostNo = 0;
-
-				if (name.isEmpty()) {
-					errorMessage.setText("Ugyldig navn");
-					return;
-				}
-				else if (number.isEmpty()) {
-					errorMessage.setText("Ugyldig nummer");
-					return;
-				}
-				else if (addressLine.isEmpty()) {
-					errorMessage.setText("Ugyldig adresse");
-					return;
-				}
-				else if (postNo.isEmpty()) {
-					errorMessage.setText("Ugyldig postnummer");
-					return;
-				}
-
-				try {
-					newPostNo = Integer.parseInt(postNo);
-				}
-				catch (NumberFormatException nfe) {
-					errorMessage.setText("Ugyldig postnummer");
-					return;
-				}
-				customer.setName(name);
-				customer.setPhone(number);
-				customer.save();
-				
-				Address address = DataAPI.getAddresses(customer).get(0);
-				address.setIdCustomer(customer);
-				address.setAddressLine(addressLine);
-				address.setPostalCode(newPostNo);
-				address.save();
-				
-				changeFunction(false);
-				
-				if (CustomerPanelItem.this.orderSummary != null) {
-					CustomerPanelItem.this.orderSummary.update();
-				}
-				
-				if (CustomerPanelItem.this.customerList != null) {
-					CustomerPanelItem.this.customerList.refresh();
-				}
+				saveCustomer();
 			}
 		});
+		
+		/*Adds a key listener to the customer panel item.
+		 * Enter will save the customer being edited.
+		 */
+		KeyboardFocusManager.getCurrentKeyboardFocusManager()
+				.addKeyEventDispatcher(new KeyEventDispatcher() {
+					@Override
+					public boolean dispatchKeyEvent(KeyEvent e) {
+						if (!beingEdited || e.getID() != KeyEvent.KEY_RELEASED) {
+							return false;
+						}
+						
+						switch (e.getKeyCode()) {
+							case KeyEvent.VK_ENTER:
+								saveCustomer();
+								break;
+						}
+						return false;
+					}
+				});
 
-		// To prevent this component's height from growing
+		//To prevent this component's height from growing
 		setMaximumSize(new Dimension(Short.MAX_VALUE, getPreferredSize().height));
+	}
+	
+	/**
+	 * Saves the {@link Customer} being edited to the database.
+	 */
+	private void saveCustomer() {
+		Customer customer = CustomerPanelItem.this.customer;
+		String name = nameInput.getText();
+		String number = numberInput.getText();
+		String addressLine = addressInput.getText();
+		String postNo = postNoInput.getText();
+		int newPostNo = 0;
+
+		if (name.isEmpty()) {
+			errorMessage.setText("Ugyldig navn");
+			return;
+		}
+		else if (number.isEmpty()) {
+			errorMessage.setText("Ugyldig nummer");
+			return;
+		}
+		else if (addressLine.isEmpty()) {
+			errorMessage.setText("Ugyldig adresse");
+			return;
+		}
+		else if (postNo.isEmpty()) {
+			errorMessage.setText("Ugyldig postnummer");
+			return;
+		}
+
+		try {
+			newPostNo = Integer.parseInt(postNo);
+		}
+		catch (NumberFormatException nfe) {
+			errorMessage.setText("Ugyldig postnummer");
+			return;
+		}
+		customer.setName(name);
+		customer.setPhone(number);
+		customer.save();
+		
+		Address address = DataAPI.getAddresses(customer).get(0);
+		address.setIdCustomer(customer);
+		address.setAddressLine(addressLine);
+		address.setPostalCode(newPostNo);
+		address.save();
+		
+		changeFunction(false);
+		
+		if (CustomerPanelItem.this.orderSummary != null) {
+			CustomerPanelItem.this.orderSummary.update();
+		}
+		
+		if (CustomerPanelItem.this.customerList != null) {
+			CustomerPanelItem.this.customerList.refresh();
+		}
 	}
 
 	/**

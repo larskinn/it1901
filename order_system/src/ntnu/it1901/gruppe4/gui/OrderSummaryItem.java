@@ -3,13 +3,15 @@ package ntnu.it1901.gruppe4.gui;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import ntnu.it1901.gruppe4.db.OrderItem;
@@ -20,6 +22,7 @@ import ntnu.it1901.gruppe4.db.OrderItem;
  * @author Leo
  */
 public class OrderSummaryItem extends ClickablePanel {
+	private boolean beingEdited;
 	private JLabel name, price, description;
 	private JTextField descriptionInput;
 	private JButton save, delete;
@@ -73,11 +76,38 @@ public class OrderSummaryItem extends ClickablePanel {
 			save.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					OrderSummaryItem.this.item.setDescription(descriptionInput.getText());
-					changeFunction(false);
+					saveItem();
 				}
 			});
+			
+			/*Adds a key listener to the order summary item.
+			 * Enter will save the item being edited.
+			 */
+			KeyboardFocusManager.getCurrentKeyboardFocusManager()
+					.addKeyEventDispatcher(new KeyEventDispatcher() {
+						@Override
+						public boolean dispatchKeyEvent(KeyEvent e) {
+							if (!beingEdited || e.getID() != KeyEvent.KEY_RELEASED) {
+								return false;
+							}
+							
+							switch (e.getKeyCode()) {
+								case KeyEvent.VK_ENTER:
+									saveItem();
+									break;
+							}
+							return false;
+						}
+					});
 		}
+	}
+	
+	/**
+	 * Saves the {@link OrderSummaryItem} being edited.
+	 */
+	private void saveItem() {
+		OrderSummaryItem.this.item.setDescription(descriptionInput.getText());
+		changeFunction(false);
 	}
 	
 	/**
@@ -86,6 +116,7 @@ public class OrderSummaryItem extends ClickablePanel {
 	 * @param editingComment True to show the text area and button to edit the <code>OrderItem's</code> description. False to hide them.
 	 */
 	public void changeFunction(boolean editingComment) {
+		beingEdited = editingComment;
 		remove(descriptionInput);
 		remove(save);
 		remove(delete);
