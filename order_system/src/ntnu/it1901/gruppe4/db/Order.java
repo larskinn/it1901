@@ -243,15 +243,6 @@ public class Order {
 	}
 
 	/**
-	 * Returns gross fee (total amount before delivery fee)
-	 * 
-	 * @return the gross amount
-	 */
-	public float getGrossAmount() {
-		return totalAmount - deliveryFee;
-	}
-
-	/**
 	 * Persists the Order to the database by updating an existing Order, or --
 	 * if one doesn't exist -- adding a new Order.
 	 */

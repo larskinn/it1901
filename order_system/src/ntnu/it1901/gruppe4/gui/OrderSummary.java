@@ -54,7 +54,6 @@ public class OrderSummary extends JPanel {
 		this.mode = mode;
 
 		pricePrefix = new JLabel("<html> <table>"
-				+ "<tr> <td> Brutto: </td> </tr>"
 				+ "<tr> <td> Frakt: </td> </tr>" + "<tr> <td> MVA: </td> </tr>"
 				+ "<tr> <td> Totalpris: </td> </tr>" + "</table> </html>");
 		price = new JLabel();
@@ -169,10 +168,6 @@ public class OrderSummary extends JPanel {
 
 		// Update the total price on the panel
 		price.setText("<html> <table>"
-				+ "<tr> <td align='right'> <b>"
-				+ Layout.decimalFormat.format(currentOrder.getOrder()
-						.getGrossAmount())
-				+ "&nbsp;kr </b> </td> </tr>"
 				+ "<tr> <td align='right'> <b>"
 				+ Layout.decimalFormat.format(currentOrder.getOrder()
 						.getDeliveryFee())
