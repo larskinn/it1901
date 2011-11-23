@@ -32,7 +32,7 @@ public class MapPanel extends JPanel {
 	private static final String RESTAURANT_ADDRESS = Settings.getRestaurantAddress().replace(' ', '+');
 	private static final String DESTINATION_ICON = "http://chart.apis.google.com/chart?chst=d_map_pin_icon%26chld=glyphish_house%257C00FF00";
 	private static final String RESTAURANT_ICON = "http://chart.apis.google.com/chart?chst=d_map_pin_icon%26chld=glyphish_fork-and-knife%257CFF0000";
-
+	
 	/**
 	 * Creates a new {@link MapPanel} initially containing no map.
 	 */
@@ -42,8 +42,8 @@ public class MapPanel extends JPanel {
 	}
 	
 	/**
-	 * Downloads a new map image from Google matching the specifed
-	 * {@link Address} which is then stored inside the {@link MapPanel}.
+	 * Downloads a new map image to be shown in the {@link MapPanel} 
+	 * matching the specifed {@link Address}.
 	 * 
 	 * @param address The <code>Address</code> which the downloaded map will match.
 	 */
@@ -52,8 +52,8 @@ public class MapPanel extends JPanel {
 	}
 
 	/**
-	 * Downloads a new map image of the specified size from Google matching the specifed
-	 * {@link Address} which is then stored inside the {@link MapPanel}.
+	 * Downloads a new map image of the specified size to be shown in the {@link MapPanel} 
+	 * matching the specifed {@link Address}.
 	 * 
 	 * @param address The <code>Address</code> which the downloaded map will match.
 	 * @param mapSize The size of the downloaded map.
