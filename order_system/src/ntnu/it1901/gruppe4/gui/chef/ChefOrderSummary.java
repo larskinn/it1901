@@ -14,7 +14,7 @@ import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 import ntnu.it1901.gruppe4.gui.OrderSummary;
 
 /**
- * This class contains details about the {@link Order} being looked at by the {@link ChefWindow},<br>
+ * This class contains details about the {@link Order} being looked at by the {@link ChefWindow},
  * as well as a button for marking orders as delivered.
  * 
  * @author David
@@ -50,7 +50,7 @@ public class ChefOrderSummary extends OrderSummary {
 	
 	/**
 	 * Marks the current current {@link Order} as delivered, updates the {@link OrderHistoryPanel}
-	 * and selects the next item off the <code>OrderHistoryPanel</code>.
+	 * and selects the next item in the <code>OrderHistoryPanel</code>.
 	 */
 	public void deliverOrder() {
 		if (orderHistoryPanel == null || currentOrder.getOrder().getState() != Order.SAVED) {

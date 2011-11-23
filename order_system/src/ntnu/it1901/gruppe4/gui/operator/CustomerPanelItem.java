@@ -26,7 +26,7 @@ import ntnu.it1901.gruppe4.gui.OrderSummary;
 import ntnu.it1901.gruppe4.gui.operator.CustomerPanel.CustomerList;
 
 /**
- * A panel used in the {@link CustomerPanel} to display details about a given {@link Customer} and functions to edit its information.
+ * A panel used in the {@link CustomerPanel} to display details about a given {@link Customer} with functions to edit its information.
  * 
  * @author Leo
  */

@@ -4,7 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
- * Data class for order items
+ * Data class for order items.
  * 
  * @author David M.
  */
@@ -31,19 +31,24 @@ public class OrderItem {
 	@DatabaseField(useGetSet = true)
 	String description;
 
+	/*
+	 * This apparently useless private constructor is 
+	 * required by the sqlite-jdbc library.
+	 */
+	@SuppressWarnings("unused")
 	private OrderItem() {
 		
 	}
 
 	/**
-	 * Constructor that creates a new OrderItem from a dish. The name and price
-	 * of the dish will be copied to the orderItem.
+	 * Constructor that creates a new <code>OrderItem</code> from a dish. The name and price
+	 * of the {@link Dish} will be copied to the <code>OrderItem</code>.
 	 * 
 	 * @param order
-	 *            the order that this OrderItem should be placed in
+	 *            the {@link Order} that this <code>OrderItem</code> should be placed in.
 	 * @param dish
-	 *            the dish that this OrderItem should inherit it's name and
-	 *            price from.
+	 *            the <code>Dish</code> that this <code>OrderItem</code> 
+	 *            should inherit its name and price from.
 	 */
 	public OrderItem(Order order, Dish dish) {
 		setIdOrder(order);
@@ -54,15 +59,15 @@ public class OrderItem {
 	}
 
 	/**
-	 * Constructor that creates a new OrderItem from name and price. This
+	 * Constructor that creates a new <code>OrderItem</code> from name and price. This
 	 * orderItem will not be associated with any dish.
 	 * 
 	 * @param order
-	 *            the order that this OrderItem should be placed in
+	 *            the <code>Order</code> that the <code>OrderItem</code> should be placed in.
 	 * @param name
-	 *            The name of the order item
+	 *            The name of the <code>OrderItem</code>.
 	 * @param amount
-	 *            The price of this order item
+	 *            The price of the <code>OrderItem</code>.
 	 */
 	public OrderItem(Order order, String name, float amount) {
 		setIdOrder(order);
@@ -72,90 +77,90 @@ public class OrderItem {
 	}
 
 	/**
-	 * Returns the data id of this object
+	 * Returns the data id of this object.
 	 * 
-	 * @return the data id of this object
+	 * @return the data id of this object.
 	 */
 	public int getIdOrderItem() {
 		return idOrderItem;
 	}
 
 	/**
-	 * Returns the order that this order item is a part of
+	 * Returns the <code>Order</code> that this <code>OrderItem</code> is a part of.
 	 * 
-	 * @return the order that this order item is a part of
+	 * @return the <code>Order</code> that this <code>OrderItem</code> is a part of.
 	 */
 	public Order getIdOrder() {
 		return idOrder;
 	}
 
 	/**
-	 * Associated this order item with a new order
+	 * Associated this <code>OrderItem</code> with a new <code>Order</code>.
 	 * 
 	 * @param idOrder
-	 *            the new order to place this order item in
+	 *            the new <code>Order</code> to place this <code>OrderItem</code> in.
 	 */
 	public void setIdOrder(Order idOrder) {
 		this.idOrder = idOrder;
 	}
 
 	/**
-	 * Returns the dish that this order item was created from. It may be null,
-	 * if this order item is a custom item.
+	 * Returns the <code>Dish</code> that this <code>OrderItem</code> was created from. It may be <code>null</code>,
+	 * if this <code>OrderItem</code> is a custom item.
 	 * 
-	 * @return the dish that this order was created from, or null
+	 * @return the <code>Dish</code> that this order was created from, or <code>null</code>.
 	 */
 	public Dish getIdDish() {
 		return idDish;
 	}
 
 	/**
-	 * Sets the dish reference of this order item. May be null.
+	 * Sets the <code>Dish</code> reference of this <code>OrderItem</code>. May be null.
 	 * 
 	 * @param idDish
-	 *            the new dish, or null
+	 *            the new <code>dish</code>, or <code>null</code>.
 	 */
 	public void setIdDish(Dish idDish) {
 		this.idDish = idDish;
 	}
 
 	/**
-	 * Returns the name of this order item. May be the name of a dish, or a
-	 * descriptive name of an order, like "Pizza Pepperoni /w extra cheese" or
+	 * Returns the name of this <code>OrderItem</code>. May be the name of a <code>Dish</code>, or a
+	 * descriptive name of an <code>Order</code>, like "Pizza Pepperoni /w extra cheese" or
 	 * "Coke 33cl".
 	 * 
-	 * @return the name of this order item
+	 * @return the name of this <code>OrderItem</code>.
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * Sets the name of the order item.
+	 * Sets the name of the <code>OrderItem</code>.
 	 * 
 	 * @param name
-	 *            the new name of the order item.
+	 *            the new name of the <code>OrderItem</code>.
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * Returns the price of the order item. It may or may not be consistent with
-	 * the current price of the dish. The price is assigned at the time when the
-	 * order item was created.
+	 * Returns the price of the <code>OrderItem</code>. It may or may not be consistent with
+	 * the current price of the <code>Dish</code>. The price is assigned at the time when the
+	 * <code>OrderItem</code> was created.
 	 * 
-	 * @return the price of this order item.
+	 * @return the price of this <code>OrderItem</code>.
 	 */
 	public float getAmount() {
 		return amount;
 	}
 
 	/**
-	 * Sets the price of the order item.
+	 * Sets the price of the <code>OrderItem</code>.
 	 * 
 	 * @param amount
-	 *            the new price of the order item.
+	 *            the new price of the <code>OrderItem</code>.
 	 */
 	public void setAmount(float amount) {
 		this.amount = amount;
@@ -164,25 +169,25 @@ public class OrderItem {
 	/**
 	 * Returns the description of the item.
 	 * 
-	 * @return the price of this order item.
+	 * @return the price of this <code>OrderItem</code>.
 	 */
 	public String getDescription() {
 		return description;
 	}
 
 	/**
-	 * Sets the description of the order item.
+	 * Sets the description of the <code>OrderItem</code>.
 	 * 
 	 * @param description
-	 *            the new description of the order item.
+	 *            the new description of the <code>OrderItem</code>.
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
 	/**
-	 * Persists the OrderItem to the database by updating an existing OrderItem,
-	 * or -- if one doesn't exist -- adding a new OrderItem.
+	 * Saves the <code>OrderItem</code> to the database by updating an existing <code>OrderItem</code>,
+	 * or -- if one doesn't exist -- adding a new <code>OrderItem</code>.
 	 */
 	public void save() {
 		DataAPI.saveOrderItem(this);

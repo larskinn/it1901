@@ -14,7 +14,7 @@ import ntnu.it1901.gruppe4.gui.OrderSummary;
 import ntnu.it1901.gruppe4.gui.Receipt;
 
 /**
- * This class contains details about the {@link Order} being looked at by the {@link DeliveryWindow},<br>
+ * This class contains details about the {@link Order} being looked at by the {@link DeliveryWindow},
  * as well as buttons for marking orders as in transit and delivered.
  * 
  * @author Morten
@@ -66,8 +66,8 @@ public class DeliveryOrderSummary extends OrderSummary {
 	}
 	
 	/**
-	 * Marks the current current {@link Order} as delivered in the database,
-	 * updates the {@link OrderHistoryPanel} and shows a {@link Receipt};
+	 * Marks the current {@link Order} as delivered in the database,
+	 * updates the {@link OrderHistoryPanel} and shows a {@link Receipt}.
 	 */
 	public void deliverOrder() {
 		currentOrder.setState(Order.DELIVERED_AND_PAID);
@@ -78,7 +78,7 @@ public class DeliveryOrderSummary extends OrderSummary {
 	}
 	
 	/**
-	 * Marks the current current {@link Order} as in transit in the database and updates the {@link OrderHistoryPanel}.
+	 * Marks the current {@link Order} as in transit in the database and updates the {@link OrderHistoryPanel}.
 	 */
 	public void transitOrder() {
 		currentOrder.setState(Order.IN_TRANSIT);

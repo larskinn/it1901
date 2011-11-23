@@ -12,7 +12,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Collection;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -29,19 +29,20 @@ import ntnu.it1901.gruppe4.db.DishType;
 import ntnu.it1901.gruppe4.gui.operator.OperatorOrderSummary;
 
 /**
- * A panel containing a {@link SearchBox} for searching in a {@link MenuPanel}. 
+ * A panel containing a {@link SearchBox} for searching in a contained {@link MenuList} that can also
+ * create new {@link Dish} objects.
  * 
  * @author Leo
  */
 public class MenuSearchPanel extends JPanel {
 	/**
-	 * A container for {@link MenuPanelItem}.<br><br>
-	 * 
-	 * Use {@link #refresh} to add {@link Dish Dishes} to the <code>MenuPanel</code>.
+	 * A container for {@link MenuPanelItem}.
+	 * <p>
+	 * Use {@link #refresh} to add {@link Dish Dishes} to the <code>MenuList</code>.
 	 * 
 	 * @author Leo
 	 */
-	public class MenuPanel extends JPanel {
+	public class MenuList extends JPanel {
 		private MenuPanelItem itemBeingEdited = null;
 		private String prevSearchString = "";
 		private OperatorOrderSummary operatorOrderSummary;
@@ -50,19 +51,19 @@ public class MenuSearchPanel extends JPanel {
 		private MenuPanelItem topItem = null;
 
 		/**
-		 * Constructs a new {@link MenuPanel}
+		 * Constructs a new {@link MenuList} that is empty.
 		 */
-		public MenuPanel() {
+		MenuList() {
 			this(null);
 		}
 
 		/**
-		 * Constructs a new {@link MenuPanel} that will add {@link MenuPanelItem MenuItems}
-		 * to the specified {@link operatorOrderSummary} when clicked.
+		 * Constructs a new {@link MenuList} that will add {@link MenuPanelItem MenuItems}
+		 * to the specified {@link operatorOrderSummary} when they are clicked.
 		 * 
-		 * @param operatorOrderSummary The <code>OperatorOrderSummary</code> to which clicked <code>MenuItems</code> will be added.
+		 * @param orderSummary The <code>OperatorOrderSummary</code> to which clicked <code>MenuItems</code> will be added.
 		 */
-		public MenuPanel(OperatorOrderSummary orderSummary) {
+		MenuList(OperatorOrderSummary orderSummary) {
 			this.operatorOrderSummary = orderSummary;
 			backButton = new ClickablePanel();
 			JLabel backText = new JLabel("< Tilbake");
@@ -88,12 +89,12 @@ public class MenuSearchPanel extends JPanel {
 		}
 
 		/**
-		 * Converts all dishes in the given collection to {@link MenuPanelItem} and
-		 * adds them to the {@link MenuPanel}.
+		 * Converts all <code>Dishes</code> in the specified <code>List</code> to {@link MenuPanelItem} and
+		 * adds them to the {@link MenuList}.
 		 *  
-		 * @param dishes The dishes to be added to the {@link OrderMenu}.
+		 * @param dishes The <code>List</code> of <code>Dishes</code> to be added to the {@link MenuList}.
 		 */
-		private void addDishes(Collection<Dish> dishes) {
+		private void addDishes(List<Dish> dishes) {
 			if (dishes == null) {
 				return;
 			}
@@ -166,7 +167,7 @@ public class MenuSearchPanel extends JPanel {
 		
 		/**
 		 * All available <code>DishTypes</code> in the database are converted 
-		 * to {@link DishTypeItem} objects and added to the {@link MenuPanel}.
+		 * to {@link DishTypeItem} objects and added to the {@link MenuList}.
 		 * 
 		 * @param dishType The {@link DishType} object that will converted to a {@link DishTypeItem}.
 		 */
@@ -200,17 +201,17 @@ public class MenuSearchPanel extends JPanel {
 		}
 		
 		/**
-		 * Synchronizes the <code>Dishes</code> shown in the {@link MenuPanel} with the database using the last search string specified,
-		 * or the empty string if no search string was specified.
+		 * Synchronizes the <code>Dishes</code> shown in the {@link MenuList} with the database using the last search string specified,
+		 * or the empty string if a previous search string has yet to be specified.
 		 */
 		public void refresh() {
 			refresh(prevSearchString);
 		}
 		
 		/**
-		 * Synchronizes the <code>Dishes</code> shown in the {@link MenuPanel} with the database using the search string specified.
+		 * Synchronizes the <code>Dishes</code> shown in the {@link MenuList} with the database using the search string specified.
 		 * <p>
-		 * If the search string is empty, all categories will be added to the <code>MenuPanel</code>.
+		 * If the search string is empty, all categories will be added to the <code>MenuList</code>.
 		 * 
 		 * @param searchString The <code>String</code> to search the database with.
 		 */
@@ -229,11 +230,11 @@ public class MenuSearchPanel extends JPanel {
 		}
 
 		/**
-		 * Getter for the topmost {@link MenuPanelItem} element of the {@link MenuPanel}.
+		 * Getter for the topmost {@link MenuPanelItem} element of the {@link MenuList}.
 		 * <p>
 		 * This is the element that should be selected when the user presses 'enter'.
 		 * 
-		 * @return The <code>MenuPanelItem</code> currently on top of the {@link MenuPanel}.
+		 * @return The <code>MenuPanelItem</code> currently on top of the {@link MenuList}.
 		 * If there is no item currently on top of the menu, or if the topmost item is a {@link DishTypeItem},
 		 * null is returned.
 		 */
@@ -245,7 +246,7 @@ public class MenuSearchPanel extends JPanel {
 	private Mode mode;
 	private boolean addingNewDish;
 	private OperatorOrderSummary currentOrder;
-	private MenuPanel orderMenu;
+	private MenuList orderMenu;
 	private SearchBox searchInput;
 	private SearchBox nameInput;
 	private SearchBox priceInput;
@@ -256,15 +257,27 @@ public class MenuSearchPanel extends JPanel {
 	private JLabel errorMessage;
 	private JComboBox typeInput;
 
+	/**
+	 * Constructs a new {@link MenuSearchPanel} in the specified {@link Mode}.
+	 * 
+	 * @param mode The <code>Mode</code> of the window creating the panel.
+	 */
 	public MenuSearchPanel(Mode mode) {
 		this(mode, null);
 	}
 
+	/**
+	 * Constructs a new {@link MenuSearchPanel} in the specified {@link Mode} that will add {@link MenuPanelItem MenuItems}
+	 * to the specified {@link operatorOrderSummary} when they are clicked.
+	 * 
+	 * @param mode The <code>Mode</code> of the window creating the panel.
+	 * @param orderSummary The <code>OperatorOrderSummary</code> to which clicked <code>MenuItems</code> will be added.
+	 */
 	public MenuSearchPanel(Mode mode, OperatorOrderSummary orderSummary) {
 		this.mode = mode;
 		currentOrder = orderSummary;
 
-		orderMenu = new MenuPanel(currentOrder);
+		orderMenu = new MenuList(currentOrder);
 		searchInput = new SearchBox();
 		nameInput = new SearchBox();
 		priceInput = new SearchBox();

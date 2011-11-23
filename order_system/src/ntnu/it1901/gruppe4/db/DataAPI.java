@@ -15,7 +15,7 @@ import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.table.TableUtils;
 
 /**
- * API to communicate with pizza server
+ * API to communicate with the SQL database of the system.
  * 
  * @author David M.
  * @author Lars Kinn Ekroll
@@ -33,10 +33,10 @@ public class DataAPI {
 	private static String url = "";
 
 	/**
-	 * Opens a connection to a database
+	 * Opens a connection to a database.
 	 * 
 	 * @param file
-	 *            The filename of the database
+	 *            The filename of the database.
 	 */
 	public static void open(String file) {
 		if (conn != null) {
@@ -69,14 +69,14 @@ public class DataAPI {
 	}
 
 	/**
-	 * Opens the default database
+	 * Opens the default database.
 	 */
 	public static void open() {
 		open("./data.db");
 	}
 
 	/**
-	 * Sets up the database
+	 * Makes sure that the database has all the needed tables.
 	 */
 	private static void setupDatabase() throws SQLException {
 		if (conn != null) {
@@ -103,11 +103,11 @@ public class DataAPI {
 
 	/**
 	 * Ensures that the program settings exist, by setting any missing settings
-	 * to defaults from {@link Settings#DEFAULT_SETTINGS}. Does not overwrite
-	 * existing settings!
+	 * to defaults from {@link Settings#DEFAULT_SETTINGS}. 
+	 * <p>
+	 * Does not overwrite existing settings!
 	 */
 	public static void setupSettings() {
-		// TODO: This should be private, eventually.
 		for (Map.Entry<String, String> entry : Settings.DEFAULT_SETTINGS
 				.entrySet()) {
 			try {
@@ -121,7 +121,9 @@ public class DataAPI {
 	}
 
 	/**
-	 * Delete all the data
+	 * Completely clears the database of all data.
+	 * <p>
+	 * <b>WARNING:</b> This is very destructive and unrecoverable.
 	 */
 	public static void clearDatabase() {
 		if (conn != null) {
@@ -144,7 +146,7 @@ public class DataAPI {
 	}
 
 	/**
-	 * Inserts example data into database
+	 * Inserts example data into database.
 	 */
 	public static void createExampleData() {
 		setupSettings();
@@ -215,7 +217,7 @@ public class DataAPI {
 	}
 
 	/**
-	 * Closes the connection to the database
+	 * Closes the connection to the database.
 	 */
 	public static void close() {
 		System.out.println("[Debug] Closing database");
@@ -233,13 +235,13 @@ public class DataAPI {
 	// Customer
 
 	/**
-	 * Stores a Customer to the database. If the ID matches an existing
-	 * Customer, the match is updated. If not, a new Customer is added to the
-	 * database.
+	 * Stores a {@link Customer} to the database. If its ID matches an existing
+	 * <code>Customer</code>, the matching <code>Customer</code> is updated. 
+	 * If not, a new <code>Customer</code> is added to the database.
 	 * 
 	 * @param c
-	 *            a reference to the Customer object containing the data to be
-	 *            stored
+	 *            a reference to the <code>Customer</code> object containing the data to be
+	 *            stored.
 	 */
 	public static void saveCustomer(Customer c) {
 		try {
@@ -250,12 +252,12 @@ public class DataAPI {
 	}
 
 	/**
-	 * Fetches customer data and stores it in a Customer object
+	 * Fetches customer data and stores it in a {@link Customer Customer object}.
 	 * 
 	 * @param id
-	 *            unique ID used to identify a customer in the database
-	 *            (idCustomer)
-	 * @return a reference to a new Customer object containing the data
+	 *            unique ID used to identify a <code>Customer</code> in the database
+	 *            (idCustomer).
+	 * @return a reference to a new <code>Customer</code> object containing the data.
 	 */
 	public static Customer getCustomer(int id) {
 		try {
@@ -269,12 +271,12 @@ public class DataAPI {
 	}
 
 	/**
-	 * Fetches customer data and stores it in a Customer object
+	 * Fetches customer data and stores it in a {@link Customer} object.
 	 * 
 	 * @param address
-	 *            an Address object containing a reference to a Customer object
-	 *            containing the unique ID of the customer.
-	 * @return a reference to a new Customer object containing the data
+	 *            an {@link Address} object containing a reference to a <code>Customer</code> object
+	 *            containing the unique ID of the <code>Customer</code>.
+	 * @return a reference to a new <code>Customer</code> object containing the data.
 	 */
 	public static Customer getCustomer(Address address) {
 		try {
@@ -290,11 +292,11 @@ public class DataAPI {
 	}
 
 	/**
-	 * Removes customer from database. Does not remove any addresses; call
-	 * remAddresses first.
+	 * Removes <code>Customer</code> from database. Does not remove any addresses; call
+	 * {@link #remAddresses(Customer)} first.
 	 * 
 	 * @param customer
-	 *            The customer to be removed.
+	 *            The <code>Customer</code> to be removed.
 	 */
 	public static void remCustomer(Customer customer) {
 		try {
@@ -308,11 +310,11 @@ public class DataAPI {
 	}
 
 	/**
-	 * Searches for customers by substring
+	 * Searches for customers by substring.
 	 * 
 	 * @param search
-	 *            The search string
-	 * @return a reference to a new Customer object containing the data
+	 *            The search string.
+	 * @return a reference to a new <code>Customer</code> object containing the data.
 	 */
 	public static List<Customer> findCustomers(String search) {
 		try {
@@ -353,12 +355,11 @@ public class DataAPI {
 	// Address
 
 	/**
-	 * Stores an Address to the database. If the ID matches an existing Address,
-	 * the match is updated. If not, a new Address is added to the database.
+	 * Stores an {@link Address} to the database. If the ID matches an existing <code>Address</code>,
+	 * the match is updated. If not, a new <code>Address</code> is added to the database.
 	 * 
 	 * @param a
-	 *            a reference to the Address object containing the data to be
-	 *            stored
+	 *            a reference to the <code>Address</code> object containing the data to be stored.
 	 */
 	public static void saveAddress(Address a) {
 		try {
@@ -369,10 +370,10 @@ public class DataAPI {
 	}
 
 	/**
-	 * Deletes an Address from the database
+	 * Deletes an <code>Address</code> from the database.
 	 * 
 	 * @param a
-	 *            a reference to the Address object to be deleted.
+	 *            a reference to the <code>Address</code> object to be deleted.
 	 */
 
 	public static void deleteAddress(Address a) {
@@ -384,12 +385,12 @@ public class DataAPI {
 	}
 
 	/**
-	 * Fetches address data and stores it in a Address object
+	 * Fetches address data and stores it in a {@link Address} object.
 	 * 
 	 * @param id
-	 *            a unique ID used to identify an address in the database
-	 *            (idAddress)
-	 * @return a reference to a new Address object containing the data
+	 *            a unique ID used to identify an <code>Address</code> in the database
+	 *            (idAddress).
+	 * @return a reference to a new <code>Address</code> object containing the data.
 	 */
 	public static Address getAddress(int id) {
 		try {
@@ -403,11 +404,11 @@ public class DataAPI {
 	}
 
 	/**
-	 * Fetches address associated with an order
+	 * Fetches the {@link Address} associated with an {@link Order}.
 	 * 
 	 * @param order
-	 *            an Order object containing an Address object containing the id
-	 * @return a reference to a new Address object containing the data
+	 *            an <code>Order</code> object containing an <code>Address</code> object.
+	 * @return a reference to a new <code>Address</code> object containing the data.
 	 */
 	public static Address getAddress(Order order) {
 		try {
@@ -422,12 +423,12 @@ public class DataAPI {
 	}
 
 	/**
-	 * Fetches list of address data associated with a customer and stores it in
-	 * a List<Address> object
+	 * Fetches a list of address data associated with a {@link Customer}
+	 * and stores it in a <code>List</code> object.
 	 * 
 	 * @param customer
-	 *            the customer whose addresses should be fetched
-	 * @return a reference to a new List<Address> object containing the data
+	 *            the <code>Customer</code> whose addresses should be fetched.
+	 * @return a reference to a new <code>List</code> object containing the addresses.
 	 */
 	public static List<Address> getAddresses(Customer customer) {
 		try {
@@ -442,10 +443,10 @@ public class DataAPI {
 	}
 
 	/**
-	 * Removes addresses associated with a customer and stores it in
+	 * Removes addresses associated with a {@link Customer}.
 	 * 
 	 * @param customer
-	 *            the customer whose addresses should be removed
+	 *            the <code>Customer</code> whose addresses should be removed.
 	 */
 	public static void remAddresses(Customer customer) {
 		try {
@@ -463,12 +464,11 @@ public class DataAPI {
 	}
 
 	/**
-	 * Finds addresses containing the search string
+	 * Finds addresses containing the search string.
 	 * 
 	 * @param s
-	 *            the search string
-	 * @return a reference to a new List<Address> object with the matching
-	 *         addresses
+	 *            the search string.
+	 * @return a reference to a new <code>List</code> object with the matching addresses.
 	 */
 
 	public static List<Address> findAddresses(String s) {
@@ -483,12 +483,12 @@ public class DataAPI {
 	}
 
 	/**
-	 * Stores a Dish to the database. If the ID matches an existing Dish, the
-	 * match is updated. If not, a new Dish is added to the database.
+	 * Stores a {@link Dish} to the database. If the ID matches an existing <code>Dish</code>, the
+	 * match is updated. If not, a new <code>Dish</code> is added to the database.
 	 * 
 	 * @param dish
-	 *            a reference to the Dish object containing the data to be
-	 *            stored
+	 *            a reference to the <code>Dish</code> object 
+	 *            containing the data to be stored.
 	 */
 	public static void saveDish(Dish dish) {
 		try {
@@ -499,11 +499,11 @@ public class DataAPI {
 	}
 
 	/**
-	 * Fetches dish data and stores it in a Dish object
+	 * Fetches dish data and stores it in a {@link Dish} object.
 	 * 
 	 * @param id
-	 *            a unique ID used to identify an dish in the database (idDish)
-	 * @return a reference to a new Dish object containing the data
+	 *            a unique ID used to identify a <code>Dish</code> in the database (idDish).
+	 * @return a reference to a new <code>Dish</code> object containing the data.
 	 */
 	public static Dish getDish(int id) {
 		try {
@@ -517,11 +517,11 @@ public class DataAPI {
 	}
 
 	/**
-	 * Finds dishes containing the search string
+	 * Finds dishes containing the search string.
 	 * 
 	 * @param s
-	 *            the search string
-	 * @return a reference to a new List<Dish> object with the matching dishes
+	 *            the search string.
+	 * @return a reference to a new <code>List</code> object with the matching dishes.
 	 */
 	public static List<Dish> findDishes(String s) {
 		try {
@@ -535,11 +535,11 @@ public class DataAPI {
 	}
 
 	/**
-	 * Finds all the dishes of the specified type
+	 * Finds all the dishes of the specified {@link DishType}.
 	 * 
 	 * @param type
-	 *            the type of dish to search for
-	 * @return a reference to a new List<Dish> object with the matching dishes
+	 *            the <code>DishType</code> to search for.
+	 * @return a reference to a new <code>List</code> object with the matching dishes.
 	 */
 	public static List<Dish> findDishes(DishType type) {
 		try {
@@ -553,12 +553,12 @@ public class DataAPI {
 	}
 
 	/**
-	 * Stores an Order to the database. If the ID matches an existing Order, the
-	 * match is updated. If not, a new Order is added to the database.
+	 * Stores an {@link Order} to the database. If the ID matches an existing <code>Order</code>, the
+	 * match is updated. If not, a new <code>Order</code> is added to the database.
 	 * 
 	 * @param order
-	 *            a reference to the Order object containing the data to be
-	 *            stored
+	 *            a reference to the <code>Order</code> object 
+	 *            containing the data to be stored.
 	 */
 	public static void saveOrder(Order order) {
 		try {
@@ -569,11 +569,11 @@ public class DataAPI {
 	}
 
 	/**
-	 * Removes an existing order in the database
+	 * Removes an existing <code>Order</code> in the database.
 	 * 
 	 * @param order
-	 *            a reference to the Order object containing the data to be
-	 *            removed
+	 *            a reference to the <code>Order</code> object 
+	 *            containing the data to be removed.
 	 */
 	public static void remOrder(Order order) {
 		try {
@@ -590,11 +590,11 @@ public class DataAPI {
 	}
 
 	/**
-	 * Fetches order data and stores it in a Order object
+	 * Fetches order data and stores it in a {@link Order} object.
 	 * 
 	 * @param id
-	 *            a unique ID used to identify an dish in the database (idOrder)
-	 * @return a reference to a new Order object containing the data
+	 *            a unique ID used to identify a <code>Dish</code> in the database (idOrder).
+	 * @return a reference to a new <code>Order</code> object containing the data.
 	 */
 	public static Order getOrder(int id) {
 		try {
@@ -608,8 +608,11 @@ public class DataAPI {
 	}
 
 	/**
-	 * Fetches a list of orders
+	 * Returns a <code>List</code> containing all the <code>Orders</code>
+	 * in the database ordered by the time they were added.
 	 * 
+	 * @return a new <code>List</code> object containing all 
+	 * the <code>Orders</code> in the database.
 	 */
 	public static List<Order> getOrders() {
 		try {
@@ -622,13 +625,12 @@ public class DataAPI {
 	}
 
 	/**
-	 * Stores an OrderItem to the database. If the ID matches an existing
-	 * OrderItem, the match is updated. If not, a new OrderItem is added to the
-	 * database.
+	 * Stores an {@link OrderItem} to the database. If the ID matches an existing <code>OrderItem</code>, 
+	 * the match is updated. If not, a new <code>OrderItem</code> is added to the database.
 	 * 
 	 * @param orderItem
-	 *            a reference to the OrderItem object containing the data to be
-	 *            stored
+	 *            a reference to the <code>OrderItem</code> object 
+	 *            containing the data to be stored.
 	 */
 	public static void saveOrderItem(OrderItem orderItem) {
 		try {
@@ -639,11 +641,11 @@ public class DataAPI {
 	}
 
 	/**
-	 * Removes an OrderItem from the database
+	 * Removes an {@link OrderItem} from the database.
 	 * 
 	 * @param orderItem
-	 *            a reference to the OrderItem object containing the data to be
-	 *            removed
+	 *            a reference to the <code>OrderItem</code> object 
+	 *            containing the data to be removed.
 	 */
 	public static void remOrderItem(OrderItem orderItem) {
 		try {
@@ -654,11 +656,13 @@ public class DataAPI {
 	}
 
 	/**
-	 * Removes OrderItems from the database
+	 * Removes all <code>OrderItems</code> associated with 
+	 * an <code>Order</code> from the database.
 	 * 
 	 * @param order
-	 *            a reference to the Order object for which the OrderItems to be
-	 *            removed are associated
+	 *            a reference to the <code>Order</code> object for 
+	 *            which the <code>OrderItems</code> to be
+	 *            removed are associated.
 	 */
 	public static void remOrderItems(Order order) {
 		if (order == null)
@@ -675,12 +679,13 @@ public class DataAPI {
 	}
 
 	/**
-	 * Fetches order item data and stores it in a OrderItem object
+	 * Fetches order item data and stores it in a {@link OrderItem} object.
 	 * 
 	 * @param id
-	 *            a unique ID used to identify an dish in the database
-	 *            (idOrderItem)
-	 * @return a reference to a new OrderItem object containing the data
+	 *            a unique ID used to identify an <code>OrderItem</code>
+	 *            in the database (idOrderItem).
+	 *            
+	 * @return a reference to a new <code>OrderItem</code> object containing the data.
 	 */
 	public static OrderItem getOrderItem(int id) {
 		try {
@@ -694,11 +699,12 @@ public class DataAPI {
 	}
 
 	/**
-	 * Fetches a list of order items associated with an order
+	 * Fetches a list of <code>OrderItems</code> associated with an <code>Order</code>.
 	 * 
 	 * @param order
-	 *            the order the order items should be associated with
-	 * @return a reference to a List<OrderItem> containing the order items
+	 *            the <code>Order</code> the <code>OrderItems</code> should be associated with.
+	 *            
+	 * @return a reference to a new <code>List</code> containing the <code>OrderItems</code>.
 	 */
 	public static List<OrderItem> getOrderItems(Order order) {
 		try {
@@ -712,12 +718,12 @@ public class DataAPI {
 	// Config
 
 	/**
-	 * Stores a configuration value to the database
+	 * Stores a configuration value to the database.
 	 * 
 	 * @param key
-	 *            - the name of the configuration value (a String)
+	 *            a <code>String</code> containing the name of the configuration value.
 	 * @param value
-	 *            - the value (a String)
+	 *            a <code>String</code> containing the value.
 	 */
 	static void setConfig(String key, String value) {
 		try {
@@ -728,11 +734,11 @@ public class DataAPI {
 	}
 
 	/**
-	 * Fetches a configuration value from the database
+	 * Fetches a configuration value from the database.
 	 * 
 	 * @param key
-	 *            - the name of the configuration (a String)
-	 * @return the value, as a String
+	 * 			a <code>String</code> containing the name of the configuration value.
+	 * @return a a <code>String</code> containing the value.
 	 */
 	static String getConfig(String key) {
 		try {
@@ -749,10 +755,10 @@ public class DataAPI {
 	}
 
 	/**
-	 * Returns the name of the customer assigned to an order, or a string
-	 * describing self pickup.
+	 * Returns the name of the {@link Customer} assigned to an {@link Order}, 
+	 * or a a <code>String</code> describing self pickup.
 	 * 
-	 * @return A string with a customer name, or a parenthesized comment.
+	 * @return A <code>String</code> with a customer name, or a parenthesized comment.
 	 */
 	public static String getCustomerName(Order order) {
 		if (order == null) {
@@ -768,9 +774,9 @@ public class DataAPI {
 	}
 
 	/**
-	 * Returns a string describing where (or if) the order should be delivered.
+	 * Returns a <code>String</code> describing where (or if) the order should be delivered.
 	 * 
-	 * @return A string with an address, or a parenthesized comment.
+	 * @return a <code>String</code> with an {@link Address}, or a parenthesized comment.
 	 */
 	public static String getDeliveryDescription(Order order) {
 		if (order == null) {

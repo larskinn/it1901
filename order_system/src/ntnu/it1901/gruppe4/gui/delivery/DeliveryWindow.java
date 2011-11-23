@@ -18,6 +18,11 @@ import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 
 /**
+ * The window in which a delivery man or woman can view all <code>Orders</code> that
+ * are ready for delivery and mark them as in transit and as delivered.
+ * <p>
+ * This window also contains a map which shows the distance between the restaurant and
+ * a selected {@link Order}.
  * 
  * @author Morten 
  * @author David
@@ -25,7 +30,6 @@ import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
  */
 
 public class DeliveryWindow {
-
 	private JFrame frame;
 	private DeliveryOrderSummary orderSummary;
 	private OrderHistoryPanel orderPanel;
@@ -39,7 +43,7 @@ public class DeliveryWindow {
 	}
 	
 	/**
-	 * Resizes all components in the {@link DeliveryWindow} according to the frame's size.
+	 * Resizes all components in the {@link DeliveryWindow} according to the window's size.
 	 */
 	private void handleResize() {
 		map.setPreferredSize(new Dimension((int)(frame.getWidth() * 0.65),
@@ -57,7 +61,10 @@ public class DeliveryWindow {
 	}
 	
 	/**
-	 * Resize the map according to the frame's size.
+	 * Resizes the image on the map according to the window's size.
+	 * <p>
+	 * This method cannot be called as frequently as {@link #handleResize()} because it requires
+	 * Java to download a new map from the internet, which is time consuming.
 	 */
 	private void resizeMap() {
 		Customer c = orderSummary.getCustomer();
@@ -71,6 +78,10 @@ public class DeliveryWindow {
 		}
 	}
 
+	/**
+	 * Constructs a new {@link DeliveryWindow} that will immediately displayed 
+	 * in the center of the screen.
+	 */
 	public DeliveryWindow() {
 		DataAPI.open();
 
@@ -118,6 +129,9 @@ public class DeliveryWindow {
 		resizeMap();
 	}
 
+	/**
+	 * Closes the database connection.
+	 */
 	private static void cleanup() {
 		DataAPI.close();
 	}

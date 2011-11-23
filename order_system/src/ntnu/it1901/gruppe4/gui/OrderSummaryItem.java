@@ -29,9 +29,11 @@ public class OrderSummaryItem extends ClickablePanel {
 	private OrderItem item;
 
 	/**
-	 * Creates a new {@link OrderSummaryItem} containing the specified {@link OrderItem}.
+	 * Creates a new {@link OrderSummaryItem} in the specified {@link Mode} containing the specified {@link OrderItem}.
 	 *  
 	 * @param item The <code>OrderItem</code> to be associated with the new <code>OrderSummaryItem</code>.
+	 * @param mode The <code>Mode</code> in which the <code>OrderSummary</code> 
+	 * should act in accordance to.
 	 */
 	public OrderSummaryItem(OrderItem item, Mode mode) {
 		this.item = item;
@@ -103,7 +105,7 @@ public class OrderSummaryItem extends ClickablePanel {
 	}
 	
 	/**
-	 * Saves the {@link OrderSummaryItem} being edited.
+	 * Saves the {@link OrderSummaryItem}'s description being edited.
 	 */
 	private void saveItem() {
 		OrderSummaryItem.this.item.setDescription(descriptionInput.getText());

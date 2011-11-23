@@ -7,9 +7,9 @@ import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 
 /**
- * Expansion of JPanel that adds some fancy style effects for clicking.
+ * Expansion of JPanel that adds makes the panel change colors when clicked.
+ * 
  * @author Dimmy
- *
  */
 public class ClickablePanel extends JPanel implements MouseListener {
 
@@ -41,33 +41,21 @@ public class ClickablePanel extends JPanel implements MouseListener {
 	}
 	
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		setHighlight(true);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		setHighlight(false);
 	}
+	
+	@Override
+	public void mouseClicked(MouseEvent arg0) {}
 
+	@Override
+	public void mouseEntered(MouseEvent arg0){}
+
+	@Override
+	public void mouseExited(MouseEvent arg0){}
 }

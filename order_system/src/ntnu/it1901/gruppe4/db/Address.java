@@ -4,11 +4,10 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
- * Data class for addresses of customers
+ * Data class for the addresses of {@link Customer Customers}.
  * 
  * @author David M.
  */
-
 @DatabaseTable(tableName = "address")
 public class Address {
 	@DatabaseField(canBeNull = false, generatedId = true)
@@ -24,20 +23,20 @@ public class Address {
 	private int postalCode;
 
 	/**
-	 * Constructs an address object
+	 * Constructs an {@link Address} object.
 	 */
 	public Address() {
 	}
 
 	/**
-	 * Constructs a address object with a dataID and a customer
+	 * Constructs an {@link Address} object with a new ID and a {@link Customer}.
 	 * 
 	 * @param customer
-	 *            reference to customer object associated with this address
+	 *            Reference to <code>Customer</code> object to be associated with this <code>Address</code>.
 	 * @param addressLine
-	 *            Address line
+	 *            A <code>String</code> containing the address line.
 	 * @param postalCode
-	 *            Postal code
+	 *            The postal code.
 	 */
 	public Address(Customer customer, String addressLine, int postalCode) {
 		this.idCustomer = customer;
@@ -46,76 +45,76 @@ public class Address {
 	}
 
 	/**
-	 * Returns the unique ID used in database
+	 * Returns the unique ID used in database.
 	 * 
-	 * @return the unique ID used in database
+	 * @return the unique ID used in database.
 	 */
 	public Customer getIdCustomer() {
 		return idCustomer;
 	}
 
 	/**
-	 * Returns the address line
+	 * Returns the address line.
 	 * 
-	 * @return the address line
+	 * @return the address line.
 	 */
 	public String getAddressLine() {
 		return addressLine;
 	}
 
 	/**
-	 * Returns the postal code
+	 * Returns the postal code.
 	 * 
-	 * @return the postal code
+	 * @return the postal code.
 	 */
 	public int getPostalCode() {
 		return postalCode;
 	}
 
 	/**
-	 * Changes the address line
+	 * Changes the address line.
 	 * 
 	 * @param addressLine
-	 *            the address line
+	 *            the address line.
 	 */
 	public void setAddressLine(String addressLine) {
 		this.addressLine = addressLine;
 	}
 
 	/**
-	 * Changes the postal code
+	 * Changes the postal code.
 	 * 
 	 * @param postalCode
-	 *            the postal code
+	 *            the postal code.
 	 */
 	public void setPostalCode(int postalCode) {
 		this.postalCode = postalCode;
 	}
 
 	/**
-	 * Changes the customer associated with this address
+	 * Changes the {@link Customer} associated with this {@link Address}.
 	 * 
 	 * @param customer
-	 *            a reference to the customer associated with this address
+	 *            a reference to the <code>Customer</code> associated with this <code>Address</code>.
 	 */
 	public void setIdCustomer(Customer customer) {
 		this.idCustomer = customer;
 	}
 
 	/**
-	 * Returns the database id of this address
+	 * Returns the database id of this address.
 	 * 
-	 * @return the database id of this address
+	 * @return the database id of this address.
 	 */
 	public int getIdAddress() {
 		return idAddress;
 	}
 
 	/**
-	 * Returns TRUE if the address is valid. An address is valid if it is
-	 * connected to a customer, and that customer is valid.
+	 * Returns <code>true</code> if the {@link Address} is valid. An <code>Address</code> is valid if it is
+	 * connected to a <code>Customer</code>, and that <code>Customer</code> is valid.
 	 * 
-	 * @return TRUE if address is valid, FALSE if not
+	 * @return <code>true</code> if <code>Address</code> is valid, <code>false</code> if not
 	 */
 	public boolean isValid() {
 		if (idCustomer == null)
@@ -126,8 +125,8 @@ public class Address {
 	}
 	
 	/**
-	 * Persists the Address to the database by updating an existing Address,
-	 * or -- if one doesn't exist -- adding a new Address. 
+	 * Saves the {@link Address} to the database by updating an existing <code>Address</code>,
+	 * or -- if one doesn't exist -- adding a new <code>Address</code>. 
 	 */
 	public void save() {
 		DataAPI.saveAddress(this);

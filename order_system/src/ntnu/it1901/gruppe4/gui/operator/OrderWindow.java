@@ -22,10 +22,10 @@ import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.MenuSearchPanel;
 import ntnu.it1901.gruppe4.gui.Mode;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
-import ntnu.it1901.gruppe4.gui.OrderSummary;
 
 /**
- * The window where the operator may add or edit orders and customers
+ * The window where a telephone operator in the restaurant can add or edit 
+ * {@link ntnu.it1901.gruppe4.db.Order Orders} and {@link ntnu.it1901.gruppe4.db.Customer Customers}.
  * 
  * @author Leo
  * 
@@ -36,40 +36,45 @@ public class OrderWindow implements ActionListener {
 	private MenuSearchPanel menuSearchPanel;
 	private CustomerPanel customerPanel;
 	private OrderHistoryPanel orderHistoryPanel;
-	private JPanel currentPanel;
+	private JPanel currentTab;
 	private OperatorOrderSummary operatorOrderSummary;
 	private ResizeListener resizeListener;
 
+	/**
+	 * This listener ensures that all components within the {@link OrderWindow} always have the correct size.
+	 * 
+	 * @author Leo
+	 */
 	private class ResizeListener extends ComponentAdapter {
 		public void componentResized(ComponentEvent e) {
 			// Dynamically resize the western and eastern panels
-			currentPanel.setPreferredSize(new Dimension(
+			currentTab.setPreferredSize(new Dimension(
 					(int) (frame.getWidth() * 0.6666), frame.getHeight()));
 
 			operatorOrderSummary.setPreferredSize(new Dimension((int) (frame
 					.getWidth() * 0.3333), frame.getHeight()));
 
-			currentPanel.revalidate();
+			currentTab.revalidate();
 		}
 	}
 
 	/**
-	 * An enum of view modes for OrderWindow<br>
-	 * MENU -- The food menu view, where dishes can be added to the order<br>
-	 * CUSTOMER -- The customer list view, where a customer can be applied to the order<br>
-	 * HISTORY --- The order history view, where past orders may be reviewed
+	 * An enum of the tabs available in the {@link OrderWindow}.
+	 * 
+	 * <ul>
+	 * <li>MENU -- The menu view, where dishes can be added to an <code>Order</code>.
+	 * <li>CUSTOMER -- The customer list view, where a customer can be assigned to an 
+	 * <code>Order</code> and new customers can be created.
+	 * <li>HISTORY -- The order history view, where past <code>Orders</code> may be reviewed
+	 * </ul>
 	 */
-	public enum View {
+	public enum Tab {
 		MENU, CUSTOMER, HISTORY;
 	}
 
-	private static void cleanup() {
-		// This would make more sense if DataAPI was non-static.
-		DataAPI.close();
-	}
-
 	/**
-	 * Public constructor.
+	 * Constructs a new {@link OrderWindow} that will immediately displayed 
+	 * in the center of the screen.
 	 */
 	public OrderWindow() {
 		DataAPI.open();
@@ -92,7 +97,7 @@ public class OrderWindow implements ActionListener {
 		frame.setLayout(new BorderLayout());
 		frame.add(operatorOrderSummary, BorderLayout.EAST);
 		frame.add(buttonPanel, BorderLayout.SOUTH);
-		changeView(View.MENU);
+		setTab(Tab.MENU);
 
 		frame.setTitle("Gruppe 4 Pizza - Bestilling");
 		frame.setLocationRelativeTo(null); // Center the frame
@@ -108,13 +113,13 @@ public class OrderWindow implements ActionListener {
 						
 						switch (e.getKeyCode()) {
 							case KeyEvent.VK_F1:
-								changeView(View.MENU);
+								setTab(Tab.MENU);
 								break;
 							case KeyEvent.VK_F2:
-								changeView(View.CUSTOMER);
+								setTab(Tab.CUSTOMER);
 								break;
 							case KeyEvent.VK_F3:
-								changeView(View.HISTORY);
+								setTab(Tab.HISTORY);
 								break;
 							case KeyEvent.VK_F4:
 								operatorOrderSummary.toggleSelfDelivery();
@@ -123,10 +128,10 @@ public class OrderWindow implements ActionListener {
 								operatorOrderSummary.saveOrder();
 								break;
 							case KeyEvent.VK_ESCAPE:
-								if (currentPanel == menuSearchPanel) {
+								if (currentTab == menuSearchPanel) {
 									menuSearchPanel.clearSearchBox();
 								}
-								else if (currentPanel == customerPanel) {
+								else if (currentTab == customerPanel) {
 									customerPanel.clearSearchBox();
 								}
 								break;
@@ -146,52 +151,43 @@ public class OrderWindow implements ActionListener {
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 	}
-
+	
 	/**
-	 * Change the view of the order window. Options are (from {@link View}):
-	 * <p>
-	 * MENU -- Shows the food menu view, where dishes can be added to the order<br>
-	 * CUSTOMER -- Shows the customer list view, where a customer can be assigned to the order<br>
-	 * HISTORY --- Shows the order history view, where past orders may be reviewed
-	 * 
-	 * @param view
-	 *            The view to show. Options are View.MENU, View.CUSTOMER,
-	 *            View.HISTORY
+	 * Closes the connection to the database.
 	 */
-	public void changeView(View view) {
-		// If the frame already has a panel providing its view, remove it
-		if (currentPanel != null) {
-			frame.remove(currentPanel);
-		}
-
-		switch (view) {
-		case MENU:
-			frame.add(menuSearchPanel, BorderLayout.CENTER);
-			currentPanel = menuSearchPanel;
-			break;
-		case CUSTOMER:
-			frame.add(customerPanel, BorderLayout.CENTER);
-			currentPanel = customerPanel;
-			break;
-		case HISTORY:
-			frame.add(orderHistoryPanel, BorderLayout.CENTER);
-			currentPanel = orderHistoryPanel;
-			break;
-		}
-		currentPanel.grabFocus(); // This method should be overrided to pass on
-									// focus to the search box
-		currentPanel.revalidate(); // Check if the panel has all its components
-									// loaded
-		frame.repaint(); // Repaint the frame and all its components
+	private static void cleanup() {
+		// This would make more sense if DataAPI was non-static.
+		DataAPI.close();
 	}
 
 	/**
-	 * Returns the {@link OrderSummary} object used in this window.
+	 * Views the specified {@link Tab} the {@link OrderWindow}.
 	 * 
-	 * @return an {@link OrderSummary}
+	 * @param tab
+	 *            The <code>Tab</code> which will be displayed.
 	 */
-	public OrderSummary getCurrentOrderSummary() {
-		return operatorOrderSummary;
+	public void setTab(Tab tab) {
+		if (currentTab != null) {
+			frame.remove(currentTab);
+		}
+
+		switch (tab) {
+		case MENU:
+			frame.add(menuSearchPanel, BorderLayout.CENTER);
+			currentTab = menuSearchPanel;
+			break;
+		case CUSTOMER:
+			frame.add(customerPanel, BorderLayout.CENTER);
+			currentTab = customerPanel;
+			break;
+		case HISTORY:
+			frame.add(orderHistoryPanel, BorderLayout.CENTER);
+			currentTab = orderHistoryPanel;
+			break;
+		}
+		currentTab.grabFocus();
+		currentTab.revalidate();
+		frame.repaint();
 	}
 
 	//Called when a button in the button panel is pressed
@@ -200,11 +196,11 @@ public class OrderWindow implements ActionListener {
 		JButton src = (JButton) e.getSource();
 
 		if (src == buttonPanel.menu) {
-			changeView(View.MENU);
+			setTab(Tab.MENU);
 		} else if (src == buttonPanel.customer) {
-			changeView(View.CUSTOMER);
+			setTab(Tab.CUSTOMER);
 		} else if (src == buttonPanel.history) {
-			changeView(View.HISTORY);
+			setTab(Tab.HISTORY);
 		}
 	}
 }

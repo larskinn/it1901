@@ -17,10 +17,10 @@ import ntnu.it1901.gruppe4.db.Address;
 import ntnu.it1901.gruppe4.db.Settings;
 
 /**
- * This class is the Panel where the Google Static API Map is implemented.
+ * This class is a container panel for the image received from Google Static Map API.
  * <p>
- * It takes an address given to it by {@link Address} and puts it in the static
- * URL, generating a new picture each time it is called.
+ * It takes an address line and a post number given to it by a specified {@link Address} and 
+ * puts it in the static URL, which will contain an image to be downloaded.
  * 
  * @author Morten
  * @author Leo
@@ -33,15 +33,31 @@ public class MapPanel extends JPanel {
 	private static final String DESTINATION_ICON = "http://chart.apis.google.com/chart?chst=d_map_pin_icon%26chld=glyphish_house%257C00FF00";
 	private static final String RESTAURANT_ICON = "http://chart.apis.google.com/chart?chst=d_map_pin_icon%26chld=glyphish_fork-and-knife%257CFF0000";
 
-	public MapPanel() {
+	/**
+	 * Creates a new {@link MapPanel} initially containing no map.
+	 */
+	MapPanel() {
 		setBackground(Color.white);
 		setBorder(BorderFactory.createLoweredBevelBorder());
 	}
 	
+	/**
+	 * Downloads a new map image from Google matching the specifed
+	 * {@link Address} which is then stored inside the {@link MapPanel}.
+	 * 
+	 * @param address The <code>Address</code> which the downloaded map will match.
+	 */
 	public void setAddress(Address address) {
 		setAddress(address, prevSize);
 	}
 
+	/**
+	 * Downloads a new map image of the specified size from Google matching the specifed
+	 * {@link Address} which is then stored inside the {@link MapPanel}.
+	 * 
+	 * @param address The <code>Address</code> which the downloaded map will match.
+	 * @param mapSize The size of the downloaded map.
+	 */
 	public void setAddress(Address address, Dimension mapSize) {
 		if (!hasInternetConnection) {
 			return;
@@ -73,5 +89,4 @@ public class MapPanel extends JPanel {
 		revalidate();
 		repaint();
 	}
-
 }

@@ -8,9 +8,20 @@ import javax.swing.JPanel;
 
 import ntnu.it1901.gruppe4.gui.Layout;
 
+/**
+ * A panel that contains the tabs used in {@link ChefWindow}.
+ * 
+ * @author Leo
+ */
 public class ButtonPanel extends JPanel {
 	final JButton orders, menu;
 	
+	/**
+	 * Constructs a new {@link ButtonPanel}.
+	 * 
+	 * @param buttonListeners The listeners that will be called
+	 * when a tab in this panel is clicked.
+	 */
 	public ButtonPanel(ActionListener...buttonListeners) {
 		orders = new JButton("Ordre (F1)");
 		menu = new JButton("Meny (F2)");

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ntnu.it1901.gruppe4.db;
 
 import java.util.ArrayList;
@@ -9,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Object class used to create or modify an order
+ * Object class used to create or modify an {@link Order}.
  * 
  * @author David M.
  * 
@@ -27,7 +24,7 @@ public class OrderMaker {
 	private boolean hasBeenModified;
 
 	/**
-	 * Creates a new OrderMaker and a new unsaved Order
+	 * Creates a new <code>OrderMaker</code> and a new unsaved <code>Order</code>.
 	 */
 	public OrderMaker() {
 		order = new Order();
@@ -42,10 +39,10 @@ public class OrderMaker {
 	}
 
 	/**
-	 * Creates a new OrderMaker to modify an existing order
+	 * Creates a new <code>OrderMaker</code> to modify an existing <code>Order</code>.
 	 * 
 	 * @param order
-	 *            The order to be modified using this OrderMaker object
+	 *            The order to be modified using this <code>OrderMaker</code> object.
 	 */
 	public OrderMaker(Order order) {
 		this.order = order;
@@ -61,9 +58,8 @@ public class OrderMaker {
 	}
 
 	/**
-	 * Save all changes to the order, either it is new or not. Adds and removes
-	 * orderItems that have been added and removed since the last save.
-	 * 
+	 * Save all changes to the <code>Order</code>, either it is new or not. Adds and removes
+	 * <code>OrderItems</code> that have been added and removed since the last save.
 	 */
 	public void save() {
 		if (isValid()) {
@@ -96,15 +92,13 @@ public class OrderMaker {
 	}
 
 	/**
-	 * Calculates the total price
+	 * Calculates the total price.
 	 */
 	private void calculatePrice() {
 		float total = 0.0f;
 		for (OrderItem item : orderItems) {
 			total += item.getAmount();
 		}
-
-		// TODO: beregn frakt
 
 		float delivery = 0.0f;
 		float max_delivery = Settings.getDeliveryFee();
@@ -130,12 +124,17 @@ public class OrderMaker {
 	}
 
 	/**
-	 * Determines whether the order is valid in it's current state. To be valid,
-	 * an order needs to (1) have at least one item, (2) have a valid delivery
-	 * address, and (3) have a valid customer (this is inherent in
-	 * address.isValid())
+	 * Determines whether the <code>Order</code> is valid in its current state. To be valid,
+	 * an <code>Order</code> needs to :
 	 * 
-	 * @return TRUE if it's valid, FALSE if not
+	 * <ul>
+	 * <li>Have at least one item
+	 * <li>Have a valid delivery
+	 * address
+	 * <li>Have a valid customer (this is inherent in address.isValid()).
+	 * </ul>
+	 * 
+	 * @return <code>true</code> if the <code>Order</code> is valid, <code>false</code> if not.
 	 */
 	public boolean isValid() {
 		/*
@@ -163,12 +162,12 @@ public class OrderMaker {
 	}
 
 	/**
-	 * Adds a new dish as OrderItem to the order, and recalculate the price.
+	 * Adds a new <code>Dish</code> as an <code>OrderItem</code> to the <code>Order</code>, and recalculates the price.
 	 * 
 	 * @param dish
-	 *            the dish to be added
-	 * @return a reference to a new OrderItem that contains the name, price and
-	 *         a reference to the dish
+	 *            the <code>Dish</code> to be added.
+	 * @return a reference to a new <code>OrderItem</code> that contains the name, price and
+	 *         a reference to the <code>Dish</code>.
 	 */
 	public OrderItem addItem(Dish dish) {
 		if (canBeChanged()) {
@@ -184,10 +183,10 @@ public class OrderMaker {
 	}
 
 	/**
-	 * Determines whether the order can be changed. To be changeable, the order
-	 * must not have been delivered and paid for.
+	 * Determines whether the <code>Order</code> can be changed. To be changeable, 
+	 * the <code>Order</code> must not have been delivered and paid for.
 	 * 
-	 * @return TRUE if it can be changed, FALSE if not.
+	 * @return <code>true</code> if it can be changed, <code>false</code> if not.
 	 */
 	public boolean canBeChanged() {
 		// PS: State numbers are described in comments in the Order class
@@ -195,30 +194,30 @@ public class OrderMaker {
 	}
 
 	/**
-	 * Returns the number of items in this order
+	 * Returns the number of items in this <code>Order</code>.
 	 * 
-	 * @return the number of items in this order
+	 * @return the number of items in this <code>Order</code>.
 	 */
 	public int getItemCount() {
 		return orderItems.size();
 	}
 
 	/**
-	 * Returns an item by index
+	 * Returns an <code>OrderItem</code> by index.
 	 * 
 	 * @param index
-	 *            the index of the item
-	 * @return an OrderItem from this order
+	 *            the index of the <code>OrderItem</code>.
+	 * @return an <code>OrderItem</code>.
 	 */
 	public OrderItem getItem(int index) {
 		return orderItems.get(index);
 	}
 
 	/**
-	 * Removes an item by index
+	 * Removes an <code>OrderItem</code> by index.
 	 * 
 	 * @param index
-	 *            the index of the item
+	 *            the index of the <code>OrderItem</code>.
 	 */
 	public void remItem(int index) {
 		if (canBeChanged()) {
@@ -232,10 +231,10 @@ public class OrderMaker {
 	}
 
 	/**
-	 * Removes an item by reference
+	 * Removes an <code>OrderItem</code> by reference.
 	 * 
 	 * @param item
-	 *            a reference to the item to be removed
+	 *            a reference to the <code>OrderItem</code> to be removed.
 	 */
 	public void remItem(OrderItem item) {
 		if (canBeChanged()) {
@@ -249,11 +248,11 @@ public class OrderMaker {
 	}
 
 	/**
-	 * Updates an orderItem. Always use this when modifying an order item,
-	 * especially when the price is changed
+	 * Updates an <code>OrderItem</code>. Always use this when modifying an <code>OrderItem</code>,
+	 * especially when the price is changed.
 	 * 
 	 * @param item
-	 *            a reference to the OrderItem that has been modified
+	 *            a reference to the <code>OrderItem</code> that has been modified.
 	 */
 	public void updateItem(OrderItem item) {
 		if (canBeChanged()) {
@@ -268,11 +267,11 @@ public class OrderMaker {
 	}
 
 	/**
-	 * Sets the address to deliver to. The object will be re-instantiated and
+	 * Sets the {@link Address} to deliver to. The object will be re-instantiated and
 	 * assigned.
 	 * 
 	 * @param address
-	 *            A reference to the Address-object.
+	 *            A reference to the <code>Address</code> object.
 	 */
 	public void setAddress(Address address) {
 		if (canBeChanged()) {
@@ -297,9 +296,9 @@ public class OrderMaker {
 	}
 
 	/**
-	 * Returns the address assigned to this order, or null if none is assigned.
+	 * Returns the address assigned to this <code>Order</code>, or null if none is assigned.
 	 * 
-	 * @return an Address-object or null
+	 * @return an Address-object or null.
 	 */
 	public Address getAddress() {
 		if (order.getIdAddress() == null) {
@@ -310,38 +309,37 @@ public class OrderMaker {
 	}
 
 	/**
-	 * Returns an unmodifiable list of all the order items. If you wish to
-	 * modify the list, use addItem, remItem and updateItem.
+	 * Returns an unmodifiable <code>List</code> of all the <code>OrderItems</code>. If you wish to
+	 * modify the list, use {@link #addItem}, {@link #remItem} or {@link #updateItem}.
 	 * 
-	 * @return a reference to a List<OrderItem> containing the order items. The
-	 *         list is unmodifiable.
+	 * @return a reference to the unmodifiable <code>List</code> containing the <code>OrderItems</code>.
 	 */
 	public List<OrderItem> getItemList() {
 		return Collections.unmodifiableList(orderItems);
 	}
 
 	/**
-	 * Returns a reference to the Order object.
+	 * Returns a reference to the <code>Order</code> object.
 	 * 
-	 * @return a reference to the Order object.
+	 * @return a reference to the <code>Order</code> object.
 	 */
 	public Order getOrder() {
 		return order;
 	}
 
 	/**
-	 * Determines if the order has been modified.
+	 * Determines if the <code>Order</code> has been modified.
 	 * 
-	 * @return TRUE if it has been modified, FALSE if not.
+	 * @return <code>true</code> if it has been modified, <code>false</code> if not.
 	 */
 	public boolean isModified() {
 		return hasBeenModified;
 	}
 
 	/**
-	 * Determines if the order has been modified.
+	 * Determines if the <code>Order</code> has been modified.
 	 * 
-	 * @return TRUE if it has been modified, FALSE if not.
+	 * @return <code>true</code> if it has been modified, <code>false</code> if not.
 	 */
 	public void setState(int state) {
 		if (canBeChanged()) {
@@ -355,11 +353,11 @@ public class OrderMaker {
 	}
 
 	/**
-	 * Discards the whole order and its order items from the database.
+	 * Discards the whole <code>Order</code> and its <code>OrderItems</code> from the database.
 	 */
 	public void discard() {
 		if (canBeChanged()) {
-			// Remove order and order items from database.
+			// Remove order and OrderItems from database.
 			DataAPI.remOrderItems(order);
 			DataAPI.remOrder(order);
 

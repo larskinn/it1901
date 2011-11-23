@@ -9,21 +9,18 @@ import javax.swing.JPanel;
 import ntnu.it1901.gruppe4.gui.Layout;
 
 /**
- * A panel of 3 buttons, as used in the bottom of {@Link OrderWindow}.
- * The buttons are Menu (F1), Customer (F2) and Order History (F3).
+ * A panel that contains the tabs used in {@link OrderWindow}.
  * 
- * @author LeoMartin
- * 
+ * @author Leo
  */
 public class ButtonPanel extends JPanel {
 	final JButton menu, customer, history;
 
 	/**
-	 * Public constructor.
+	 * Constructs a new {@link ButtonPanel}.
 	 * 
-	 * @param buttonListeners
-	 *            A list of {@Link ActionListener} objects to bind to the
-	 *            three buttons.
+	 * @param buttonListeners The listeners that will be called
+	 * when a tab in this panel is clicked.
 	 */
 	public ButtonPanel(ActionListener... buttonListeners) {
 		menu = new JButton("Meny (F1)");

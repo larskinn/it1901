@@ -25,22 +25,35 @@ import ntnu.it1901.gruppe4.db.DataAPI;
 import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.SearchBox;
 
+/**
+ * A panel containing a {@link SearchBox} for searching in a contained {@link CustomerList} that can also
+ * create new {@link Customer} objects.
+ * 
+ * @author Leo
+ */
 public class CustomerPanel extends JPanel {
-	public class CustomerList extends JPanel {
+	/**
+	 * A container for {@link CustomerPanelItem}.
+	 * <p>
+	 * Use {@link #refresh} to add {@link Customer Customers} to the <code>CustomerList</code>.
+	 * 
+	 * @author Leo
+	 */
+	class CustomerList extends JPanel {
 		private CustomerPanelItem topItem = null;
 		private CustomerPanelItem itemBeingEdited;
 		private String prevSearchString = "";
 
 		/**
-		 * Creates a new CustomerList containing a list of {@link CustomerPanelItem CustomerPanelItems}.<br>
-		 * Only the CustomerPanel is allowed to do this.
+		 * Creates a new CustomerList containing a list of {@link CustomerPanelItem CustomerPanelItems}
+		 * which is initially empty.
 		 */
-		private CustomerList() {
+		CustomerList() {
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		}
 
 		/**
-		 * Converts all customers in the given collection to {@link CustomerPanelItem},
+		 * Converts all <code>Customers</code> in the given collection to {@link CustomerPanelItem},
 		 * adds them to the {@link CustomerList} and repaints the panel.
 		 *  
 		 * @param customers The customers to be added to the {@link CustomerList}.
@@ -137,7 +150,10 @@ public class CustomerPanel extends JPanel {
 	private JButton cancel;
 	private JLabel errorMessage;
 	private OperatorOrderSummary currentOrder;
-
+	
+	/**
+	 * Constructs a new {@link CustomerPanel}.
+	 */
 	public CustomerPanel(OperatorOrderSummary orderSummary) {
 		currentOrder = orderSummary;
 		customerList = new CustomerList();
@@ -374,13 +390,16 @@ public class CustomerPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Moves the user's cursor to the search box.
+	 */
 	@Override
 	public void grabFocus() {
 		searchInput.grabFocus();
 	}
 	
 	/**
-	 * Clears all text from the search box and restores the list of customers.
+	 * Clears all text from the search box and restores the list of <code>Customers</code>.
 	 */
 	public void clearSearchBox() {
 		searchInput.setText("");

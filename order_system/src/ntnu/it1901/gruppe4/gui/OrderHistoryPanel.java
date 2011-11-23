@@ -31,7 +31,7 @@ public class OrderHistoryPanel extends JPanel {
 	}
 
 	/**
-	 * Creates a new {@link OrderHistoryPanel} in the specified {@link Mode}<br>
+	 * Creates a new {@link OrderHistoryPanel} in the specified {@link Mode}
 	 * that adds all items of an {@link Order} to the specified {@link OrderSummary} when clicked.
 	 * 
 	 * @param mode The <code>Mode</code> specifying which GUI-view the panel is to be created in.
@@ -42,7 +42,7 @@ public class OrderHistoryPanel extends JPanel {
 	}
 	
 	/**
-	 * Creates a new {@link OrderHistoryPanel} in the specified {@link Mode}<br>
+	 * Creates a new {@link OrderHistoryPanel} in the specified {@link Mode}
 	 * that adds all items of an {@link Order} to the specified {@link OrderSummary} and
 	 * the specified {@link MapPanel} when clicked.
 	 * 
@@ -67,6 +67,9 @@ public class OrderHistoryPanel extends JPanel {
 		add(sp, BorderLayout.CENTER);
 	}
 
+	/**
+	 * Reloads all visible orders in the database into the {@link OrderHistoryPanel}.
+	 */
 	public void refresh() {
 		topItem = null;
 		boolean topItemSet = false;

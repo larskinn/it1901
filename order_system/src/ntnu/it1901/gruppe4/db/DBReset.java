@@ -3,15 +3,20 @@ package ntnu.it1901.gruppe4.db;
 import java.io.File;
 
 /**
- * Run this once if you want to reset the database. (PS: If your db schema is
- * deprecated, you still have to delete data.db
+ * A container class for methods to reset the database
+ * and create example data.
+ * 
+ * @see #resetDB()
+ * @see #createExampleData()
  * 
  * @author David M.
  */
-
 public class DBReset {
 	/**
-	 * Delete database file and recreate tables
+	 * Run this once if you want to reset the database. 
+	 * <p>
+	 * <b>Warning:</b> If your db schema is deprecated, 
+	 * you have to manually delete the data.db file.
 	 */
 	public static void resetDB() {
 
@@ -24,7 +29,7 @@ public class DBReset {
 	}
 
 	/**
-	 * Populate database with example data
+	 * Populates the database with example data.
 	 */
 	public static void createExampleData() {
 		DataAPI.open("./data.db");

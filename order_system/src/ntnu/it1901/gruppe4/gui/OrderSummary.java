@@ -47,8 +47,12 @@ public class OrderSummary extends JPanel {
 	protected JPanel buttonPanel;
 
 	/**
-	 * Creates a new {@link OrderSummary} for viewing details about
+	 * Creates a new {@link OrderSummary} in the specified 
+	 * {@link Mode} for viewing details about
 	 * {@link ntnu.it1901.gruppe4.db.Order Orders}.
+	 * 
+	 * @param mode The <code>Mode</code> in which the <code>OrderSummary</code> 
+	 * should act in accordance to.
 	 */
 	public OrderSummary(Mode mode) {
 		this.mode = mode;
@@ -284,8 +288,8 @@ public class OrderSummary extends JPanel {
 	 * Returns the {@link Customer} assigned to the currently displayed
 	 * {@link Order}.
 	 * 
-	 * @return The {@link Customer} shown in this {@link OrderSummary} or
-	 *         <code>null</code> if no <code>Customer</code> is shown.
+	 * @return The {@link Customer} assigned to this {@link OrderSummary} or
+	 *         <code>null</code> if no <code>Customer</code> is assigned.
 	 */
 	public Customer getCustomer() {
 		return customer;
@@ -301,25 +305,26 @@ public class OrderSummary extends JPanel {
 	}
 
 	/**
-	 * Returns an unmodifiable list containing all {@link OrderItem} in this
-	 * {@link OrderSummary}.<br>
+	 * Returns an unmodifiable <code>List</code> containing all <code>OrderItems</code> in this
+	 * {@link OrderSummary}.
 	 * 
-	 * @return An unmodifiable list containing the {@link OrderItem}.
+	 * @return An unmodifiable list containing the <code>OrderItems</code>.
 	 */
 	public List<OrderItem> getItemList() {
 		return currentOrder.getItemList();
 	}
 
 	/**
-	 * Changes the currently displayed {@link Order} to an already existing one,
-	 * which when saved will replace the old one.
+	 * Changes the currently displayed {@link Order} to an already existing one 
+	 * or creates a new, unsaved <code>Order</code>.
 	 * <p>
-	 * Warning: The currently displayed <code>Order</code> will be lost unless
-	 * saved.
+	 * <b>Warning:</b> All data in the currently displayed <code>Order</code> will be lost
+	 * unless it is saved before calling this method.
 	 * 
 	 * @param order
-	 *            The already existing <code>Order</code> to view in the
-	 *            <code>OrderSummary</code>.
+	 *            The already existing <code>Order</code> to edit in the
+	 *            <code>OrderSummary</code>, or <code>null</code> to create a new
+	 *  			<code>Order</code>.
 	 */
 	public void setOrder(Order order) {
 		if (order == null) {
@@ -332,12 +337,17 @@ public class OrderSummary extends JPanel {
 		update();
 	}
 
+	/**
+	 * Getter for the <code>Order</code> currently displayed in the <code>OrderSummary</code>.
+	 * 
+	 * @return the <code>Order</code> currently displayed in the <code>OrderSummary</code>.
+	 */
 	public Order getOrder() {
 		return currentOrder.getOrder();
 	}
 
 	/**
-	 * Toggle the self delivery checkbox
+	 * Toggles the self delivery checkbox.
 	 */
 	public void toggleSelfDelivery() {
 		if (pickupCheckbox.isVisible()) {

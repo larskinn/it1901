@@ -6,7 +6,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
- * Data class for orders
+ * Data class for orders.
  * 
  * @author David M.
  */
@@ -62,7 +62,7 @@ public class Order {
 	boolean selfPickup = false;
 
 	/**
-	 * Constructor that creates an empty Order object
+	 * Constructor that creates an empty {@link Order} object.
 	 */
 	public Order() {
 		setState(Order.NOT_SAVED);
@@ -70,10 +70,10 @@ public class Order {
 	}
 
 	/**
-	 * Constructor that creates an empty Order, associated with an address
+	 * Constructor that creates an empty {@link Order}, associated with an {@link Address}.
 	 * 
 	 * @param address
-	 *            The address to be associated with this order
+	 *            The <code>Address</code> to be associated with this <code>Order</code>.
 	 */
 	public Order(Address address) {
 		setIdAddress(address);
@@ -83,69 +83,75 @@ public class Order {
 	}
 
 	/**
-	 * Returns the address associated with this order. This order might be a
+	 * Returns the {@link Address} associated with this {@link Order}. This <code>Order</code> might be a
 	 * reference object, i.e. the object only contains the data id.
 	 * 
-	 * @return An address object
+	 * @return An <code>Address</code> object.
 	 */
 	public Address getIdAddress() {
 		return idAddress;
 	}
 
 	/**
-	 * Sets the address associated with this order.
+	 * Sets the {@link Address} associated with this order.
 	 * 
 	 * @param idAddress
-	 *            The address object.
+	 *            The <code>Address</code> object.
 	 */
 	public void setIdAddress(Address idAddress) {
 		this.idAddress = idAddress;
 	}
 
 	/**
-	 * Returns the data id of this object
+	 * Returns the data id of the <code>Order</code>.
 	 * 
-	 * @return the data id of this object
+	 * @return the data id of the <code>Order</code>.
 	 */
 	public int getIdOrder() {
 		return idOrder;
 	}
 
 	/**
-	 * Returns the time of this order
+	 * Returns the <code>Date</code> when this 
+	 * <code>Order</code> was ordered.
 	 * 
-	 * @return
+	 * @return the <code>Date</code> when this 
+	 * 			<code>Order</code> was ordered.
 	 */
 	public Date getOrderTime() {
 		return orderTime;
 	}
 
 	/**
-	 * Sets the orderTime
+	 * Sets the <code>Date</code> this 
+	 * <code>Order</code> was ordered.
 	 * 
-	 * @param orderTime
-	 *            the orderTime
+	 * @param orderTime 
+	 *				the <code>Date</code> this 
+	 * 				<code>Order</code> was ordered.
 	 */
 	public void setOrderTime(Date orderTime) {
 		this.orderTime = orderTime;
 	}
 
 	/**
-	 * Returns the time of delivery for this order. This is only valid if the
-	 * order has been delivered.
+	 * Returns the <code>Date</code> when this 
+	 * <code>Order</code> was delivered.
 	 * 
-	 * @return
+	 * @return the <code>Date</code> when this 
+	 * 			<code>Order</code> was delivered.
 	 */
 	public Date getDeliveryTime() {
 		return deliveryTime;
 	}
 
 	/**
-	 * Sets the delivery time of this order. This is only valid after the order
-	 * has been delivered.
+	 * Sets the <code>Date</code> this 
+	 * <code>Order</code> was delivered.
 	 * 
-	 * @param deliveryTime
-	 *            the delivery time.
+	 * @param deliveryTime 
+	 *				the <code>Date</code> this 
+	 * 				<code>Order</code> was delivered.
 	 */
 	public void setDeliveryTime(Date deliveryTime) {
 		this.deliveryTime = deliveryTime;
@@ -162,9 +168,9 @@ public class Order {
 	}
 
 	/**
-	 * Returns a string with a readable description of the state of this order.
+	 * Returns a <code>String</code> with a readable description of the state of this order.
 	 * 
-	 * @return a String with the name of the state.
+	 * @return a <code>String</code> with the name of the state.
 	 */
 	public String getStateName() {
 		if (state < 0 || state > 5)
@@ -177,101 +183,103 @@ public class Order {
 	 * Sets the state of the order.
 	 * 
 	 * @param state
-	 *            the new state
+	 *            the new state.
 	 */
 	public void setState(int state) {
 		this.state = state;
 	}
 
 	/**
-	 * Returns the total amount of this order. The total amount is the price of
+	 * Returns the total amount of this <code>Order</code>. The total amount is the price of
 	 * each order item, plus any fees that apply.
 	 * 
-	 * @return The total amount (price) of this order.
+	 * @return The total amount (price) of this <code>Order</code>.
 	 */
 	public float getTotalAmount() {
 		return totalAmount;
 	}
 
 	/**
-	 * Sets the total amount of this order. Should only be done by OrderMaker.
+	 * Sets the total amount of this <code>Order</code>.
+	 * Should only be done by an {@link OrderMaker}.
 	 * 
 	 * @param totalAmount
-	 *            the new total amount of the order.
+	 *            the new total amount of the <code>Order</code>.
 	 */
 	public void setTotalAmount(float totalAmount) {
 		this.totalAmount = totalAmount;
 	}
 
 	/**
-	 * Returns the tax amount of this order. The tax amount is the
-	 * total*tax/(1+tax)
+	 * Returns the tax amount of this <code>Order</code>. 
+	 * The tax amount is set to total*tax/(1+tax).
 	 * 
-	 * @return The tax amount of this order.
+	 * @return The tax amount of this <code>Order</code>.
 	 */
 	public float getTaxAmount() {
 		return taxAmount;
 	}
 
 	/**
-	 * Sets the ax amount of this order. Should only be done by OrderMaker.
+	 * Sets the tax amount of this <code>Order</code>.
+	 * Should only be done by an {@link OrderMaker}.
 	 * 
-	 * @param taxAmount
-	 *            the new tax amount of the order.
+	 * @param totalAmount
+	 *            the new tax amount of the <code>Order</code>.
 	 */
 	public void setTaxAmount(float taxAmount) {
 		this.taxAmount = taxAmount;
 	}
 
 	/**
-	 * Returns the delivery fee
+	 * Returns the delivery fee.
 	 * 
-	 * @return the delivery fee
+	 * @return the delivery fee.
 	 */
 	public float getDeliveryFee() {
 		return deliveryFee;
 	}
 
 	/**
-	 * Sets the delivery fee
+	 * Sets the delivery fee.
 	 * 
 	 * @param deliveryFee
-	 *            the delivery fee
+	 *            the delivery fee.
 	 */
 	public void setDeliveryFee(float deliveryFee) {
 		this.deliveryFee = deliveryFee;
 	}
 
 	/**
-	 * Persists the Order to the database by updating an existing Order, or --
-	 * if one doesn't exist -- adding a new Order.
+	 * Saves the <code>Order</code> to the database by updating an existing <code>Order</code>, 
+	 * or -- if one doesn't exist -- adding a new <code>Order</code>.
 	 */
 	protected void save() {
 		DataAPI.saveOrder(this);
 	}
 
 	/**
-	 * Returns TRUE if this order should be visible in OrderWindow.
+	 * Returns <code>true</code> if this <code>Order</code> should be visible in the <code>OrderWindow</code>.
 	 * 
-	 * @return TRUE or FALSE
+	 * @return <code>true</code> or <code>false</code>.
 	 */
 	public boolean isVisibleToOperator() {
 		return true;
 	}
 
 	/**
-	 * Returns TRUE if this order should be visible in ChefWindow.
+	 * Returns <code>true</code> if this <code>Order</code> should be visible in the <code>OrderWindow</code>.
 	 * 
-	 * @return TRUE or FALSE
+	 * @return <code>true</code> or <code>false</code>.
 	 */
 	public boolean isVisibleToChef() {
 		return state == SAVED || state == IN_PRODUCTION;
 	}
 
 	/**
-	 * Returns TRUE if this order should be visible in DeliveryWindow.
+	 * Returns <code>true</code> if this <code>Order</code> should be visible in the <code>DeliveryWindow</code>.
 	 * 
-	 * @return TRUE or FALSE
+	 * @return <code>true</code> or <code>false</code>.
 	 */
 	public boolean isVisibleToDelivery() {
 		return !selfPickup
@@ -279,9 +287,9 @@ public class Order {
 	}
 
 	/**
-	 * Returns TRUE if this order should be visible in order history.
+	 * Returns <code>true</code> if this <code>Order</code> should be visible in the <code>OrderHistory</code>.
 	 * 
-	 * @return TRUE or FALSE
+	 * @return <code>true</code> or <code>false</code>.
 	 */
 	public boolean isVisibleInHistory() {
 		return state == DELIVERED_AND_PAID || state == SAVED
@@ -290,16 +298,18 @@ public class Order {
 	}
 
 	/**
-	 * Sets whether this order should be picked up in the restaurant by the
-	 * customer.
+	 * Sets whether this <code>Order</code> should be picked up in 
+	 * the restaurant by the customer.
 	 */
 	public void setSelfPickup(boolean selfPickup) {
 		this.selfPickup = selfPickup;
 	}
 
 	/**
-	 * Returns whether this order should be picked up in the restaurant by the
-	 * customer.
+	 * Returns whether this <code>Order</code> should be picked up in 
+	 * the restaurant by the customer.
+	 * 
+	 * @return <code>true</code> if the <code>Order</code> should be picked up.
 	 */
 	public boolean getSelfPickup() {
 		return selfPickup;

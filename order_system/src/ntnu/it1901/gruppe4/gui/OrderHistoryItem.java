@@ -30,7 +30,7 @@ public class OrderHistoryItem extends ClickablePanel {
 
 		/**
 		 * Returns the name of the {@link LampColor} in CamelCase to fit the
-		 * image links in this program.
+		 * image links used in this program.
 		 */
 		public String toString() {
 			switch (this) {
@@ -107,11 +107,11 @@ public class OrderHistoryItem extends ClickablePanel {
 	}
 
 	/**
-	 * Sets the text next to the lamp in this {@link OrderHistoryItem} to the
-	 * specified String.
+	 * Sets the label next to the lamp in this {@link OrderHistoryItem} to the
+	 * specified <code>String</code>.
 	 * 
-	 * @param color
-	 *            The desired string.
+	 * @param text
+	 *            The desired text to be shown next to the lamp.
 	 */
 	public void setLampText(String text) {
 		lamp.setText(text);

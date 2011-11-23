@@ -152,7 +152,7 @@ public class OperatorOrderSummary extends OrderSummary {
 
 	/**
 	 * Adds all {@link OrderItem OrderItems} to the center panel.
-	 * Overrided and rewritten to add a {@link MouseAdapter} to each individual <code>OrderItem</code>.
+	 * Overrided to add a {@link MouseAdapter} to each individual <code>OrderItem</code>.
 	 */
 	@Override
 	protected void drawOrderItems() {
@@ -197,8 +197,8 @@ public class OperatorOrderSummary extends OrderSummary {
 
 	/**
 	 * If {@link OrderMaker#isValid()} returns true, all data in the {@link OperatorOrderSummary}
-	 * is saved to the SQL database and the <code>OperatorOrderSummary</code> is emptied.<br><br>
-	 * 
+	 * is saved to the SQL database and the <code>OperatorOrderSummary</code> is emptied.
+	 * <p>
 	 * If not, an error message is put above the save button and the method does nothing.
 	 * 
 	 * @return True if the order was successfully saved, false if it was not.
@@ -222,10 +222,10 @@ public class OperatorOrderSummary extends OrderSummary {
 	}
 
 	/**
-	 * Adds a new dish as an {@link OrderItem} to the {@link OperatorOrderSummary} and recalculates the total price.
+	 * Adds a new {@link Dish} as an {@link OrderItem} to the {@link OperatorOrderSummary} and recalculates the total price.
 	 * 
-	 * @param dish The dish to add.
-	 * @return True if the dish was successfully added to the <code>OperatorOrderSummary</code>.
+	 * @param dish The <code>Dish</code> to add.
+	 * @return True if the <code>Dish</code> was successfully added to the <code>OperatorOrderSummary</code>.
 	 */
 	public boolean addItem(Dish dish) {
 		if (!currentOrder.canBeChanged()) {

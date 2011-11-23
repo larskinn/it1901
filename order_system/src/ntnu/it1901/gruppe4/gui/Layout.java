@@ -10,11 +10,11 @@ import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 
 /**
- * A collection of constants used for layout purposes.<br><br>
- * 
- * The intention of this class is to provide every programmer working on the project with<br>
- * an easy interface to edit the layout of the GUI without knowing the complete inner workings of the code.<br><br>
- * 
+ * A collection of constants used for layout purposes.
+ * <p>
+ * The intention of this class is to provide every programmer working on the project with
+ * an easy interface to edit the layout of the GUI without knowing the complete inner workings of the code.
+ * <p>
  * I encourage everyone to play around with these constants as you will, and help me make the layout less Windows 3.1-ish and less grey.
  * 
  * @author Leo
@@ -138,13 +138,15 @@ public class Layout {
 	public static final Border dishTypeItemPadding = BorderFactory.createEmptyBorder(10, 5, 54, 5);
 	
 	/**
-	 * The relative size of all buttons in the {@link ButtonPanel}.<br><br>
-	 * Remember that this size is merely a hint, and the the actual size is relative to the size of the {@link OperatorWindow}.
+	 * The relative size of all buttons in the {@link ButtonPanel}.
+	 * <p>
+	 * Keep in mind that this size is merely a hint, and the the actual size is relative to the size of the frame
+	 * in which the panel is enclosed.
 	 */
 	public static final Dimension buttonSize = new Dimension(100, 50);
 	
 	/**
-	 * The {@link java.text.DateFormat DateFormat} used to format all dates shown.
+	 * The {@link java.text.DateFormat DateFormat} used to format all dates shown in the program.
 	 */
 	public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM-yyyy H:mm");
 

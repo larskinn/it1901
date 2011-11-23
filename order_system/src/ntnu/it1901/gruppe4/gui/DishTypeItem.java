@@ -9,8 +9,6 @@ import ntnu.it1901.gruppe4.db.DishType;
 
 /**
  * A panel that shows information about a {@link DishType}.
- * <p>
- * These items are meant to be contained within {@link MenuSearchPanel.MenuPanel}.
  * 
  * @author Leo
  */

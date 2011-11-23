@@ -15,11 +15,26 @@ import ntnu.it1901.gruppe4.db.Order;
 import ntnu.it1901.gruppe4.db.OrderItem;
 import ntnu.it1901.gruppe4.db.Settings;
 
+/**
+ * A dialog that will show the dishes contained in 
+ * an {@link OrderSummary} along with their prices.
+ * 
+ * @author Leo
+ */
 public class Receipt extends JDialog {
 	public Receipt(OrderSummary orderSummary) {
 		this(null, orderSummary);
 	}
 	
+	/**
+	 * Creates a new {@link Receipt} that will immediately show up centered on the
+	 * specified parent frame, or the screen if none is specified, that will
+	 * lay out the information contained in the specified <code>OrderSummary</code>.
+	 * 
+	 * @param parentFrame The frame on which the panel will be centered.
+	 * @param orderSummary The <code>OrderSummary</code> from which the <code>Receipt</code>
+	 * will gather information.
+	 */
 	public Receipt(JFrame parentFrame, OrderSummary orderSummary) {
 		JButton closeButton = new JButton("Lukk");
 		final int dashedLineLength = 60;

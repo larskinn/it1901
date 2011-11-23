@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 
 import ntnu.it1901.gruppe4.db.Dish;
 import ntnu.it1901.gruppe4.db.DishType;
-import ntnu.it1901.gruppe4.gui.MenuSearchPanel.MenuPanel;
+import ntnu.it1901.gruppe4.gui.MenuSearchPanel.MenuList;
 
 /**
  * A panel that shows information about a {@link Dish}.
@@ -30,7 +30,7 @@ public class MenuPanelItem extends ClickablePanel {
 	private boolean beingEdited;
 	private boolean deleting = false;
 	private Dish item;
-	private MenuPanel menuPanel;
+	private MenuList menuList;
 	private JLabel name, price, priceSuffix, description, errorMessage, confirmMessage;
 	private JTextField nameInput, priceInput;
 	private JComboBox typeInput;
@@ -42,11 +42,11 @@ public class MenuPanelItem extends ClickablePanel {
 	 *  
 	 * @param dish The <code>Dish</code> to be associated with the new <code>MenuPanelItem</code>.
 	 * @param mode The {@link Mode} which specifies in which window this <code>MenuPanelItem</code> is shown.
-	 * @param menuPanel The {@link MenuPanel} which will be updated when a <code>Dish</code> is deleted.
+	 * @param menuList The {@link MenuList} which will be updated when a <code>Dish</code> is deleted.
 	 */
-	public MenuPanelItem(Dish dish, Mode mode, MenuPanel menuPanel) {
+	public MenuPanelItem(Dish dish, Mode mode, MenuList menuList) {
 		this.item = dish;
-		this.menuPanel = menuPanel;
+		this.menuList = menuList;
 		name = new JLabel(item.getName());
 		price = new JLabel();
 		description = new JLabel();
@@ -127,7 +127,7 @@ public class MenuPanelItem extends ClickablePanel {
 				if (deleting) {
 					item.setActive(false);
 					item.save();
-					MenuPanelItem.this.menuPanel.refresh();
+					MenuPanelItem.this.menuList.refresh();
 				}
 				else {
 					confirmMessage.setText("Sikker?");

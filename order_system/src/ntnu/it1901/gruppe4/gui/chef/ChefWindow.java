@@ -25,8 +25,7 @@ import ntnu.it1901.gruppe4.gui.OrderHistoryItem;
 import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
 
 /**
- * The window where the chef may review and confirm orders, and edit the food
- * menu
+ * The window where the chef may review and confirm orders and edit the meny.
  * 
  * @author David
  * @author Leo
@@ -37,18 +36,24 @@ public class ChefWindow implements ActionListener {
 	private ChefOrderSummary chefOrderSummary;
 	private OrderHistoryPanel orderHistoryPanel;
 	private MenuSearchPanel menuPanel;
-	private JPanel currentPanel;
+	private JPanel currentTab;
 	private ResizeListener resizeListener;
 
 	/**
-	 * An enum of view modes for ChefWindow ORDERS -- The orders list view,
-	 * where placed orders may be reviewed and confirmed MENU -- The food menu
-	 * view, where the dishes of the food menu may be modified
+	 * An enum of the tabs available in the {@link ChefWindow}.
+	 * 
+	 * <ul>
+	 * <li>ORDERS -- The orders list view, where placed orders may be reviewed and confirmed 
+	 * <li>MENU -- The food menu view, where the dishes of the food menu may be modified
+	 * </ul>
 	 */
-	public enum View {
+	public enum Tab {
 		ORDERS, MENU;
 	}
 
+	/**
+	 * Resizes the components in the {@link ChefWindow} properly.
+	 */
 	private void handleResize() {
 		orderHistoryPanel.setPreferredSize(new Dimension((int) (frame
 				.getWidth() * 0.6666), frame.getHeight()));
@@ -66,6 +71,10 @@ public class ChefWindow implements ActionListener {
 		}
 	}
 
+	/**
+	 * Constructs a new {@link ChefWindow} that will immediately displayed 
+	 * in the center of the screen.
+	 */
 	public ChefWindow() {
 		DataAPI.open();
 
@@ -91,7 +100,7 @@ public class ChefWindow implements ActionListener {
 		frame.setSize(Layout.initialSize);
 		frame.setLayout(new BorderLayout());
 		frame.add(buttonPanel, BorderLayout.SOUTH);
-		changeView(View.ORDERS);
+		setTab(Tab.ORDERS);
 		
 		//Add a key listener to the chef window
 				KeyboardFocusManager.getCurrentKeyboardFocusManager()
@@ -104,18 +113,18 @@ public class ChefWindow implements ActionListener {
 								
 								switch (e.getKeyCode()) {
 									case KeyEvent.VK_F1:
-										changeView(View.ORDERS);
+										setTab(Tab.ORDERS);
 										break;
 									case KeyEvent.VK_F2:
-										changeView(View.MENU);
+										setTab(Tab.MENU);
 										break;
 									case KeyEvent.VK_ENTER:
-										if (currentPanel == orderHistoryPanel) {
+										if (currentTab == orderHistoryPanel) {
 											chefOrderSummary.deliverOrder();
 										}
 										break;
 									case KeyEvent.VK_ESCAPE:
-										if (currentPanel == menuPanel) {
+										if (currentTab == menuPanel) {
 											menuPanel.clearSearchBox();
 										}
 										break;
@@ -139,39 +148,38 @@ public class ChefWindow implements ActionListener {
 		handleResize();
 	}
 
+	/**
+	 * Closes the database connection.
+	 */
 	private static void cleanup() {
 		DataAPI.close();
 	}
 
 	/**
-	 * Change the view of the chef window. Options are: ORDERS -- The orders
-	 * list view, where placed orders may be reviewed and confirmed MENU -- The
-	 * food menu view, where the dishes of the food menu may be modified
+	 * Views the specified {@link Tab} the {@link ChefWindow}.
 	 * 
-	 * @param view
-	 *            The view to show. Options are View.ORDERS, View.MENU
-	 * 
+	 * @param tab
+	 *            The <code>Tab</code> which will be displayed.
 	 */
-	public void changeView(View view) {
-		// If the frame already has a panel providing its view, remove it
-		if (currentPanel != null) {
-			frame.remove(currentPanel);
+	public void setTab(Tab tab) {
+		if (currentTab != null) {
+			frame.remove(currentTab);
 		}
 		frame.remove(chefOrderSummary);
 
-		switch (view) {
+		switch (tab) {
 			case ORDERS:
 				frame.add(orderHistoryPanel, BorderLayout.CENTER);
 				frame.add(chefOrderSummary, BorderLayout.EAST);
-				currentPanel = orderHistoryPanel;
+				currentTab = orderHistoryPanel;
 				break;
 			case MENU:
 				frame.add(menuPanel, BorderLayout.CENTER);
-				currentPanel = menuPanel;
+				currentTab = menuPanel;
 				break;
 		}
-		currentPanel.grabFocus(); // This method should be overrided to pass on focus to the search box
-		currentPanel.revalidate(); // Check if the panel has all its components loaded
+		currentTab.grabFocus(); // This method should be overrided to pass on focus to the search box
+		currentTab.revalidate(); // Check if the panel has all its components loaded
 		frame.repaint(); //Repaint the frame and all its components
 	}
 
@@ -181,9 +189,9 @@ public class ChefWindow implements ActionListener {
 		JButton src = (JButton) e.getSource();
 
 		if (src == buttonPanel.orders) {
-			changeView(View.ORDERS);
+			setTab(Tab.ORDERS);
 		} else if (src == buttonPanel.menu) {
-			changeView(View.MENU);
+			setTab(Tab.MENU);
 		}
 	}
 }

@@ -62,6 +62,10 @@ class SplashScreen extends JFrame implements ActionListener {
 	private JButton btnReset;
 	private JLabel lblMadeBy;
 
+	/**
+	 * Creates a new {@link SplashScreen} that will immediately 
+	 * be shown in the center of the screen.
+	 */
 	SplashScreen() {
 		Icon iconOrder = new ImageIcon(getClass().getResource(
 				"/images/SplashScreenNW.png"));
@@ -108,13 +112,11 @@ class SplashScreen extends JFrame implements ActionListener {
 				setEnabled(false);
 
 				// When the config window is closed, re-enable the splash screen
-
 				configWindow.addWindowListener(new WindowAdapter() {
 					@Override
-					public void windowClosed(WindowEvent e) {
+					public void windowClosing(WindowEvent e) {
 						DataAPI.close();
 						setEnabled(true);
-						setVisible(true);	//	Give focus
 					}
 				});
 			}
@@ -136,7 +138,7 @@ class SplashScreen extends JFrame implements ActionListener {
 				} else if (response == JOptionPane.NO_OPTION) {
 					DBReset.resetDB();
 				}
-				// The cancel button does nothing
+				// The cancel button is supposed to do nothing
 			}
 		});
 

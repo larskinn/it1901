@@ -66,6 +66,9 @@ public class ConfigWindow {
 		frame.setVisible(true);
 	}
 	
+	/**
+	 * Adds all the components to the {@link ConfigWindow}.
+	 */
 	private void addComponentsToContainer() {
 		container.setLayout(new GridBagLayout());
 		
@@ -267,6 +270,11 @@ public class ConfigWindow {
 		deliveryFee.grabFocus();
 	}
 	
+	/**
+	 * Adds the specified {@link WindowListener} to the <code>ConfigWindow</code>.
+	 * 
+	 * @param listener The <code>WindowListener</code> to add.
+	 */
 	public void addWindowListener(WindowListener listener) {
 		frame.addWindowListener(listener);
 	}
