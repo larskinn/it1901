@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 /**
  * Expansion of JPanel that adds makes the panel change colors when clicked.
  * 
- * @author Dimmy
+ * @author David M.
  */
 public class ClickablePanel extends JPanel implements MouseListener {
 

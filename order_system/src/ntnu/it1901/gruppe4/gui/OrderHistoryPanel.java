@@ -14,6 +14,14 @@ import ntnu.it1901.gruppe4.db.Order;
 import ntnu.it1901.gruppe4.gui.OrderHistoryItem.LampColor;
 import ntnu.it1901.gruppe4.gui.delivery.MapPanel;
 
+/**
+ * A container class for {@link Order Orders}.
+ * <p>
+ * The <code>Orders</code> added to this panel are filtered according
+ * to the {@link Mode} specified in the constructor.
+ * 
+ * @author Leo
+ */
 public class OrderHistoryPanel extends JPanel {
 	private JPanel innerPanel;
 	private OrderSummary orderSummary;

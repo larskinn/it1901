@@ -8,8 +8,7 @@ import java.util.List;
 /**
  * Object class used to create or modify an {@link Order}.
  * 
- * @author David M.
- * 
+ * @author David M. 
  */
 public class OrderMaker {
 

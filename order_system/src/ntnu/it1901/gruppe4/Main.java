@@ -30,11 +30,13 @@ import ntnu.it1901.gruppe4.gui.operator.OrderWindow;
  * 
  * @author David M.
  * @author Leo
- * 
  */
 public class Main {
 	private static SplashScreen splashScreen;
 
+	/**
+	 * Runs the program.
+	 */
 	public static void main(String[] args) {
 		splashScreen = new SplashScreen();
 	}
