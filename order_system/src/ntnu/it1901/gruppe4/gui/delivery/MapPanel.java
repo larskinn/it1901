@@ -44,7 +44,7 @@ public class MapPanel extends JPanel {
 	
 	/**
 	 * Downloads a new map image to be shown in the {@link MapPanel} 
-	 * matching the specifed {@link Address}.
+	 * matching the specified {@link Address}.
 	 * 
 	 * @param address The <code>Address</code> which the downloaded map will match.
 	 */
@@ -54,7 +54,7 @@ public class MapPanel extends JPanel {
 
 	/**
 	 * Downloads a new map image of the specified size to be shown in the {@link MapPanel} 
-	 * matching the specifed {@link Address}.
+	 * matching the specified {@link Address}.
 	 * 
 	 * @param address The <code>Address</code> which the downloaded map will match.
 	 * @param mapSize The size of the downloaded map.
