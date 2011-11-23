@@ -39,10 +39,18 @@ public class Main {
 		splashScreen = new SplashScreen();
 	}
 
+	/**
+	 * Shows the splash screen. If the splash screen is already visible,
+	 * this method does nothing.
+	 */
 	public static void showSplash() {
 		splashScreen.setVisible(true);
 	}
 
+	/**
+	 * Hides the splash screen. If the splash screen is already hidden,
+	 * this method does nothing.
+	 */
 	public static void hideSplash() {
 		splashScreen.setVisible(false);
 	}
