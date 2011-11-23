@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -29,7 +30,7 @@ import ntnu.it1901.gruppe4.db.Settings;
 public class MapPanel extends JPanel {
 	private boolean hasInternetConnection = true;
 	private Dimension prevSize;
-	private static final String RESTAURANT_ADDRESS = Settings.getRestaurantAddress().replace(' ', '+');
+	private static final String RESTAURANT_ADDRESS = Settings.getRestaurantAddress();
 	private static final String DESTINATION_ICON = "http://chart.apis.google.com/chart?chst=d_map_pin_icon%26chld=glyphish_house%257C00FF00";
 	private static final String RESTAURANT_ICON = "http://chart.apis.google.com/chart?chst=d_map_pin_icon%26chld=glyphish_fork-and-knife%257CFF0000";
 	
@@ -66,15 +67,15 @@ public class MapPanel extends JPanel {
 		
 		prevSize = mapSize;
 		String destinationAddress = address == null ? 
-				"" : address.getAddressLine().replace(' ', '+') + ","+ address.getPostalCode();
+				"" : address.getAddressLine() + ","+ address.getPostalCode();
 
 		try {
-			add(new JLabel(new ImageIcon(ImageIO.read(new URL(
-							"http://maps.google.com/maps/api/staticmap?size=" 
-							+ mapSize.width + "x" + mapSize.height
-							+ "&markers=icon:" + RESTAURANT_ICON + "|" + RESTAURANT_ADDRESS
-							+ "&markers=icon:" + DESTINATION_ICON + "|" + destinationAddress
-							+ "&sensor=false")))));
+			String urlString = "http://maps.google.com/maps/api/staticmap?size=" 
+					+ mapSize.width + "x" + mapSize.height
+					+ "&markers=icon:" + RESTAURANT_ICON + "|" + URLEncoder.encode(RESTAURANT_ADDRESS, "utf-8")
+					+ "&markers=icon:" + DESTINATION_ICON + "|" + URLEncoder.encode(destinationAddress, "utf-8")
+					+ "&sensor=false";
+			add(new JLabel(new ImageIcon(ImageIO.read(new URL(urlString)))));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
