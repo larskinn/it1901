@@ -140,7 +140,7 @@ public class MenuPanelItem extends ClickablePanel {
 
 	/**
 	 * Changes the function of this {@link MenuPanelItem} to either edit the description
-	 * of the contained {@link Order} or just showing it.
+	 * of the contained <code>Order</code> or just showing it.
 	 * 
 	 * @param editing If the description of the current <code>Order</code> should be edited.
 	 */

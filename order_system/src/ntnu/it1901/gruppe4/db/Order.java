@@ -224,7 +224,7 @@ public class Order {
 	 * Sets the tax amount of this <code>Order</code>.
 	 * Should only be done by an {@link OrderMaker}.
 	 * 
-	 * @param totalAmount
+	 * @param taxAmount
 	 *            the new tax amount of the <code>Order</code>.
 	 */
 	public void setTaxAmount(float taxAmount) {

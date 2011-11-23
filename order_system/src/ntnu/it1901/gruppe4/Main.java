@@ -35,7 +35,12 @@ public class Main {
 	private static SplashScreen splashScreen;
 
 	/**
-	 * Runs the program.
+	 * Prevents <code>Main</code> class from being instantiated.
+	 */
+	private Main() {}
+	
+	/**
+	 * Opens a new {@link SplashScreen} and runs the program.
 	 */
 	public static void main(String[] args) {
 		splashScreen = new SplashScreen();

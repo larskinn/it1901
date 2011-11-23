@@ -63,7 +63,7 @@ public class CustomerPanelItem extends ClickablePanel {
 	 * 
 	 * @param customer {@link Customer} object containing name and phone number.
 	 * @param orderSummary The {@link OrderSummary} that will be updated when a user is edited.
-	 * @param customerPanel The {@link CustomerPanel} that will be updated when a user is edited.
+	 * @param customerList The {@link CustomerPanel} that will be updated when a user is edited.
 	 */
 	public CustomerPanelItem(Customer customer, OrderSummary orderSummary, CustomerList customerList) {
 		this.customer = customer;
@@ -188,8 +188,8 @@ public class CustomerPanelItem extends ClickablePanel {
 	}
 
 	/**
-	 * Changes the function of this {@link MenuPanelItem} to either edit the description
-	 * of the contained {@link Order} or just showing it.
+	 * Changes the function of this <code>MenuPanelItem</code> to either edit the description
+	 * of the contained <code>Order</code> or just showing it.
 	 * 
 	 * @param editing If the description of the current <code>Order</code> should be edited.
 	 */
@@ -288,7 +288,7 @@ public class CustomerPanelItem extends ClickablePanel {
 	}
 
 	/**
-	 * Whether or not the {@link Order} contained within this {@link CustomerPanelItem} is currently being edited.
+	 * Whether or not the <code>Order</code> contained within this {@link CustomerPanelItem} is currently being edited.
 	 * 
 	 * @return True if the <code>Order</code> is being edited, false if it is not.
 	 */

@@ -135,6 +135,11 @@ public class Dish {
 		this.price = price;
 	}
 	
+	/**
+	 * Changes the {@link DishType} of the {@link Dish}.
+	 * 
+	 * @param type the new <code>DishType</code>.
+	 */
 	public void setType(DishType type) {
 		this.type = type.name();
 	}

@@ -26,7 +26,7 @@ import ntnu.it1901.gruppe4.gui.Layout;
 import ntnu.it1901.gruppe4.gui.SearchBox;
 
 /**
- * A panel containing a {@link SearchBox} for searching in a contained {@link CustomerList} that can also
+ * A panel containing a {@link SearchBox} for searching in a contained <code>CustomerList</code> that can also
  * create new {@link Customer} objects.
  * 
  * @author Leo

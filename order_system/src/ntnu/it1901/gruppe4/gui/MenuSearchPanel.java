@@ -268,7 +268,7 @@ public class MenuSearchPanel extends JPanel {
 
 	/**
 	 * Constructs a new {@link MenuSearchPanel} in the specified {@link Mode} that will add {@link MenuPanelItem MenuItems}
-	 * to the specified {@link operatorOrderSummary} when they are clicked.
+	 * to the specified {@link OperatorOrderSummary} when they are clicked.
 	 * 
 	 * @param mode The <code>Mode</code> of the window creating the panel.
 	 * @param orderSummary The <code>OperatorOrderSummary</code> to which clicked <code>MenuItems</code> will be added.

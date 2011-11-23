@@ -22,7 +22,7 @@ import ntnu.it1901.gruppe4.gui.OrderHistoryPanel;
  * are ready for delivery and mark them as in transit and as delivered.
  * <p>
  * This window also contains a map which shows the distance between 
- * the pizza restaurant and a selected {@link Order}.
+ * the pizza restaurant and a selected <code>Order</code>.
  * 
  * @author Morten 
  * @author David

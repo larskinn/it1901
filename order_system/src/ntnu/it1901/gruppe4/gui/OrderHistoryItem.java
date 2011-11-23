@@ -25,7 +25,7 @@ public class OrderHistoryItem extends ClickablePanel {
 	 * Use {@link OrderHistoryItem#setLampColor(LampColor)} to change the lamp
 	 * color of an item.
 	 */
-	enum LampColor {
+	public enum LampColor {
 		BLUE, GREEN, PURPLE, RED, YELLOW;
 
 		/**

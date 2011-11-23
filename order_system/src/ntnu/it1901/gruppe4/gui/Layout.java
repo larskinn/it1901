@@ -21,6 +21,11 @@ import javax.swing.border.Border;
  */
 public class Layout {
 	/**
+	 * Prevents <code>Layout</code> class from being instantiated.
+	 */
+	private Layout() {}
+	
+	/**
 	 * The initial size of all windows in the GUI.
 	 */
 	public static final Dimension initialSize = new Dimension(1024, 768);
@@ -31,7 +36,7 @@ public class Layout {
 	public static final DecimalFormat decimalFormat = new DecimalFormat("0.00");
 	
 	/**
-	 * The {@link Font} of all text on a {@link CustomerPanelItem}, {@link MenuPanelItem} or {@link OrderHistoryItem}.
+	 * The {@link Font} of all text on a <code>CustomerPanelItem</code>, {@link MenuPanelItem} or {@link OrderHistoryItem}.
 	 */
 	public static final Font itemFont = new Font(Font.SANS_SERIF, Font.PLAIN, 18);
 	/**
@@ -64,7 +69,7 @@ public class Layout {
 	public static final Font searchBoxFont = new Font(Font.DIALOG_INPUT, Font.BOLD, 40);
 	
 	/**
-	 * The {@link Font} that will be used when entering text into a {@link ConfigWindow#ConfigBox}.
+	 * The {@link Font} that will be used when entering text into the {@link ConfigWindow}.
 	 */
 	public static final Font configBoxFont = new Font(Font.DIALOG_INPUT, Font.BOLD, 20);
 
@@ -73,11 +78,11 @@ public class Layout {
 	 */
 	public static final Color errorColor = Color.RED;
 	/**
-	 * The background {@link Color} of a {@link CustomerPanelItem}, {@link MenuPanelItem} or {@link OrderHistoryItem} with an even index.
+	 * The background {@link Color} of a <code>CustomerPanelItem</code>, {@link MenuPanelItem} or {@link OrderHistoryItem} with an even index.
 	 */
 	public static final Color bgColor1 = Color.LIGHT_GRAY;
 	/**
-	 * The background {@link Color} of a {@link CustomerPanelItem}, {@link MenuPanelItem} or {@link OrderHistoryItem} with an odd index.
+	 * The background {@link Color} of a <code>CustomerPanelItem</code>, {@link MenuPanelItem} or {@link OrderHistoryItem} with an odd index.
 	 */
 	public static final Color bgColor2 = Color.WHITE;
 	/**
@@ -104,7 +109,7 @@ public class Layout {
 	public static final int spaceAfterConfigBox = 5;
 	
 	/**
-	 * Specifies the density of the components (space between them) in the {@link CustomerPanel} when addding a new customer.
+	 * Specifies the density of the components (space between them) in the <code>CustomerPanel</code> when addding a new customer.
 	 */
 	public static final double newCustomerDensity = 8;
 	/**
@@ -113,7 +118,7 @@ public class Layout {
 	public static final double newDishDensity = 8;
 	
 	/**
-	 * The padding used between the edges of the {@link OperatorWindow} and its closest {@link JPanel panels}.
+	 * The padding used between the edges of the <code>OrderWindow</code> and its closest panels.
 	 */
 	public static final Border panelPadding = BorderFactory.createEmptyBorder(10, 5, 10, 3);
 	/**
@@ -125,7 +130,7 @@ public class Layout {
 	 */
 	public static final Border menuItemPadding = BorderFactory.createEmptyBorder(10, 5, 10, 5);
 	/**
-	 * The internal padding used inside every {@link CustomerPanelItem}.
+	 * The internal padding used inside every <code>CustomerPanelItem</code>.
 	 */
 	public static final Border customerItemPadding = BorderFactory.createEmptyBorder(10, 5, 10, 5);
 	/**
@@ -138,7 +143,7 @@ public class Layout {
 	public static final Border dishTypeItemPadding = BorderFactory.createEmptyBorder(10, 5, 54, 5);
 	
 	/**
-	 * The relative size of all buttons in the {@link ButtonPanel}.
+	 * The relative size of all buttons in the <code>ButtonPanel</code>.
 	 * <p>
 	 * Keep in mind that this size is merely a hint, and the the actual size is relative to the size of the frame
 	 * in which the panel is enclosed.

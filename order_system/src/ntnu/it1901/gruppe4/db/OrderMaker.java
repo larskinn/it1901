@@ -336,9 +336,9 @@ public class OrderMaker {
 	}
 
 	/**
-	 * Determines if the <code>Order</code> has been modified.
+	 * Sets the current state of the <code>Order</code>.
 	 * 
-	 * @return <code>true</code> if it has been modified, <code>false</code> if not.
+	 * @param state The new state of the <code>Order</code>.
 	 */
 	public void setState(int state) {
 		if (canBeChanged()) {
